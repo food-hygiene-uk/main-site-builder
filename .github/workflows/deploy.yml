@@ -1,0 +1,32 @@
+name: Generate FHRS Information Site
+
+on:
+  push:
+    branches: [main]
+  workflow_dispatch:
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v3
+
+      - name: Setup Deno
+        uses: denoland/setup-deno@4606d5cc6fb3f673efd4f594850e3f4b3e9d29cd # 2.0.0
+        with:
+          deno-version: v2.x
+
+      - name: Generate restaurant site
+        run: |
+          # Fetch restaurant data from a JSON file or API
+          curl https://ratings.food.gov.uk/api/open-data-files/FHRS868en-GB.json -o assets/data.json
+
+          # Generate static HTML files using Deno
+          deno run --allow-read --allow-write generate-site.ts
+
+      - name: Deploy to GitHub Pages
+        uses: peaceiris/actions-gh-pages@4f9cc6602d3f66b9c108549d475ec49e8ef4d45e # 4.0.0
+        with:
+          github_token: ${{ secrets.GITHUB_TOKEN }}
+          publish_dir: ./dist
