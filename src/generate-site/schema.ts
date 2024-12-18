@@ -138,7 +138,8 @@ const ratingValueFHRS = z.object({
         z.object({
           RatingValue: z.literal(key),
           RatingKey: fhrsValidRatingKeys(key as keyof typeof ratingValue.FHRS),
-          RatingDate: z.string(),
+          // FHRSID 1709868 has a rating, but no rating date. So RatingDate needs to be nullable. (last checked 2024-12-18)
+          RatingDate: z.string().nullable(),
           // FHRSID 351094 has a rating, but no scores. So Scores needs to be nullable. (last checked 2024-11-23)
           Scores: z.object({
             Hygiene: z.number(),
