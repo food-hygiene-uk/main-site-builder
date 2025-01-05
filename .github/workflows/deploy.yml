@@ -36,23 +36,15 @@ jobs:
 
       - name: Lookup Installation ID
         id: lookup-installation-id
-        uses: tj-actions/github-script@v5
+        uses: actions/github-script@v6
         with:
           github-token: ${{ secrets.GITHUB_TOKEN }}
           script: |
-            const github = require('@actions/github');
-            const core = require('@actions/core');
-
-            const context = github.context;
             const owner = context.repo.owner;
             const repo = context.repo.repo;
-
-            const response = await github.rest.apps.getRepoInstallation({
-              owner,
-              repo,
-            });
-
-            core.setOutput('id', response.data.id);
+            const response = await github.apps.getRepoInstallation({ owner, repo });
+            return response.data.id;
+          result-encoding: string
 
       - name: Configure Git
         run: |
@@ -65,7 +57,7 @@ jobs:
         with:
           app_id: ${{ secrets.APP_ID }}
           private_key: ${{ secrets.APP_PRIVATE_KEY }}
-          installation_id: ${{ steps.lookup-installation-id.outputs.id }}
+          installation_id: ${{ steps.lookup-installation-id.outputs.result }}
 
       - name: Commit and push changes
         run: |
