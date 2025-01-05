@@ -25,14 +25,15 @@ jobs:
         uses: actions/checkout@v3
         with:
           repository: food-hygiene-ratings-uk/food-hygiene-ratings-uk.github.io
+          path: ./gh-pages
 
       - name: Clear public folder
         run: |
-          find ./public -mindepth 1 -delete
+          find ./gh-pages/public -mindepth 1 -delete
 
       - name: Copy generated site to GitHub Pages repository
         run: |
-          rsync -a ../food-hygiene-rating-scheme/dist/ ./public/
+          rsync -a ./dist/ ./gh-pages/public/
 
       - name: Lookup Installation ID
         id: lookup-installation-id
