@@ -17,16 +17,31 @@ jobs:
         with:
           deno-version: v2.x
 
-      - name: Generate restaurant site
+      - name: Generate ratings site
         run: |
-          # Fetch restaurant data from a JSON file or API
-          curl https://ratings.food.gov.uk/api/open-data-files/FHRS868en-GB.json -o assets/data.json
-
-          # Generate static HTML files using Deno
           deno run --allow-read --allow-write --allow-net src/generate-site.ts
 
-      - name: Deploy to GitHub Pages
-        uses: peaceiris/actions-gh-pages@4f9cc6602d3f66b9c108549d475ec49e8ef4d45e # 4.0.0
+      - name: Checkout GitHub Pages repository
+        uses: actions/checkout@v3
         with:
-          github_token: ${{ secrets.GITHUB_TOKEN }}
-          publish_dir: ./dist
+          repository: food-hygiene-ratings-uk/food-hygiene-ratings-uk.github.io
+          path: public
+
+      - name: Clear public folder
+        run: |
+          rm -rf public/*
+
+      - name: Copy generated site to GitHub Pages repository
+        run: |
+          cp -r ./dist/* ./public/
+
+      - name: Commit and push changes
+        run: |
+          cd public
+          git config --global user.name 'github-actions[bot]'
+          git config --global user.email 'github-actions[bot]@users.noreply.github.com'
+          git add .
+          git commit -m 'Update site with latest data'
+          git push
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
