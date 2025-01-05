@@ -1,4 +1,4 @@
-name: Generate FHRS Information Site
+name: Generate ratings site
 
 on:
   push:
@@ -25,7 +25,6 @@ jobs:
         uses: actions/checkout@v3
         with:
           repository: food-hygiene-ratings-uk/food-hygiene-ratings-uk.github.io
-          path: public
 
       - name: Clear public folder
         run: |
@@ -35,13 +34,40 @@ jobs:
         run: |
           rsync -a ./dist/ ./public/
 
+      - name: Lookup Installation ID
+        id: lookup-installation-id
+        uses: tj-actions/github-script@v5
+        with:
+          github-token: ${{ secrets.GITHUB_TOKEN }}
+          script: |
+            const github = require('@actions/github');
+            const core = require('@actions/core');
+
+            const context = github.context;
+            const owner = context.repo.owner;
+            const repo = context.repo.repo;
+
+            const response = await github.rest.apps.getRepoInstallation({
+              owner,
+              repo,
+            });
+            
+      - name: Configure Git
+        run: |
+          git config --local user.name "GitHub Actions"
+          git config --local user.email "github-actions@github.com"
+
+      - name: Authenticate with GitHub App
+        id: github-app-auth
+        uses: appleboy/github-action-create-release@v0.3.0 
+        with:
+          github_token: ${{ secrets.APP_PRIVATE_KEY }} 
+          app_id: ${{ secrets.APP_ID }} 
+          installation_id: ${{ steps.lookup-installation-id.outputs.id }}
+
+            core.setOutput('id', response.data.id);
+
       - name: Commit and push changes
         run: |
-          cd public
-          git config --global user.name 'github-actions[bot]'
-          git config --global user.email 'github-actions[bot]@users.noreply.github.com'
-          git add .
-          git commit -m 'Update site with latest data'
-          git push
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          git remote add target https://github.com/food-hygiene-ratings-uk/food-hygiene-ratings-uk.github.io.git
+          git push target HEAD:${{ github.ref_name }}
