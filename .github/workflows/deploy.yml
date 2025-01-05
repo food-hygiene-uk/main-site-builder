@@ -28,7 +28,7 @@ jobs:
 
       - name: Clear public folder
         run: |
-          find public -mindepth 1 -delete
+          find ./public -mindepth 1 -delete
 
       - name: Copy generated site to GitHub Pages repository
         run: |
@@ -51,7 +51,9 @@ jobs:
               owner,
               repo,
             });
-            
+
+            core.setOutput('id', response.data.id);
+
       - name: Configure Git
         run: |
           git config --local user.name "GitHub Actions"
@@ -59,15 +61,15 @@ jobs:
 
       - name: Authenticate with GitHub App
         id: github-app-auth
-        uses: appleboy/github-action-create-release@v0.3.0 
+        uses: tibdex/github-app-token@v1
         with:
-          github_token: ${{ secrets.APP_PRIVATE_KEY }} 
-          app_id: ${{ secrets.APP_ID }} 
+          app_id: ${{ secrets.APP_ID }}
+          private_key: ${{ secrets.APP_PRIVATE_KEY }}
           installation_id: ${{ steps.lookup-installation-id.outputs.id }}
-
-            core.setOutput('id', response.data.id);
 
       - name: Commit and push changes
         run: |
           git remote add target https://github.com/food-hygiene-ratings-uk/food-hygiene-ratings-uk.github.io.git
           git push target HEAD:${{ github.ref_name }}
+        env:
+          GITHUB_TOKEN: ${{ steps.github-app-auth.outputs.token }}
