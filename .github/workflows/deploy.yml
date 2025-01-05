@@ -43,7 +43,7 @@ jobs:
           script: |
             const owner = context.repo.owner;
             const repo = context.repo.repo;
-            const response = await github.apps.getRepoInstallation({ owner, repo });
+            const response = await github.rest.apps.getRepoInstallation({ owner, repo });
             return response.data.id;
           result-encoding: string
 
