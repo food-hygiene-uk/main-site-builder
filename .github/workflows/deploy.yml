@@ -32,7 +32,7 @@ jobs:
 
       - name: Copy generated site to GitHub Pages repository
         run: |
-          rsync -a ./dist/ ./public/
+          rsync -a ../food-hygiene-rating-scheme/dist/ ./public/
 
       - name: Lookup Installation ID
         id: lookup-installation-id
