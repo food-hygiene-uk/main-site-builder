@@ -29,11 +29,11 @@ jobs:
 
       - name: Clear public folder
         run: |
-          rm -rf public/*
+          find public -mindepth 1 -delete
 
       - name: Copy generated site to GitHub Pages repository
         run: |
-          cp -r ./dist/* ./public/
+          rsync -a ./dist/ ./public/
 
       - name: Commit and push changes
         run: |
