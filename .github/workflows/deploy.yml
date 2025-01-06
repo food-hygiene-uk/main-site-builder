@@ -35,33 +35,27 @@ jobs:
         run: |
           rsync -a ./dist/ ./gh-pages/public/
 
-      - name: Lookup Installation ID
-        id: lookup-installation-id
-        uses: actions/github-script@v6
+      - uses: actions/create-github-app-token@v1
+        id: app-token
         with:
-          script: |
-            const owner = context.repo.owner;
-            const repo = context.repo.repo;
-            const response = await github.rest.apps.getRepoInstallation({ owner, repo });
-            return response.data.id;
-          result-encoding: string
+          app-id: ${{ secrets.APP_ID }}
+          private-key: ${{ secrets.APP_PRIVATE_KEY }}
+          owner: ${{ github.repository_owner }}
+
+      - name: Get GitHub App User ID
+        id: get-user-id
+        run: echo "user-id=$(gh api "/users/${{ steps.app-token.outputs.app-slug }}[bot]" --jq .id)" >> "$GITHUB_OUTPUT"
+        env:
+          GH_TOKEN: ${{ steps.app-token.outputs.token }}
 
       - name: Configure Git
         run: |
-          git config --local user.name "GitHub Actions"
-          git config --local user.email "github-actions@github.com"
-
-      - name: Authenticate with GitHub App
-        id: github-app-auth
-        uses: tibdex/github-app-token@v1
-        with:
-          app_id: ${{ secrets.APP_ID }}
-          private_key: ${{ secrets.APP_PRIVATE_KEY }}
-          installation_id: ${{ steps.lookup-installation-id.outputs.result }}
+          git config --local user.name "${{ steps.app-token.outputs.app-slug }}[bot]"
+          git config --local user.email "${{ steps.get-user-id.outputs.user-id }}+${{ steps.app-token.outputs.app-slug }}[bot]@users.noreply.github.com"
 
       - name: Commit and push changes
         run: |
           git remote add target https://github.com/food-hygiene-ratings-uk/food-hygiene-ratings-uk.github.io.git
           git push target HEAD:${{ github.ref_name }}
         env:
-          GITHUB_TOKEN: ${{ steps.github-app-auth.outputs.token }}
+          GITHUB_TOKEN: ${{ steps.app-token.outputs.token }}
