@@ -83,6 +83,11 @@ jobs:
           cd ./repos/gh-pages
           echo $(pwd)
           git remote add target https://${{ steps.app-token.outputs.token }}@github.com/food-hygiene-ratings-uk/food-hygiene-ratings-uk.github.io.git
-          git add .
-          git commit -m "Update site"
-          git push target HEAD:${{ github.ref_name }}
+          if [ -n "$(git status --porcelain)" ]; then
+            git add .
+            git commit -m "Update site"
+            git push target HEAD:${{ github.ref_name }}
+          else
+            echo "No changes to commit"
+          fi
+        shell: /usr/bin/bash -e {0}
