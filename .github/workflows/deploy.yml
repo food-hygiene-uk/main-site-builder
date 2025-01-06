@@ -35,7 +35,8 @@ jobs:
         run: |
           rsync -a ./dist/ ./gh-pages/public/
 
-      - uses: actions/create-github-app-token@v1
+      - name: Create GitHub App token
+        uses: actions/create-github-app-token@v1
         id: app-token
         with:
           app-id: ${{ secrets.APP_ID }}
