@@ -47,8 +47,8 @@ jobs:
         run: |
           echo $(pwd)
           cd ./repos/source
+          echo $(pwd)
           deno run --allow-read --allow-write --allow-net src/generate-site.ts
-          cd ../../
 
       - name: Checkout GitHub Pages repository
         uses: actions/checkout@v3
@@ -67,21 +67,19 @@ jobs:
           echo $(pwd)
           rsync -a ./repos/source/dist/ ./repos/gh-pages/public/
 
-      - name: Change to gh-pages directory
+      - name: Configure Git
         run: |
           echo $(pwd)
           cd ./repos/gh-pages
-          echo $(pwd)
-
-      - name: Configure Git
-        run: |
           echo $(pwd)
           git config --local user.name "${{ steps.app-token.outputs.app-slug }}[bot]"
           git config --local user.email "${{ steps.get-user-id.outputs.user-id }}+${{ steps.app-token.outputs.app-slug }}[bot]@users.noreply.github.com"
 
       - name: Commit and push changes
         run: |
-          pwd
+          echo $(pwd)
+          cd ./repos/gh-pages
+          echo $(pwd)
           git remote add target https://${{ steps.app-token.outputs.token }}@github.com/food-hygiene-ratings-uk/food-hygiene-ratings-uk.github.io.git
           git add .
           git commit -m "Update site"
