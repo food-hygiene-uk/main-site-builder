@@ -162,6 +162,6 @@ export const outputEstablishments = async (filename: string) => {
 
     const sanitizedBusinessName = slugify(establishment.BusinessName);
     const filename = `${sanitizedBusinessName}-${establishment.FHRSID}.html`;
-    await Deno.writeTextFile(join("dist", filename), html);
+    await Deno.writeTextFile(join("dist", "e", filename), html);
   }));
 };
