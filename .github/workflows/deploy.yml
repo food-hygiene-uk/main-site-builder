@@ -49,6 +49,9 @@ jobs:
         env:
           GH_TOKEN: ${{ steps.app-token.outputs.token }}
 
+      - name: Change to gh-pages directory
+        run: cd ./gh-pages
+
       - name: Configure Git
         run: |
           git config --local user.name "${{ steps.app-token.outputs.app-slug }}[bot]"
