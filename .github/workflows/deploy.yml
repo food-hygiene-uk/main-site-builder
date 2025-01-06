@@ -13,17 +13,6 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-      - uses: actions/checkout@v3
-
-      - name: Setup Deno
-        uses: denoland/setup-deno@4606d5cc6fb3f673efd4f594850e3f4b3e9d29cd # 2.0.0
-        with:
-          deno-version: v2.x
-
-      - name: Generate ratings site
-        run: |
-          deno run --allow-read --allow-write --allow-net src/generate-site.ts
-
       - name: Create GitHub App token
         uses: actions/create-github-app-token@v1
         id: app-token
@@ -38,23 +27,37 @@ jobs:
         env:
           GH_TOKEN: ${{ steps.app-token.outputs.token }}
 
+      - name: Checkout this repository
+        uses: actions/checkout@v3
+        with:
+          token: ${{ steps.app-token.outputs.token }}
+
+      - name: Setup Deno
+        uses: denoland/setup-deno@4606d5cc6fb3f673efd4f594850e3f4b3e9d29cd # 2.0.0
+        with:
+          deno-version: v2.x
+
+      - name: Generate ratings site
+        run: |
+          deno run --allow-read --allow-write --allow-net src/generate-site.ts
+
       - name: Checkout GitHub Pages repository
         uses: actions/checkout@v3
         with:
           repository: food-hygiene-ratings-uk/food-hygiene-ratings-uk.github.io
-          path: ./gh-pages
+          path: ../gh-pages
           token: ${{ steps.app-token.outputs.token }}
 
       - name: Clear public folder
         run: |
-          find ./gh-pages/public -mindepth 1 -delete
+          find ../gh-pages/public -mindepth 1 -delete
 
       - name: Copy generated site to GitHub Pages repository
         run: |
-          rsync -a ./dist/ ./gh-pages/public/
+          rsync -a ./dist/ ../gh-pages/public/
 
       - name: Change to gh-pages directory
-        run: cd ./gh-pages
+        run: cd ../gh-pages
 
       - name: Configure Git
         run: |
