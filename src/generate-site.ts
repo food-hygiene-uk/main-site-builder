@@ -7,8 +7,9 @@ import { generateSitemap } from "./generate-site/output-sitemap.ts";
 
 // Ensure build/dist directories exist
 await ensureDir("build");
-await ensureDir("dist/images");
 await emptyDir("dist");
+await ensureDir("dist/images");
+await ensureDir("dist/e");
 
 // Copy images to the dist directory
 await copy("assets/images/", "dist/images/");
@@ -29,9 +30,10 @@ for await (const path of localAuthorityDataFiles) {
 
 console.time("mapConcurrent");
 await mapConcurrent(dataFiles, 10, async (filename) => {
-  console.time(`outputEstablishments-${filename}`);
+  const timerName = `outputEstablishments-${filename}`;
+  console.time(timerName);
   await outputEstablishments(filename);
-  console.timeEnd(`outputEstablishments-${filename}`);
+  console.timeEnd(timerName);
 });
 console.timeEnd("mapConcurrent");
 
