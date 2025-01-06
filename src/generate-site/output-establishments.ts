@@ -142,15 +142,23 @@ export const outputEstablishments = async (filename: string) => {
         ${
       establishment.Scores
         ? `
-        <p>Hygiene score: ${establishment.Scores.Hygiene} - ${
-          scoreToText(establishment.Scores.Hygiene)
-        }</p>
-        <p>Structural score: ${establishment.Scores.Structural} - ${
-          scoreToText(establishment.Scores.Structural)
-        }</p>
-        <p>Confidence in management score: ${establishment.Scores.ConfidenceInManagement} - ${
-          scoreToText(establishment.Scores.ConfidenceInManagement)
-        }</p>
+        <table>
+          <tr>
+            <th>Hygiene</th>
+            <td>${establishment.Scores.Hygiene}</td>
+            <td>${scoreToText(establishment.Scores.Hygiene)}</td>
+          </tr>
+          <tr>
+            <th>Structural</th>
+            <td>${establishment.Scores.Structural}</td>
+            <td>${scoreToText(establishment.Scores.Structural)}</td>
+          </tr>
+          <tr>
+            <th>Confidence in Management</th>
+            <td>${establishment.Scores.ConfidenceInManagement}</td>
+            <td>${scoreToText(establishment.Scores.ConfidenceInManagement)}</td>
+          </tr>
+        </table>
         `
         : ""
     }
