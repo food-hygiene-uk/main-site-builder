@@ -8,7 +8,6 @@ import { generateSitemap } from "./generate-site/output-sitemap.ts";
 // Ensure build/dist directories exist
 await ensureDir("build");
 await emptyDir("dist");
-await ensureDir("dist/images");
 await ensureDir("dist/e");
 
 // Copy images to the dist directory
