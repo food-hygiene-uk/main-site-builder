@@ -7,7 +7,8 @@ export const generateSitemap = async () => {
 
   for await (const file of files) {
     if (file.isFile && file.name.endsWith(".html")) {
-      sitemap += `  <url>\n    <loc>${baseUrl}/e/${file.name}</loc>\n  </url>\n`;
+      sitemap +=
+        `  <url>\n    <loc>${baseUrl}/e/${file.name}</loc>\n  </url>\n`;
     }
   }
 

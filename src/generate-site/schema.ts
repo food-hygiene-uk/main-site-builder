@@ -133,7 +133,11 @@ const ratingValueFHRS = z.object({
       })
     ),
     ...Object.keys(ratingValue.FHRS)
-      .filter((key) => schemeNoRatingScoreFHRS.includes(key as keyof typeof ratingValue.FHRS) === false)
+      .filter((key) =>
+        schemeNoRatingScoreFHRS.includes(
+          key as keyof typeof ratingValue.FHRS,
+        ) === false
+      )
       .map((key) =>
         z.object({
           RatingValue: z.literal(key),
