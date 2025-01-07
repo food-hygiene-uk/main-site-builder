@@ -90,7 +90,7 @@ export const outputEstablishments = async (filename: string) => {
   </head>
   <body>
     <div class="container">
-      <div class="establishment">
+      <div class="establishment" data-establishment-id="${establishment.FHRSID}">
         <h1>${establishment.BusinessName}</h1>
         <img src="${
       ratingValue[establishment.SchemeType][
