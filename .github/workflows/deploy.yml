@@ -64,10 +64,10 @@ jobs:
           echo $(pwd)
           find ./repos/gh-pages/public -mindepth 1 -delete
 
-      - name: Copy generated site to GitHub Pages repository
+      - name: Move generated site to GitHub Pages repository
         run: |
           echo $(pwd)
-          rsync -a ./repos/source/dist/ ./repos/gh-pages/public/
+          mv ./repos/source/dist ./repos/gh-pages/public
 
       - name: Configure Git
         run: |
