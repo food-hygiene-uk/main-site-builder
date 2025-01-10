@@ -1,27 +1,35 @@
-name: Generate ratings site
+name: Generate Ratings Site
 
+# Control concurrent executions
 concurrency:
   group: ${{ github.workflow }}-${{ github.ref }}
   cancel-in-progress: true 
 
+# Define trigger events
 on:
   push:
-    branches: [main]
-  workflow_dispatch:
+    branches: 
+      - main
+  workflow_dispatch:  # Manual trigger
   schedule:
-    - cron: "0 4 * * *"
+    - cron: "0 4 * * *"  # Run at 4 AM UTC daily
 
+# Define minimum required permissions
 permissions:
-  contents: write
+  contents: write  # Required for pushing to repository
+
+env:
+  DENO_VERSION: "v2.x"
 
 jobs:
   build:
     runs-on: ubuntu-latest
+    timeout-minutes: 30  # Prevent hanging jobs
 
     steps:
       - name: Create GitHub App token
-        uses: actions/create-github-app-token@v1
         id: app-token
+        uses: actions/create-github-app-token@c1a285145b9d317df6ced56c09f525b5c2b6f755  # v1.11.1
         with:
           app-id: ${{ secrets.APP_ID }}
           private-key: ${{ secrets.APP_PRIVATE_KEY }}
@@ -29,70 +37,63 @@ jobs:
 
       - name: Get GitHub App User ID
         id: get-user-id
-        run: echo "user-id=$(gh api "/users/${{ steps.app-token.outputs.app-slug }}[bot]" --jq .id)" >> "$GITHUB_OUTPUT"
         env:
           GH_TOKEN: ${{ steps.app-token.outputs.token }}
-
-      - name: Make a repos folder
         run: |
-          echo $(pwd)
-          mkdir ./repos/
+          echo "user-id=$(gh api "/users/${{ steps.app-token.outputs.app_slug }}[bot]" --jq .id)" >> "$GITHUB_OUTPUT"
 
-      - name: Checkout this repository
-        uses: actions/checkout@v3
+      - name: Create workspace directory
+        run: mkdir ./repos/
+        
+      - name: Checkout source repository
+        uses: actions/checkout@b4ffde65f46336ab88eb53be808477a3936bae11  # v4.1.1
         with:
           path: ./repos/source
           token: ${{ steps.app-token.outputs.token }}
+          fetch-depth: 1
 
       - name: Setup Deno
-        uses: denoland/setup-deno@4606d5cc6fb3f673efd4f594850e3f4b3e9d29cd # 2.0.0
+        uses: denoland/setup-deno@4606d5cc6fb3f673efd4f594850e3f4b3e9d29cd  # v2.0.0
         with:
-          deno-version: v2.x
+          deno-version: ${{ env.DENO_VERSION }}
 
       - name: Generate ratings site
-        run: |
-          echo $(pwd)
-          cd ./repos/source
-          echo $(pwd)
-          deno run --allow-read --allow-write --allow-net src/generate-site.ts
+        working-directory: ./repos/source
+        run: deno run --allow-read --allow-write --allow-net src/generate-site.ts
+        continue-on-error: false  # Fail fast if site generation fails
 
       - name: Checkout GitHub Pages repository
-        uses: actions/checkout@v3
+        uses: actions/checkout@b4ffde65f46336ab88eb53be808477a3936bae11  # v4.1.1
         with:
           repository: food-hygiene-ratings-uk/food-hygiene-ratings-uk.github.io
           path: ./repos/gh-pages
           token: ${{ steps.app-token.outputs.token }}
+          fetch-depth: 1
 
-      - name: Clear public folder
-        run: |
-          echo $(pwd)
-          find ./repos/gh-pages/public -mindepth 1 -delete
-
-      - name: Move generated site to GitHub Pages repository
-        run: |
-          echo $(pwd)
-          mv ./repos/source/dist ./repos/gh-pages/
-          mv ./repos/gh-pages/dist ./repos/gh-pages/public
+      - name: Prepare public directory
+        run: find ./repos/gh-pages/public -depth -delete
+      
+      - name: Move and rename generated site
+        run: mv ./repos/source/dist ./repos/gh-pages/public
+        continue-on-error: false
 
       - name: Configure Git
+        working-directory: ./repos/gh-pages
         run: |
-          echo $(pwd)
-          cd ./repos/gh-pages
-          echo $(pwd)
-          git config --local user.name "${{ steps.app-token.outputs.app-slug }}[bot]"
-          git config --local user.email "${{ steps.get-user-id.outputs.user-id }}+${{ steps.app-token.outputs.app-slug }}[bot]@users.noreply.github.com"
+          git config --local user.name "${{ steps.app-token.outputs.app_slug }}[bot]"
+          git config --local user.email "${{ steps.get-user-id.outputs.user-id }}+${{ steps.app-token.outputs.app_slug }}[bot]@users.noreply.github.com"
 
       - name: Commit and push changes
+        working-directory: ./repos/gh-pages
+        env:
+          GITHUB_TOKEN: ${{ steps.app-token.outputs.token }}
         run: |
-          echo $(pwd)
-          cd ./repos/gh-pages
-          echo $(pwd)
-          git remote add target https://${{ steps.app-token.outputs.token }}@github.com/food-hygiene-ratings-uk/food-hygiene-ratings-uk.github.io.git
-          if [ -n "$(git status --porcelain)" ]; then
+          git remote set-url origin https://x-access-token:${GITHUB_TOKEN}@github.com/food-hygiene-ratings-uk/food-hygiene-ratings-uk.github.io.git
+          
+          if ! git diff-index --quiet HEAD --; then
             git add .
             git commit -m "Update site"
-            git push target HEAD:${{ github.ref_name }}
+            git push origin HEAD:${{ github.ref_name }} || echo "Failed to push changes" && exit 1
           else
-            echo "No changes to commit"
+            echo "No changes detected"
           fi
-        shell: /usr/bin/bash -e {0}
