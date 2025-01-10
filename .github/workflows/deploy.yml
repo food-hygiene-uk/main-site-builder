@@ -93,7 +93,7 @@ jobs:
           if ! git diff-index --quiet HEAD --; then
             git add .
             git commit -m "Update site"
-            git push origin HEAD:${{ github.ref_name }} || echo "Failed to push changes" && exit 1
+            git push origin HEAD:${{ github.ref_name }} || { echo "Failed to push changes"; exit 1; }
           else
             echo "No changes detected"
           fi
