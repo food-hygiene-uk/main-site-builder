@@ -71,7 +71,8 @@ jobs:
       - name: Move generated site to GitHub Pages repository
         run: |
           echo $(pwd)
-          mv ./repos/source/dist ./repos/gh-pages/public
+          mv ./repos/source/dist ./repos/gh-pages/
+          mv ./repos/gh-pages/dist ./repos/gh-pages/public
 
       - name: Configure Git
         run: |
