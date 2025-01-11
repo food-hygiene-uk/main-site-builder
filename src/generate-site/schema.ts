@@ -212,3 +212,5 @@ export const dataSchema = z.object({
     ),
   }),
 });
+
+export type Establishment = z.infer<typeof dataSchema>["FHRSEstablishment"]["EstablishmentCollection"][number];

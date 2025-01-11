@@ -1,5 +1,5 @@
 import { join } from "@std/path";
-import { dataSchema, ratingValue } from "./schema.ts";
+import { dataSchema, type Establishment, ratingValue } from "./schema.ts";
 import { slugify } from "./slugify.ts";
 
 const scoreToText = (score: number) => {
@@ -16,6 +16,75 @@ const scoreToText = (score: number) => {
     return ratingValue.FHRS[1].text;
   }
   return ratingValue.FHRS[0].text;
+};
+
+const renderAddress = (establishment: Establishment): string => {
+  if (establishment.Geocode === null) return "";
+
+  const businessName = encodeURIComponent(establishment.BusinessName);
+  const latitude = establishment.Geocode?.Latitude;
+  const longitude = establishment.Geocode?.Longitude;
+  const locationLink =
+    `https://geohack.toolforge.org/geohack.php?title=${businessName}&params=${latitude}_N_${longitude}_E_type:landmark_dim:20`;
+
+  const addressLines = [
+    establishment.AddressLine1
+      ? `<span>${establishment.AddressLine1}</span>`
+      : null,
+    establishment.AddressLine2
+      ? `<span>${establishment.AddressLine2}</span>`
+      : null,
+    establishment.AddressLine3
+      ? `<span>${establishment.AddressLine3}</span>`
+      : null,
+    establishment.AddressLine4
+      ? `<span>${establishment.AddressLine4}</span>`
+      : null,
+    establishment.PostCode
+      ? `<span itemprop="postalCode">${establishment.PostCode}</span>`
+      : null,
+  ].filter(Boolean).join("<br>");
+
+  return `
+      <p>
+        Address:
+        <address itemprop="address" itemscope itemtype="https://schema.org/PostalAddress">
+          ${addressLines || "No address information available"}
+        </address>
+        <a href="${locationLink}" target="_blank" rel="noopener noreferrer">View on Map</a>
+      </p>`;
+};
+
+const renderRatingDate = (ratingDate: string | null): string => {
+  if (ratingDate === null) return "";
+
+  return `
+  <p>Rating Date: <time datetime="${ratingDate}" itemprop="fhrsRatingDate">${ratingDate}</time></p>
+  `;
+};
+
+const renderScores = (scores: Establishment["Scores"]): string => {
+  if (scores === null) return "";
+
+  return `
+      <table>
+        <tr>
+          <th>Hygiene</th>
+          <td>${scores.Hygiene}</td>
+          <td>${scoreToText(scores.Hygiene)}</td>
+        </tr>
+        <tr>
+          <th>Structural</th>
+          <td>${scores.Structural}</td>
+          <td>${scoreToText(scores.Structural)}</td>
+        </tr>
+        <tr>
+          <th>Confidence in Management</th>
+          <td>${scores.ConfidenceInManagement}</td>
+          <td>${scoreToText(scores.ConfidenceInManagement)}</td>
+        </tr>
+      </table>
+      `;
 };
 
 export const outputEstablishments = async (filename: string) => {
@@ -35,134 +104,107 @@ export const outputEstablishments = async (filename: string) => {
 
   // Generate HTML for each establishment and save to a file
   await Promise.all(establishments.map(async (establishment) => {
-    const businessName = encodeURIComponent(establishment.BusinessName);
-    const latitude = establishment.Geocode?.Latitude;
-    const longitude = establishment.Geocode?.Longitude;
-    const locationLink =
-      `https://geohack.toolforge.org/geohack.php?title=${businessName}&params=${latitude}_N_${longitude}_E_type:landmark_dim:20`;
+    const ratingImage = {
+      alt: !isNaN(Number(establishment.RatingValue))
+        ? `Food Hygiene Rating: ${establishment.RatingValue} out of 5`
+        : ratingValue[establishment.SchemeType][
+          establishment.RatingValue as
+            & keyof typeof ratingValue.FHRS
+            & keyof typeof ratingValue.FHIS
+        ].text,
+      url: ratingValue[establishment.SchemeType][
+        establishment.RatingValue as
+          & keyof typeof ratingValue.FHRS
+          & keyof typeof ratingValue.FHIS
+      ].image_en,
+    };
 
     const html = `
 <!DOCTYPE html>
-<html>
-  <head>
-    <title>${establishment.BusinessName} - FHRS Info</title>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>${establishment.BusinessName} - Food Hygiene Rating</title>
     <style>
-      body {
-        font-family: Arial, sans-serif;
-        background-color: #f4f4f4;
-        margin: 0;
-        padding: 0;
-        display: flex;
-        justify-content: center;
-        align-items: center;
-        min-height: 100vh;
-      }
-      .container {
-        max-width: 800px;
-        margin: 20px;
-        padding: 20px;
-        background-color: #fff;
-        box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-        border-radius: 8px;
-      }
-      .establishment {
-        border-bottom: 1px solid #ccc;
-        padding-bottom: 20px;
-        margin-bottom: 20px;
-      }
-      h1 {
-        font-size: 24px;
-        color: #333;
-      }
-      p {
-        font-size: 16px;
-        color: #666;
-        line-height: 1.5;
-      }
-      a {
-        color: #1e90ff;
-        text-decoration: none;
-      }
-      a:hover {
-        text-decoration: underline;
-      }
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f4f4f4;
+            margin: 0;
+            padding: 0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+        }
+
+        .container {
+            max-width: 800px;
+            margin: 20px;
+            padding: 20px;
+            background-color: #fff;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            border-radius: 8px;
+        }
+
+        .establishment {
+            border-bottom: 1px solid #ccc;
+            padding-bottom: 20px;
+            margin-bottom: 20px;
+        }
+
+        h1 {
+            font-size: 2em;
+            color: #333;
+        }
+
+        p, address, td, th {
+            font-size: 1em;
+            color: #666;
+            line-height: 1.5;
+        }
+
+        a {
+            color: #1e90ff;
+            text-decoration: none;
+        }
+
+        a:hover {
+            text-decoration: underline;
+        }
+
+        img.rating-image {
+            width: 100%;
+            max-width: 400px;
+            height: auto;
+            display: block;
+            margin: 10px auto;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 1em;
+        }
+
+        th, td {
+            border: 1px solid #ddd;
+            padding: 0.5em;
+            text-align: left;
+        }
     </style>
   </head>
   <body>
     <div class="container">
-      <div class="establishment" data-establishment-id="${establishment.FHRSID}">
-        <h1>${establishment.BusinessName}</h1>
-        <img src="${
-      ratingValue[establishment.SchemeType][
-        establishment.RatingValue as
-          & keyof typeof ratingValue.FHRS
-          & keyof typeof ratingValue.FHIS
-      ].image_en
-    }" alt="Rating Image" style="width: 100%; max-width: 400px; height: auto;">
-        ${
-      establishment.Geocode !== null
-        ? `
-        <p>
-          Address:
-          <address>
-            ${establishment.AddressLine1}
-            ${
-          establishment.AddressLine2 ? `<br>${establishment.AddressLine2}` : ""
-        }
-            ${
-          establishment.AddressLine3 ? `<br>${establishment.AddressLine3}` : ""
-        }
-            ${
-          establishment.AddressLine4 ? `<br>${establishment.AddressLine4}` : ""
-        }
-            ${establishment.PostCode ? `<br>${establishment.PostCode}` : ""}
-            ${
-          !(establishment.AddressLine1 ||
-              establishment.AddressLine2 ||
-              establishment.AddressLine3 ||
-              establishment.AddressLine4 ||
-              establishment.PostCode)
-            ? "No address information available"
-            : ""
-        }
-          </address>
-          <a href="${locationLink}" target="_blank">View on Map</a>
-        </p>`
-        : ""
-    }
-        <p>Business Type: ${establishment.BusinessType}</p>
+      <article class="establishment" itemscope itemtype="https://schema.org/FoodEstablishment" data-establishment-id="${establishment.FHRSID}">
+        <h1 itemprop="name">${establishment.BusinessName}</h1>
+        <img src="${ratingImage.url}" alt="${ratingImage.alt}" class="rating-image" itemprop="image">
+        ${renderAddress(establishment)}
+        <p>Business Type: <span itemprop="servesCuisine">${establishment.BusinessType}</span></p>
         <p>Rating: ${establishment.RatingValue}</p>
-        ${
-      establishment.RatingDate !== null
-        ? `
-        <p>Rating Date: <time datetime="${establishment.RatingDate}">${establishment.RatingDate}</time></p>
-        `
-        : ""
-    }
-        ${
-      establishment.Scores
-        ? `
-        <table>
-          <tr>
-            <th>Hygiene</th>
-            <td>${establishment.Scores.Hygiene}</td>
-            <td>${scoreToText(establishment.Scores.Hygiene)}</td>
-          </tr>
-          <tr>
-            <th>Structural</th>
-            <td>${establishment.Scores.Structural}</td>
-            <td>${scoreToText(establishment.Scores.Structural)}</td>
-          </tr>
-          <tr>
-            <th>Confidence in Management</th>
-            <td>${establishment.Scores.ConfidenceInManagement}</td>
-            <td>${scoreToText(establishment.Scores.ConfidenceInManagement)}</td>
-          </tr>
-        </table>
-        `
-        : ""
-    }
-      </div>
+        ${renderRatingDate(establishment.RatingDate)}
+        ${renderScores(establishment.Scores)}
+      </article>
     </div>
   </body>
 </html>
