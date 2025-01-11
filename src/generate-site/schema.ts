@@ -1,4 +1,10 @@
 import { z } from "zod";
+import scoreDescriptors from './score-descriptors.json' with { type: "json" };
+
+// Extract valid scores
+const validHygieneScores = Object.freeze(Object.keys(scoreDescriptors.scoreDescriptors.Hygiene)) as readonly [string, ...string[]];
+const validStructuralScores = Object.freeze(Object.keys(scoreDescriptors.scoreDescriptors.Structural)) as readonly [string, ...string[]];
+const validConfidenceScores = Object.freeze(Object.keys(scoreDescriptors.scoreDescriptors.Confidence)) as readonly [string, ...string[]];
 
 export const ratingValue = {
   "FHRS": {
@@ -146,9 +152,9 @@ const ratingValueFHRS = z.object({
           RatingDate: z.string().nullable(),
           // FHRSID 351094 has a rating, but no scores. So Scores needs to be nullable. (last checked 2024-11-23)
           Scores: z.object({
-            Hygiene: z.number(),
-            Structural: z.number(),
-            ConfidenceInManagement: z.number(),
+            Hygiene: z.enum(validHygieneScores),
+            Structural: z.enum(validStructuralScores),
+            ConfidenceInManagement: z.enum(validConfidenceScores),
           }).nullable(),
         })
       ),

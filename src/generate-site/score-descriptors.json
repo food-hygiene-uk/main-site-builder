@@ -1,0 +1,122 @@
+{
+  "sources": [
+    {
+      "url": "https://ratings.food.gov.uk/open-data-resources/lookupData/ScoreDescriptors.xml",
+      "extractDate": "2014-10-27T16:02:16.3646745+00:00"
+    },
+    {
+      "url": "https://ratings.food.gov.uk/open-data-resources/lookupData/ScoreDescriptorsCy.xml",
+      "extractDate": "2014-10-27T16:10:15.9460745+00:00"
+    }
+  ],
+  "scoreDescriptors": {
+    "Confidence": {
+      "0": {
+        "description": {
+          "en": "Very good",
+          "cy": "Da iawn"
+        }
+      },
+      "5": {
+        "description": {
+          "en": "Good",
+          "cy": "Da"
+        }
+      },
+      "10": {
+        "description": {
+          "en": "Generally satisfactory",
+          "cy": "Boddhaol ar y cyfan"
+        }
+      },
+      "20": {
+        "description": {
+          "en": "Major improvement necessary",
+          "cy": "Angen gwella yn sylweddol"
+        }
+      },
+      "30": {
+        "description": {
+          "en": "Urgent improvement necessary",
+          "cy": "Angen gwella ar frys"
+        }
+      }
+    },
+    "Hygiene": {
+      "0": {
+        "description": {
+          "en": "Very good",
+          "cy": "Da iawn"
+        }
+      },
+      "5": {
+        "description": {
+          "en": "Good",
+          "cy": "Da"
+        }
+      },
+      "10": {
+        "description": {
+          "en": "Generally satisfactory",
+          "cy": "Boddhaol ar y cyfan"
+        }
+      },
+      "15": {
+        "description": {
+          "en": "Improvement necessary",
+          "cy": "Angen gwella"
+        }
+      },
+      "20": {
+        "description": {
+          "en": "Major improvement necessary",
+          "cy": "Angen gwella yn sylweddol"
+        }
+      },
+      "25": {
+        "description": {
+          "en": "Urgent improvement necessary",
+          "cy": "Angen gwella ar frys"
+        }
+      }
+    },
+    "Structural": {
+      "0": {
+        "description": {
+          "en": "Very good",
+          "cy": "Da iawn"
+        }
+      },
+      "5": {
+        "description": {
+          "en": "Good",
+          "cy": "Da"
+        }
+      },
+      "10": {
+        "description": {
+          "en": "Generally satisfactory",
+          "cy": "Boddhaol ar y cyfan"
+        }
+      },
+      "15": {
+        "description": {
+          "en": "Improvement necessary",
+          "cy": "Angen gwella"
+        }
+      },
+      "20": {
+        "description": {
+          "en": "Major improvement necessary",
+          "cy": "Angen gwella yn sylweddol"
+        }
+      },
+      "25": {
+        "description": {
+          "en": "Urgent improvement necessary",
+          "cy": "Angen gwella ar frys"
+        }
+      }
+    }
+  }
+}

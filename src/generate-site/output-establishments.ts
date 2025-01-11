@@ -1,21 +1,19 @@
 import { join } from "@std/path";
 import { dataSchema, type Establishment, ratingValue } from "./schema.ts";
+import scoreDescriptors from "./score-descriptors.json" with { type: "json" };
 import { slugify } from "./slugify.ts";
 
-const scoreToText = (score: number) => {
-  if (score <= 5) {
-    return ratingValue.FHRS[5].text;
+type ScoreType = keyof typeof scoreDescriptors.scoreDescriptors;
+type Language = "en" | "cy";
+type ScoreKey = keyof typeof scoreDescriptors.scoreDescriptors[ScoreType];
+
+const scoreToText = (score: ScoreKey, scoreType: ScoreType, language: Language): string => {
+  const descriptors = scoreDescriptors.scoreDescriptors[scoreType];
+  const descriptor = descriptors[score];
+  if (descriptor) {
+    return descriptor.description[language];
   }
-  if (score <= 10) {
-    return ratingValue.FHRS[4].text;
-  }
-  if (score <= 15) {
-    return ratingValue.FHRS[2].text;
-  }
-  if (score <= 20) {
-    return ratingValue.FHRS[1].text;
-  }
-  return ratingValue.FHRS[0].text;
+  return "Unknown score";
 };
 
 const renderAddress = (establishment: Establishment): string => {
@@ -70,18 +68,15 @@ const renderScores = (scores: Establishment["Scores"]): string => {
       <table>
         <tr>
           <th>Hygiene</th>
-          <td>${scores.Hygiene}</td>
-          <td>${scoreToText(scores.Hygiene)}</td>
+          <td>${scoreToText(scores.Hygiene, "Hygiene", "en")}</td>
         </tr>
         <tr>
           <th>Structural</th>
-          <td>${scores.Structural}</td>
-          <td>${scoreToText(scores.Structural)}</td>
+          <td>${scoreToText(scores.Structural, "Structural", "en")}</td>
         </tr>
         <tr>
           <th>Confidence in Management</th>
-          <td>${scores.ConfidenceInManagement}</td>
-          <td>${scoreToText(scores.ConfidenceInManagement)}</td>
+          <td>${scoreToText(scores.ConfidenceInManagement, "Confidence", "en")}</td>
         </tr>
       </table>
       `;
