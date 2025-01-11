@@ -57,6 +57,9 @@ jobs:
         with:
           deno-version: ${{ env.DENO_VERSION }}
 
+      - name: Run Deno lint
+        run: deno lint ./repos/source/src
+
       - name: Generate ratings site
         working-directory: ./repos/source
         run: deno run --allow-read --allow-write --allow-net src/generate-site.ts
