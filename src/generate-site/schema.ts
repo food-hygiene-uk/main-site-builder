@@ -1,10 +1,11 @@
 import { z } from "zod";
 import scoreDescriptors from './score-descriptors.json' with { type: "json" };
+import { constructZodLiteralUnionType } from "./zod-helpers.ts";
 
 // Extract valid scores
-const validHygieneScores = Object.freeze(Object.keys(scoreDescriptors.scoreDescriptors.Hygiene)) as readonly [string, ...string[]];
-const validStructuralScores = Object.freeze(Object.keys(scoreDescriptors.scoreDescriptors.Structural)) as readonly [string, ...string[]];
-const validConfidenceScores = Object.freeze(Object.keys(scoreDescriptors.scoreDescriptors.Confidence)) as readonly [string, ...string[]];
+const validHygieneScores = Object.freeze(Object.freeze(Object.keys(scoreDescriptors.scoreDescriptors.Hygiene)).map(Number));
+const validStructuralScores = Object.freeze(Object.keys(scoreDescriptors.scoreDescriptors.Structural)).map(Number);
+const validConfidenceScores = Object.freeze(Object.keys(scoreDescriptors.scoreDescriptors.Confidence)).map(Number);
 
 export const ratingValue = {
   "FHRS": {
@@ -152,9 +153,9 @@ const ratingValueFHRS = z.object({
           RatingDate: z.string().nullable(),
           // FHRSID 351094 has a rating, but no scores. So Scores needs to be nullable. (last checked 2024-11-23)
           Scores: z.object({
-            Hygiene: z.enum(validHygieneScores),
-            Structural: z.enum(validStructuralScores),
-            ConfidenceInManagement: z.enum(validConfidenceScores),
+            Hygiene: constructZodLiteralUnionType(validHygieneScores),
+            Structural: constructZodLiteralUnionType(validStructuralScores),
+            ConfidenceInManagement: constructZodLiteralUnionType(validConfidenceScores),
           }).nullable(),
         })
       ),
