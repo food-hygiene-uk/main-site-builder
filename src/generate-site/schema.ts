@@ -1,11 +1,19 @@
 import { z } from "zod";
-import scoreDescriptors from './score-descriptors.json' with { type: "json" };
+import scoreDescriptors from "./score-descriptors.json" with { type: "json" };
 import { constructZodLiteralUnionType } from "./zod-helpers.ts";
 
 // Extract valid scores
-const validHygieneScores = Object.freeze(Object.freeze(Object.keys(scoreDescriptors.scoreDescriptors.Hygiene)).map(Number));
-const validStructuralScores = Object.freeze(Object.keys(scoreDescriptors.scoreDescriptors.Structural)).map(Number);
-const validConfidenceScores = Object.freeze(Object.keys(scoreDescriptors.scoreDescriptors.Confidence)).map(Number);
+const validHygieneScores = Object.freeze(
+  Object.freeze(Object.keys(scoreDescriptors.scoreDescriptors.Hygiene)).map(
+    Number,
+  ),
+);
+const validStructuralScores = Object.freeze(
+  Object.keys(scoreDescriptors.scoreDescriptors.Structural),
+).map(Number);
+const validConfidenceScores = Object.freeze(
+  Object.keys(scoreDescriptors.scoreDescriptors.Confidence),
+).map(Number);
 
 export const ratingValue = {
   "FHRS": {
@@ -155,7 +163,9 @@ const ratingValueFHRS = z.object({
           Scores: z.object({
             Hygiene: constructZodLiteralUnionType(validHygieneScores),
             Structural: constructZodLiteralUnionType(validStructuralScores),
-            ConfidenceInManagement: constructZodLiteralUnionType(validConfidenceScores),
+            ConfidenceInManagement: constructZodLiteralUnionType(
+              validConfidenceScores,
+            ),
           }).nullable(),
         })
       ),
@@ -220,4 +230,6 @@ export const dataSchema = z.object({
   }),
 });
 
-export type Establishment = z.infer<typeof dataSchema>["FHRSEstablishment"]["EstablishmentCollection"][number];
+export type Establishment = z.infer<
+  typeof dataSchema
+>["FHRSEstablishment"]["EstablishmentCollection"][number];

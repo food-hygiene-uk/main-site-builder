@@ -7,7 +7,11 @@ type ScoreType = keyof typeof scoreDescriptors.scoreDescriptors;
 type Language = "en" | "cy";
 type ScoreKey = keyof typeof scoreDescriptors.scoreDescriptors[ScoreType];
 
-const scoreToText = (score: ScoreKey, scoreType: ScoreType, language: Language): string => {
+const scoreToText = (
+  score: ScoreKey,
+  scoreType: ScoreType,
+  language: Language,
+): string => {
   const descriptors = scoreDescriptors.scoreDescriptors[scoreType];
   const descriptor = descriptors[score];
   if (descriptor) {
