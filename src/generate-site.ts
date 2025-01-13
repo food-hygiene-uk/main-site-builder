@@ -4,6 +4,8 @@ import { mapConcurrent } from "./generate-site/max-concurrent.ts";
 import { outputEstablishments } from "./generate-site/output-establishments.ts";
 import { fetchLocalAuthorityData } from "./generate-site/fetch-data.ts";
 import { generateSitemap } from "./generate-site/output-sitemap.ts";
+import { outputHomepage } from "./generate-site/output-homepage.ts";
+import { authorities } from "./ratings-api/rest.ts";
 
 // Ensure build/dist directories exist
 await ensureDir("build");
@@ -39,3 +41,9 @@ console.timeEnd("mapConcurrent");
 console.time("generateSitemap");
 await generateSitemap();
 console.timeEnd("generateSitemap");
+
+const authoritiesResponse = await authorities();
+
+console.time("outputHomepage");
+await outputHomepage(authoritiesResponse.authorities);
+console.timeEnd("outputHomepage");
