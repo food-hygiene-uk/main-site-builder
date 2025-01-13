@@ -64,20 +64,44 @@ const renderRatingDate = (ratingDate: string | null): string => {
 const renderScores = (scores: Establishment["Scores"]): string => {
   if (scores === null) return "";
 
+  // TODO: Don't be sloppy with the types here
+  const scoreData = [
+    {
+      title: "Hygiene",
+      value: scoreToText(
+        scores.Hygiene.toString() as ScoreKey,
+        "Hygiene",
+        "en",
+      ),
+    },
+    {
+      title: "Structural",
+      value: scoreToText(
+        scores.Structural.toString() as ScoreKey,
+        "Structural",
+        "en",
+      ),
+    },
+    {
+      title: "Confidence in Management",
+      value: scoreToText(
+        scores.ConfidenceInManagement.toString() as ScoreKey,
+        "Confidence",
+        "en",
+      ),
+    },
+  ];
+
   return `
       <table>
+        ${
+    scoreData.map((score) => `
         <tr>
-          <th>Hygiene</th>
-          <td>${scoreToText(scores.Hygiene, "Hygiene", "en")}</td>
+          <th>${score.title}</th>
+          <td>${score.value}</td>
         </tr>
-        <tr>
-          <th>Structural</th>
-          <td>${scoreToText(scores.Structural, "Structural", "en")}</td>
-        </tr>
-        <tr>
-          <th>Confidence in Management</th>
-          <td>${scoreToText(scores.ConfidenceInManagement, "Confidence", "en")}</td>
-        </tr>
+        `).join("")
+  }
       </table>
       `;
 };
