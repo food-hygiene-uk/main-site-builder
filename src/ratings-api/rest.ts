@@ -1,4 +1,4 @@
-import { AuthoritiesResponse } from "./types.ts";
+import { type AuthoritiesResponse, authoritiesResponseSchema } from "./types.ts";
 
 const fetchInit = {
   "headers": {
@@ -23,6 +23,6 @@ const fetchInit = {
 } satisfies RequestInit;
 
 export const authorities = async (): Promise<AuthoritiesResponse> => {
-  return (await fetch("https://api.ratings.food.gov.uk/authorities", fetchInit))
-    .json();
+  return authoritiesResponseSchema.parse(await (await fetch("https://api.ratings.food.gov.uk/authorities", fetchInit))
+    .json());
 };

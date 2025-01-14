@@ -5,7 +5,7 @@ import { outputEstablishments } from "./generate-site/output-establishments.ts";
 import { fetchLocalAuthorityData } from "./generate-site/fetch-data.ts";
 import { generateSitemap } from "./generate-site/output-sitemap.ts";
 import { outputHomepage } from "./generate-site/output-homepage.ts";
-import { authorities } from "./ratings-api/rest.ts";
+import * as api from "./ratings-api/rest.ts";
 
 // Ensure build/dist directories exist
 await ensureDir("build");
@@ -14,6 +14,9 @@ await ensureDir("dist/e");
 
 // Copy images to the dist directory
 await copy("assets/images/", "dist/images/");
+
+const authoritiesResponse = await api.authorities();
+const localAuthorities = authoritiesResponse.authorities;
 
 console.time("fetchLocalAuthorityData");
 const localAuthorityDataFiles = await fetchLocalAuthorityData();
@@ -42,8 +45,6 @@ console.time("generateSitemap");
 await generateSitemap();
 console.timeEnd("generateSitemap");
 
-const authoritiesResponse = await authorities();
-
 console.time("outputHomepage");
-await outputHomepage(authoritiesResponse.authorities);
+await outputHomepage(localAuthorities);
 console.timeEnd("outputHomepage");

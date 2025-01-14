@@ -1,5 +1,20 @@
 import { z } from "zod";
 
+const apiRegions = [
+  "East Counties",
+  "East Midlands",
+  "London",
+  "North East",
+  "North West",
+  "South East",
+  "South West",
+  "West Midlands",
+  "Yorkshire and Humberside",
+  "Northern Ireland",
+  "Scotland",
+  "Wales",
+] as const;
+
 export const authoritiesResponseSchema = z.object({
   authorities: z.array(z.object({
     LocalAuthorityId: z.number(),
@@ -9,12 +24,12 @@ export const authoritiesResponseSchema = z.object({
     Url: z.string(),
     SchemeUrl: z.string(),
     Email: z.string(),
-    RegionName: z.string(),
+    RegionName: z.enum(apiRegions),
     FileName: z.string(),
     FileNameWelsh: z.string().nullable(),
     EstablishmentCount: z.number(),
-    CreationDate: z.string(), // ISO date string
-    LastPublishedDate: z.string(), // ISO date string
+    CreationDate: z.string().datetime({ local: true }),
+    LastPublishedDate: z.string().datetime({ local: true }),
     SchemeType: z.number(),
     links: z.array(
       z.object({

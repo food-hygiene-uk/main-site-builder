@@ -1,16 +1,53 @@
 import { join } from "@std/path";
 import { type Authorities } from "../ratings-api/types.ts";
 
+// Map from api regions to ITL regions
+const regionMap = {
+    "East Counties": "East of England",
+    "East Midlands": "East Midlands",
+    "London": "London",
+    "North East": "North East",
+    "North West": "North West",
+    "South East": "South East",
+    "South West": "South West",
+    "West Midlands": "West Midlands",
+    "Yorkshire and Humberside": "Yorkshire and the Humber",
+    "Northern Ireland": "Northern Ireland",
+    "Scotland": "Scotland",
+    "Wales": "Wales",
+}
+
 const renderLocalAuthorities = (localAuthorities: Authorities) => {
-  return localAuthorities.map((localAuthority) => {
-    const authoritySlug = localAuthority.Name.replace(/ /g, "-")
-      .toLowerCase();
-    return `
-            <a href="/l/${authoritySlug}" class="authority-link">
-                {authority.name}
-            </a>`;
-  }).join("");
-};
+    const groupedByRegion = localAuthorities.reduce((acc, authority) => {
+      const region = regionMap[authority.RegionName];
+      if (!acc[region]) {
+        acc[region] = [];
+      }
+      acc[region].push(authority);
+      return acc;
+    }, {} as Record<string, typeof localAuthorities>);
+  
+    return Object.keys(regionMap).map((regionKey) => {
+      const region = regionMap[regionKey as keyof typeof regionMap];
+      const authorities = groupedByRegion[region] || [];
++     authorities.sort((a, b) => a.Name.localeCompare(b.Name));
+      const authorityLinks = authorities.map((authority) => {
+        const authoritySlug = authority.Name.replace(/ /g, "-").toLowerCase();
+        return `
+          <a href="/l/${authoritySlug}" class="authority-link">
+            ${authority.Name}
+          </a>`;
+      }).join("");
+  
+      return `
+        <div class="region-group">
+          <h3>${region}</h3>
+          <div class="authority-grid">
+            ${authorityLinks}
+          </div>
+        </div>`;
+    }).join("");
+  };
 
 export const outputHomepage = async (localAuthorities: Authorities) => {
   const html = `<!DOCTYPE html>
@@ -92,7 +129,7 @@ export const outputHomepage = async (localAuthorities: Authorities) => {
             margin-top: -3rem;
             position: relative;
             z-index: 2;
-            padding: 3rem 0 4rem 0;
+            padding: 3rem 1rem 4rem 1rem;
             border-radius: 8px;
             box-shadow: 0 2px 4px rgba(0,0,0,0.1);
         }
@@ -105,11 +142,25 @@ export const outputHomepage = async (localAuthorities: Authorities) => {
             color: var(--grey);
         }
 
+        .region-group {
+            margin-top: 2rem;
+            margin-top: 2rem;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+
+        .region-group h3 {
+            color: var(--teal);
+            margin-bottom: 1rem;
+        }
+
         .authority-grid {
             display: grid;
-            grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+            grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
             gap: 1rem;
-            margin-top: 2rem;
+            width: 100%;
+            max-width: 1200px;
         }
 
         .authority-link {
@@ -121,6 +172,7 @@ export const outputHomepage = async (localAuthorities: Authorities) => {
             transition: all 0.3s ease;
             box-shadow: 0 2px 4px rgba(0,0,0,0.1);
             border: 2px solid transparent;
+            text-align: center;
         }
 
         .authority-link:hover {
@@ -196,7 +248,7 @@ export const outputHomepage = async (localAuthorities: Authorities) => {
 
             .authorities {
                 margin-top: -2rem;
-                padding: 2rem 0 3rem 0;
+                padding: 2rem 1rem 3rem 1rem;
             }
         }
     </style>
@@ -228,9 +280,9 @@ export const outputHomepage = async (localAuthorities: Authorities) => {
 
     <main class="container">
         <section class="authorities">
-            <h2>Local Authority Areas</h2>
-            <p>Select your local authority to view establishment ratings in your area:</p>
-            <div class="authority-grid">
+            <h2>Local Authorities</h2>
+            <p>Select a local authority to view ratings in that area:</p>
+            <div>
                 ${renderLocalAuthorities(localAuthorities)}
             </div>
         </section>
