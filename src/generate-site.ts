@@ -6,11 +6,13 @@ import { fetchLocalAuthorityData } from "./generate-site/fetch-data.ts";
 import { generateSitemap } from "./generate-site/output-sitemap.ts";
 import { outputHomepage } from "./generate-site/output-homepage.ts";
 import * as api from "./ratings-api/rest.ts";
+import { outputRegionIndex } from "./generate-site/output-region-index.ts";
 
 // Ensure build/dist directories exist
 await ensureDir("build");
 await emptyDir("dist");
 await ensureDir("dist/e");
+await ensureDir("dist/l");
 
 // Copy images to the dist directory
 await copy("assets/images/", "dist/images/");
@@ -48,3 +50,7 @@ console.timeEnd("generateSitemap");
 console.time("outputHomepage");
 await outputHomepage(localAuthorities);
 console.timeEnd("outputHomepage");
+
+console.time("outputRegionIndex");
+await outputRegionIndex(localAuthorities);
+console.timeEnd("outputRegionIndex");

@@ -1,54 +1,6 @@
 import { join } from "@std/path";
 import { type Authorities } from "../ratings-api/types.ts";
 
-// Map from api regions to ITL regions
-const regionMap = {
-    "East Counties": "East of England",
-    "East Midlands": "East Midlands",
-    "London": "London",
-    "North East": "North East",
-    "North West": "North West",
-    "South East": "South East",
-    "South West": "South West",
-    "West Midlands": "West Midlands",
-    "Yorkshire and Humberside": "Yorkshire and the Humber",
-    "Northern Ireland": "Northern Ireland",
-    "Scotland": "Scotland",
-    "Wales": "Wales",
-}
-
-const renderLocalAuthorities = (localAuthorities: Authorities) => {
-    const groupedByRegion = localAuthorities.reduce((acc, authority) => {
-      const region = regionMap[authority.RegionName];
-      if (!acc[region]) {
-        acc[region] = [];
-      }
-      acc[region].push(authority);
-      return acc;
-    }, {} as Record<string, typeof localAuthorities>);
-  
-    return Object.keys(regionMap).map((regionKey) => {
-      const region = regionMap[regionKey as keyof typeof regionMap];
-      const authorities = groupedByRegion[region] || [];
-+     authorities.sort((a, b) => a.Name.localeCompare(b.Name));
-      const authorityLinks = authorities.map((authority) => {
-        const authoritySlug = authority.Name.replace(/ /g, "-").toLowerCase();
-        return `
-          <a href="/l/${authoritySlug}" class="authority-link">
-            ${authority.Name}
-          </a>`;
-      }).join("");
-  
-      return `
-        <div class="region-group">
-          <h3>${region}</h3>
-          <div class="authority-grid">
-            ${authorityLinks}
-          </div>
-        </div>`;
-    }).join("");
-  };
-
 export const outputHomepage = async (localAuthorities: Authorities) => {
   const html = `<!DOCTYPE html>
 <html lang="en">
@@ -79,106 +31,64 @@ export const outputHomepage = async (localAuthorities: Authorities) => {
             color: var(--primary-blue);
         }
 
-        .hero {
-            position: relative;
-            height: 500px;
-            background-color: var(--primary-blue);
-            overflow: hidden;
-        }
-
         .hero-image {
             width: 100%;
             height: 100%;
             object-fit: cover;
             opacity: 0.7;
         }
-
-        .hero-content {
-            position: absolute;
-            top: 50%;
-            left: 50%;
-            transform: translate(-50%, -50%);
-            text-align: center;
-            color: white;
-            width: 90%;
-            max-width: 800px;
-            z-index: 1;
+        
+        .hero-image > img {
+            max-width: 300px;
+            max-height: 300px;
         }
 
-        .hero h1 {
-            font-size: 3rem;
-            margin-bottom: 1rem;
-            text-shadow: 2px 2px 4px rgba(0,0,0,0.5);
+        header {
+            background-color: #f8f9fa;
+            padding: 1rem 2rem;
+            border-bottom: 1px solid #e0e0e0;
         }
 
-        .hero p {
-            font-size: 1.2rem;
-            margin-bottom: 1rem;
-            text-shadow: 1px 1px 2px rgba(0,0,0,0.5);
-            color: var(--light-blue);
+        .navbar {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .logo img {
+            height: 50px;
+        }
+
+        .nav-links {
+            list-style: none;
+            display: flex;
+            gap: 1.5rem;
+        }
+
+        .nav-links li {
+            display: inline;
+        }
+
+        .nav-links a {
+            text-decoration: none;
+            color: #333;
+            font-weight: bold;
+        }
+
+        .main-content {
+            display: flex;
+            justify-content: center;
+            padding: 2rem 1rem;
+        }
+
+        .left-side {
+            text-align: left;
         }
 
         .container {
             max-width: 1200px;
             margin: 0 auto;
             padding: 0 2rem;
-        }
-
-        .authorities {
-            background-color: white;
-            margin-top: -3rem;
-            position: relative;
-            z-index: 2;
-            padding: 3rem 1rem 4rem 1rem;
-            border-radius: 8px;
-            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
-        }
-
-        .authorities h2 {
-            color: var(--primary-blue);
-        }
-
-        .authorities p {
-            color: var(--grey);
-        }
-
-        .region-group {
-            margin-top: 2rem;
-            margin-top: 2rem;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-        }
-
-        .region-group h3 {
-            color: var(--teal);
-            margin-bottom: 1rem;
-        }
-
-        .authority-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
-            gap: 1rem;
-            width: 100%;
-            max-width: 1200px;
-        }
-
-        .authority-link {
-            background-color: var(--light-grey);
-            padding: 1rem;
-            border-radius: 4px;
-            text-decoration: none;
-            color: var(--teal);
-            transition: all 0.3s ease;
-            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
-            border: 2px solid transparent;
-            text-align: center;
-        }
-
-        .authority-link:hover {
-            transform: translateY(-2px);
-            border-color: var(--teal);
-            background-color: white;
         }
 
         .contribute {
@@ -232,61 +142,35 @@ export const outputHomepage = async (localAuthorities: Authorities) => {
         footer a:hover {
             border-color: white;
         }
-
-        @media (max-width: 768px) {
-            .hero {
-                height: 400px;
-            }
-
-            .hero h1 {
-                font-size: 2rem;
-            }
-
-            .hero p {
-                font-size: 1rem;
-            }
-
-            .authorities {
-                margin-top: -2rem;
-                padding: 2rem 1rem 3rem 1rem;
-            }
-        }
     </style>
 </head>
 <body>
-    <section class="hero">
-        <img src="/api/placeholder/1920/500" alt="Food hygiene ratings hero image" class="hero-image">
-        <div class="hero-content">
-            <h1>Food Hygiene Ratings UK</h1>
-            <p>Browse food hygiene ratings by local authority</p>
+    <header class="container">
+        <nav class="navbar">
+            <div class="logo">
+                <img src="./images/logo.svg" alt="Site Logo">
+            </div>
+            <ul class="nav-links">
+                <li><a href="./about/">About</a></li>
+                <li><a href="./l/">Regions</a></li>
+                <li><a href="./search/">Search</a></li>
+            </ul>
+        </nav>
+    </header>
+
+    <main class="container main-content">
+        <div class="description">
+            <h2>Food Hygiene Ratings UK</h2>
+            <p>Feeling hungry? Check to make sure your food is as hygienic as you want it to be.</p>
+            <a href="./l/" class="cta-button">Browse By Region</a>
+            <a href="./search/" class="cta-button">Search</a>
         </div>
-    </section>
-
-    <section class="hero">
-        <div class="hero-content">
-            <div class="hero-text">
-                <h1>Food Hygiene</h1>
-                <p>A responsibility in every kitchen</p>
-            </div>
-            <div class="hero-image-container">
-                <img src="/api/placeholder/300/300" alt="Cute chef mascot with chef's hat">
-            </div>
-            <div class="hero-right">
-                <h1>Ratings UK</h1>
-                <p>Browse local establishments</p>
-            </div>
+        <div class="hero-image">
+            <img src="./images/mascot.svg" alt="Cute chef mascot with chef's hat">
         </div>
-    </section>
+    </main>
 
-    <main class="container">
-        <section class="authorities">
-            <h2>Local Authorities</h2>
-            <p>Select a local authority to view ratings in that area:</p>
-            <div>
-                ${renderLocalAuthorities(localAuthorities)}
-            </div>
-        </section>
-
+    <section class="container">
         <section class="contribute">
             <h2>Open Source Project</h2>
             <p>This is an open source project that aims to make food hygiene data more accessible.</p>
@@ -296,7 +180,7 @@ export const outputHomepage = async (localAuthorities: Authorities) => {
                 <a href="https://github.com/food-hygiene-ratings-uk/food-hygiene-rating-scheme/contribute" class="cta-button">Contribute</a>
             </div>
         </section>
-    </main>
+    </section>
 
     <footer>
         <div class="container">

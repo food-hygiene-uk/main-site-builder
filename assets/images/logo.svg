@@ -1,0 +1,33 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 300 60">
+  <!-- Background rectangle with rounded corners -->
+  <rect x="5" y="5" width="290" height="50" rx="8" 
+        fill="#1a5f7a" />
+  
+  <!-- Main text -->
+  <text x="150" y="30" 
+        text-anchor="middle" 
+        dominant-baseline="middle"
+        font-family="system-ui, sans-serif" 
+        font-size="22" 
+        font-weight="600" 
+        fill="white"
+        letter-spacing="1.2px"
+        style="text-rendering: geometricPrecision"
+        text-transform="uppercase">
+    Food Hygiene Ratings
+  </text>
+  
+  <!-- UK text slightly smaller below -->
+  <text x="150" y="45" 
+        text-anchor="middle" 
+        dominant-baseline="middle"
+        font-family="system-ui, sans-serif" 
+        font-size="14" 
+        font-weight="500"
+        fill="#8cd7f3"
+        letter-spacing="2px"
+        style="text-rendering: geometricPrecision"
+        text-transform="uppercase">
+    UK
+  </text>
+</svg>
