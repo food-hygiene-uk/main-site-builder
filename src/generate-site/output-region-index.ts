@@ -216,7 +216,8 @@ export const outputRegionIndex = async (localAuthorities: Authorities) => {
 
     <section class="container">
         <section class="authorities">
-            <h2>Local Authorities</h2>
+            <h2>Local Authorities of the United Kingdom</h2>
+            <p>View food hygiene ratings for local authorities in the UK.</p>
             <p>Select a local authority to view ratings in that area:</p>
             <div>
                 ${renderLocalAuthorities(localAuthorities)}

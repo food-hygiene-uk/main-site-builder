@@ -1,7 +1,6 @@
 import { join } from "@std/path";
-import { type Authorities } from "../ratings-api/types.ts";
 
-export const outputHomepage = async (localAuthorities: Authorities) => {
+export const outputHomepage = async () => {
   const html = `<!DOCTYPE html>
 <html lang="en">
 <head>
