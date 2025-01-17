@@ -40,7 +40,7 @@ export const outputHomepage = async () => {
             flex-direction: row;
             text-align: center;
             background: linear-gradient(180deg, #ffc2cb 0%, #fbe4e7 100%);
-            width: 100%;
+            max-width: 100%;
         }
 
         /* Media query for narrow screens */
