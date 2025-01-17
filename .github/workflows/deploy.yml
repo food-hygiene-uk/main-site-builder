@@ -3,7 +3,6 @@ name: Generate Ratings Site
 # Control concurrent executions
 concurrency:
   group: ${{ github.workflow }}-${{ github.ref }}
-  cancel-in-progress: true
 
 # Define trigger events
 on:
