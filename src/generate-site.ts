@@ -48,7 +48,7 @@ await generateSitemap();
 console.timeEnd("generateSitemap");
 
 console.time("outputHomepage");
-await outputHomepage(localAuthorities);
+await outputHomepage();
 console.timeEnd("outputHomepage");
 
 console.time("outputRegionIndex");

@@ -1,5 +1,12 @@
 import { join } from "@std/path";
 import { type Authorities } from "../ratings-api/types.ts";
+import { forgeRoot } from "../components/root/forge.ts";
+import { forgeHeader } from "../components/header/forge.ts";
+import { forgeFooter } from "../components/footer/forge.ts";
+
+const Root = forgeRoot();
+const Header = forgeHeader();
+const Footer = forgeFooter();
 
 // Map from api regions to ITL regions
 const regionMap = {
@@ -55,67 +62,9 @@ export const outputRegionIndex = async (localAuthorities: Authorities) => {
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Food Hygiene Ratings UK</title>
+    <title>Regions - Food Hygiene Ratings UK</title>
     <style>
-        :root {
-            /* Information and background colors */
-            --primary-blue: #2c4c6b;
-            --light-blue: #f5f7fa;
-            --teal: #3c7b8e;
-            --grey: #687789;
-            --light-grey: #eef2f6;
-            
-            /* Call to action colors */
-            --cta-orange: #e67e22;
-            --cta-hover: #d35400;
-        }
-        
-        body {
-            font-family: system-ui, -apple-system, sans-serif;
-            line-height: 1.6;
-            margin: 0;
-            padding: 0;
-            background-color: var(--light-blue);
-            color: var(--primary-blue);
-        }
-
-        header {
-            background-color: #f8f9fa;
-            padding: 1rem 2rem;
-            border-bottom: 1px solid #e0e0e0;
-        }
-
-        .navbar {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-        }
-
-        .logo img {
-            height: 50px;
-        }
-
-        .nav-links {
-            list-style: none;
-            display: flex;
-            gap: 1.5rem;
-        }
-
-        .nav-links li {
-            display: inline;
-        }
-
-        .nav-links a {
-            text-decoration: none;
-            color: #333;
-            font-weight: bold;
-        }
-
-        .container {
-            max-width: 1200px;
-            margin: 0 auto;
-            padding: 0 2rem;
-        }
+        ${Root.css}
 
         .authorities {
             background-color: white;
@@ -124,6 +73,13 @@ export const outputRegionIndex = async (localAuthorities: Authorities) => {
             padding: 3rem 1rem 4rem 1rem;
             border-radius: 8px;
             box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+        }
+
+        @media (max-width: 768px) {
+            .authorities {
+                margin-top: -2rem;
+                padding: 2rem 1rem 3rem 1rem;
+            }
         }
 
         .authorities h2 {
@@ -173,46 +129,12 @@ export const outputRegionIndex = async (localAuthorities: Authorities) => {
             background-color: white;
         }
 
-        footer {
-            background-color: var(--primary-blue);
-            color: var(--light-blue);
-            padding: 2rem 0;
-            text-align: center;
-            margin-top: 2rem;
-        }
-
-        footer a {
-            color: white;
-            text-decoration: none;
-            border-bottom: 1px solid rgba(255,255,255,0.3);
-            transition: border-color 0.3s;
-        }
-
-        footer a:hover {
-            border-color: white;
-        }
-
-        @media (max-width: 768px) {
-            .authorities {
-                margin-top: -2rem;
-                padding: 2rem 1rem 3rem 1rem;
-            }
-        }
+        ${Header.css}
+        ${Footer.css}
     </style>
 </head>
 <body>
-    <header class="container">
-        <nav class="navbar">
-            <div class="logo">
-                <img src="../images/logo.svg" alt="Site Logo">
-            </div>
-            <ul class="nav-links">
-                <li><a href="./about/">About</a></li>
-                <li><a href="./l/">Regions</a></li>
-                <li><a href="./search/">Search</a></li>
-            </ul>
-        </nav>
-    </header>
+    ${Header.html}
 
     <section class="container">
         <section class="authorities">
@@ -225,13 +147,7 @@ export const outputRegionIndex = async (localAuthorities: Authorities) => {
         </section>
     </section>
 
-    <footer>
-        <div class="container">
-            <p>Food Hygiene Ratings UK - Open Source Project</p>
-            <p>Data provided by local authorities across the UK</p>
-            <a href="https://github.com/food-hygiene-ratings-uk/food-hygiene-rating-scheme">GitHub Repository</a>
-        </div>
-    </footer>
+    ${Footer.html}
 </body>
 </html>`;
 

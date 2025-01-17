@@ -2,6 +2,14 @@ import { join } from "@std/path";
 import { dataSchema, type Establishment, ratingValue } from "./schema.ts";
 import scoreDescriptors from "./score-descriptors.json" with { type: "json" };
 import { slugify } from "./slugify.ts";
+import { getClassSuffix } from "../lib/template/template.ts";
+import { forgeRoot } from "../components/root/forge.ts";
+import { forgeHeader } from "../components/header/forge.ts";
+import { forgeFooter } from "../components/footer/forge.ts";
+
+const Root = forgeRoot();
+const Header = forgeHeader();
+const Footer = forgeFooter();
 
 type ScoreType = keyof typeof scoreDescriptors.scoreDescriptors;
 type Language = "en" | "cy";
@@ -125,6 +133,8 @@ export const outputEstablishments = async (filename: string) => {
   }
   const establishments = jsonData.FHRSEstablishment.EstablishmentCollection;
 
+  const classSuffix = getClassSuffix();
+
   // Generate HTML for each establishment and save to a file
   await Promise.all(establishments.map(async (establishment) => {
     const ratingImage = {
@@ -150,85 +160,80 @@ export const outputEstablishments = async (filename: string) => {
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>${establishment.BusinessName} - Food Hygiene Rating</title>
     <style>
-        body {
-            font-family: Arial, sans-serif;
-            background-color: #f4f4f4;
-            margin: 0;
-            padding: 0;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            min-height: 100vh;
-        }
+        ${Root.css}
 
-        .container {
-            max-width: 800px;
-            margin: 20px;
-            padding: 20px;
-            background-color: #fff;
-            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-            border-radius: 8px;
-        }
+        .content-${classSuffix} {
+            display: contents;
 
-        .establishment {
-            border-bottom: 1px solid #ccc;
-            padding-bottom: 20px;
-            margin-bottom: 20px;
-        }
+          .establishment {
+              border-bottom: 1px solid #ccc;
+              padding: 1rem;
+              margin: 20px 0;
+              box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+              border-radius: 8px;
+          }
 
-        h1 {
-            font-size: 2em;
-            color: #333;
-        }
+          h1 {
+              font-size: 2em;
+              color: #333;
+          }
 
-        p, address, td, th {
-            font-size: 1em;
-            color: #666;
-            line-height: 1.5;
-        }
+          p, address, td, th {
+              font-size: 1em;
+              color: #666;
+              line-height: 1.5;
+          }
 
-        a {
-            color: #1e90ff;
-            text-decoration: none;
-        }
+          a {
+              color: #1e90ff;
+              text-decoration: none;
+          }
 
-        a:hover {
-            text-decoration: underline;
-        }
+          a:hover {
+              text-decoration: underline;
+          }
 
-        img.rating-image {
-            width: 100%;
-            max-width: 400px;
-            height: auto;
-            display: block;
-            margin: 10px auto;
-        }
+          img.rating-image {
+              width: 100%;
+              max-width: 400px;
+              height: auto;
+              display: block;
+              margin: 10px auto;
+          }
 
-        table {
-            width: 100%;
-            border-collapse: collapse;
-            margin-top: 1em;
-        }
+          table {
+              width: 100%;
+              border-collapse: collapse;
+              margin-top: 1em;
+          }
 
-        th, td {
-            border: 1px solid #ddd;
-            padding: 0.5em;
-            text-align: left;
-        }
+          th, td {
+              border: 1px solid #ddd;
+              padding: 0.5em;
+              text-align: left;
+          }
+        }  
+
+        ${Header.css}
+        ${Footer.css}
     </style>
   </head>
   <body>
-    <div class="container">
-      <article class="establishment" itemscope itemtype="https://schema.org/FoodEstablishment" data-establishment-id="${establishment.FHRSID}">
-        <h1 itemprop="name">${establishment.BusinessName}</h1>
-        <img src="${ratingImage.url}" alt="${ratingImage.alt}" class="rating-image" itemprop="image">
-        ${renderAddress(establishment)}
-        <p>Business Type: <span itemprop="servesCuisine">${establishment.BusinessType}</span></p>
-        <p>Rating: ${establishment.RatingValue}</p>
-        ${renderRatingDate(establishment.RatingDate)}
-        ${renderScores(establishment.Scores)}
-      </article>
+    ${Header.html}
+    <div class="content-${classSuffix}">
+      <div class="container">
+        <article class="establishment" itemscope itemtype="https://schema.org/FoodEstablishment" data-establishment-id="${establishment.FHRSID}">
+          <h1 class="name" itemprop="name">${establishment.BusinessName}</h1>
+          <img src="${ratingImage.url}" alt="${ratingImage.alt}" class="rating-image" itemprop="image">
+          ${renderAddress(establishment)}
+          <p>Business Type: <span itemprop="servesCuisine">${establishment.BusinessType}</span></p>
+          <p>Rating: ${establishment.RatingValue}</p>
+          ${renderRatingDate(establishment.RatingDate)}
+          ${renderScores(establishment.Scores)}
+        </article>
+      </div>
     </div>
+    ${Footer.html}
   </body>
 </html>
 `;
