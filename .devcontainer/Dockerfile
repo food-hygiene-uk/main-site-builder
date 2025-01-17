@@ -1,4 +1,4 @@
-FROM denoland/deno:bin-2.1.5 AS deno
+FROM denoland/deno:bin-2.1.6 AS deno
 FROM mcr.microsoft.com/devcontainers/typescript-node:20
 
 # Install Git and related tools
