@@ -76,19 +76,22 @@ const renderAddress = (establishment: Establishment): string => {
       <a href="${locationLink}" target="_blank" rel="noopener noreferrer">View on Map</a>`;
 };
 
-const renderMap = (establishment: Establishment): string => {
-  return `<iframe 
-    src="https://www.openstreetmap.org/export/embed.html?bbox=-0.438755750656128%2C53.7223738716068%2C-0.43555855751037603%2C53.72388631148097&amp;layer=mapnik" 
-    style="border: 1px solid black">
-  </iframe><br/><small><a href="https://www.openstreetmap.org/#map=19/53.723130/-0.437157">View Larger Map</a></small>`;
-}
+// const renderMap = (establishment: Establishment): string => {
+//   return `<iframe 
+//     src="https://www.openstreetmap.org/export/embed.html?bbox=-0.438755750656128%2C53.7223738716068%2C-0.43555855751037603%2C53.72388631148097&amp;layer=mapnik" 
+//     style="border: 1px solid black">
+//   </iframe><br/><small><a href="https://www.openstreetmap.org/#map=19/53.723130/-0.437157">View Larger Map</a></small>`;
+// };
 
 const renderRatingDate = (ratingDate: string | null): string => {
   if (ratingDate === null) return "";
 
   const date = new Date(ratingDate);
-  const options = { year: 'numeric', month: "long", day: "numeric" } as const;
-  const formattedDate = date.toLocaleDateString('en-GB', options).replace(/(\d{2}) (\w{3}) (\d{4})/, '$1 $2 $3');
+  const options = { year: "numeric", month: "long", day: "numeric" } as const;
+  const formattedDate = date.toLocaleDateString("en-GB", options).replace(
+    /(\d{2}) (\w{3}) (\d{4})/,
+    "$1 $2 $3",
+  );
 
   return `
   <h2>Rating Date</h2>
@@ -152,14 +155,14 @@ const renderScores = (scores: Establishment["Scores"]): string => {
         </thead>
         <tbody>
         ${
-      scoreData.map((score) => `
+    scoreData.map((score) => `
           <tr>
             <td class="title">${score.title}</td>
             <td class="score">${score.value}</td>
             <td>${score.description}</td>
           </tr>
         `).join("")
-        }
+  }
         </tbody>
       </table>
       `;
@@ -188,11 +191,11 @@ export const outputEstablishments = async (filename: string) => {
       establishment.RatingValue as
         & keyof typeof ratingValue.FHRS
         & keyof typeof ratingValue.FHIS
-    ]
+    ];
     const ratingText = ratingValueObj.text;
     const ratingDisplayText = !isNaN(Number(establishment.RatingValue))
-    ? `${establishment.RatingValue} out of 5. ${ratingText}`
-    : ratingText;
+      ? `${establishment.RatingValue} out of 5. ${ratingText}`
+      : ratingText;
 
     const ratingImage = {
       alt: `Food Hygiene Rating: ${ratingDisplayText}`,
@@ -307,7 +310,7 @@ export const outputEstablishments = async (filename: string) => {
           <div>${ratingDisplayText}</div>
           <img src="${ratingImage.url}" alt="${ratingImage.alt}" class="rating-image" itemprop="image">
           ${renderAddress(establishment)}
-          ${ /* renderMap(establishment) */ ""}
+          ${/* renderMap(establishment) */ ""}
           ${renderRatingDate(establishment.RatingDate)}
           ${renderScores(establishment.Scores)}
         </article>
