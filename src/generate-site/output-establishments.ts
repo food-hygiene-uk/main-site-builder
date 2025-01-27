@@ -77,8 +77,8 @@ const renderAddress = (establishment: Establishment): string => {
 };
 
 // const renderMap = (establishment: Establishment): string => {
-//   return `<iframe 
-//     src="https://www.openstreetmap.org/export/embed.html?bbox=-0.438755750656128%2C53.7223738716068%2C-0.43555855751037603%2C53.72388631148097&amp;layer=mapnik" 
+//   return `<iframe
+//     src="https://www.openstreetmap.org/export/embed.html?bbox=-0.438755750656128%2C53.7223738716068%2C-0.43555855751037603%2C53.72388631148097&amp;layer=mapnik"
 //     style="border: 1px solid black">
 //   </iframe><br/><small><a href="https://www.openstreetmap.org/#map=19/53.723130/-0.437157">View Larger Map</a></small>`;
 // };
