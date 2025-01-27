@@ -286,11 +286,15 @@ export const outputEstablishments = async (filename: string) => {
               vertical-align: top;
           }
 
-          .title {
-              white-space: nowrap;
-          }
+          .title,
           .score {
               white-space: nowrap;
+
+              @media screen and (max-width: 820px) { 
+                  & {
+                      white-space: normal;
+                  }
+              }
           }
         }  
 
