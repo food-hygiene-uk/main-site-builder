@@ -12,8 +12,8 @@ const Header = forgeHeader();
 const Footer = forgeFooter();
 
 type ScoreType = keyof typeof scoreDescriptors.scoreDescriptors;
-type Language = "en" | "cy";
 type ScoreKey = keyof typeof scoreDescriptors.scoreDescriptors[ScoreType];
+type Language = "en" | "cy";
 
 const scoreToText = (
   score: ScoreKey,
@@ -24,6 +24,19 @@ const scoreToText = (
   const descriptor = descriptors[score];
   if (descriptor) {
     return descriptor.description[language];
+  }
+  return "Unknown score";
+};
+
+const scoreToDescription = (
+  score: ScoreKey,
+  scoreType: ScoreType,
+  language: Language,
+): string => {
+  const descriptors = scoreDescriptors.scoreDescriptors[scoreType];
+  const descriptor = descriptors[score];
+  if (descriptor) {
+    return descriptor.detail[language] ?? descriptor.detail["en"];
   }
   return "Unknown score";
 };
@@ -56,20 +69,30 @@ const renderAddress = (establishment: Establishment): string => {
   ].filter(Boolean).join("<br>");
 
   return `
-      <p>
-        Address:
-        <address itemprop="address" itemscope itemtype="https://schema.org/PostalAddress">
-          ${addressLines || "No address information available"}
-        </address>
-        <a href="${locationLink}" target="_blank" rel="noopener noreferrer">View on Map</a>
-      </p>`;
+      <h2>Address</h2>
+      <address itemprop="address" itemscope itemtype="https://schema.org/PostalAddress">
+        ${addressLines || "No address information available"}
+      </address>
+      <a href="${locationLink}" target="_blank" rel="noopener noreferrer">View on Map</a>`;
 };
+
+const renderMap = (establishment: Establishment): string => {
+  return `<iframe 
+    src="https://www.openstreetmap.org/export/embed.html?bbox=-0.438755750656128%2C53.7223738716068%2C-0.43555855751037603%2C53.72388631148097&amp;layer=mapnik" 
+    style="border: 1px solid black">
+  </iframe><br/><small><a href="https://www.openstreetmap.org/#map=19/53.723130/-0.437157">View Larger Map</a></small>`;
+}
 
 const renderRatingDate = (ratingDate: string | null): string => {
   if (ratingDate === null) return "";
 
+  const date = new Date(ratingDate);
+  const options = { year: 'numeric', month: "long", day: "numeric" } as const;
+  const formattedDate = date.toLocaleDateString('en-GB', options).replace(/(\d{2}) (\w{3}) (\d{4})/, '$1 $2 $3');
+
   return `
-  <p>Rating Date: <time datetime="${ratingDate}" itemprop="fhrsRatingDate">${ratingDate}</time></p>
+  <h2>Rating Date</h2>
+  <time datetime="${ratingDate}" itemprop="fhrsRatingDate">${formattedDate}</time>
   `;
 };
 
@@ -80,6 +103,11 @@ const renderScores = (scores: Establishment["Scores"]): string => {
   const scoreData = [
     {
       title: "Hygiene",
+      description: scoreToDescription(
+        scores.Hygiene.toString() as ScoreKey,
+        "Hygiene",
+        "en",
+      ),
       value: scoreToText(
         scores.Hygiene.toString() as ScoreKey,
         "Hygiene",
@@ -88,6 +116,11 @@ const renderScores = (scores: Establishment["Scores"]): string => {
     },
     {
       title: "Structural",
+      description: scoreToDescription(
+        scores.Hygiene.toString() as ScoreKey,
+        "Hygiene",
+        "en",
+      ),
       value: scoreToText(
         scores.Structural.toString() as ScoreKey,
         "Structural",
@@ -96,6 +129,11 @@ const renderScores = (scores: Establishment["Scores"]): string => {
     },
     {
       title: "Confidence in Management",
+      description: scoreToDescription(
+        scores.Hygiene.toString() as ScoreKey,
+        "Hygiene",
+        "en",
+      ),
       value: scoreToText(
         scores.ConfidenceInManagement.toString() as ScoreKey,
         "Confidence",
@@ -105,15 +143,24 @@ const renderScores = (scores: Establishment["Scores"]): string => {
   ];
 
   return `
-      <table>
+      <h2>Score parts</h2>
+      <table class="scores">
+        <thead>
+          <th>Category</th>
+          <th>Score</th>
+          <th>Description</th>
+        </thead>
+        <tbody>
         ${
-    scoreData.map((score) => `
-        <tr>
-          <th>${score.title}</th>
-          <td>${score.value}</td>
-        </tr>
+      scoreData.map((score) => `
+          <tr>
+            <td class="title">${score.title}</td>
+            <td class="score">${score.value}</td>
+            <td>${score.description}</td>
+          </tr>
         `).join("")
-  }
+        }
+        </tbody>
       </table>
       `;
 };
@@ -137,19 +184,19 @@ export const outputEstablishments = async (filename: string) => {
 
   // Generate HTML for each establishment and save to a file
   await Promise.all(establishments.map(async (establishment) => {
+    const ratingValueObj = ratingValue[establishment.SchemeType][
+      establishment.RatingValue as
+        & keyof typeof ratingValue.FHRS
+        & keyof typeof ratingValue.FHIS
+    ]
+    const ratingText = ratingValueObj.text;
+    const ratingDisplayText = !isNaN(Number(establishment.RatingValue))
+    ? `${establishment.RatingValue} out of 5. ${ratingText}`
+    : ratingText;
+
     const ratingImage = {
-      alt: !isNaN(Number(establishment.RatingValue))
-        ? `Food Hygiene Rating: ${establishment.RatingValue} out of 5`
-        : ratingValue[establishment.SchemeType][
-          establishment.RatingValue as
-            & keyof typeof ratingValue.FHRS
-            & keyof typeof ratingValue.FHIS
-        ].text,
-      url: ratingValue[establishment.SchemeType][
-        establishment.RatingValue as
-          & keyof typeof ratingValue.FHRS
-          & keyof typeof ratingValue.FHIS
-      ].image_en,
+      alt: `Food Hygiene Rating: ${ratingDisplayText}`,
+      url: ratingValueObj.image_en,
     };
 
     const html = `
@@ -178,10 +225,22 @@ export const outputEstablishments = async (filename: string) => {
               color: #333;
           }
 
+          h2 {
+              font-size: 1.2em;
+              color: #84be00;
+              margin: 1em 0 0 0;
+          }
+
+          h2::after {
+              content: ":";
+          }
+
+
           p, address, td, th {
               font-size: 1em;
               color: #666;
               line-height: 1.5;
+              font-style: normal;
           }
 
           a {
@@ -194,11 +253,10 @@ export const outputEstablishments = async (filename: string) => {
           }
 
           img.rating-image {
-              width: 100%;
               max-width: 400px;
               height: auto;
               display: block;
-              margin: 10px auto;
+              margin: 10px 0;
           }
 
           table {
@@ -207,10 +265,29 @@ export const outputEstablishments = async (filename: string) => {
               margin-top: 1em;
           }
 
+          th {
+              background-color: #1b5f7b;
+              color: #ffffff;
+              font-weight: bold;
+          }
+
+          .scores tbody tr:hover {
+            background-color: #f0f0f0;
+            color: #333;
+          }
+
           th, td {
               border: 1px solid #ddd;
               padding: 0.5em;
               text-align: left;
+              vertical-align: top;
+          }
+
+          .title {
+              white-space: nowrap;
+          }
+          .score {
+              white-space: nowrap;
           }
         }  
 
@@ -224,10 +301,13 @@ export const outputEstablishments = async (filename: string) => {
       <div class="container">
         <article class="establishment" itemscope itemtype="https://schema.org/FoodEstablishment" data-establishment-id="${establishment.FHRSID}">
           <h1 class="name" itemprop="name">${establishment.BusinessName}</h1>
+          <h2>Business Type</h2>
+          <div itemprop="servesCuisine">${establishment.BusinessType}</div>
+          <h2>Rating</h2>
+          <div>${ratingDisplayText}</div>
           <img src="${ratingImage.url}" alt="${ratingImage.alt}" class="rating-image" itemprop="image">
           ${renderAddress(establishment)}
-          <p>Business Type: <span itemprop="servesCuisine">${establishment.BusinessType}</span></p>
-          <p>Rating: ${establishment.RatingValue}</p>
+          ${ /* renderMap(establishment) */ ""}
           ${renderRatingDate(establishment.RatingDate)}
           ${renderScores(establishment.Scores)}
         </article>

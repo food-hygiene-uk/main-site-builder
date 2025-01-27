@@ -15,8 +15,6 @@ export const forgeFooter = () => {
                 text-align: center;
                 margin-top: 2rem;
 
-                overflow: hidden;
-
                 a {
                     color: white;
                     text-decoration: none;
@@ -31,7 +29,7 @@ export const forgeFooter = () => {
         }`;
 
   const html = `
-        <div class="component-footer-${classSuffix}">
+        <div class="component-footer-${classSuffix}" data-suffix="${classSuffix}">
             <footer>
                 <div class="container">
                     <p>Food Hygiene Ratings UK - Open Source Project</p>
