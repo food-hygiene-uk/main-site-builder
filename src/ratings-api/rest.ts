@@ -1,4 +1,8 @@
 import {
+  dataSchema,
+  type LocalAuthorityData,
+} from "../generate-site/schema.ts";
+import {
   type AuthoritiesResponse,
   authoritiesResponseSchema,
 } from "./types.ts";
@@ -32,5 +36,21 @@ export const authorities = async (): Promise<AuthoritiesResponse> => {
       fetchInit,
     ))
       .json(),
+  );
+};
+
+export const localAuthorityData = async (
+  url: string,
+): Promise<LocalAuthorityData> => {
+  // It appears the redirect handler is rate limited, but the data files are not.
+  // This skips the redirect handler and fetches the data directly.
+  // This may break if the redirect handler is repointed elsewhere.
+  const redirectedURL = url.replace(
+    /^https:\/\/ratings\.food\.gov\.uk\/OpenDataFiles\//,
+    "https://ratings.food.gov.uk/api/open-data-files/",
+  );
+
+  return dataSchema.parse(
+    await (await fetch(redirectedURL, fetchInit)).json(),
   );
 };

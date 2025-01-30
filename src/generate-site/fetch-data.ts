@@ -1,53 +1,38 @@
 import { join } from "@std/path";
 import { exists } from "@std/fs";
+import { Authorities } from "../ratings-api/types.ts";
+import * as api from "../ratings-api/rest.ts";
 
-const USE_CACHED_DATA = true;
-const RATINGS_URL = "https://ratings.food.gov.uk/";
-
-/**
- * Fetches the URLs of local authority data in JSON format.
- *
- * This function makes a request to the RATINGS_URL to retrieve the open data page,
- * parses the response to extract XML links, and then converts those links to JSON links.
- *
- * @returns {Promise<string[]>} A promise that resolves to an array of JSON URLs.
- *
- * @throws {Error} If there is an issue fetching the data.
- */
-export const fetchLocalAuthorityDataURLs = async (): Promise<string[]> => {
-  const response = await fetch(`${RATINGS_URL}open-data`);
-  const text = await response.text();
-  const xmlLinks = Array.from(
-    text.matchAll(/href="([^"]+\.xml)"/g),
-    (matches) => matches[1],
-  );
-  const jsonLinks = xmlLinks.map((link) =>
-    `${RATINGS_URL}${link.replace(".xml", ".json")}`
-  );
-
-  return jsonLinks;
-};
+const USE_CACHED_DATA = false;
 
 /**
- * Fetches local authority data from a list of URLs and saves the data to the local filesystem.
+ * Fetches data for a list of local authorities and saves it to JSON files.
  *
- * This function retrieves a list of URLs pointing to local authority data, fetches the data from each URL,
- * and saves it as a JSON file in the "build" directory. If the `USE_CACHED_DATA` flag is set to `true`,
- * the function will skip downloading and saving the data if the file already exists and is readable.
+ * @param {Authorities} localAuthorities - An array of local authority objects containing file information.
+ * @returns {Promise<string[]>} - A promise that resolves to an array of filenames where the data is saved.
  *
- * @returns {Promise<void>} A promise that resolves when all data has been fetched and saved.
+ * This function performs the following steps:
+ * 1. Iterates over the provided local authorities.
+ * 2. Converts the XML file URL to a JSON file URL.
+ * 3. Constructs the filename for saving the JSON data.
+ * 4. Checks if the file already exists and is readable, and skips fetching if the cached data is used.
+ * 5. Fetches the data from the URL and saves it as a JSON file.
  *
- * @throws {Error} If there is an issue fetching the data or writing the files.
+ * The function uses `Promise.all` to handle multiple asynchronous fetch operations concurrently.
  */
-export const fetchLocalAuthorityData = async (): Promise<string[]> => {
+export const fetchLocalAuthorityData = async (
+  localAuthorities: Authorities,
+): Promise<string[]> => {
   const localAuthorityDataFiles: string[] = [];
-  const localAuthorityDataURLs = await fetchLocalAuthorityDataURLs();
 
-  await Promise.all(localAuthorityDataURLs.map(async (dataURL) => {
-    const filename = join(
-      "build",
-      dataURL.split("/").pop() ?? "invalid-data-url.json",
-    );
+  await Promise.all(localAuthorities.map(async (localAuthority) => {
+    const dataURL = localAuthority.FileName.replace(/\.xml$/, ".json");
+
+    const match = dataURL.match(/\/([^/]*\.json)$/);
+    if (!match) {
+      throw new Error(`Invalid dataURL: ${dataURL}`);
+    }
+    const filename = join("build", match[1]);
 
     localAuthorityDataFiles.push(filename);
 
@@ -61,8 +46,7 @@ export const fetchLocalAuthorityData = async (): Promise<string[]> => {
       return;
     }
 
-    const response = await fetch(dataURL);
-    const jsonData = await response.json();
+    const jsonData = await api.localAuthorityData(dataURL);
     await Deno.writeTextFile(filename, JSON.stringify(jsonData, null, 2));
   }));
 

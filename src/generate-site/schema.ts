@@ -230,6 +230,8 @@ export const dataSchema = z.object({
   }),
 });
 
+export type LocalAuthorityData = z.infer<typeof dataSchema>;
+
 export type Establishment = z.infer<
   typeof dataSchema
 >["FHRSEstablishment"]["EstablishmentCollection"][number];
