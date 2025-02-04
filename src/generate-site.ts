@@ -21,7 +21,7 @@ await ensureDir("dist/sitemap");
 await copy("assets", "dist", { overwrite: true });
 
 const authoritiesResponse = await api.authorities();
-const apiAuthorities = [authoritiesResponse.authorities[0]];
+const apiAuthorities = authoritiesResponse.authorities;
 
 console.time("fetchLocalAuthorityData");
 const localAuthorities = await fetchLocalAuthorityData(apiAuthorities);
