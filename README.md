@@ -43,8 +43,8 @@ deno run --allow-sys --allow-net --allow-read --allow-write src/generate-site.ts
 The generated site will be available in the dist directory.
 
 > [!IMPORTANT]
-> Only the first local authority is processed when not in CI.
-> This will allow all the code to execute, but with lower resource usage.
+> Only the first local authority is processed when not in CI. This will allow
+> all the code to execute, but with lower resource usage.
 
 ## Project Structure
 
