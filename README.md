@@ -44,7 +44,7 @@ The generated site will be available in the dist directory.
 
 > [!IMPORTANT]
 > Only the first local authority is processed when not in CI.
-> This will allow all the code to execute with lower resource usage.
+> This will allow all the code to execute, but with lower resource usage.
 
 ## Project Structure
 
