@@ -1,39 +1,48 @@
 import { copy, emptyDir, ensureDir } from "@std/fs";
 import { mapConcurrent } from "./generate-site/max-concurrent.ts";
-import { outputEstablishments } from "./generate-site/output-establishments.ts";
+import { outputLocalAuthorityEstablishments } from "./generate-site/output-local-authority-establishments.ts";
 import { fetchLocalAuthorityData } from "./generate-site/fetch-data.ts";
 import { generateSitemap } from "./generate-site/output-sitemap.ts";
 import { outputHomepage } from "./generate-site/output-homepage.ts";
 import * as api from "./ratings-api/rest.ts";
 import { outputRegionIndex } from "./generate-site/output-region-index.ts";
+import { outputLocalAuthoritySitemap } from "./generate-site/output-local-authority-sitemap.ts";
+import { outputLocalAuthorityIndex } from "./generate-site/output-local-authority-index.ts";
+import { readLocalAuthorityData } from "./lib/local-authority/local-authority.ts";
 
 // Ensure build/dist directories exist
 await ensureDir("build");
+
 await emptyDir("dist");
 await ensureDir("dist/e");
 await ensureDir("dist/l");
+await ensureDir("dist/sitemap");
 
-// Copy images to the dist directory
-await copy("assets/images/", "dist/images/");
+await copy("assets", "dist", { overwrite: true });
 
 const authoritiesResponse = await api.authorities();
-const localAuthorities = authoritiesResponse.authorities;
+const apiAuthorities = [authoritiesResponse.authorities[0]];
 
 console.time("fetchLocalAuthorityData");
-const localAuthorityDataFiles = await fetchLocalAuthorityData(localAuthorities);
+const localAuthorities = await fetchLocalAuthorityData(apiAuthorities);
 console.timeEnd("fetchLocalAuthorityData");
 
 console.time("mapConcurrent");
-await mapConcurrent(localAuthorityDataFiles, 10, async (filename) => {
-  const timerName = `outputEstablishments-${filename}`;
+await mapConcurrent(localAuthorities, 10, async (localAuthority) => {
+  const name = localAuthority.Name;
+  const establishments = await readLocalAuthorityData(localAuthority);
+
+  const timerName = `outputLocalAuthority-${name}`;
   console.time(timerName);
-  await outputEstablishments(filename);
+  await outputLocalAuthorityEstablishments(localAuthority, establishments);
+  await outputLocalAuthorityIndex(localAuthority, establishments);
+  await outputLocalAuthoritySitemap(localAuthority, establishments);
   console.timeEnd(timerName);
 });
 console.timeEnd("mapConcurrent");
 
 console.time("generateSitemap");
-await generateSitemap();
+await generateSitemap(localAuthorities);
 console.timeEnd("generateSitemap");
 
 console.time("outputHomepage");

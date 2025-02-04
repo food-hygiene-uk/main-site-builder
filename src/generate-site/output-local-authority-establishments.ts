@@ -1,11 +1,12 @@
 import { join } from "@std/path";
-import { dataSchema, type Establishment, ratingValue } from "./schema.ts";
+import { type Establishment, ratingValue } from "./schema.ts";
 import scoreDescriptors from "./score-descriptors.json" with { type: "json" };
-import { slugify } from "./slugify.ts";
 import { getClassSuffix } from "../lib/template/template.ts";
 import { forgeRoot } from "../components/root/forge.ts";
 import { forgeHeader } from "../components/header/forge.ts";
 import { forgeFooter } from "../components/footer/forge.ts";
+import { EnrichedLocalAuthority } from "./schema-app.ts";
+import { getHtmlFilename } from "../lib/establishment/establishment.ts";
 
 const Root = forgeRoot();
 const Header = forgeHeader();
@@ -168,21 +169,22 @@ const renderScores = (scores: Establishment["Scores"]): string => {
       `;
 };
 
-export const outputEstablishments = async (filename: string) => {
-  console.log(`Processing ${filename}...`);
+const renderLocalAuthority = (
+  localAuthority: EnrichedLocalAuthority,
+): string => {
+  return `
+    <h2>Local Authority</h2>
+    <div itemprop="department" itemscope itemtype="https://schema.org/GovernmentOrganization">
+      <span itemprop="name">${localAuthority.Name}</span><br>
+      <a href="${localAuthority.Url}" itemprop="url">${localAuthority.Url}</a>
+    </div>
+  `;
+};
 
-  const module = await import(`../../${filename}`, {
-    with: { type: "json" },
-  });
-  let jsonData;
-  try {
-    jsonData = dataSchema.parse(module.default);
-  } catch (error) {
-    console.error("Error:", error);
-    throw new Error(`Failed to parse data from ${filename}`);
-  }
-  const establishments = jsonData.FHRSEstablishment.EstablishmentCollection;
-
+export const outputLocalAuthorityEstablishments = async (
+  localAuthority: EnrichedLocalAuthority,
+  establishments: Establishment[],
+) => {
   const classSuffix = getClassSuffix();
 
   // Generate HTML for each establishment and save to a file
@@ -317,6 +319,7 @@ export const outputEstablishments = async (filename: string) => {
           ${/* renderMap(establishment) */ ""}
           ${renderRatingDate(establishment.RatingDate)}
           ${renderScores(establishment.Scores)}
+          ${renderLocalAuthority(localAuthority)}
         </article>
       </div>
     </div>
@@ -325,8 +328,7 @@ export const outputEstablishments = async (filename: string) => {
 </html>
 `;
 
-    const sanitizedBusinessName = slugify(establishment.BusinessName);
-    const filename = `${sanitizedBusinessName}-${establishment.FHRSID}.html`;
-    await Deno.writeTextFile(join("dist", "e", filename), html);
+    const filename = getHtmlFilename(establishment);
+    await Deno.writeTextFile(join("dist", filename), html);
   }));
 };

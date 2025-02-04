@@ -1,7 +1,8 @@
-import { join } from "@std/path";
 import { exists } from "@std/fs";
-import { Authorities } from "../ratings-api/types.ts";
+import { type Authorities } from "../ratings-api/types.ts";
 import * as api from "../ratings-api/rest.ts";
+import { EnrichedLocalAuthorities } from "./schema-app.ts";
+import { getBuildFileName } from "../lib/local-authority/local-authority.ts";
 
 const USE_CACHED_DATA = false;
 
@@ -22,19 +23,10 @@ const USE_CACHED_DATA = false;
  */
 export const fetchLocalAuthorityData = async (
   localAuthorities: Authorities,
-): Promise<string[]> => {
-  const localAuthorityDataFiles: string[] = [];
-
-  await Promise.all(localAuthorities.map(async (localAuthority) => {
-    const dataURL = localAuthority.FileName.replace(/\.xml$/, ".json");
-
-    const match = dataURL.match(/\/([^/]*\.json)$/);
-    if (!match) {
-      throw new Error(`Invalid dataURL: ${dataURL}`);
-    }
-    const filename = join("build", match[1]);
-
-    localAuthorityDataFiles.push(filename);
+): Promise<EnrichedLocalAuthorities> => {
+  return await Promise.all(localAuthorities.map(async (localAuthority) => {
+    const jsonDataURL = localAuthority.FileName.replace(/\.xml$/, ".json");
+    const filename = getBuildFileName(localAuthority);
 
     if (
       USE_CACHED_DATA && await exists(filename, {
@@ -42,13 +34,14 @@ export const fetchLocalAuthorityData = async (
         isFile: true,
       })
     ) {
-      console.log(`Skipping ${filename} as it already exists.`);
-      return;
+      console.log(
+        `Skipping ${localAuthority.Name} - ${filename} already exists.`,
+      );
+    } else {
+      const jsonData = await api.localAuthorityData(jsonDataURL);
+      await Deno.writeTextFile(filename, JSON.stringify(jsonData, null, 2));
     }
 
-    const jsonData = await api.localAuthorityData(dataURL);
-    await Deno.writeTextFile(filename, JSON.stringify(jsonData, null, 2));
+    return { ...localAuthority, buildFileName: filename };
   }));
-
-  return localAuthorityDataFiles;
 };
