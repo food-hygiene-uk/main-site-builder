@@ -64,7 +64,7 @@ jobs:
 
       - name: Generate ratings site
         working-directory: ./repos/source
-        run: deno run --allow-read --allow-write --allow-net src/generate-site.ts
+        run: deno task build
 
       - name: Checkout GitHub Pages repository
         uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683 # v4.2.2

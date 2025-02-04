@@ -3,5 +3,15 @@
     "@std/fs": "jsr:@std/fs@^1.0.9",
     "@std/path": "jsr:@std/path@^1.0.8",
     "zod": "npm:zod@^3.24.1"
+  },
+  "tasks": {
+    "pre-commit": {
+      "description": "Updates and validadates the code as done in CI",
+      "command": "deno fmt && deno lint && deno check src/generate-site.ts"
+    },
+    "build": {
+      "description": "Builds the site",
+      "command": "deno run --allow-env=CI --allow-net=api.ratings.food.gov.uk:443,ratings.food.gov.uk:443 --allow-read=. --allow-write=./build,./dist src/generate-site.ts"
+    }
   }
 }

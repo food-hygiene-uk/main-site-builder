@@ -37,7 +37,7 @@ deno cache [generate-site.ts](http://_vscodecontentref_/1)
 
 ```bash
 # Generate the static site
-deno run --allow-sys --allow-net --allow-read --allow-write src/generate-site.ts
+deno task build
 ```
 
 The generated site will be available in the dist directory.
