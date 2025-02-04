@@ -21,7 +21,10 @@ await ensureDir("dist/sitemap");
 await copy("assets", "dist", { overwrite: true });
 
 const authoritiesResponse = await api.authorities();
-const apiAuthorities = authoritiesResponse.authorities;
+// Use all authorities in CI, otherwise just use the first one
+const apiAuthorities = Deno.env.get("CI")
+  ? authoritiesResponse.authorities
+  : [authoritiesResponse.authorities[0]];
 
 console.time("fetchLocalAuthorityData");
 const localAuthorities = await fetchLocalAuthorityData(apiAuthorities);
