@@ -1,10 +1,11 @@
+import { config } from "../lib/config/config.ts";
 import { EnrichedLocalAuthority } from "./schema-app.ts";
 
 // Function to generate sitemap
 export const generateSitemap = async (
   localAuthorities: EnrichedLocalAuthority[],
 ) => {
-  const baseUrl = "https://food-hygiene-ratings-uk.github.io";
+  const baseUrl = config.BASE_URL;
 
   const localAuthoritySitemaps = [];
   const localAuthorityIndexes = [];

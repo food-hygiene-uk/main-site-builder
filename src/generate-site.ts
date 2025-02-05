@@ -9,6 +9,7 @@ import { outputRegionIndex } from "./generate-site/output-region-index.ts";
 import { outputLocalAuthoritySitemap } from "./generate-site/output-local-authority-sitemap.ts";
 import { outputLocalAuthorityIndex } from "./generate-site/output-local-authority-index.ts";
 import { readLocalAuthorityData } from "./lib/local-authority/local-authority.ts";
+import { config } from "./lib/config/config.ts";
 
 // Ensure build/dist directories exist
 await ensureDir("build");
@@ -19,6 +20,26 @@ await ensureDir("dist/l");
 await ensureDir("dist/sitemap");
 
 await copy("assets", "dist", { overwrite: true });
+
+const baseURL = config.BASE_URL;
+
+// Update robots.txt to include BASE_URL
+const robotsTxtPath = "dist/robots.txt";
+let robotsTxtContent = await Deno.readTextFile(robotsTxtPath);
+robotsTxtContent = robotsTxtContent.replace(
+  /Sitemap: \//,
+  `Sitemap: ${baseURL}/`,
+);
+await Deno.writeTextFile(robotsTxtPath, robotsTxtContent);
+
+// Update sitemap.xml to include BASE_URL
+const sitemapXmlPath = "dist/sitemap.xml";
+let sitemapXmlContent = await Deno.readTextFile(sitemapXmlPath);
+sitemapXmlContent = sitemapXmlContent.replaceAll(
+  /<loc>\//g,
+  `<loc>${baseURL}/`,
+);
+await Deno.writeTextFile(sitemapXmlPath, sitemapXmlContent);
 
 const authoritiesResponse = await api.authorities();
 // Use all authorities in CI, otherwise just use the first one
