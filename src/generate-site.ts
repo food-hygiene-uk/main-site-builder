@@ -43,9 +43,14 @@ await Deno.writeTextFile(sitemapXmlPath, sitemapXmlContent);
 
 const authoritiesResponse = await api.authorities();
 // Use all authorities in CI, otherwise just use the first one
-const apiAuthorities = Deno.env.get("CI")
-  ? authoritiesResponse.authorities
-  : [authoritiesResponse.authorities[0]];
+const apiAuthorities = Deno.env.get("CI") ? authoritiesResponse.authorities : [
+  authoritiesResponse.authorities.find((authority) =>
+    authority.RegionName === "Scotland"
+  )!,
+  authoritiesResponse.authorities.find((authority) =>
+    authority.RegionName !== "Scotland"
+  )!,
+];
 
 console.time("fetchLocalAuthorityData");
 const localAuthorities = await fetchLocalAuthorityData(apiAuthorities);
