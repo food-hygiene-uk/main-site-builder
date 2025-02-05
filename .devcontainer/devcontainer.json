@@ -1,7 +1,10 @@
 {
   "name": "Deno Dev Container",
   "build": {
-    "dockerfile": "Dockerfile"
+    "dockerfile": "Dockerfile",
+    "options": [
+      "--build-arg=DENO_VERSION=2.1.9"
+    ]
   },
   "postCreateCommand": "deno cache src/generate-site.ts",
   "customizations": {

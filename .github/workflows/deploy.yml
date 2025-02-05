@@ -17,13 +17,33 @@ on:
 permissions:
   contents: write # Required for pushing to repository
 
-env:
-  DENO_VERSION: "v2.x"
-
 jobs:
+  command-outputs:
+    name: Set "outputs" from command execution
+    runs-on: ubuntu-latest
+    # Map a step output to a job output
+    outputs:
+      DENO_VERSION: ${{ steps.commands.outputs.DENO_VERSION }}
+    steps:
+      - name: Checkout
+        uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683 # v4.2.2
+        with:
+          sparse-checkout: |
+            .deno_version
+          sparse-checkout-cone-mode: false
+
+      - name: Commands
+        id: commands
+        run: |
+          echo "DENO_VERSION=$(cat .deno_version)" >> "$GITHUB_OUTPUT"
+
   build:
     runs-on: ubuntu-latest
     timeout-minutes: 30 # Prevent hanging jobs
+
+    needs: [command-outputs]
+    env:
+      DENO_VERSION: ${{ needs.command-outputs.outputs.DENO_VERSION }}
 
     steps:
       - name: Create GitHub App token
