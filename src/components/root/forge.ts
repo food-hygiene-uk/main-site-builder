@@ -86,7 +86,7 @@ export const forgeRoot = () => {
 
           document.documentElement.setAttribute("data-color-scheme", setting ?? prefers);
         }
-        const colorSchemeMLQ = globalThis?.matchMedia?.('(prefers-color-scheme:dark)')
+        const colorSchemeMQL = globalThis?.matchMedia?.('(prefers-color-scheme:dark)')
         colorSchemeMQL.addEventListener('change', function(e) { updateColorScheme(e);});
         updateColorScheme(colorSchemeMQL);
       }
