@@ -45,11 +45,10 @@ const scoreToDescription = (
 };
 
 const renderAddress = (establishment: Establishment): string => {
-
   return `
     <h2>Address</h2>
     ${address.render(establishment)}
-  `
+  `;
 };
 
 // const renderMap = (establishment: Establishment): string => {
