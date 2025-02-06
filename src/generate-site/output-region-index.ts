@@ -59,28 +59,14 @@ const renderLocalAuthorities = (localAuthorities: Authorities) => {
 export const outputRegionIndex = async (localAuthorities: Authorities) => {
   const html = `<!DOCTYPE html>
 <html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Regions - Food Hygiene Ratings UK</title>
-    <link rel="icon" href="/favicon.svg" type="image/svg+xml">
-    <style>
-        ${Root.css}
-
+${Root.renderHead({
+    title: "Regions",
+    pageCSS: `
         .authorities {
             background-color: white;
-            position: relative;
-            z-index: 2;
-            padding: 3rem 1rem 4rem 1rem;
+            padding: 1rem;
             border-radius: 8px;
             box-shadow: 0 2px 4px rgba(0,0,0,0.1);
-        }
-
-        @media (max-width: 768px) {
-            .authorities {
-                margin-top: -2rem;
-                padding: 2rem 1rem 3rem 1rem;
-            }
         }
 
         .authorities h2 {
@@ -128,12 +114,10 @@ export const outputRegionIndex = async (localAuthorities: Authorities) => {
             transform: translateY(-2px);
             border-color: var(--teal);
             background-color: white;
-        }
-
-        ${Header.css}
-        ${Footer.css}
-    </style>
-</head>
+        }`,
+    headerCSS: Header.css,
+    footerCSS: Footer.css,
+  })}
 <body>
     ${Header.html}
 

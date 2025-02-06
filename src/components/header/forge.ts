@@ -8,9 +8,9 @@ export const forgeHeader = () => {
             display: contents;
 
             header {
-                background-color: #f8f9fa;
+                background-color: var(--header-background-color);
                 padding: 1rem 2rem;
-                border-bottom: 1px solid #e0e0e0;
+                border-bottom: 1px solid var(--header-rule-color);
 
                 overflow: hidden;
             }
@@ -35,7 +35,7 @@ export const forgeHeader = () => {
 
                     a {
                         text-decoration: none;
-                        color: #333;
+                        color: var(--header-text-color);
                         font-weight: bold;
                     }
                 }

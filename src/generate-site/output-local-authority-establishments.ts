@@ -207,14 +207,9 @@ export const outputLocalAuthorityEstablishments = async (
     const html = `
 <!DOCTYPE html>
 <html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>${establishment.BusinessName} - Food Hygiene Rating</title>
-    <link rel="icon" href="/favicon.svg" type="image/svg+xml">
-    <style>
-        ${Root.css}
-
+${Root.renderHead({
+  title: establishment.BusinessName,
+  pageCSS: `
         .content-${classSuffix} {
             display: contents;
 
@@ -228,12 +223,11 @@ export const outputLocalAuthorityEstablishments = async (
 
           h1 {
               font-size: 2em;
-              color: #333;
+              border-bottom: 1px solid var(--hygiene-green);
           }
 
           h2 {
               font-size: 1.2em;
-              color: #84be00;
               margin: 1em 0 0 0;
           }
 
@@ -244,18 +238,7 @@ export const outputLocalAuthorityEstablishments = async (
 
           p, address, td, th {
               font-size: 1em;
-              color: #666;
               line-height: 1.5;
-              font-style: normal;
-          }
-
-          a {
-              color: #1e90ff;
-              text-decoration: none;
-          }
-
-          a:hover {
-              text-decoration: underline;
           }
 
           img.rating-image {
@@ -263,6 +246,8 @@ export const outputLocalAuthorityEstablishments = async (
               height: auto;
               display: block;
               margin: 10px 0;
+              box-shadow: white 0 0 0 1px;
+              border-radius: 9px;
           }
 
           table {
@@ -299,12 +284,11 @@ export const outputLocalAuthorityEstablishments = async (
                   }
               }
           }
-        }  
-
-        ${Header.css}
-        ${Footer.css}
-    </style>
-  </head>
+        }
+  `,
+  headerCSS: Header.css,
+  footerCSS: Footer.css,
+})}
   <body>
     ${Header.html}
     <div class="content-${classSuffix}">

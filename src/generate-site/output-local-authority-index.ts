@@ -36,27 +36,21 @@ export const outputLocalAuthorityIndex = async (
   const html = `
 <!DOCTYPE html>
 <html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>${localAuthority.Name} - Local Authority - Food Hygiene Rating</title>
-    <link rel="icon" href="/favicon.svg" type="image/svg+xml">
-    <style>
-        ${Root.css}
+${Root.renderHead({
+  title: `${localAuthority.Name} - Local Authority`,
+  pageCSS: `
+    .content-${classSuffix} {
+        display: contents;
 
-        .content-${classSuffix} {
-            display: contents;
-
-          h1 {
-              font-size: 2em;
-              color: #333;
-          }
-        }  
-
-        ${Header.css}
-        ${Footer.css}
-    </style>
-  </head>
+      h1 {
+          font-size: 2em;
+          color: #333;
+      }
+    }  
+  `,
+  headerCSS: Header.css,
+  footerCSS: Footer.css,
+})}
   <body>
     ${Header.html}
     <div class="content-${classSuffix}">

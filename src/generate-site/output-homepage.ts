@@ -10,89 +10,88 @@ const Footer = forgeFooter();
 export const outputHomepage = async () => {
   const html = `<!DOCTYPE html>
 <html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Food Hygiene Ratings UK</title>
-    <link rel="icon" href="/favicon.svg" type="image/svg+xml">
-    <style>
-        ${Root.css}
+${Root.renderHead({
+    title: undefined,
+    pageCSS: `
+    .hero-image {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+        opacity: 0.7;
+        max-width: 500px;
+    }
+    
+    .hero-image > img {
+        max-width: 300px;
+        max-height: 300px;
+        transform: translateY(-25px);
+    }
 
-        .hero-image {
-            width: 100%;
-            height: 100%;
-            object-fit: cover;
-            opacity: 0.7;
-            max-width: 500px;
-        }
-        
-        .hero-image > img {
-            max-width: 300px;
-            max-height: 300px;
-            transform: translateY(-25px);
-        }
+    .main-content {
+        display: flex;
+        justify-content: center;
+        margin-top: -6rem;
+        padding-top: 8rem;
+        padding-bottom: 5rem;
+        flex-direction: row;
+        text-align: center;
+        background: linear-gradient(180deg, #ffc2cb 0%, #fbe4e7 100%);
+        max-width: 100%;
 
-        .main-content {
-            display: flex;
-            justify-content: center;
-            margin-top: -6rem;
-            padding-top: 8rem;
-            padding-bottom: 1rem;
-            flex-direction: row;
-            text-align: center;
-            background: linear-gradient(180deg, #ffc2cb 0%, #fbe4e7 100%);
-            max-width: 100%;
-        }
-
-        /* Media query for narrow screens */
         @media screen and (max-width: 768px) { 
-            .main-content {
+            & {
                 flex-direction: column-reverse;
                 align-items: center;
             }
         }
+    }
 
-        .left-side {
-            text-align: left;
+    .left-side {
+        text-align: left;
+    }
+
+    .contribute {
+        background-color: white;
+        padding: 2rem 0;
+        margin-top: -3rem;
+        text-align: center;
+        border-radius: 8px;
+
+        @media screen and (max-width: 768px) { 
+            & {
+                padding: 1rem 0;
+            }
         }
+    }
 
-        .contribute {
-            background-color: white;
-            padding: 4rem 0;
-            margin-top: 2rem;
-            text-align: center;
-            border-radius: 8px;
-        }
+    .contribute h2 {
+        color: var(--primary-blue);
+    }
 
-        .contribute h2 {
-            color: var(--primary-blue);
-        }
+    .contribute p {
+        color: var(--grey);
+    }
 
-        .contribute p {
-            color: var(--grey);
-        }
+    .cta-button {
+        display: inline-block;
+        background-color: var(--cta-default);
+        color: white;
+        padding: 1rem 2rem;
+        text-decoration: none;
+        border-radius: 4px;
+        margin: 1rem;
+        transition: background-color 0.3s;
+        font-weight: 500;
+    }
 
-        .cta-button {
-            display: inline-block;
-            background-color: var(--cta-default);
-            color: white;
-            padding: 1rem 2rem;
-            text-decoration: none;
-            border-radius: 4px;
-            margin: 1rem;
-            transition: background-color 0.3s;
-            font-weight: 500;
-        }
-
-        .cta-button:hover {
-            transform: translateY(-1px);
-            box-shadow: 0 8px 15px rgba(0,0,0,.2);
-        }
-
-        ${Header.css}
-        ${Footer.css}
-    </style>
-</head>
+    .cta-button:hover {
+        transform: translateY(-1px);
+        box-shadow: 0 8px 15px rgba(0,0,0,.2);
+    }
+    `,
+    headerCSS: Header.css,
+    footerCSS: Footer.css,
+})}
 <body>
     ${Header.html}
 
