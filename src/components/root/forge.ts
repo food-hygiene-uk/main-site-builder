@@ -17,6 +17,8 @@ export const forgeRoot = () => {
               --header-background-color: #f8f9fa;
               --header-text-color: var(--text-color);
               --header-rule-color: #e0e0e0;
+              --background-highlight-color: #e5e8f1;
+              --text-highlight-color: var(--text-color);
             }
 
             @media (not (scripting: none)) or (prefers-color-scheme: dark) {
@@ -26,6 +28,8 @@ export const forgeRoot = () => {
                 --header-background-color: #1f2021;
                 --header-text-color: #dfdfdf;
                 --header-rule-color: #383838;
+                --background-highlight-color: var(--light-blue);
+                --text-highlight-color: var(--text-color);
               }
             } 
             
@@ -36,10 +40,6 @@ export const forgeRoot = () => {
               padding: 0;
               background-color: var(--body-background);
               color: var(--text-color);
-            }
-            
-            address {
-              font-style: normal;
             }
 
             a {

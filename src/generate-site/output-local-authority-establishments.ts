@@ -7,10 +7,12 @@ import { forgeHeader } from "../components/header/forge.ts";
 import { forgeFooter } from "../components/footer/forge.ts";
 import { EnrichedLocalAuthority } from "./schema-app.ts";
 import { getHtmlFilename } from "../lib/establishment/establishment.ts";
+import { Address } from "../components/address/forge.ts";
 
 const Root = forgeRoot();
 const Header = forgeHeader();
 const Footer = forgeFooter();
+const address = Address();
 
 type ScoreType = keyof typeof scoreDescriptors.scoreDescriptors;
 type ScoreKey = keyof typeof scoreDescriptors.scoreDescriptors[ScoreType];
@@ -43,38 +45,11 @@ const scoreToDescription = (
 };
 
 const renderAddress = (establishment: Establishment): string => {
-  if (establishment.Geocode === null) return "";
-
-  const businessName = encodeURIComponent(establishment.BusinessName);
-  const latitude = establishment.Geocode?.Latitude;
-  const longitude = establishment.Geocode?.Longitude;
-  const locationLink =
-    `https://geohack.toolforge.org/geohack.php?title=${businessName}&params=${latitude}_N_${longitude}_E_type:landmark_dim:20`;
-
-  const addressLines = [
-    establishment.AddressLine1
-      ? `<span>${establishment.AddressLine1}</span>`
-      : null,
-    establishment.AddressLine2
-      ? `<span>${establishment.AddressLine2}</span>`
-      : null,
-    establishment.AddressLine3
-      ? `<span>${establishment.AddressLine3}</span>`
-      : null,
-    establishment.AddressLine4
-      ? `<span>${establishment.AddressLine4}</span>`
-      : null,
-    establishment.PostCode
-      ? `<span itemprop="postalCode">${establishment.PostCode}</span>`
-      : null,
-  ].filter(Boolean).join("<br>");
 
   return `
-      <h2>Address</h2>
-      <address itemprop="address" itemscope itemtype="https://schema.org/PostalAddress">
-        ${addressLines || "No address information available"}
-      </address>
-      <a href="${locationLink}" target="_blank" rel="noopener noreferrer">View on Map</a>`;
+    <h2>Address</h2>
+    ${address.render(establishment)}
+  `
 };
 
 // const renderMap = (establishment: Establishment): string => {
@@ -286,6 +261,7 @@ ${
               }
           }
         }
+        ${address.css}
   `,
         headerCSS: Header.css,
         footerCSS: Footer.css,
