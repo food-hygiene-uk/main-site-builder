@@ -10,9 +10,10 @@ const Footer = forgeFooter();
 export const outputHomepage = async () => {
   const html = `<!DOCTYPE html>
 <html lang="en">
-${Root.renderHead({
-    title: undefined,
-    pageCSS: `
+${
+    Root.renderHead({
+      title: undefined,
+      pageCSS: `
     .hero-image {
         width: 100%;
         height: 100%;
@@ -89,9 +90,10 @@ ${Root.renderHead({
         box-shadow: 0 8px 15px rgba(0,0,0,.2);
     }
     `,
-    headerCSS: Header.css,
-    footerCSS: Footer.css,
-})}
+      headerCSS: Header.css,
+      footerCSS: Footer.css,
+    })
+  }
 <body>
     ${Header.html}
 

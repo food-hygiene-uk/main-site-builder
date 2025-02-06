@@ -59,9 +59,10 @@ const renderLocalAuthorities = (localAuthorities: Authorities) => {
 export const outputRegionIndex = async (localAuthorities: Authorities) => {
   const html = `<!DOCTYPE html>
 <html lang="en">
-${Root.renderHead({
-    title: "Regions",
-    pageCSS: `
+${
+    Root.renderHead({
+      title: "Regions",
+      pageCSS: `
         .authorities {
             background-color: white;
             padding: 1rem;
@@ -115,9 +116,10 @@ ${Root.renderHead({
             border-color: var(--teal);
             background-color: white;
         }`,
-    headerCSS: Header.css,
-    footerCSS: Footer.css,
-  })}
+      headerCSS: Header.css,
+      footerCSS: Footer.css,
+    })
+  }
 <body>
     ${Header.html}
 

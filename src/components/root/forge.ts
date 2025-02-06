@@ -59,9 +59,17 @@ export const forgeRoot = () => {
 
   const html = ``;
 
-  const renderHead = ({title, pageCSS, headerCSS, footerCSS}: {title: string | undefined, pageCSS: string, headerCSS: string, footerCSS: string}) => {
-
-    const fullTitle = [title, "Food Hygiene Ratings UK"].filter(Boolean).join(" - ");
+  const renderHead = (
+    { title, pageCSS, headerCSS, footerCSS }: {
+      title: string | undefined;
+      pageCSS: string;
+      headerCSS: string;
+      footerCSS: string;
+    },
+  ) => {
+    const fullTitle = [title, "Food Hygiene Ratings UK"].filter(Boolean).join(
+      " - ",
+    );
 
     return `
   <head>
@@ -90,7 +98,7 @@ export const forgeRoot = () => {
         ${footerCSS}
     </style>
   </head>
-    `
+    `;
   };
 
   return {

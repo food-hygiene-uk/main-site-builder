@@ -207,9 +207,10 @@ export const outputLocalAuthorityEstablishments = async (
     const html = `
 <!DOCTYPE html>
 <html lang="en">
-${Root.renderHead({
-  title: establishment.BusinessName,
-  pageCSS: `
+${
+      Root.renderHead({
+        title: establishment.BusinessName,
+        pageCSS: `
         .content-${classSuffix} {
             display: contents;
 
@@ -286,9 +287,10 @@ ${Root.renderHead({
           }
         }
   `,
-  headerCSS: Header.css,
-  footerCSS: Footer.css,
-})}
+        headerCSS: Header.css,
+        footerCSS: Footer.css,
+      })
+    }
   <body>
     ${Header.html}
     <div class="content-${classSuffix}">
