@@ -47,7 +47,9 @@ export const forgeHeader = () => {
             <header class="container">
                 <nav class="navbar-${classSuffix}">
                     <div class="logo-${classSuffix}">
-                        <img src="/images/logo.svg" alt="Site Logo">
+                        <a href="/">
+                            <img src="/images/logo.svg" alt="Site Logo">
+                        </a>
                     </div>
                     <ul class="nav-links-${classSuffix}">
                         <li><a href="/about/">About</a></li>
