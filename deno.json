@@ -13,5 +13,23 @@
       "description": "Builds the site",
       "command": "deno run --allow-env=CI --allow-net=api.ratings.food.gov.uk:443,ratings.food.gov.uk:443 --allow-read=. --allow-write=./build,./dist src/generate-site.ts"
     }
-  }
+  },
+  "fmt": {
+    "indentWidth": 2,
+    "lineWidth": 80,
+    "semiColons": true,
+    "proseWrap": "preserve",
+    "singleQuote": false,
+    "useTabs": false
+  },
+  "lint": {
+    "rules": {
+      "tags": [
+        "recommended"
+      ]
+    }
+  },
+  "exclude": [
+    "./assets/google3decab8acc23e179.html"
+  ]
 }
