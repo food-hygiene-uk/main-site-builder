@@ -34,7 +34,7 @@ export const forgeFooter = () => {
                 <div class="container">
                     <p>Food Hygiene Ratings UK - Open Source Project</p>
                     <p>Data provided by local authorities across the UK</p>
-                    <a href="https://github.com/food-hygiene-ratings-uk/food-hygiene-rating-scheme">GitHub Repository</a>
+                    <a href="https://github.com/food-hygiene-uk/main-site-builder">GitHub Repository</a>
                 </div>
             </footer>
         </div>`;

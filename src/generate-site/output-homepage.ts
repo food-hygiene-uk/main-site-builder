@@ -115,8 +115,8 @@ ${
             <p>This is an open source project that aims to make food hygiene data more accessible.</p>
             <p>Help us improve by contributing to the project:</p>
             <div>
-                <a href="https://github.com/food-hygiene-ratings-uk/food-hygiene-rating-scheme" class="cta-button">View on GitHub</a>
-                <a href="https://github.com/food-hygiene-ratings-uk/food-hygiene-rating-scheme/contribute" class="cta-button">Contribute</a>
+                <a href="https://github.com/food-hygiene-uk/main-site-builder" class="cta-button">View on GitHub</a>
+                <a href="https://github.com/food-hygiene-uk/main-site-builder/contribute" class="cta-button">Contribute</a>
             </div>
         </section>
     </section>

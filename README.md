@@ -22,8 +22,8 @@ Scheme (FHRS) API data.
 
 ```bash
 # Clone the repository
-git clone https://github.com/nosilleg/food-hygiene-rating-scheme.git
-cd food-hygiene-rating-scheme
+git clone https://github.com/food-hygiene-uk/main-site-builder.git
+cd main-site-builder
 
 # Using Dev Container (recommended)
 code .
