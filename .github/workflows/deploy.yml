@@ -113,7 +113,7 @@ jobs:
         run: |
           git remote set-url origin https://x-access-token:${GITHUB_TOKEN}@github.com/food-hygiene-uk/food-hygiene-uk.github.io.git
 
-          if ! git diff --quiet; then
+          if ! git diff --quiet || ! git ls-files --others --exclude-standard --quiet; then
             git add .
             git commit -m "Update site"
             git push origin HEAD:${{ github.ref_name }} || { echo "Failed to push changes"; exit 1; }
