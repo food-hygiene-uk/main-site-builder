@@ -6,7 +6,8 @@ import { forgeHeader } from "../components/header/forge.ts";
 import { forgeFooter } from "../components/footer/forge.ts";
 import { Address } from "../components/address/forge.ts";
 import { EnrichedLocalAuthority } from "./schema-app.ts";
-import { getHtmlFilename } from "../lib/establishment/establishment.ts";
+import { getLinkURL } from "../lib/establishment/establishment.ts";
+import { getCanonicalLinkURL } from "../lib/authority/authority.mts";
 
 const Root = forgeRoot();
 const Header = forgeHeader();
@@ -21,7 +22,7 @@ const renderEstablishments = (establishments: Establishment[]) => {
       <div class="establishment" data-establishment-id="${establishment.FHRSID}">
         <h3>${establishment.BusinessName}</h3>
         ${address.render(establishment)}
-        <a href="${getHtmlFilename(establishment)}" class="details-link">
+        <a href="${getLinkURL(establishment)}" class="details-link">
           More
         </a>
       </div>
@@ -42,6 +43,7 @@ export const outputLocalAuthorityIndex = async (
 <html lang="en">
 ${
     Root.renderHead({
+      canonical: getCanonicalLinkURL(localAuthority),
       title: `${localAuthority.Name} - Local Authority`,
       pageCSS: `
     .content-${classSuffix} {

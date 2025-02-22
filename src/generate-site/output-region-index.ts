@@ -3,6 +3,7 @@ import { type Authorities } from "../ratings-api/types.ts";
 import { forgeRoot } from "../components/root/forge.ts";
 import { forgeHeader } from "../components/header/forge.ts";
 import { forgeFooter } from "../components/footer/forge.ts";
+import { getLinkURL } from "../lib/authority/authority.mts";
 
 const Root = forgeRoot();
 const Header = forgeHeader();
@@ -39,9 +40,9 @@ const renderLocalAuthorities = (localAuthorities: Authorities) => {
     const authorities = groupedByRegion[region] || [];
     +authorities.sort((a, b) => a.Name.localeCompare(b.Name));
     const authorityLinks = authorities.map((authority) => {
-      const authoritySlug = authority.Name.replace(/ /g, "-").toLowerCase();
+      const authorityURL = getLinkURL(authority);
       return `
-          <a href="/l/${authoritySlug}" class="authority-link">
+          <a href="${authorityURL}" class="authority-link">
             ${authority.Name}
           </a>`;
     }).join("");
@@ -61,6 +62,7 @@ export const outputRegionIndex = async (localAuthorities: Authorities) => {
 <html lang="en">
 ${
     Root.renderHead({
+      canonical: "/l/",
       title: "Regions",
       pageCSS: `
         .authorities {

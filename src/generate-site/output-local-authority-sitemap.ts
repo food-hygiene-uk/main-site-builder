@@ -1,5 +1,6 @@
+import { getLinkName } from "../lib/authority/authority.mts";
 import { config } from "../lib/config/config.ts";
-import { getHtmlFilename } from "../lib/establishment/establishment.ts";
+import { getCanonicalLinkURL } from "../lib/establishment/establishment.ts";
 import { EnrichedLocalAuthority } from "./schema-app.ts";
 import { Establishment } from "./schema.ts";
 
@@ -15,13 +16,13 @@ export const outputLocalAuthoritySitemap = async (
 
   for (const establishment of establishments) {
     sitemap += `  <url>\n    <loc>${baseUrl}${
-      getHtmlFilename(establishment)
+      getCanonicalLinkURL(establishment)
     }</loc>\n  </url>\n`;
   }
 
   sitemap += `</urlset>`;
   await Deno.writeTextFile(
-    `dist/sitemap/l-${localAuthority.FriendlyName}.xml`,
+    `dist/sitemap/l-${getLinkName(localAuthority)}.xml`,
     sitemap,
   );
   console.log("Sitemap generated successfully!");

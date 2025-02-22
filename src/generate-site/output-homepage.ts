@@ -2,6 +2,7 @@ import { join } from "@std/path";
 import { forgeRoot } from "../components/root/forge.ts";
 import { forgeHeader } from "../components/header/forge.ts";
 import { forgeFooter } from "../components/footer/forge.ts";
+import { config } from "../lib/config/config.ts";
 
 const Root = forgeRoot();
 const Header = forgeHeader();
@@ -12,6 +13,7 @@ export const outputHomepage = async () => {
 <html lang="en">
 ${
     Root.renderHead({
+      canonical: `${config.BASE_URL}/`,
       title: undefined,
       pageCSS: `
     .hero-image {

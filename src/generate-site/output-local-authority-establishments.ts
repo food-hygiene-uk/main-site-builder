@@ -6,7 +6,10 @@ import { forgeRoot } from "../components/root/forge.ts";
 import { forgeHeader } from "../components/header/forge.ts";
 import { forgeFooter } from "../components/footer/forge.ts";
 import { EnrichedLocalAuthority } from "./schema-app.ts";
-import { getHtmlFilename } from "../lib/establishment/establishment.ts";
+import {
+  getCanonicalLinkURL,
+  getHtmlFilename,
+} from "../lib/establishment/establishment.ts";
 import { Address } from "../components/address/forge.ts";
 
 const Root = forgeRoot();
@@ -183,6 +186,7 @@ export const outputLocalAuthorityEstablishments = async (
 <html lang="en">
 ${
       Root.renderHead({
+        canonical: getCanonicalLinkURL(establishment),
         title: establishment.BusinessName,
         pageCSS: `
         .content-${classSuffix} {

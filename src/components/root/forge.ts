@@ -60,7 +60,8 @@ export const forgeRoot = () => {
   const html = ``;
 
   const renderHead = (
-    { title, pageCSS, headerCSS, footerCSS }: {
+    { canonical, title, pageCSS, headerCSS, footerCSS }: {
+      canonical: string;
       title: string | undefined;
       pageCSS: string;
       headerCSS: string;
@@ -77,6 +78,7 @@ export const forgeRoot = () => {
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>${fullTitle}</title>
     <link rel="icon" href="/favicon.svg" type="image/svg+xml">
+    <link rel="canonical" href="${canonical}" />
     <script>
       "use strict";
       {

@@ -1,3 +1,4 @@
+import { getLinkName } from "../lib/authority/authority.mts";
 import { config } from "../lib/config/config.ts";
 import { EnrichedLocalAuthority } from "./schema-app.ts";
 
@@ -12,11 +13,15 @@ export const generateSitemap = async (
 
   for await (const localAuthority of localAuthorities) {
     localAuthoritySitemaps.push(
-      `  <sitemap>\n    <loc>${baseUrl}/sitemap/l-${localAuthority.FriendlyName}.xml</loc>\n  </sitemap>`,
+      `  <sitemap>\n    <loc>${baseUrl}/sitemap/l-${
+        getLinkName(localAuthority)
+      }.xml</loc>\n  </sitemap>`,
     );
 
     localAuthorityIndexes.push(
-      `  <url>\n    <loc>${baseUrl}/l/${localAuthority.FriendlyName}.html</loc>\n  </url>\n`,
+      `  <url>\n    <loc>${baseUrl}/l/${
+        getLinkName(localAuthority)
+      }.html</loc>\n  </url>\n`,
     );
   }
 
