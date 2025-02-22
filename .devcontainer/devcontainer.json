@@ -3,7 +3,7 @@
   "build": {
     "dockerfile": "Dockerfile",
     "options": [
-      "--build-arg=DENO_VERSION=2.1.9"
+      "--build-arg=DENO_VERSION=2.2.1"
     ]
   },
   "postCreateCommand": "deno cache src/generate-site.ts",
