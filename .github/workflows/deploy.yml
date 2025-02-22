@@ -77,7 +77,7 @@ jobs:
           deno-version: ${{ env.DENO_VERSION }}
 
       - name: Run Deno test
-        run: deno test
+        run: deno test ./repos/source/
 
       - name: Run Deno lint
         run: deno lint ./repos/source/

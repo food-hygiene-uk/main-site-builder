@@ -46,7 +46,7 @@ jobs:
           deno-version: ${{ env.DENO_VERSION }}
 
       - name: Run Deno test
-        run: deno test
+        run: deno test .
 
       - name: Run Deno lint
         run: deno lint .
