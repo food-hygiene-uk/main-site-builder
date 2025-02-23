@@ -8,7 +8,7 @@
   "tasks": {
     "pre-commit": {
       "description": "Updates and validadates the code as done in CI",
-      "command": "deno test && deno lint && deno fmt && deno check src/generate-site.ts"
+      "command": "deno install && deno test && deno lint && deno fmt && deno check src/generate-site.ts"
     },
     "build": {
       "description": "Builds the site",
