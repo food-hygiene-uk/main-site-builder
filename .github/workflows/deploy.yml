@@ -92,6 +92,10 @@ jobs:
         working-directory: ./repos/source
         run: deno fmt --check
 
+      - name: Run Deno check
+        working-directory: ./repos/source
+        run: deno check src/generate-site.ts
+
       - name: Generate ratings site
         working-directory: ./repos/source
         run: deno task build

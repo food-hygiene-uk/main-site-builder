@@ -56,3 +56,6 @@ jobs:
 
       - name: Run Deno fmt
         run: deno fmt --check .
+
+      - name: Run Deno check
+        run: deno check src/generate-site.ts
