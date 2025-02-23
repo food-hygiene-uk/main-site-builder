@@ -1,4 +1,7 @@
-import { getCanonicalLinkURL, getLinkName } from "../lib/authority/authority.mts";
+import {
+  getCanonicalLinkURL,
+  getLinkName,
+} from "../lib/authority/authority.mts";
 import { config } from "../lib/config/config.ts";
 import { EnrichedLocalAuthority } from "./schema-app.ts";
 
@@ -19,7 +22,9 @@ export const generateSitemap = async (
     );
 
     localAuthorityIndexes.push(
-      `  <url>\n    <loc>${getCanonicalLinkURL(localAuthority)}</loc>\n  </url>\n`,
+      `  <url>\n    <loc>${
+        getCanonicalLinkURL(localAuthority)
+      }</loc>\n  </url>\n`,
     );
   }
 
