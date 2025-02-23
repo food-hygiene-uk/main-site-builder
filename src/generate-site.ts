@@ -45,10 +45,17 @@ const authoritiesResponse = await api.authorities();
 // Use all authorities in CI, otherwise just use the first one
 const apiAuthorities = Deno.env.get("CI") ? authoritiesResponse.authorities : [
   authoritiesResponse.authorities.find((authority) =>
+    authority.RegionName === "Northern Ireland"
+  )!,
+  authoritiesResponse.authorities.find((authority) =>
     authority.RegionName === "Scotland"
   )!,
   authoritiesResponse.authorities.find((authority) =>
-    authority.RegionName !== "Scotland"
+    authority.RegionName === "Wales"
+  )!,
+  authoritiesResponse.authorities.find((authority) =>
+    ["Northern Ireland", "Scotland", "Wales"].includes(authority.RegionName) ===
+      false
   )!,
 ];
 

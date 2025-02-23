@@ -17,6 +17,10 @@ const address = Address();
 const renderEstablishments = (establishments: Establishment[]) => {
   return `
     <h2>Establishments</h2>
+      <form>
+        <label for="filter-input">Filter:</label>
+        <input type="search" id="filter-input" placeholder="type a name or address" />
+      </form>
       ${
     establishments.map((establishment) => `
       <div class="establishment" data-establishment-id="${establishment.FHRSID}">
@@ -60,11 +64,22 @@ ${
         margin-top: 0;
       }
 
+      label[for="filter-input"] {
+        display: block;
+        margin-bottom: 0.5rem;
+      }
+      #filter-input {
+        width: 100%;
+        padding: 0.5rem;
+        margin-bottom: 1rem;
+      }
+
       .establishment {
         padding: 1rem 0;
+        display: block;
 
-        &:last-child {
-          border-bottom: none;
+        &.hidden {
+          display: none;
         }
 
         /* Link the entire establishment to the details page */
@@ -108,6 +123,20 @@ ${
       hr {
         border: none;
         border-top: 1px solid var(--hygiene-green);
+
+        /* 
+          Hide by default
+         */
+        display: none;
+      }
+
+      /*
+        Only show the hr between two visible establishments
+        i.e. for establishments that are not hidden show the hr after it
+        but only if that hr has another establishment after it that is not hidden
+       */
+      .establishment:not(.hidden) ~ hr:has(+ .establishment:not(.hidden)) {
+        display: block;
       }
       
       ${address.css}
@@ -127,6 +156,34 @@ ${
         </article>
       </div>
     </div>
+    <script type="module">
+      const searchInput = document.querySelector(".content-${classSuffix} #filter-input");
+      searchInput.addEventListener('input', function(e) {
+        const searchTerm = e.target.value.toLowerCase();
+        // Use a regex to treat quoted substrings as single search terms,
+        // and to split unquoted parts on whitespace.
+        const regex = /"([^"]+)"|(\\S+)/g;
+        const searchTerms = [];
+        let match;
+        while ((match = regex.exec(searchTerm)) !== null) {
+          searchTerms.push((match[1] || match[2]).replace('"', ""));
+        }
+        
+        const establishments = document.querySelectorAll('.establishment');
+        establishments.forEach(establishment => {
+          const name = establishment.querySelector('h3')?.textContent.toLowerCase() || "";
+          const addressText = establishment.querySelector('address')?.textContent.toLowerCase() || "";
+          const matchesAll = searchTerms.every(term =>
+            name.includes(term) || addressText.includes(term)
+          );
+          if (matchesAll) {
+            establishment.classList.remove('hidden');
+          } else {
+            establishment.classList.add('hidden');
+          }
+        });
+      });
+    </script>
     ${Footer.html}
   </body>
 </html>
