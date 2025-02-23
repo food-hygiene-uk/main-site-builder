@@ -15,7 +15,7 @@ export const outputLocalAuthoritySitemap = async (
     `<?xml version="1.0" encoding="UTF-8"?>\n<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">\n`;
 
   for (const establishment of establishments) {
-    sitemap += `  <url>\n    <loc>${baseUrl}${
+    sitemap += `  <url>\n    <loc>${
       getCanonicalLinkURL(establishment)
     }</loc>\n  </url>\n`;
   }
