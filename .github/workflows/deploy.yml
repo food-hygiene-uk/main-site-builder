@@ -76,14 +76,21 @@ jobs:
         with:
           deno-version: ${{ env.DENO_VERSION }}
 
+      - name: Deno install
+        working-directory: ./repos/source
+        run: deno install
+
       - name: Run Deno test
-        run: deno test ./repos/source/
+        working-directory: ./repos/source
+        run: deno test
 
       - name: Run Deno lint
-        run: deno lint ./repos/source/
+        working-directory: ./repos/source
+        run: deno lint
 
       - name: Run Deno fmt
-        run: deno fmt --check ./repos/source/
+        working-directory: ./repos/source
+        run: deno fmt --check
 
       - name: Generate ratings site
         working-directory: ./repos/source

@@ -14,9 +14,8 @@ Scheme (FHRS) API data.
 
 ## Prerequisites
 
-- [Deno](https://deno.land/) v2.1 or higher
 - Git
-- Docker (optional, for development container)
+- Docker (for development container)
 
 ## Installation
 
