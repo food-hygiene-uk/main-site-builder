@@ -1,4 +1,4 @@
-import { join } from "@std/path";
+import { fromFileUrl, join } from "@std/path";
 import { type Establishment } from "./schema.ts";
 import { getClassSuffix } from "../lib/template/template.ts";
 import { forgeRoot } from "../components/root/forge.ts";
@@ -17,11 +17,12 @@ const address = Address();
 const renderEstablishments = (establishments: Establishment[]) => {
   return `
     <h2>Establishments</h2>
-      <form>
-        <label for="filter-input">Filter:</label>
-        <input type="search" id="filter-input" placeholder="type a name or address" />
-      </form>
-      ${
+    <form>
+      <label for="filter-input">Filter:</label>
+      <input type="search" id="filter-input" placeholder="type a name or address" />
+    </form>
+    <div class="establishments-container">
+    ${
     establishments.map((establishment) => `
       <div class="establishment" data-establishment-id="${establishment.FHRSID}">
         <h3>${establishment.BusinessName}</h3>
@@ -36,11 +37,19 @@ const renderEstablishments = (establishments: Establishment[]) => {
   `;
 };
 
+// Read the file using the absolute path
+const mjsPath = fromFileUrl(
+  await import.meta.resolve("./output-local-authority-index.mjs"),
+);
+const mjsContent = Deno.readTextFileSync(mjsPath);
+
 export const outputLocalAuthorityIndex = async (
   localAuthority: EnrichedLocalAuthority,
   establishments: Establishment[],
 ) => {
   const classSuffix = getClassSuffix();
+
+  const processedMjs = mjsContent.replace(/__CLASS_SUFFIX__/g, classSuffix);
 
   const html = `
 <!DOCTYPE html>
@@ -157,32 +166,7 @@ ${
       </div>
     </div>
     <script type="module">
-      const searchInput = document.querySelector(".content-${classSuffix} #filter-input");
-      searchInput.addEventListener('input', function(e) {
-        const searchTerm = e.target.value.toLowerCase();
-        // Use a regex to treat quoted substrings as single search terms,
-        // and to split unquoted parts on whitespace.
-        const regex = /"([^"]+)"|(\\S+)/g;
-        const searchTerms = [];
-        let match;
-        while ((match = regex.exec(searchTerm)) !== null) {
-          searchTerms.push((match[1] || match[2]).replace('"', ""));
-        }
-        
-        const establishments = document.querySelectorAll('.establishment');
-        establishments.forEach(establishment => {
-          const name = establishment.querySelector('h3')?.textContent.toLowerCase() || "";
-          const addressText = establishment.querySelector('address')?.textContent.toLowerCase() || "";
-          const matchesAll = searchTerms.every(term =>
-            name.includes(term) || addressText.includes(term)
-          );
-          if (matchesAll) {
-            establishment.classList.remove('hidden');
-          } else {
-            establishment.classList.add('hidden');
-          }
-        });
-      });
+      ${processedMjs}
     </script>
     ${Footer.html}
   </body>
