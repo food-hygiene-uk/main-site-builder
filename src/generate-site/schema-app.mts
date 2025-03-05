@@ -1,5 +1,5 @@
 import { z } from "zod";
-import { authoritiesResponseSchema } from "../ratings-api/types.ts";
+import { authoritiesResponseSchema } from "../ratings-api/types.mts";
 
 const enrichedLocalAuthority = z.object({
   ...authoritiesResponseSchema.shape.authorities.element.shape,

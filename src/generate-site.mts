@@ -1,15 +1,15 @@
 import { copy, emptyDir, ensureDir } from "@std/fs";
-import { mapConcurrent } from "./generate-site/max-concurrent.ts";
-import { outputLocalAuthorityEstablishments } from "./generate-site/output-local-authority-establishments.ts";
-import { fetchLocalAuthorityData } from "./generate-site/fetch-data.ts";
-import { generateSitemap } from "./generate-site/output-sitemap.ts";
-import { outputHomepage } from "./generate-site/output-homepage.ts";
-import * as api from "./ratings-api/rest.ts";
-import { outputRegionIndex } from "./generate-site/output-region-index.ts";
-import { outputLocalAuthoritySitemap } from "./generate-site/output-local-authority-sitemap.ts";
-import { outputLocalAuthorityIndex } from "./generate-site/output-local-authority-index.ts";
-import { readLocalAuthorityData } from "./lib/local-authority/local-authority.ts";
-import { config } from "./lib/config/config.ts";
+import { mapConcurrent } from "./generate-site/max-concurrent.mts";
+import { outputLocalAuthorityEstablishments } from "./generate-site/output-local-authority-establishments.mts";
+import { fetchLocalAuthorityData } from "./generate-site/fetch-data.mts";
+import { generateSitemap } from "./generate-site/output-sitemap.mts";
+import { outputHomepage } from "./generate-site/output-homepage.mts";
+import * as api from "./ratings-api/rest.mts";
+import { outputRegionIndex } from "./generate-site/output-region-index.mts";
+import { outputLocalAuthoritySitemap } from "./generate-site/output-local-authority-sitemap.mts";
+import { outputLocalAuthorityIndex } from "./generate-site/output-local-authority-index.mts";
+import { readLocalAuthorityData } from "./lib/local-authority/local-authority.mts";
+import { config } from "./lib/config/config.mts";
 
 // Ensure build/dist directories exist
 await ensureDir("build");

@@ -1,8 +1,8 @@
 import { join } from "@std/path";
-import { type Authorities } from "../ratings-api/types.ts";
-import { forgeRoot } from "../components/root/forge.ts";
-import { forgeHeader } from "../components/header/forge.ts";
-import { forgeFooter } from "../components/footer/forge.ts";
+import { type Authorities } from "../ratings-api/types.mts";
+import { forgeRoot } from "../components/root/forge.mts";
+import { forgeHeader } from "../components/header/forge.mts";
+import { forgeFooter } from "../components/footer/forge.mts";
 import { getLinkURL } from "../lib/authority/authority.mts";
 
 const Root = forgeRoot();

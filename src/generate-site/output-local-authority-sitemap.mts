@@ -1,7 +1,7 @@
 import { getLinkName } from "../lib/authority/authority.mts";
-import { getCanonicalLinkURL } from "../lib/establishment/establishment.ts";
-import { EnrichedLocalAuthority } from "./schema-app.ts";
-import { Establishment } from "./schema.ts";
+import { getCanonicalLinkURL } from "../lib/establishment/establishment.mts";
+import { EnrichedLocalAuthority } from "./schema-app.mts";
+import { Establishment } from "./schema.mts";
 
 // Function to generate sitemap
 export const outputLocalAuthoritySitemap = async (

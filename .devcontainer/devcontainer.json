@@ -6,7 +6,7 @@
       "--build-arg=DENO_VERSION=2.2.1"
     ]
   },
-  "postCreateCommand": "deno cache src/generate-site.ts",
+  "postCreateCommand": "deno cache src/generate-site.mts",
   "customizations": {
     "vscode": {
       "settings": {

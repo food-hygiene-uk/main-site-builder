@@ -1,5 +1,5 @@
-import { Establishment } from "../../generate-site/schema.ts";
-import { getClassSuffix } from "../../lib/template/template.ts";
+import { Establishment } from "../../generate-site/schema.mts";
+import { getClassSuffix } from "../../lib/template/template.mts";
 
 export const Address = () => {
   const classSuffix = getClassSuffix();

@@ -1,12 +1,12 @@
 import { fromFileUrl, join } from "@std/path";
-import { type Establishment } from "./schema.ts";
-import { getClassSuffix } from "../lib/template/template.ts";
-import { forgeRoot } from "../components/root/forge.ts";
-import { forgeHeader } from "../components/header/forge.ts";
-import { forgeFooter } from "../components/footer/forge.ts";
-import { Address } from "../components/address/forge.ts";
-import { EnrichedLocalAuthority } from "./schema-app.ts";
-import { getLinkURL } from "../lib/establishment/establishment.ts";
+import { type Establishment } from "./schema.mts";
+import { getClassSuffix } from "../lib/template/template.mts";
+import { forgeRoot } from "../components/root/forge.mts";
+import { forgeHeader } from "../components/header/forge.mts";
+import { forgeFooter } from "../components/footer/forge.mts";
+import { Address } from "../components/address/forge.mts";
+import { EnrichedLocalAuthority } from "./schema-app.mts";
+import { getLinkURL } from "../lib/establishment/establishment.mts";
 import { getCanonicalLinkURL } from "../lib/authority/authority.mts";
 
 const Root = forgeRoot();

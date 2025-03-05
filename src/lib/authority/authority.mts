@@ -1,5 +1,5 @@
-import { Authority } from "../../ratings-api/types.ts";
-import { config } from "../config/config.ts";
+import { Authority } from "../../ratings-api/types.mts";
+import { config } from "../config/config.mts";
 import { encodeName } from "../file/file.mts";
 
 export const getHtmlFilename = (authority: Authority) => {

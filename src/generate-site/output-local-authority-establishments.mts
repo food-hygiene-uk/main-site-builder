@@ -1,16 +1,16 @@
 import { join } from "@std/path";
-import { type Establishment, ratingValue } from "./schema.ts";
+import { type Establishment, ratingValue } from "./schema.mts";
 import scoreDescriptors from "./score-descriptors.json" with { type: "json" };
-import { getClassSuffix } from "../lib/template/template.ts";
-import { forgeRoot } from "../components/root/forge.ts";
-import { forgeHeader } from "../components/header/forge.ts";
-import { forgeFooter } from "../components/footer/forge.ts";
-import { EnrichedLocalAuthority } from "./schema-app.ts";
+import { getClassSuffix } from "../lib/template/template.mts";
+import { forgeRoot } from "../components/root/forge.mts";
+import { forgeHeader } from "../components/header/forge.mts";
+import { forgeFooter } from "../components/footer/forge.mts";
+import { EnrichedLocalAuthority } from "./schema-app.mts";
 import {
   getCanonicalLinkURL,
   getHtmlFilename,
-} from "../lib/establishment/establishment.ts";
-import { Address } from "../components/address/forge.ts";
+} from "../lib/establishment/establishment.mts";
+import { Address } from "../components/address/forge.mts";
 
 const Root = forgeRoot();
 const Header = forgeHeader();

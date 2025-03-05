@@ -1,4 +1,4 @@
-import { getClassSuffix } from "../../lib/template/template.ts";
+import { getClassSuffix } from "../../lib/template/template.mts";
 
 export const forgeHeader = () => {
   const classSuffix = getClassSuffix();

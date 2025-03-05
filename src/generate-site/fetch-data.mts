@@ -1,8 +1,8 @@
 import { exists } from "@std/fs";
-import { type Authorities } from "../ratings-api/types.ts";
-import * as api from "../ratings-api/rest.ts";
-import { EnrichedLocalAuthorities } from "./schema-app.ts";
-import { getBuildFileName } from "../lib/local-authority/local-authority.ts";
+import { type Authorities } from "../ratings-api/types.mts";
+import * as api from "../ratings-api/rest.mts";
+import { EnrichedLocalAuthorities } from "./schema-app.mts";
+import { getBuildFileName } from "../lib/local-authority/local-authority.mts";
 
 const USE_CACHED_DATA = false;
 

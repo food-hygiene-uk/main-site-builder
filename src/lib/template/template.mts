@@ -6,7 +6,7 @@ const getCallerFilenameHash = (): string => {
   const callerLine = stack[3]; // 0: Error, 1: getCallerFilenameHash, 2: getClassSuffix, 3: caller
 
   // Extract filename from the caller line (format may vary)
-  const filenameMatch = callerLine.match(/\/([^/]+)\.ts/);
+  const filenameMatch = callerLine.match(/\/([^/]+)\.mts/);
   if (filenameMatch && filenameMatch[1]) {
     const filename = filenameMatch[1];
 

@@ -1,7 +1,7 @@
-import { type Establishment } from "../../generate-site/schema.ts";
-import { config } from "../config/config.ts";
+import { type Establishment } from "../../generate-site/schema.mts";
+import { config } from "../config/config.mts";
 import { encodeName } from "../file/file.mts";
-import { slugify } from "../../generate-site/slugify.ts";
+import { slugify } from "../../generate-site/slugify.mts";
 
 export const getHtmlFilename = (establishment: Establishment) => {
   return `${getLinkURL(establishment)}.html`;

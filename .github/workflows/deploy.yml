@@ -94,7 +94,7 @@ jobs:
 
       - name: Run Deno check
         working-directory: ./repos/source
-        run: deno check src/generate-site.ts
+        run: deno check src/generate-site.mts
 
       - name: Generate ratings site
         working-directory: ./repos/source

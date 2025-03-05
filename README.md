@@ -29,7 +29,7 @@ code .
 # Then "Reopen in Container" when prompted
 
 # Or run directly with Deno
-deno cache [generate-site.ts](http://_vscodecontentref_/1)
+deno cache [generate-site.mts](http://_vscodecontentref_/1)
 ```
 
 ## Usage
@@ -50,7 +50,7 @@ The generated site will be available in the dist directory.
 ```
 ├── src/                   # Source code
 │   ├── generate-site/     # Site generation modules
-│   └── generate-site.ts   # Main entry point
+│   └── generate-site.mts  # Main entry point
 ├── assets/                # Static assets
 │   └── images/            # Rating images
 ├── dist/                  # Generated static site
@@ -64,7 +64,7 @@ The generated site will be available in the dist directory.
 deno test
 
 # Check types
-deno check src/generate-site.ts
+deno check src/generate-site.mts
 
 # Format code
 deno fmt

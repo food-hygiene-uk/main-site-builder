@@ -1,11 +1,11 @@
 import {
   dataSchema,
   type LocalAuthorityData,
-} from "../generate-site/schema.ts";
+} from "../generate-site/schema.mts";
 import {
   type AuthoritiesResponse,
   authoritiesResponseSchema,
-} from "./types.ts";
+} from "./types.mts";
 
 const fetchInit = {
   "headers": {

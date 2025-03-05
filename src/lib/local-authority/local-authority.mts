@@ -1,7 +1,7 @@
 import { join } from "@std/path";
-import { type EnrichedLocalAuthority } from "../../generate-site/schema-app.ts";
-import { dataSchema } from "../../generate-site/schema.ts";
-import { type Authority } from "../../ratings-api/types.ts";
+import { type EnrichedLocalAuthority } from "../../generate-site/schema-app.mts";
+import { dataSchema } from "../../generate-site/schema.mts";
+import { type Authority } from "../../ratings-api/types.mts";
 
 export const getBuildFileName = (localAuthority: Authority) => {
   const dataURL = localAuthority.FileName.replace(/\.xml$/, ".json");

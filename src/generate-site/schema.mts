@@ -1,6 +1,6 @@
 import { z } from "zod";
 import scoreDescriptors from "./score-descriptors.json" with { type: "json" };
-import { constructZodLiteralUnionType } from "./zod-helpers.ts";
+import { constructZodLiteralUnionType } from "./zod-helpers.mts";
 
 // Extract valid scores
 const validHygieneScores = Object.freeze(
