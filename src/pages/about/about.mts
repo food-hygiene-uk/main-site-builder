@@ -1,0 +1,117 @@
+import { fromFileUrl, join } from "@std/path";
+import { forgeRoot } from "../../components/root/forge.mts";
+import { forgeHeader } from "../../components/header/forge.mts";
+import { forgeFooter } from "../../components/footer/forge.mts";
+import { getClassSuffix } from "../../lib/template/template.mts";
+import { config } from "../../lib/config/config.mts";
+
+const Root = forgeRoot();
+const Header = forgeHeader();
+const Footer = forgeFooter();
+
+const cssPath = fromFileUrl(
+  import.meta.resolve("./styles.css"),
+);
+const cssContent = Deno.readTextFileSync(cssPath);
+
+export const outputAbout = async () => {
+  const classSuffix = getClassSuffix();
+
+  const processedCss = cssContent.replace(/__CLASS_SUFFIX__/g, classSuffix);
+
+  const pageCSS = processedCss;
+
+  const html = `
+<!DOCTYPE html>
+<html lang="en">
+${
+      Root.renderHead({
+        canonical: `${config.BASE_URL}/`,
+        title: "About",
+        pageCSS,
+        headerCSS: Header.css,
+        footerCSS: Footer.css,
+      })
+    }
+  <body>
+    ${Header.html}
+    <div class="content-${classSuffix}">
+      <div class="container">
+        <article>
+            <h1>About Us</h1>
+            
+            <p>Welcome to Food Hygiene Ratings UK, an open source project dedicated to making food hygiene information more accessible, transparent, and useful for everyone in the United Kingdom.</p>
+            
+            <h2>Our Mission</h2>
+            <p>We believe that food safety information should be easy to access and understand. Our mission is to provide a modern, user-friendly interface to food hygiene ratings data, helping consumers make informed choices about where to eat and encouraging businesses to maintain high standards.</p>
+            
+            <div class="data-source">
+              <img src="/images/fsa-logo.svg" alt="Food Standards Agency Logo" class="fsa-logo" width="200" height="79">
+              <p>All data provided by the <a href="https://www.food.gov.uk/" target="_blank" rel="noopener">Food Standards Agency</a> through their official API, following FSA guidelines and standards.</p>
+            </div>
+            
+            <h2>What We Offer</h2>
+            <ul>
+              <li>Easy access to food hygiene ratings for restaurants, cafes, food shops, and other establishments across the UK</li>
+              <li>Detailed information about inspection results and scoring criteria</li>
+              <li>Search functionality by location, business name, and rating</li>
+              <li>Mobile-friendly interface for checking ratings on the go</li>
+            </ul>
+            
+            <h2>Open Source Commitment</h2>
+            <p>This project is fully open source, meaning anyone can inspect, contribute to, or build upon our code. We believe in the power of community collaboration to create better digital public services.</p>
+            
+            <div class="contribution-links">
+              <h3>Help Us Improve</h3>
+              <p>We welcome contributions from developers, designers, and anyone passionate about food safety and open data:</p>
+              <ul>
+                <li><a href="https://github.com/food-hygiene-uk/main-site-builder" target="_blank" rel="noopener">Visit our GitHub repository</a></li>
+                <li>Report bugs or suggest features through our issue tracker</li>
+                <li>Contribute code improvements or new features</li>
+                <li>Help with documentation and testing</li>
+              </ul>
+            </div>
+            
+            <h2>Our Principles</h2>
+            <p>We believe in building technology that respects users and their privacy:</p>
+            <ul>
+              <li><strong>No cookies</strong> - We don't use cookies or similar tracking technologies</li>
+              <li><strong>No tracking</strong> - We don't collect personal information or track your browsing behavior</li>
+              <li><strong>User control</strong> - You choose if and when we connect to external services to provide features</li>
+              <li><strong>Data transparency</strong> - We clearly indicate the source and freshness of all displayed data</li>
+              <li><strong>Accessibility</strong> - We strive to make our site usable by everyone, regardless of ability</li>
+              <li><strong>Minimal environmental impact</strong> - We optimize our site to reduce bandwidth and processing requirements</li>
+            </ul>
+            
+            <p>We believe these principles create a better web experience while respecting both users and the environment.</p>
+
+            <h2>Why Food Hygiene Ratings Matter</h2>
+            <p>Food hygiene ratings help you make informed choices about where to eat out or shop for food. The ratings show how well a business is meeting the requirements of food hygiene law, including:</p>
+            <ul>
+              <li>Food handling practices</li>
+              <li>The condition of facilities and buildings</li>
+              <li>How the business manages and records what it does to make sure food is safe</li>
+            </ul>
+            
+            <p>By making this information more accessible, we aim to help improve public health and support businesses that maintain high standards.</p>
+
+            <h2>Financial Support</h2>
+            <p>Food Hygiene Ratings UK operates without advertisements to provide a clean, uninterrupted user experience:</p>
+            <ul>
+              <li><strong>No advertisements</strong> - We don't display ads or promotional content that could distract from our core mission</li>
+              <li><strong>No paywalls</strong> - All information is freely accessible to everyone</li>
+              <li><strong>Sponsored development</strong> - We welcome sponsorships from organizations aligned with our values to help maintain and improve the service</li>
+            </ul>
+            
+            <p>If you're interested in sponsoring this project, please reach out through our GitHub repository. Your support helps us maintain this valuable public resource while keeping it free from commercial influence.</p>
+        </article>
+      </div>
+    </div>
+    ${Footer.html}
+  </body>
+</html>
+`;
+
+    const filename = "about/index.html";
+    await Deno.writeTextFile(join("dist", filename), html);
+};

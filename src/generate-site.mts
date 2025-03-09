@@ -10,11 +10,13 @@ import { outputLocalAuthoritySitemap } from "./generate-site/output-local-author
 import { outputLocalAuthorityIndex } from "./pages/local-authority-detail/output-local-authority-index.mts";
 import { readLocalAuthorityData } from "./lib/local-authority/local-authority.mts";
 import { config } from "./lib/config/config.mts";
+import { outputAbout } from "./pages/about/about.mts";
 
 // Ensure build/dist directories exist
 await ensureDir("build");
 
 await emptyDir("dist");
+await ensureDir("dist/about");
 await ensureDir("dist/e");
 await ensureDir("dist/l");
 await ensureDir("dist/sitemap");
@@ -84,6 +86,10 @@ console.timeEnd("generateSitemap");
 console.time("outputHomepage");
 await outputHomepage();
 console.timeEnd("outputHomepage");
+
+console.time("outputAbout");
+await outputAbout();
+console.timeEnd("outputAbout");
 
 console.time("outputRegionIndex");
 await outputRegionIndex(localAuthorities);
