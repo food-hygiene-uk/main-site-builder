@@ -25,14 +25,14 @@ export const outputAbout = async () => {
 <!DOCTYPE html>
 <html lang="en">
 ${
-      Root.renderHead({
-        canonical: `${config.BASE_URL}/`,
-        title: "About",
-        pageCSS,
-        headerCSS: Header.css,
-        footerCSS: Footer.css,
-      })
-    }
+    Root.renderHead({
+      canonical: `${config.BASE_URL}/`,
+      title: "About",
+      pageCSS,
+      headerCSS: Header.css,
+      footerCSS: Footer.css,
+    })
+  }
   <body>
     ${Header.html}
     <div class="content-${classSuffix}">
@@ -112,6 +112,6 @@ ${
 </html>
 `;
 
-    const filename = "about/index.html";
-    await Deno.writeTextFile(join("dist", filename), html);
+  const filename = "about/index.html";
+  await Deno.writeTextFile(join("dist", filename), html);
 };
