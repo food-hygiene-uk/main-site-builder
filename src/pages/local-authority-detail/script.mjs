@@ -46,7 +46,10 @@ function parseSearchTerms(searchTerm) {
   const terms = [];
   let match;
   while ((match = regex.exec(searchTerm)) !== null) {
-    terms.push((match[1] || match[2]).toLowerCase());
+    let term = (match[1] || match[2]).toLowerCase();
+    // Remove stray quotes from beginning and end of the term
+    term = term.replace(/^"+|"+$/g, "");
+    terms.push(term);
   }
   return terms;
 }

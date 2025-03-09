@@ -1,46 +1,17 @@
+import { fromFileUrl } from "@std/path";
 import { getClassSuffix } from "../../lib/template/template.mts";
+
+// Read the file using the absolute path
+const cssPath = fromFileUrl(
+  import.meta.resolve("./styles.css"),
+);
+const cssContent = Deno.readTextFileSync(cssPath);
 
 export const forgeHeader = () => {
   const classSuffix = getClassSuffix();
+  const processedCss = cssContent.replace(/__CLASS_SUFFIX__/g, classSuffix);
 
-  const css = `
-        .component-header-${classSuffix} {
-            display: contents;
-
-            header {
-                background-color: var(--header-background-color);
-                padding: 1rem 2rem;
-                border-bottom: 1px solid var(--header-rule-color);
-
-                overflow: hidden;
-            }
-
-            .navbar-${classSuffix} {
-                display: flex;
-                justify-content: space-between;
-                align-items: center;
-            }
-
-            .logo-${classSuffix} img {
-                height: 50px;
-            }
-
-            .nav-links-${classSuffix} {
-                list-style: none;
-                display: flex;
-                gap: 1.5rem;
-
-                li {
-                    display: inline;
-
-                    a {
-                        text-decoration: none;
-                        color: var(--header-text-color);
-                        font-weight: bold;
-                    }
-                }
-            }
-        }`;
+  const css = processedCss;
 
   const html = `
         <div class="component-header-${classSuffix}" data-suffix="${classSuffix}">

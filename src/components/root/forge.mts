@@ -1,61 +1,24 @@
+import { fromFileUrl } from "@std/path";
+import { getClassSuffix } from "../../lib/template/template.mts";
+
+// Read the file using the absolute path
+const cssPath = fromFileUrl(
+  import.meta.resolve("./styles.css"),
+);
+const cssContent = Deno.readTextFileSync(cssPath);
+
+const jsPath = fromFileUrl(
+  import.meta.resolve("./script.js"),
+);
+const jsContent = Deno.readTextFileSync(jsPath);
+
 export const forgeRoot = () => {
-  const css = `
-            :root {
-              /* Information and background colors */
-              --primary-blue: #2c4c6b;
-              --light-blue: #f5f7fa;
-              --teal: #3c7b8e;
-              --grey: #687789;
-              --light-grey: #eef2f6;
-              --hygiene-green: #84be00;
-              
-              /* Call to action colors */
-              --cta-default: #9e66ff;
+  const classSuffix = getClassSuffix();
+  const processedCss = cssContent.replace(/__CLASS_SUFFIX__/g, classSuffix);
 
-              --body-background: var(--light-blue);
-              --text-color: #000;
-              --header-background-color: #f8f9fa;
-              --header-text-color: var(--text-color);
-              --header-rule-color: #e0e0e0;
-              --background-highlight-color: #e5e8f1;
-              --text-highlight-color: var(--text-color);
-            }
+  const css = processedCss;
 
-            @media (not (scripting: none)) or (prefers-color-scheme: dark) {
-              html:not([data-color-scheme='light']) {
-                --body-background: #000;
-                --text-color: #757575;
-                --header-background-color: #1f2021;
-                --header-text-color: #dfdfdf;
-                --header-rule-color: #383838;
-                --background-highlight-color: var(--light-blue);
-                --text-highlight-color: var(--text-color);
-              }
-            } 
-            
-            body {
-              font-family: system-ui, -apple-system, sans-serif;
-              line-height: 1.6;
-              margin: 0;
-              padding: 0;
-              background-color: var(--body-background);
-              color: var(--text-color);
-            }
-
-            a {
-              color: #0052a3;
-              text-decoration: none;
-            }
-
-            a:hover {
-              text-decoration: underline;
-            }
-                
-            .container {
-              max-width: 1200px;
-              margin: 0 auto;
-              padding: 0 2rem;
-            }`;
+  const processedJs = jsContent.replace(/__CLASS_SUFFIX__/g, classSuffix);
 
   const html = ``;
 
@@ -80,18 +43,7 @@ export const forgeRoot = () => {
     <link rel="icon" href="/favicon.svg" type="image/svg+xml">
     <link rel="canonical" href="${canonical}" />
     <script>
-      "use strict";
-      {
-        const updateColorScheme = (mql) => {
-          const prefers = mql?.matches ? 'dark' : 'light';
-          const setting = localStorage.getItem('color-scheme');
-
-          document.documentElement.setAttribute("data-color-scheme", setting ?? prefers);
-        }
-        const colorSchemeMQL = globalThis?.matchMedia?.('(prefers-color-scheme:dark)')
-        colorSchemeMQL.addEventListener('change', function(e) { updateColorScheme(e);});
-        updateColorScheme(colorSchemeMQL);
-      }
+      ${processedJs}
     </script>
     <style>
         ${css}

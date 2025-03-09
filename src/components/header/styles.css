@@ -1,0 +1,37 @@
+.component-header-__CLASS_SUFFIX__ {
+  display: contents;
+
+  header {
+    background-color: var(--header-background-color);
+    padding: 1rem 2rem;
+    border-bottom: 1px solid var(--header-rule-color);
+
+    overflow: hidden;
+  }
+
+  .navbar-__CLASS_SUFFIX__ {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
+
+  .logo-__CLASS_SUFFIX__ img {
+    height: 50px;
+  }
+
+  .nav-links-__CLASS_SUFFIX__ {
+    list-style: none;
+    display: flex;
+    gap: 1.5rem;
+
+    li {
+      display: inline;
+
+      a {
+        text-decoration: none;
+        color: var(--header-text-color);
+        font-weight: bold;
+      }
+    }
+  }
+}

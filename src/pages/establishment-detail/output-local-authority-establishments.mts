@@ -1,16 +1,21 @@
-import { join } from "@std/path";
-import { type Establishment, ratingValue } from "./schema.mts";
-import scoreDescriptors from "./score-descriptors.json" with { type: "json" };
-import { getClassSuffix } from "../lib/template/template.mts";
-import { forgeRoot } from "../components/root/forge.mts";
-import { forgeHeader } from "../components/header/forge.mts";
-import { forgeFooter } from "../components/footer/forge.mts";
-import { EnrichedLocalAuthority } from "./schema-app.mts";
+import { fromFileUrl, join } from "@std/path";
+import {
+  type Establishment,
+  ratingValue,
+} from "../../generate-site/schema.mts";
+import scoreDescriptors from "../../generate-site/score-descriptors.json" with {
+  type: "json",
+};
+import { getClassSuffix } from "../../lib/template/template.mts";
+import { forgeRoot } from "../../components/root/forge.mts";
+import { forgeHeader } from "../../components/header/forge.mts";
+import { forgeFooter } from "../../components/footer/forge.mts";
+import { EnrichedLocalAuthority } from "../../generate-site/schema-app.mts";
 import {
   getCanonicalLinkURL,
   getHtmlFilename,
-} from "../lib/establishment/establishment.mts";
-import { Address } from "../components/address/forge.mts";
+} from "../../lib/establishment/establishment.mts";
+import { Address } from "../../components/address/forge.mts";
 
 const Root = forgeRoot();
 const Header = forgeHeader();
@@ -158,11 +163,21 @@ const renderLocalAuthority = (
   `;
 };
 
+const cssPath = fromFileUrl(
+  import.meta.resolve("./styles.css"),
+);
+const cssContent = Deno.readTextFileSync(cssPath);
+
 export const outputLocalAuthorityEstablishments = async (
   localAuthority: EnrichedLocalAuthority,
   establishments: Establishment[],
 ) => {
   const classSuffix = getClassSuffix();
+
+  const processedCss = cssContent.replace(/__CLASS_SUFFIX__/g, classSuffix)
+    .replace(/\/\* __ADDITIONAL_CSS__ \*\//g, `\n${address.css}`);
+
+  const pageCSS = processedCss;
 
   // Generate HTML for each establishment and save to a file
   await Promise.all(establishments.map(async (establishment) => {
@@ -188,84 +203,7 @@ ${
       Root.renderHead({
         canonical: getCanonicalLinkURL(establishment),
         title: establishment.BusinessName,
-        pageCSS: `
-        .content-${classSuffix} {
-            display: contents;
-
-          .establishment {
-              border-bottom: 1px solid #ccc;
-              padding: 1rem;
-              margin: 20px 0;
-              box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-              border-radius: 8px;
-          }
-
-          h1 {
-              font-size: 2em;
-              border-bottom: 1px solid var(--hygiene-green);
-          }
-
-          h2 {
-              font-size: 1.2em;
-              margin: 1em 0 0 0;
-          }
-
-          h2::after {
-              content: ":";
-          }
-
-
-          p, address, td, th {
-              font-size: 1em;
-              line-height: 1.5;
-          }
-
-          img.rating-image {
-              max-width: 400px;
-              height: auto;
-              display: block;
-              margin: 10px 0;
-              box-shadow: white 0 0 0 1px;
-              border-radius: 9px;
-          }
-
-          table {
-              width: 100%;
-              border-collapse: collapse;
-              margin-top: 1em;
-          }
-
-          th {
-              background-color: #1b5f7b;
-              color: #ffffff;
-              font-weight: bold;
-          }
-
-          .scores tbody tr:hover {
-            background-color: #f0f0f0;
-            color: #333;
-          }
-
-          th, td {
-              border: 1px solid #ddd;
-              padding: 0.5em;
-              text-align: left;
-              vertical-align: top;
-          }
-
-          .title,
-          .score {
-              white-space: nowrap;
-
-              @media screen and (max-width: 820px) { 
-                  & {
-                      white-space: normal;
-                  }
-              }
-          }
-        }
-        ${address.css}
-  `,
+        pageCSS,
         headerCSS: Header.css,
         footerCSS: Footer.css,
       })

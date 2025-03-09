@@ -1,0 +1,76 @@
+.content-__CLASS_SUFFIX__ {
+  display: contents;
+
+  .establishment {
+    border-bottom: 1px solid #ccc;
+    padding: 1rem;
+    margin: 20px 0;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    border-radius: 8px;
+  }
+
+  h1 {
+    font-size: 2em;
+    border-bottom: 1px solid var(--hygiene-green);
+  }
+
+  h2 {
+    font-size: 1.2em;
+    margin: 1em 0 0 0;
+  }
+
+  h2::after {
+    content: ":";
+  }
+
+  p, address, td, th {
+    font-size: 1em;
+    line-height: 1.5;
+  }
+
+  img.rating-image {
+    max-width: 400px;
+    height: auto;
+    display: block;
+    margin: 10px 0;
+    box-shadow: white 0 0 0 1px;
+    border-radius: 9px;
+  }
+
+  table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 1em;
+  }
+
+  th {
+    background-color: #1b5f7b;
+    color: #ffffff;
+    font-weight: bold;
+  }
+
+  .scores tbody tr:hover {
+    background-color: #f0f0f0;
+    color: #333;
+  }
+
+  th, td {
+    border: 1px solid #ddd;
+    padding: 0.5em;
+    text-align: left;
+    vertical-align: top;
+  }
+
+  .title,
+  .score {
+    white-space: nowrap;
+
+    @media screen and (max-width: 820px) {
+      & {
+        white-space: normal;
+      }
+    }
+  }
+
+  /* __ADDITIONAL_CSS__ */
+}

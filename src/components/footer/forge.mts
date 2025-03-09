@@ -1,32 +1,17 @@
+import { fromFileUrl } from "@std/path";
 import { getClassSuffix } from "../../lib/template/template.mts";
+
+// Read the file using the absolute path
+const cssPath = fromFileUrl(
+  import.meta.resolve("./styles.css"),
+);
+const cssContent = Deno.readTextFileSync(cssPath);
 
 export const forgeFooter = () => {
   const classSuffix = getClassSuffix();
+  const processedCss = cssContent.replace(/__CLASS_SUFFIX__/g, classSuffix);
 
-  const css = `
-        .component-footer-${classSuffix} {
-            display: contents;
-
-            footer {
-                background-color: var(--primary-blue);
-                color: var(--light-blue);
-                padding-top: 2rem;
-                padding-bottom: 2rem;
-                text-align: center;
-                margin-top: 2rem;
-
-                a {
-                    color: white;
-                    text-decoration: none;
-                    border-bottom: 1px solid rgba(255,255,255,0.3);
-                    transition: border-color 0.3s;
-
-                    &:hover {
-                        border-color: white;
-                    }
-                }
-            }
-        }`;
+  const css = processedCss;
 
   const html = `
         <div class="component-footer-${classSuffix}" data-suffix="${classSuffix}">

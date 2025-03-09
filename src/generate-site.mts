@@ -1,13 +1,13 @@
 import { copy, emptyDir, ensureDir } from "@std/fs";
 import { mapConcurrent } from "./generate-site/max-concurrent.mts";
-import { outputLocalAuthorityEstablishments } from "./generate-site/output-local-authority-establishments.mts";
+import { outputLocalAuthorityEstablishments } from "./pages/establishment-detail/output-local-authority-establishments.mts";
 import { fetchLocalAuthorityData } from "./generate-site/fetch-data.mts";
 import { generateSitemap } from "./generate-site/output-sitemap.mts";
-import { outputHomepage } from "./generate-site/output-homepage.mts";
+import { outputHomepage } from "./pages/homepage/output-homepage.mts";
 import * as api from "./ratings-api/rest.mts";
-import { outputRegionIndex } from "./generate-site/output-region-index.mts";
+import { outputRegionIndex } from "./pages/local-authority-list/output-region-index.mts";
 import { outputLocalAuthoritySitemap } from "./generate-site/output-local-authority-sitemap.mts";
-import { outputLocalAuthorityIndex } from "./generate-site/output-local-authority-index.mts";
+import { outputLocalAuthorityIndex } from "./pages/local-authority-detail/output-local-authority-index.mts";
 import { readLocalAuthorityData } from "./lib/local-authority/local-authority.mts";
 import { config } from "./lib/config/config.mts";
 

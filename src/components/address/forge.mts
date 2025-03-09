@@ -1,17 +1,18 @@
+import { fromFileUrl } from "@std/path";
 import { Establishment } from "../../generate-site/schema.mts";
 import { getClassSuffix } from "../../lib/template/template.mts";
 
+// Read the file using the absolute path
+const cssPath = fromFileUrl(
+  import.meta.resolve("./styles.css"),
+);
+const cssContent = Deno.readTextFileSync(cssPath);
+
 export const Address = () => {
   const classSuffix = getClassSuffix();
+  const processedCss = cssContent.replace(/__CLASS_SUFFIX__/g, classSuffix);
 
-  const css = `
-        .component-address-${classSuffix} {
-            display: contents;
-
-            address {
-              font-style: normal;
-            }
-        }`;
+  const css = processedCss;
 
   const render = (establishment: Establishment): string => {
     let address = "<div>No address information available</div>";

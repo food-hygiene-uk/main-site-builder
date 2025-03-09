@@ -1,0 +1,91 @@
+.content-__CLASS_SUFFIX__ {
+  display: contents;
+
+  h1 {
+    font-size: 2em;
+    border-bottom: 1px solid var(--hygiene-green);
+  }
+
+  h3 {
+    font-size: 1em;
+    font-weight: bold;
+    margin-top: 0;
+  }
+
+  label[for="filter-input"] {
+    display: block;
+    margin-bottom: 0.5rem;
+  }
+  #filter-input {
+    width: 100%;
+    padding: 0.5rem;
+    margin-bottom: 1rem;
+  }
+
+  .establishment {
+    padding: 1rem 0;
+    display: block;
+
+    &.hidden {
+      display: none;
+    }
+
+    /* Link the entire establishment to the details page */
+    position: relative;
+
+    .details-link {
+      display: block;
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      z-index: 1;
+      text-indent: -9999px; /* Hide the text inside the link */
+
+      &:hover {
+        display: flex;
+        flex-direction: column-reverse;
+        text-align: right;
+        padding-right: 1rem;
+        padding-bottom: 1rem;
+      }
+    }
+
+    &:has(a:hover) {
+      background-color: var(--background-highlight-color);
+      color: var(--text-highlight-color);
+      margin-left: -1rem;
+      margin-right: -1rem;
+      padding-left: 1rem;
+      padding-right: 1rem;
+      border-radius: 9px;
+    }
+  }
+
+  .map-link {
+    position: relative;
+    z-index: 2;
+  }
+
+  hr {
+    border: none;
+    border-top: 1px solid var(--hygiene-green);
+
+    /* 
+      Hide by default
+     */
+    display: none;
+  }
+
+  /*
+    Only show the hr between two visible establishments
+    i.e. for establishments that are not hidden show the hr after it
+    but only if that hr has another establishment after it that is not hidden
+   */
+  .establishment:not(.hidden) ~ hr:has(+ .establishment:not(.hidden)) {
+    display: block;
+  }
+
+  /* __ADDITIONAL_CSS__ */
+}
