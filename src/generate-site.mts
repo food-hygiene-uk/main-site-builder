@@ -11,12 +11,14 @@ import { outputLocalAuthorityIndex } from "./pages/local-authority-detail/output
 import { readLocalAuthorityData } from "./lib/local-authority/local-authority.mts";
 import { config } from "./lib/config/config.mts";
 import { outputAbout } from "./pages/about/about.mts";
+import { outputSearchPage } from "./pages/search/search.mts";
 
 // Ensure build/dist directories exist
 await ensureDir("build");
 
 await emptyDir("dist");
 await ensureDir("dist/about");
+await ensureDir("dist/search");
 await ensureDir("dist/e");
 await ensureDir("dist/l");
 await ensureDir("dist/sitemap");
@@ -90,6 +92,10 @@ console.timeEnd("outputHomepage");
 console.time("outputAbout");
 await outputAbout();
 console.timeEnd("outputAbout");
+
+console.time("outputSearch");
+await outputSearchPage();
+console.timeEnd("outputSearch");
 
 console.time("outputRegionIndex");
 await outputRegionIndex(localAuthorities);

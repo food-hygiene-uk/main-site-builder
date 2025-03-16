@@ -5,7 +5,8 @@
   --teal: #3c7b8e;
   --grey: #687789;
   --light-grey: #eef2f6;
-  --hygiene-green: #84be00;
+  --hygiene-green-rgb: 132, 190, 0;
+  --hygiene-green: rgb(var(--hygiene-green-rgb));
 
   /* Call to action colors */
   --cta-default: #9e66ff;
