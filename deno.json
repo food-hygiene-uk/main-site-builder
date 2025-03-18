@@ -12,7 +12,7 @@
     },
     "build": {
       "description": "Builds the site",
-      "command": "deno run --allow-env=CI --allow-net=api.ratings.food.gov.uk:443,ratings.food.gov.uk:443 --allow-read=. --allow-write=./build,./dist src/generate-site.mts"
+      "command": "deno run --allow-env=CI --allow-net=api.ratings.food.gov.uk:443,ratings.food.gov.uk:443 --allow-read=./assets,./build,./dist,./src --allow-write=./build,./dist src/generate-site.mts"
     }
   },
   "fmt": {
