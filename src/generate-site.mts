@@ -1,16 +1,16 @@
 import { copy, emptyDir, ensureDir } from "@std/fs";
 import { mapConcurrent } from "./generate-site/max-concurrent.mts";
-import { outputLocalAuthorityEstablishments } from "./pages/establishment-detail/output-local-authority-establishments.mts";
+import { outputEstablishmentDetailPage } from "./pages/establishment-detail/establishment-detail.mts";
 import { fetchLocalAuthorityData } from "./generate-site/fetch-data.mts";
 import { generateSitemap } from "./generate-site/output-sitemap.mts";
-import { outputHomepage } from "./pages/homepage/output-homepage.mts";
+import { outputHomepagePage } from "./pages/homepage/homepage.mts";
 import * as api from "./ratings-api/rest.mts";
-import { outputRegionIndex } from "./pages/local-authority-list/output-region-index.mts";
+import { outputLocalAuthorityListPage } from "./pages/local-authority-list/local-authority-list.mts";
 import { outputLocalAuthoritySitemap } from "./generate-site/output-local-authority-sitemap.mts";
-import { outputLocalAuthorityIndex } from "./pages/local-authority-detail/output-local-authority-index.mts";
+import { outputLocalAuthorityDetailPage } from "./pages/local-authority-detail/local-authority-detail.mts";
 import { readLocalAuthorityData } from "./lib/local-authority/local-authority.mts";
 import { config } from "./lib/config/config.mts";
-import { outputAbout } from "./pages/about/about.mts";
+import { outputAboutPage } from "./pages/about/about.mts";
 import { outputSearchPage } from "./pages/search/search.mts";
 
 // Ensure build/dist directories exist
@@ -74,8 +74,8 @@ await mapConcurrent(localAuthorities, 10, async (localAuthority) => {
 
   const timerName = `outputLocalAuthority-${name}`;
   console.time(timerName);
-  await outputLocalAuthorityEstablishments(localAuthority, establishments);
-  await outputLocalAuthorityIndex(localAuthority, establishments);
+  await outputEstablishmentDetailPage(localAuthority, establishments);
+  await outputLocalAuthorityDetailPage(localAuthority, establishments);
   await outputLocalAuthoritySitemap(localAuthority, establishments);
   console.timeEnd(timerName);
 });
@@ -86,11 +86,11 @@ await generateSitemap(localAuthorities);
 console.timeEnd("generateSitemap");
 
 console.time("outputHomepage");
-await outputHomepage();
+await outputHomepagePage();
 console.timeEnd("outputHomepage");
 
 console.time("outputAbout");
-await outputAbout();
+await outputAboutPage();
 console.timeEnd("outputAbout");
 
 console.time("outputSearch");
@@ -98,5 +98,5 @@ await outputSearchPage();
 console.timeEnd("outputSearch");
 
 console.time("outputRegionIndex");
-await outputRegionIndex(localAuthorities);
+await outputLocalAuthorityListPage(localAuthorities);
 console.timeEnd("outputRegionIndex");

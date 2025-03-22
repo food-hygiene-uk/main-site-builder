@@ -24,7 +24,7 @@ env.use(autoTrim());
 env.cache.clear();
 
 const pageTemplatePath = fromFileUrl(
-  import.meta.resolve("./html.vto"),
+  import.meta.resolve("./establishment-detail.vto"),
 );
 const template = await env.load(pageTemplatePath);
 
@@ -136,11 +136,11 @@ const getScoreData = (scores: Establishment["Scores"]) => {
 };
 
 const cssPath = fromFileUrl(
-  import.meta.resolve("./styles.css"),
+  import.meta.resolve("./establishment-detail.css"),
 );
 const cssContent = Deno.readTextFileSync(cssPath);
 
-export const outputLocalAuthorityEstablishments = async (
+export const outputEstablishmentDetailPage = async (
   localAuthority: EnrichedLocalAuthority,
   establishments: Establishment[],
 ): Promise<void> => {

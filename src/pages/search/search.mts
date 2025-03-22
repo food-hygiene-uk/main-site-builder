@@ -14,10 +14,10 @@ export const outputSearchPage = async () => {
   const classSuffix = getClassSuffix();
 
   // Read the CSS and JS files
-  const cssPath = fromFileUrl(import.meta.resolve("./styles.css"));
+  const cssPath = fromFileUrl(import.meta.resolve("./search.css"));
   const cssContent = Deno.readTextFileSync(cssPath);
 
-  const jsPath = fromFileUrl(import.meta.resolve("./script.mjs"));
+  const jsPath = fromFileUrl(import.meta.resolve("./search.mjs"));
   const jsContent = Deno.readTextFileSync(jsPath);
 
   const processedCss = cssContent.replace(/__CLASS_SUFFIX__/g, classSuffix)

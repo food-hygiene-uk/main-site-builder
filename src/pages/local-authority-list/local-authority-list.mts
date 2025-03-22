@@ -59,11 +59,13 @@ const renderLocalAuthorities = (localAuthorities: Authorities) => {
 };
 
 const cssPath = fromFileUrl(
-  import.meta.resolve("./styles.css"),
+  import.meta.resolve("./local-authority-list.css"),
 );
 const cssContent = Deno.readTextFileSync(cssPath);
 
-export const outputRegionIndex = async (localAuthorities: Authorities) => {
+export const outputLocalAuthorityListPage = async (
+  localAuthorities: Authorities,
+) => {
   const classSuffix = getClassSuffix();
 
   const processedCss = cssContent.replace(/__CLASS_SUFFIX__/g, classSuffix);

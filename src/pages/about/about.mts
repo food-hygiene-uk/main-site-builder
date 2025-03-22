@@ -10,11 +10,11 @@ const Header = forgeHeader();
 const Footer = forgeFooter();
 
 const cssPath = fromFileUrl(
-  import.meta.resolve("./styles.css"),
+  import.meta.resolve("./about.css"),
 );
 const cssContent = Deno.readTextFileSync(cssPath);
 
-export const outputAbout = async () => {
+export const outputAboutPage = async () => {
   const classSuffix = getClassSuffix();
 
   const processedCss = cssContent.replace(/__CLASS_SUFFIX__/g, classSuffix);

@@ -39,16 +39,16 @@ const renderEstablishments = (establishments: Establishment[]) => {
 
 // Read the file using the absolute path
 const mjsPath = fromFileUrl(
-  import.meta.resolve("./script.mjs"),
+  import.meta.resolve("./local-authority-detail.mjs"),
 );
 const mjsContent = Deno.readTextFileSync(mjsPath);
 
 const cssPath = fromFileUrl(
-  import.meta.resolve("./styles.css"),
+  import.meta.resolve("./local-authority-detail.css"),
 );
 const cssContent = Deno.readTextFileSync(cssPath);
 
-export const outputLocalAuthorityIndex = async (
+export const outputLocalAuthorityDetailPage = async (
   localAuthority: EnrichedLocalAuthority,
   establishments: Establishment[],
 ) => {
