@@ -1,4 +1,6 @@
 import { fromFileUrl, join } from "@std/path";
+import vento from "@vento/vento";
+import autoTrim from "@vento/vento/plugins/auto_trim.ts";
 import {
   type Establishment,
   ratingValue,
@@ -16,6 +18,15 @@ import {
   getHtmlFilename,
 } from "../../lib/establishment/establishment.mts";
 import { Address } from "../../components/address/forge.mts";
+
+const env = vento();
+env.use(autoTrim());
+env.cache.clear();
+
+const pageTemplatePath = fromFileUrl(
+  import.meta.resolve("./html.vto"),
+);
+const template = await env.load(pageTemplatePath);
 
 const Root = forgeRoot();
 const Header = forgeHeader();
@@ -52,13 +63,6 @@ const scoreToDescription = (
   return "Unknown score";
 };
 
-const renderAddress = (establishment: Establishment): string => {
-  return `
-    <h2>Address</h2>
-    ${address.render(establishment)}
-  `;
-};
-
 // const renderMap = (establishment: Establishment): string => {
 //   return `<iframe
 //     src="https://www.openstreetmap.org/export/embed.html?bbox=-0.438755750656128%2C53.7223738716068%2C-0.43555855751037603%2C53.72388631148097&amp;layer=mapnik"
@@ -66,8 +70,10 @@ const renderAddress = (establishment: Establishment): string => {
 //   </iframe><br/><small><a href="https://www.openstreetmap.org/#map=19/53.723130/-0.437157">View Larger Map</a></small>`;
 // };
 
-const renderRatingDate = (ratingDate: string | null): string => {
-  if (ratingDate === null) return "";
+const getRatingDate = (
+  ratingDate: string | null,
+): { iso: string; formatted: string } | null => {
+  if (ratingDate === null) return null;
 
   const date = new Date(ratingDate);
   const options = { year: "numeric", month: "long", day: "numeric" } as const;
@@ -76,17 +82,17 @@ const renderRatingDate = (ratingDate: string | null): string => {
     "$1 $2 $3",
   );
 
-  return `
-  <h2>Rating Date</h2>
-  <time datetime="${ratingDate}" itemprop="fhrsRatingDate">${formattedDate}</time>
-  `;
+  return {
+    iso: ratingDate,
+    formatted: formattedDate,
+  };
 };
 
-const renderScores = (scores: Establishment["Scores"]): string => {
-  if (scores === null) return "";
+const getScoreData = (scores: Establishment["Scores"]) => {
+  if (scores === null) return null;
 
   // TODO: Don't be sloppy with the types here
-  const scoreData = [
+  return [
     {
       title: "Hygiene",
       description: scoreToDescription(
@@ -127,40 +133,6 @@ const renderScores = (scores: Establishment["Scores"]): string => {
       ),
     },
   ];
-
-  return `
-      <h2>Score parts</h2>
-      <table class="scores">
-        <thead>
-          <th>Category</th>
-          <th>Score</th>
-          <th>Description</th>
-        </thead>
-        <tbody>
-        ${
-    scoreData.map((score) => `
-          <tr>
-            <td class="title">${score.title}</td>
-            <td class="score">${score.value}</td>
-            <td>${score.description}</td>
-          </tr>
-        `).join("")
-  }
-        </tbody>
-      </table>
-      `;
-};
-
-const renderLocalAuthority = (
-  localAuthority: EnrichedLocalAuthority,
-): string => {
-  return `
-    <h2>Local Authority</h2>
-    <div itemprop="department" itemscope itemtype="https://schema.org/GovernmentOrganization">
-      <span itemprop="name">${localAuthority.Name}</span><br>
-      <a href="${localAuthority.Url}" itemprop="url">${localAuthority.Url}</a>
-    </div>
-  `;
 };
 
 const cssPath = fromFileUrl(
@@ -171,7 +143,7 @@ const cssContent = Deno.readTextFileSync(cssPath);
 export const outputLocalAuthorityEstablishments = async (
   localAuthority: EnrichedLocalAuthority,
   establishments: Establishment[],
-) => {
+): Promise<void> => {
   const classSuffix = getClassSuffix();
 
   const processedCss = cssContent.replace(/__CLASS_SUFFIX__/g, classSuffix)
@@ -196,43 +168,31 @@ export const outputLocalAuthorityEstablishments = async (
       url: ratingValueObj.image_en,
     };
 
-    const html = `
-<!DOCTYPE html>
-<html lang="en">
-${
-      Root.renderHead({
+    const ratingDate = getRatingDate(establishment.RatingDate);
+    const scoreData = getScoreData(establishment.Scores);
+    const addressHtml = address.render(establishment);
+
+    const html = await template({
+      headHtml: Root.renderHead({
         canonical: getCanonicalLinkURL(establishment),
         title: establishment.BusinessName,
         pageCSS,
         headerCSS: Header.css,
         footerCSS: Footer.css,
-      })
-    }
-  <body>
-    ${Header.html}
-    <div class="content-${classSuffix}">
-      <div class="container">
-        <article class="establishment" itemscope itemtype="https://schema.org/FoodEstablishment" data-establishment-id="${establishment.FHRSID}">
-          <h1 class="name" itemprop="name">${establishment.BusinessName}</h1>
-          <h2>Business Type</h2>
-          <div itemprop="servesCuisine">${establishment.BusinessType}</div>
-          <h2>Rating</h2>
-          <div>${ratingDisplayText}</div>
-          <img src="${ratingImage.url}" alt="${ratingImage.alt}" class="rating-image" itemprop="image">
-          ${renderAddress(establishment)}
-          ${/* renderMap(establishment) */ ""}
-          ${renderRatingDate(establishment.RatingDate)}
-          ${renderScores(establishment.Scores)}
-          ${renderLocalAuthority(localAuthority)}
-        </article>
-      </div>
-    </div>
-    ${Footer.html}
-  </body>
-</html>
-`;
+      }),
+      headerHtml: Header.html,
+      classSuffix,
+      establishment,
+      localAuthority,
+      ratingImage,
+      ratingDisplayText,
+      footerHtml: Footer.html,
+      addressHtml: (await addressHtml).content,
+      ratingDate,
+      scoreData,
+    });
 
     const filename = getHtmlFilename(establishment);
-    await Deno.writeTextFile(join("dist", filename), html);
+    await Deno.writeTextFile(join("dist", filename), html.content);
   }));
 };

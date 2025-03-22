@@ -1,0 +1,18 @@
+<div class="component-address-{{ address.classSuffix }}" data-suffix="{{ address.classSuffix }}">
+  <address itemprop="address" itemscope itemtype="https://schema.org/PostalAddress">
+    {{ if address.lines.length > 0 || address.postcode !== null }}
+      {{ if address.lines.length > 0 }}
+        {{ set last = address.lines.length - 1 }}
+        {{ for index, line of address.lines }}
+          <span>{{ line }}</span>{{ if index !== last || address.postcode !== null }}<br>{{ /if }}
+        {{ /for }}
+      {{ /if }}
+      {{ if address.postcode !== null }}
+        <span itemprop="postalCode">{{ address.postcode }}</span>
+      {{ /if }}
+    {{ else }}
+      <div>No address information available</div>
+    {{ /if }}
+  </address>
+  <a href="{{ address.locationLink }}" target="_blank" rel="noopener noreferrer" class="map-link">View on Map</a>
+</div>

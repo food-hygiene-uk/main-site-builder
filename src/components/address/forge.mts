@@ -1,4 +1,6 @@
 import { fromFileUrl } from "@std/path";
+import vento from "@vento/vento";
+import autoTrim from "@vento/vento/plugins/auto_trim.ts";
 import { Establishment } from "../../generate-site/schema.mts";
 import { getClassSuffix } from "../../lib/template/template.mts";
 
@@ -8,57 +10,66 @@ const cssPath = fromFileUrl(
 );
 const cssContent = Deno.readTextFileSync(cssPath);
 
+const env = vento();
+env.use(autoTrim());
+const pageTemplatePath = fromFileUrl(
+  import.meta.resolve("./html.vto"),
+);
+const template = await env.load(pageTemplatePath);
+
+const getAddress = (establishment: Establishment): {
+  lines: string[];
+  postcode: string | null;
+  locationLink: string | null;
+} => {
+  if (establishment.Geocode !== null) {
+    const businessName = encodeURIComponent(establishment.BusinessName);
+    const latitude = establishment.Geocode?.Latitude;
+    const longitude = establishment.Geocode?.Longitude;
+    const locationLink =
+      `https://geohack.toolforge.org/geohack.php?title=${businessName}&params=${latitude}_N_${longitude}_E_type:landmark_dim:20`;
+
+    const lines = [
+      establishment.AddressLine1 ?? null,
+      establishment.AddressLine2 ?? null,
+      establishment.AddressLine3 ?? null,
+      establishment.AddressLine4 ?? null,
+    ].filter((x) => x !== null);
+
+    const postcode = establishment.PostCode ?? null;
+
+    return {
+      lines,
+      postcode,
+      locationLink,
+    };
+  }
+
+  return {
+    lines: [],
+    postcode: null,
+    locationLink: null,
+  };
+};
+
 export const Address = () => {
   const classSuffix = getClassSuffix();
   const processedCss = cssContent.replace(/__CLASS_SUFFIX__/g, classSuffix);
 
   const css = processedCss;
 
-  const render = (establishment: Establishment): string => {
-    let address = "<div>No address information available</div>";
+  // deno-lint-ignore require-await
+  const render = async (
+    establishment: Establishment,
+  ): Promise<ReturnType<typeof template>> => {
+    const address = getAddress(establishment);
 
-    if (establishment.Geocode !== null) {
-      const businessName = encodeURIComponent(establishment.BusinessName);
-      const latitude = establishment.Geocode?.Latitude;
-      const longitude = establishment.Geocode?.Longitude;
-      const locationLink =
-        `https://geohack.toolforge.org/geohack.php?title=${businessName}&params=${latitude}_N_${longitude}_E_type:landmark_dim:20`;
-
-      const addressLines = [
-        establishment.AddressLine1
-          ? `<span>${establishment.AddressLine1}</span>`
-          : null,
-        establishment.AddressLine2
-          ? `<span>${establishment.AddressLine2}</span>`
-          : null,
-        establishment.AddressLine3
-          ? `<span>${establishment.AddressLine3}</span>`
-          : null,
-        establishment.AddressLine4
-          ? `<span>${establishment.AddressLine4}</span>`
-          : null,
-        establishment.PostCode
-          ? `<span itemprop="postalCode">${establishment.PostCode}</span>`
-          : null,
-      ].filter(Boolean).join("<br>");
-
-      address = `
-        <address itemprop="address" itemscope itemtype="https://schema.org/PostalAddress">
-            ${
-        addressLines.length > 0
-          ? addressLines
-          : "No address information available"
-      }
-        </address>
-        <a href="${locationLink}" target="_blank" rel="noopener noreferrer" class="map-link">View on Map</a>
-        `;
-    }
-
-    return `
-        <div class="component-address-${classSuffix}" data-suffix="${classSuffix}">
-            ${address}
-        </div>
-    `;
+    return template({
+      address: {
+        ...address,
+        classSuffix,
+      },
+    });
   };
 
   return {

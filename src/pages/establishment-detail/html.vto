@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="en">
+  {{ headHtml }}
+  <body>
+    {{ headerHtml }}
+    <div class="content-{{ classSuffix }}">
+      <div class="container">
+        <article class="establishment" itemscope itemtype="https://schema.org/FoodEstablishment" data-establishment-id="{{ establishment.FHRSID }}">
+          <h1 class="name" itemprop="name">{{ establishment.BusinessName |> escape}}</h1>
+
+          <h2>Business Type</h2>
+          <div itemprop="servesCuisine">{{ establishment.BusinessType }}</div>
+
+          <h2>Rating</h2>
+          <div>{{ ratingDisplayText }}</div>
+          <img src="{{ ratingImage.url }}" alt="{{ ratingImage.alt }}" class="rating-image" itemprop="image">
+
+          <h2>Address</h2>
+          {{ addressHtml }}
+
+          {{/* renderMap(establishment) */ "" }}
+
+          {{ if ratingDate !== null }}
+          <h2>Rating Date</h2>
+          <time datetime="{{ ratingDate.iso }}" itemprop="fhrsRatingDate">{{ ratingDate.formatted }}</time>
+          {{ /if }}
+
+          {{ if scoreData !== null }}
+          <h2>Score parts</h2>
+          <table class="scores">
+            <thead>
+              <th>Category</th>
+              <th>Score</th>
+              <th>Description</th>
+            </thead>
+            <tbody>
+              {{ for score of scoreData }}
+              <tr>
+                <td class="title">{{ score.title }}</td>
+                <td class="score">{{ score.value }}</td>
+                <td>{{ score.description }}</td>
+              </tr>
+              {{ /for }}
+            </tbody>
+          </table>
+          {{ /if }}
+
+          <h2>Local Authority</h2>
+          <div itemprop="department" itemscope itemtype="https://schema.org/GovernmentOrganization">
+            <span itemprop="name">{{ localAuthority.Name }}</span><br>
+            <a href="{{ localAuthority.Url }}" itemprop="url">{{ localAuthority.Url }}</a>
+          </div>
+        </article>
+      </div>
+    </div>
+    {{ footerHtml }}
+  </body>
+</html>

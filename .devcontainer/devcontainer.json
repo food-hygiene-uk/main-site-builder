@@ -20,7 +20,8 @@
         "github.vscode-github-actions",
         "ms-azuretools.vscode-docker",
         "ms-vscode.live-server",
-        "yuyinws.vscode-array-index"
+        "yuyinws.vscode-array-index",
+        "oscarotero.vento-syntax"
       ]
     }
   }
