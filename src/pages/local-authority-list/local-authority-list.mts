@@ -15,10 +15,10 @@ env.cache.clear();
 const pageTemplatePath = fromFileUrl(
   import.meta.resolve("./local-authority-list.vto"),
 );
-const template = await env.load(pageTemplatePath);
+const templatePromise = env.load(pageTemplatePath);
 
 const Root = forgeRoot();
-const Header = forgeHeader();
+const HeaderPromise = forgeHeader();
 const Footer = forgeFooter();
 
 // Map from api regions to ITL regions
@@ -59,6 +59,8 @@ const cssPath = fromFileUrl(
   import.meta.resolve("./local-authority-list.css"),
 );
 const cssContent = Deno.readTextFileSync(cssPath);
+
+const [template, Header] = await Promise.all([templatePromise, HeaderPromise]);
 
 export const outputLocalAuthorityListPage = async (
   localAuthorities: Authorities,

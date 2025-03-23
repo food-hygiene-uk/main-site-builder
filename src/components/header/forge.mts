@@ -1,5 +1,16 @@
 import { fromFileUrl } from "@std/path";
+import vento from "@vento/vento";
+import autoTrim from "@vento/vento/plugins/auto_trim.ts";
 import { getClassSuffix } from "../../lib/template/template.mts";
+
+const env = vento();
+env.use(autoTrim());
+env.cache.clear();
+
+const pageTemplatePath = fromFileUrl(
+  import.meta.resolve("./header.vto"),
+);
+const template = await env.load(pageTemplatePath);
 
 // Read the file using the absolute path
 const cssPath = fromFileUrl(
@@ -7,32 +18,18 @@ const cssPath = fromFileUrl(
 );
 const cssContent = Deno.readTextFileSync(cssPath);
 
-export const forgeHeader = () => {
+export const forgeHeader = async () => {
   const classSuffix = getClassSuffix();
   const processedCss = cssContent.replace(/__CLASS_SUFFIX__/g, classSuffix);
 
   const css = processedCss;
 
-  const html = `
-        <div class="component-header-${classSuffix}" data-suffix="${classSuffix}">
-            <header class="container">
-                <nav class="navbar-${classSuffix}">
-                    <div class="logo-${classSuffix}">
-                        <a href="/">
-                            <img src="/images/logo.svg" alt="Site Logo">
-                        </a>
-                    </div>
-                    <ul class="nav-links-${classSuffix}">
-                        <li><a href="/about/">About</a></li>
-                        <li><a href="/l/">Regions</a></li>
-                        <li><a href="/search/">Search</a></li>
-                    </ul>
-                </nav>
-            </header>
-        </div>`;
+  const html = await template({
+    classSuffix,
+  });
 
   return {
     css,
-    html,
+    html: html.content,
   };
 };

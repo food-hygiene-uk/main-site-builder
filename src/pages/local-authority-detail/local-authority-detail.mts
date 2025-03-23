@@ -18,10 +18,10 @@ env.cache.clear();
 const pageTemplatePath = fromFileUrl(
   import.meta.resolve("./local-authority-detail.vto"),
 );
-const template = await env.load(pageTemplatePath);
+const templatePromise = env.load(pageTemplatePath);
 
 const Root = forgeRoot();
-const Header = forgeHeader();
+const HeaderPromise = forgeHeader();
 const Footer = forgeFooter();
 const address = Address();
 
@@ -35,6 +35,8 @@ const cssPath = fromFileUrl(
   import.meta.resolve("./local-authority-detail.css"),
 );
 const cssContent = Deno.readTextFileSync(cssPath);
+
+const [template, Header] = await Promise.all([templatePromise, HeaderPromise]);
 
 export const outputLocalAuthorityDetailPage = async (
   localAuthority: EnrichedLocalAuthority,

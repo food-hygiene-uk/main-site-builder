@@ -14,16 +14,18 @@ env.cache.clear();
 const pageTemplatePath = fromFileUrl(
   import.meta.resolve("./about.vto"),
 );
-const template = await env.load(pageTemplatePath);
+const templatePromise = env.load(pageTemplatePath);
 
 const Root = forgeRoot();
-const Header = forgeHeader();
+const HeaderPromise = forgeHeader();
 const Footer = forgeFooter();
 
 const cssPath = fromFileUrl(
   import.meta.resolve("./about.css"),
 );
 const cssContent = Deno.readTextFileSync(cssPath);
+
+const [template, Header] = await Promise.all([templatePromise, HeaderPromise]);
 
 export const outputAboutPage = async () => {
   const classSuffix = getClassSuffix();

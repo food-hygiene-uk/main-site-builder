@@ -14,12 +14,14 @@ env.cache.clear();
 const pageTemplatePath = fromFileUrl(
   import.meta.resolve("./search.vto"),
 );
-const template = await env.load(pageTemplatePath);
+const templatePromise = env.load(pageTemplatePath);
 
 const Root = forgeRoot();
-const Header = forgeHeader();
+const HeaderPromise = forgeHeader();
 const Footer = forgeFooter();
 const address = Address();
+
+const [template, Header] = await Promise.all([templatePromise, HeaderPromise]);
 
 export const outputSearchPage = async () => {
   const classSuffix = getClassSuffix();
