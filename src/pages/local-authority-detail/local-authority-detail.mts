@@ -1,4 +1,6 @@
 import { fromFileUrl, join } from "@std/path";
+import vento from "@vento/vento";
+import autoTrim from "@vento/vento/plugins/auto_trim.ts";
 import { type Establishment } from "../../generate-site/schema.mts";
 import { getClassSuffix } from "../../lib/template/template.mts";
 import { forgeRoot } from "../../components/root/forge.mts";
@@ -9,33 +11,19 @@ import { EnrichedLocalAuthority } from "../../generate-site/schema-app.mts";
 import { getLinkURL } from "../../lib/establishment/establishment.mts";
 import { getCanonicalLinkURL } from "../../lib/authority/authority.mts";
 
+const env = vento();
+env.use(autoTrim());
+env.cache.clear();
+
+const pageTemplatePath = fromFileUrl(
+  import.meta.resolve("./local-authority-detail.vto"),
+);
+const template = await env.load(pageTemplatePath);
+
 const Root = forgeRoot();
 const Header = forgeHeader();
 const Footer = forgeFooter();
 const address = Address();
-
-const renderEstablishments = (establishments: Establishment[]) => {
-  return `
-    <h2>Establishments</h2>
-    <form>
-      <label for="filter-input">Filter:</label>
-      <input type="search" id="filter-input" placeholder="type a name or address" />
-    </form>
-    <div class="establishments-container">
-    ${
-    establishments.map((establishment) => `
-      <div class="establishment" data-establishment-id="${establishment.FHRSID}">
-        <h3>${establishment.BusinessName}</h3>
-        ${address.render(establishment)}
-        <a href="${getLinkURL(establishment)}" class="details-link">
-          More
-        </a>
-      </div>
-    `).join("\n<hr>\n")
-  }
-    </div>
-  `;
-};
 
 // Read the file using the absolute path
 const mjsPath = fromFileUrl(
@@ -60,36 +48,24 @@ export const outputLocalAuthorityDetailPage = async (
 
   const pageCSS = processedCss;
 
-  const html = `
-<!DOCTYPE html>
-<html lang="en">
-${
-    Root.renderHead({
+  const html = await template({
+    headHtml: Root.renderHead({
       canonical: getCanonicalLinkURL(localAuthority),
       title: `${localAuthority.Name} - Local Authority`,
       pageCSS,
       headerCSS: Header.css,
       footerCSS: Footer.css,
-    })
-  }
-  <body>
-    ${Header.html}
-    <div class="content-${classSuffix}">
-      <div class="container">
-        <article class="local-authority" itemscope itemtype="https://schema.org/GovernmentOrganization">
-          <h1 class="name" itemprop="name">${localAuthority.Name}</h1>
-          ${renderEstablishments(establishments)}
-        </article>
-      </div>
-    </div>
-    <script type="module">
-      ${processedMjs}
-    </script>
-    ${Footer.html}
-  </body>
-</html>
-`;
+    }),
+    headerHtml: Header.html,
+    classSuffix,
+    localAuthority,
+    getLinkURL,
+    address,
+    establishments,
+    processedMjs,
+    footerHtml: Footer.html,
+  });
 
   const filename = `${localAuthority.FriendlyName}.html`;
-  await Deno.writeTextFile(join("dist", "l", filename), html);
+  await Deno.writeTextFile(join("dist", "l", filename), html.content);
 };
