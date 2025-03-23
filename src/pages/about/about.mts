@@ -18,14 +18,14 @@ const templatePromise = env.load(pageTemplatePath);
 
 const Root = forgeRoot();
 const HeaderPromise = forgeHeader();
-const Footer = forgeFooter();
+const FooterPromise = forgeFooter();
 
 const cssPath = fromFileUrl(
   import.meta.resolve("./about.css"),
 );
 const cssContent = Deno.readTextFileSync(cssPath);
 
-const [template, Header] = await Promise.all([templatePromise, HeaderPromise]);
+const [template, Header, Footer] = await Promise.all([templatePromise, HeaderPromise, FooterPromise]);
 
 export const outputAboutPage = async () => {
   const classSuffix = getClassSuffix();
@@ -35,7 +35,7 @@ export const outputAboutPage = async () => {
   const pageCSS = processedCss;
 
   const html = await template({
-    headHtml: Root.renderHead({
+    headHtml: await Root.renderHead({
       canonical: `${config.BASE_URL}/`,
       title: "About",
       pageCSS,

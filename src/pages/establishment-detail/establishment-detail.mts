@@ -30,7 +30,7 @@ const templatePromise = env.load(pageTemplatePath);
 
 const Root = forgeRoot();
 const HeaderPromise = forgeHeader();
-const Footer = forgeFooter();
+const FooterPromise = forgeFooter();
 const address = Address();
 
 type ScoreType = keyof typeof scoreDescriptors.scoreDescriptors;
@@ -140,7 +140,7 @@ const cssPath = fromFileUrl(
 );
 const cssContent = Deno.readTextFileSync(cssPath);
 
-const [template, Header] = await Promise.all([templatePromise, HeaderPromise]);
+const [template, Header, Footer] = await Promise.all([templatePromise, HeaderPromise, FooterPromise]);
 
 export const outputEstablishmentDetailPage = async (
   localAuthority: EnrichedLocalAuthority,

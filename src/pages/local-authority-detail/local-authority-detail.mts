@@ -22,7 +22,7 @@ const templatePromise = env.load(pageTemplatePath);
 
 const Root = forgeRoot();
 const HeaderPromise = forgeHeader();
-const Footer = forgeFooter();
+const FooterPromise = forgeFooter();
 const address = Address();
 
 // Read the file using the absolute path
@@ -36,7 +36,7 @@ const cssPath = fromFileUrl(
 );
 const cssContent = Deno.readTextFileSync(cssPath);
 
-const [template, Header] = await Promise.all([templatePromise, HeaderPromise]);
+const [template, Header, Footer] = await Promise.all([templatePromise, HeaderPromise, FooterPromise]);
 
 export const outputLocalAuthorityDetailPage = async (
   localAuthority: EnrichedLocalAuthority,

@@ -18,10 +18,10 @@ const templatePromise = env.load(pageTemplatePath);
 
 const Root = forgeRoot();
 const HeaderPromise = forgeHeader();
-const Footer = forgeFooter();
+const FooterPromise = forgeFooter();
 const address = Address();
 
-const [template, Header] = await Promise.all([templatePromise, HeaderPromise]);
+const [template, Header, Footer] = await Promise.all([templatePromise, HeaderPromise, FooterPromise]);
 
 export const outputSearchPage = async () => {
   const classSuffix = getClassSuffix();
