@@ -1,10 +1,21 @@
 import { fromFileUrl, join } from "@std/path";
+import vento from "@vento/vento";
+import autoTrim from "@vento/vento/plugins/auto_trim.ts";
 import { type Authorities } from "../../ratings-api/types.mts";
 import { forgeRoot } from "../../components/root/forge.mts";
 import { forgeHeader } from "../../components/header/forge.mts";
 import { forgeFooter } from "../../components/footer/forge.mts";
 import { getLinkURL } from "../../lib/authority/authority.mts";
 import { getClassSuffix } from "../../lib/template/template.mts";
+
+const env = vento();
+env.use(autoTrim());
+env.cache.clear();
+
+const pageTemplatePath = fromFileUrl(
+  import.meta.resolve("./local-authority-list.vto"),
+);
+const template = await env.load(pageTemplatePath);
 
 const Root = forgeRoot();
 const Header = forgeHeader();
@@ -26,36 +37,22 @@ const regionMap = {
   "Wales": "Wales",
 };
 
-const renderLocalAuthorities = (localAuthorities: Authorities) => {
+const getRegionLocalAuthorities = (localAuthorities: Authorities) => {
   const groupedByRegion = localAuthorities.reduce((acc, authority) => {
-    const region = regionMap[authority.RegionName];
-    if (!acc[region]) {
-      acc[region] = [];
-    }
+    const region = regionMap[authority.RegionName] || "Unknown Region";
+    acc[region] ??= [];
     acc[region].push(authority);
     return acc;
   }, {} as Record<string, typeof localAuthorities>);
 
-  return Object.keys(regionMap).map((regionKey) => {
-    const region = regionMap[regionKey as keyof typeof regionMap];
+  return Object.values(regionMap).map((region) => {
     const authorities = groupedByRegion[region] || [];
-    +authorities.sort((a, b) => a.Name.localeCompare(b.Name));
-    const authorityLinks = authorities.map((authority) => {
-      const authorityURL = getLinkURL(authority);
-      return `
-          <a href="${authorityURL}" class="authority-link">
-            ${authority.Name}
-          </a>`;
-    }).join("");
 
-    return `
-        <div class="region-group">
-          <h3>${region}</h3>
-          <div class="authority-grid">
-            ${authorityLinks}
-          </div>
-        </div>`;
-  }).join("");
+    return {
+      region,
+      authorities: authorities.sort((a, b) => a.Name.localeCompare(b.Name)),
+    };
+  });
 };
 
 const cssPath = fromFileUrl(
@@ -72,37 +69,21 @@ export const outputLocalAuthorityListPage = async (
 
   const pageCSS = processedCss;
 
-  const html = `<!DOCTYPE html>
-<html lang="en">
-${
-    Root.renderHead({
+  const html = await template({
+    headHtml: Root.renderHead({
       canonical: "/l/",
       title: "Regions",
       pageCSS,
       headerCSS: Header.css,
       footerCSS: Footer.css,
-    })
-  }
-<body>
-    ${Header.html}
-
-    <div class="content-${classSuffix}">
-      <section class="container">
-          <section class="authorities">
-              <h2>Local Authorities of the United Kingdom</h2>
-              <p>View food hygiene ratings for local authorities in the UK.</p>
-              <p>Select a local authority to view ratings in that area:</p>
-              <div>
-                  ${renderLocalAuthorities(localAuthorities)}
-              </div>
-          </section>
-      </section>
-    </div>
-
-    ${Footer.html}
-</body>
-</html>`;
+    }),
+    headerHtml: Header.html,
+    classSuffix,
+    footerHtml: Footer.html,
+    regionLocalAuthorities: getRegionLocalAuthorities(localAuthorities),
+    getLinkURL,
+  });
 
   const filename = `index.html`;
-  await Deno.writeTextFile(join("dist", "l", filename), html);
+  await Deno.writeTextFile(join("dist", "l", filename), html.content);
 };

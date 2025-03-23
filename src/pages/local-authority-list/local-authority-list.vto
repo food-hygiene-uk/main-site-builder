@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="en">
+    {{ headHtml }}
+    <body>
+        {{ headerHtml }}
+
+        <div class="content-{{ classSuffix }}">
+        <section class="container">
+            <section class="authorities">
+                <h2>Local Authorities of the United Kingdom</h2>
+                <p>View food hygiene ratings for local authorities in the UK.</p>
+                <p>Select a local authority to view ratings in that area:</p>
+                <div>
+                  {{ for item of regionLocalAuthorities }}
+                    <div class="region-group">
+                      <h3>{{ item.region }}</h3>
+                      <div class="authority-grid">
+                        {{ for authority of item.authorities }}
+                          <a href="{{ getLinkURL(authority) }}" class="authority-link">
+                            {{ authority.Name }}
+                          </a>
+                        {{ /for }}
+                      </div>
+                    </div>
+                  {{ /for }}
+                </div>
+            </section>
+        </section>
+        </div>
+
+        {{ footerHtml }}
+    </body>
+</html>
