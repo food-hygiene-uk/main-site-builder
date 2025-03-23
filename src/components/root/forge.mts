@@ -1,5 +1,16 @@
 import { fromFileUrl } from "@std/path";
+import vento from "@vento/vento";
+import autoTrim from "@vento/vento/plugins/auto_trim.ts";
 import { getClassSuffix } from "../../lib/template/template.mts";
+
+const env = vento();
+env.use(autoTrim());
+env.cache.clear();
+
+const pageTemplatePath = fromFileUrl(
+  import.meta.resolve("./root.vto"),
+);
+const template = await env.load(pageTemplatePath);
 
 // Read the file using the absolute path
 const cssPath = fromFileUrl(
@@ -22,7 +33,7 @@ export const forgeRoot = () => {
 
   const html = ``;
 
-  const renderHead = (
+  const renderHead = async (
     { canonical, title, pageCSS, headerCSS, footerCSS }: {
       canonical: string;
       title: string | undefined;
@@ -35,24 +46,15 @@ export const forgeRoot = () => {
       " - ",
     );
 
-    return `
-  <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>${fullTitle}</title>
-    <link rel="icon" href="/favicon.svg" type="image/svg+xml">
-    <link rel="canonical" href="${canonical}" />
-    <script>
-      ${processedJs}
-    </script>
-    <style>
-        ${css}
-        ${pageCSS}
-        ${headerCSS}
-        ${footerCSS}
-    </style>
-  </head>
-    `;
+    return (await template({
+      canonical,
+      css,
+      footerCSS,
+      fullTitle,
+      headerCSS,
+      pageCSS,
+      processedJs,
+    })).content;
   };
 
   return {

@@ -40,7 +40,7 @@ export const outputSearchPage = async () => {
   const processedJs = jsContent.replace(/__CLASS_SUFFIX__/g, classSuffix);
 
   const html = await template({
-    headHtml: Root.renderHead({
+    headHtml: await Root.renderHead({
       canonical: "https://food-hygiene-ratings.uk/search",
       title: "Search Food Hygiene Ratings",
       pageCSS,

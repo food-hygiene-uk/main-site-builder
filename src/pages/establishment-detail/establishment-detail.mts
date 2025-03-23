@@ -175,7 +175,7 @@ export const outputEstablishmentDetailPage = async (
     const addressHtml = address.render(establishment);
 
     const html = await template({
-      headHtml: Root.renderHead({
+      headHtml: await Root.renderHead({
         canonical: getCanonicalLinkURL(establishment),
         title: establishment.BusinessName,
         pageCSS,

@@ -51,7 +51,7 @@ export const outputLocalAuthorityDetailPage = async (
   const pageCSS = processedCss;
 
   const html = await template({
-    headHtml: Root.renderHead({
+    headHtml: await Root.renderHead({
       canonical: getCanonicalLinkURL(localAuthority),
       title: `${localAuthority.Name} - Local Authority`,
       pageCSS,
