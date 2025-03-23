@@ -1,9 +1,20 @@
 import { fromFileUrl, join } from "@std/path";
+import vento from "@vento/vento";
+import autoTrim from "@vento/vento/plugins/auto_trim.ts";
 import { forgeRoot } from "../../components/root/forge.mts";
 import { forgeHeader } from "../../components/header/forge.mts";
 import { forgeFooter } from "../../components/footer/forge.mts";
 import { config } from "../../lib/config/config.mts";
 import { getClassSuffix } from "../../lib/template/template.mts";
+
+const env = vento();
+env.use(autoTrim());
+env.cache.clear();
+
+const pageTemplatePath = fromFileUrl(
+  import.meta.resolve("./homepage.vto"),
+);
+const template = await env.load(pageTemplatePath);
 
 const Root = forgeRoot();
 const Header = forgeHeader();
@@ -21,50 +32,19 @@ export const outputHomepagePage = async () => {
 
   const pageCSS = processedCss;
 
-  const html = `<!DOCTYPE html>
-<html lang="en">
-${
-    Root.renderHead({
+  const html = await template({
+    headHtml: Root.renderHead({
       canonical: `${config.BASE_URL}/`,
       title: undefined,
       pageCSS,
       headerCSS: Header.css,
       footerCSS: Footer.css,
-    })
-  }
-<body>
-    ${Header.html}
-
-    <div class="content-${classSuffix}">
-        <main class="container main-content">
-            <div class="description">
-                <h2>Food Hygiene Ratings UK</h2>
-                <p>Feeling hungry? Check to make sure your food is as hygienic as you want it to be.</p>
-                <a href="/l/" class="cta-button">Browse By Region</a>
-                <a href="/search/" class="cta-button">Search</a>
-            </div>
-            <div class="hero-image">
-                <img src="/images/mascot.svg" alt="Cute chef mascot with chef's hat">
-            </div>
-        </main>
-
-        <section class="container">
-            <section class="contribute">
-                <h2>Open Source Project</h2>
-                <p>This is an open source project that aims to make food hygiene data more accessible.</p>
-                <p>Help us improve by contributing to the project:</p>
-                <div>
-                    <a href="https://github.com/food-hygiene-uk/main-site-builder" class="cta-button">View on GitHub</a>
-                    <a href="https://github.com/food-hygiene-uk/main-site-builder/contribute" class="cta-button">Contribute</a>
-                </div>
-            </section>
-        </section>
-    </div>
-
-    ${Footer.html}
-</body>
-</html>`;
+    }),
+    headerHtml: Header.html,
+    classSuffix,
+    footerHtml: Footer.html,
+  });
 
   const filename = `index.html`;
-  await Deno.writeTextFile(join("dist", filename), html);
+  await Deno.writeTextFile(join("dist", filename), html.content);
 };
