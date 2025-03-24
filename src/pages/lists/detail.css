@@ -1,0 +1,117 @@
+.content-__CLASS_SUFFIX__ {
+  display: contents;
+
+  .container {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 20px;
+  }
+
+  h1 {
+    font-size: 2em;
+    margin-bottom: 0.5rem;
+    color: var(--hygiene-green);
+  }
+
+  .list-header {
+    margin-bottom: 30px;
+  }
+
+  .list-description {
+    color: #666;
+    margin-bottom: 20px;
+  }
+
+  .back-button {
+    display: inline-block;
+    margin-top: 10px;
+    color: var(--hygiene-green);
+    text-decoration: none;
+    font-weight: bold;
+  }
+
+  .back-button:hover {
+    text-decoration: underline;
+  }
+
+  .loading-indicator {
+    text-align: center;
+    padding: 40px;
+    color: #666;
+    font-style: italic;
+  }
+
+  .establishments-container {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+    gap: 20px;
+  }
+
+  .establishment-card {
+    background-color: #fff;
+    border-radius: 8px;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+    overflow: hidden;
+    transition: transform 0.2s, box-shadow 0.2s;
+  }
+
+  .establishment-card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+  }
+
+  .establishment-content {
+    padding: 15px;
+  }
+
+  .establishment-name {
+    margin-top: 0;
+    margin-bottom: 10px;
+    font-size: 1.2em;
+    color: var(--hygiene-green);
+  }
+
+  .establishment-details {
+    color: #666;
+    font-size: 0.9em;
+    margin-bottom: 10px;
+  }
+
+  .view-details {
+    display: inline-block;
+    background-color: var(--hygiene-green);
+    color: white;
+    padding: 5px 10px;
+    border-radius: 4px;
+    text-decoration: none;
+    font-size: 0.9em;
+    font-weight: bold;
+    transition: background-color 0.2s;
+  }
+
+  .view-details:hover {
+    background-color: #005a30;
+  }
+
+  .empty-list-message, .error-message {
+    text-align: center;
+    padding: 40px;
+    background-color: #f9f9f9;
+    border-radius: 8px;
+    color: #666;
+  }
+
+  .error-message {
+    border-left: 4px solid #ed1c24;
+  }
+
+  .empty-list-message a, .error-message a {
+    color: var(--hygiene-green);
+    font-weight: bold;
+    text-decoration: none;
+  }
+
+  .empty-list-message a:hover, .error-message a:hover {
+    text-decoration: underline;
+  }
+}

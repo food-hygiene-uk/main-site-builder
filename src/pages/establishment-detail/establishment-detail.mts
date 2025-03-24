@@ -140,6 +140,12 @@ const cssPath = fromFileUrl(
 );
 const cssContent = Deno.readTextFileSync(cssPath);
 
+// Add JavaScript for tracking recent establishments
+const jsPath = fromFileUrl(
+  import.meta.resolve("./establishment-detail.mjs"),
+);
+const jsContent = Deno.readTextFileSync(jsPath);
+
 const [template, Header, Footer] = await Promise.all([
   templatePromise,
   HeaderPromise,
@@ -154,6 +160,9 @@ export const outputEstablishmentDetailPage = async (
 
   const processedCss = cssContent.replace(/__CLASS_SUFFIX__/g, classSuffix)
     .replace(/\/\* __ADDITIONAL_CSS__ \*\//g, `\n${address.css}`);
+  
+  // Process the JavaScript
+  const processedJs = jsContent.replace(/__CLASS_SUFFIX__/g, classSuffix);
 
   const pageCSS = processedCss;
 
@@ -196,6 +205,7 @@ export const outputEstablishmentDetailPage = async (
       addressHtml: (await addressHtml).content,
       ratingDate,
       scoreData,
+      processedJs,
     });
 
     const filename = getHtmlFilename(establishment);

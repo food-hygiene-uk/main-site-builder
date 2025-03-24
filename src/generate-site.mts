@@ -12,6 +12,7 @@ import { readLocalAuthorityData } from "./lib/local-authority/local-authority.mt
 import { config } from "./lib/config/config.mts";
 import { outputAboutPage } from "./pages/about/about.mts";
 import { outputSearchPage } from "./pages/search/search.mts";
+import { outputListsPages } from "./pages/lists/lists.mts";
 
 // Ensure build/dist directories exist
 await ensureDir("build");
@@ -21,9 +22,12 @@ await ensureDir("dist/about");
 await ensureDir("dist/search");
 await ensureDir("dist/e");
 await ensureDir("dist/l");
+await ensureDir("dist/lists");
+await ensureDir("dist/scripts");
 await ensureDir("dist/sitemap");
 
 await copy("assets", "dist", { overwrite: true });
+await copy("src/services", "dist/scripts", { overwrite: true });
 
 const baseURL = config.BASE_URL;
 
@@ -100,3 +104,7 @@ console.timeEnd("outputSearch");
 console.time("outputRegionIndex");
 await outputLocalAuthorityListPage(localAuthorities);
 console.timeEnd("outputRegionIndex");
+
+console.time("outputListsPages");
+await outputListsPages();
+console.timeEnd("outputListsPages");
