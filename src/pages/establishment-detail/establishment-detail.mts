@@ -140,7 +140,11 @@ const cssPath = fromFileUrl(
 );
 const cssContent = Deno.readTextFileSync(cssPath);
 
-const [template, Header, Footer] = await Promise.all([templatePromise, HeaderPromise, FooterPromise]);
+const [template, Header, Footer] = await Promise.all([
+  templatePromise,
+  HeaderPromise,
+  FooterPromise,
+]);
 
 export const outputEstablishmentDetailPage = async (
   localAuthority: EnrichedLocalAuthority,

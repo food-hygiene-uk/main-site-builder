@@ -21,7 +21,11 @@ const HeaderPromise = forgeHeader();
 const FooterPromise = forgeFooter();
 const address = Address();
 
-const [template, Header, Footer] = await Promise.all([templatePromise, HeaderPromise, FooterPromise]);
+const [template, Header, Footer] = await Promise.all([
+  templatePromise,
+  HeaderPromise,
+  FooterPromise,
+]);
 
 export const outputSearchPage = async () => {
   const classSuffix = getClassSuffix();
