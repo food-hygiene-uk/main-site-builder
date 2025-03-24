@@ -5,6 +5,7 @@
     background-color: var(--header-background-color);
     padding: 1rem 2rem;
     border-bottom: 1px solid var(--header-rule-color);
+    position: relative;
 
     overflow: hidden;
   }
@@ -32,6 +33,86 @@
         color: var(--header-text-color);
         font-weight: bold;
       }
+    }
+  }
+
+  /* Hamburger menu checkbox (hidden) */
+  .menu-toggle-__CLASS_SUFFIX__ {
+    display: none;
+  }
+
+  /* Hamburger icon */
+  .hamburger-__CLASS_SUFFIX__ {
+    display: none;
+    flex-direction: column;
+    justify-content: space-between;
+    width: 30px;
+    height: 21px;
+    cursor: pointer;
+    z-index: 10;
+  }
+
+  .hamburger-__CLASS_SUFFIX__ span {
+    display: block;
+    height: 3px;
+    width: 100%;
+    background-color: var(--header-text-color);
+    border-radius: 3px;
+    transition: all 0.3s ease-in-out;
+  }
+
+  /* Mobile Styles */
+  @media (max-width: 768px) {
+    .hamburger-__CLASS_SUFFIX__ {
+      display: flex;
+    }
+
+    .nav-links-__CLASS_SUFFIX__ {
+      position: fixed;
+      top: 84px; /* Ensures it doesn't cover the title bar */
+      right: -100%;
+      width: 100%;
+      height: calc(100vh - 84px);
+      flex-direction: column;
+      background-color: var(--header-background-color);
+      padding: 2rem;
+      transition: right 0.3s ease-in-out;
+      z-index: 5;
+      text-align: right;
+      gap: 2rem;
+
+      li {
+        display: block;
+        margin-bottom: 1.5rem;
+
+        a {
+          font-size: 1.2rem;
+        }
+      }
+    }
+
+    /* Show menu when checkbox is checked */
+    .menu-toggle-__CLASS_SUFFIX__:checked ~ .nav-links-__CLASS_SUFFIX__ {
+      right: 0;
+    }
+
+    /* Hamburger animation */
+    .menu-toggle-__CLASS_SUFFIX__:checked
+      ~ .hamburger-__CLASS_SUFFIX__
+      span:nth-child(1) {
+      transform: translateY(9px) rotate(45deg);
+    }
+
+    .menu-toggle-__CLASS_SUFFIX__:checked
+      ~ .hamburger-__CLASS_SUFFIX__
+      span:nth-child(2) {
+      opacity: 0;
+    }
+
+    .menu-toggle-__CLASS_SUFFIX__:checked
+      ~ .hamburger-__CLASS_SUFFIX__
+      span:nth-child(3) {
+      transform: translateY(-9px) rotate(-45deg);
     }
   }
 }
