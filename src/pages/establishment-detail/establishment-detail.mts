@@ -50,6 +50,14 @@ const scoreToText = (
   return "Unknown score";
 };
 
+/**
+ * Converts a score value to a detailed description
+ *
+ * @param {ScoreKey} score - The score key
+ * @param {ScoreType} scoreType - The type of score
+ * @param {Language} language - The language for the description
+ * @returns {string} The detailed score description
+ */
 const scoreToDescription = (
   score: ScoreKey,
   scoreType: ScoreType,
@@ -63,13 +71,48 @@ const scoreToDescription = (
   return "Unknown score";
 };
 
-// const renderMap = (establishment: Establishment): string => {
-//   return `<iframe
-//     src="https://www.openstreetmap.org/export/embed.html?bbox=-0.438755750656128%2C53.7223738716068%2C-0.43555855751037603%2C53.72388631148097&amp;layer=mapnik"
-//     style="border: 1px solid black">
-//   </iframe><br/><small><a href="https://www.openstreetmap.org/#map=19/53.723130/-0.437157">View Larger Map</a></small>`;
-// };
+/**
+ * Generates an HTML string containing an embedded OpenStreetMap iframe and a link to view a larger map.
+ *
+ * @param establishment - The establishment object containing details about the location.
+ * @returns A string representing the HTML for the embedded map and link.
+ */
+const _renderMap = (establishment: Establishment): string => {
+  const latitudeString = establishment.Geocode?.Latitude;
+  const longitudeString = establishment.Geocode?.Longitude;
+  if (latitudeString === undefined || longitudeString === undefined) {
+    return "";
+  }
 
+  const latitude = Number(latitudeString);
+  const longitude = Number(longitudeString);
+  if (isNaN(latitude) || isNaN(longitude)) {
+    return "";
+  }
+
+  const bbox = {
+    minLon: longitude - 0.0016,
+    minLat: latitude - 0.0005,
+    maxLon: longitude + 0.0005,
+    maxLat: latitude + 0.0005,
+  };
+  const bboxString = `${bbox.minLon},${bbox.minLat},${bbox.maxLon},${bbox.maxLat}`;
+  const mapUrl = `https://www.openstreetmap.org/export/embed.html?bbox=${bboxString}&layer=mapnik`;
+  const viewUrl = `https://www.openstreetmap.org/#map=19/${latitude}/${longitude}`;
+  const mapHtml = `<iframe
+    src="${mapUrl}"
+    style="border: 1px solid black">
+  </iframe><br/><small><a href="${viewUrl}">View Larger Map</a></small>`;
+
+  return mapHtml;
+};
+
+/**
+ * Formats a rating date into ISO and human-readable formats
+ *
+ * @param {string|null} ratingDate - The rating date string
+ * @returns {Object|null} Object containing ISO and formatted date strings, or null if no date
+ */
 const getRatingDate = (
   ratingDate: string | null,
 ): { iso: string; formatted: string } | null => {
@@ -88,6 +131,12 @@ const getRatingDate = (
   };
 };
 
+/**
+ * Extracts and formats score data from an establishment's scores
+ *
+ * @param {Establishment["Scores"]} scores - The scores object from an establishment
+ * @returns {Array<Object>|null} Array of score data objects, or null if no scores
+ */
 const getScoreData = (scores: Establishment["Scores"]) => {
   if (scores === null) return null;
 
@@ -152,6 +201,13 @@ const [template, Header, Footer] = await Promise.all([
   FooterPromise,
 ]);
 
+/**
+ * Generates HTML pages for each establishment in a local authority
+ *
+ * @param {EnrichedLocalAuthority} localAuthority - The local authority object
+ * @param {Establishment[]} establishments - Array of establishments to generate pages for
+ * @returns {Promise<void>}
+ */
 export const outputEstablishmentDetailPage = async (
   localAuthority: EnrichedLocalAuthority,
   establishments: Establishment[],
@@ -160,7 +216,7 @@ export const outputEstablishmentDetailPage = async (
 
   const processedCss = cssContent.replace(/__CLASS_SUFFIX__/g, classSuffix)
     .replace(/\/\* __ADDITIONAL_CSS__ \*\//g, `\n${address.css}`);
-  
+
   // Process the JavaScript
   const processedJs = jsContent.replace(/__CLASS_SUFFIX__/g, classSuffix);
 

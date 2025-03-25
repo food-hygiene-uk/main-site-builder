@@ -1,5 +1,11 @@
 const suffixPoolIndexes = new Map();
 
+/**
+ * Gets a hash of the caller's filename for consistent class suffix generation
+ *
+ * @returns {string} A hash string derived from the caller's filename
+ * @private
+ */
 const getCallerFilenameHash = (): string => {
   const err = new Error();
   const stack = (err.stack ?? "").split("\n");

@@ -28,6 +28,9 @@
     "rules": {
       "tags": [
         "recommended"
+      ],
+      "exclude": [
+        "require-await"
       ]
     }
   },

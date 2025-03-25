@@ -85,6 +85,11 @@ function setupConsentHandling() {
   });
 }
 
+/**
+ * Updates the UI based on whether the user has given consent
+ *
+ * @param {boolean} hasConsent - Whether the user has given consent
+ */
 function updateUIForConsent(hasConsent) {
   // Update form styling to show active state
   if (hasConsent) {
@@ -101,6 +106,11 @@ function updateUIForConsent(hasConsent) {
   disableFormElements(!hasConsent);
 }
 
+/**
+ * Enables or disables all form elements based on consent status
+ *
+ * @param {boolean} disabled - Whether the form elements should be disabled
+ */
 function disableFormElements(disabled) {
   // Disable/enable all form inputs
   const formElements = searchForm.querySelectorAll("input, select, button");
@@ -114,7 +124,10 @@ function disableFormElements(disabled) {
   }
 }
 
-// Enhanced function to highlight the consent section with combined animation effect
+/**
+ * Highlights the consent section with animation and scrolls to it
+ * Cancels any existing animation and starts a new one
+ */
 function highlightConsentSection() {
   // Instead of preventing multiple animations, cancel any existing one and start a new one
 
@@ -141,6 +154,9 @@ function highlightConsentSection() {
   }, 6000); // Match the animation duration
 }
 
+/**
+ * Sets up all event listeners for the search form
+ */
 function setupEventListeners() {
   // Toggle advanced search options
   advancedToggle.addEventListener("click", () => {
@@ -213,6 +229,11 @@ function setupEventListeners() {
 }
 
 // Rest of the JavaScript remains the same...
+/**
+ * Loads reference data from the API and populates select dropdowns
+ *
+ * @returns {Promise<void>}
+ */
 async function loadReferenceData() {
   // Only proceed if user has given consent
   if (!userConsent) return;
@@ -244,6 +265,14 @@ async function loadReferenceData() {
   }
 }
 
+/**
+ * Populates a select element with options from an array of objects
+ *
+ * @param {string} selectId - The ID of the select element to populate
+ * @param {Array<object>} options - Array of objects containing option data
+ * @param {string} valueKey - The key in each object to use as the option value
+ * @param {string} textKey - The key in each object to use as the option text
+ */
 function populateSelect(selectId, options, valueKey, textKey) {
   const select = document.getElementById(selectId);
   options.forEach((option) => {
@@ -254,6 +283,10 @@ function populateSelect(selectId, options, valueKey, textKey) {
   });
 }
 
+/**
+ * Updates the URL based on the current form values
+ * Creates a query string and updates browser history without reloading
+ */
 function updateURLFromForm() {
   const formData = new FormData(searchForm);
   const params = new URLSearchParams();
@@ -279,6 +312,10 @@ function updateURLFromForm() {
   state.searchParams = params;
 }
 
+/**
+ * Populates the form fields from URL parameters
+ * Also sets the current page and determines if advanced search should be shown
+ */
 function populateFormFromURL() {
   // Populate form fields from URL parameters
   for (const [key, value] of state.searchParams.entries()) {
@@ -304,6 +341,11 @@ function populateFormFromURL() {
   }
 }
 
+/**
+ * Performs a search using the current search parameters
+ *
+ * @returns {Promise<void>}
+ */
 async function performSearch() {
   // Only proceed if user has given consent
   if (!userConsent) {
@@ -346,6 +388,11 @@ async function performSearch() {
   }
 }
 
+/**
+ * Displays search results in the results container
+ *
+ * @param {Array<object>} establishments - Array of establishment objects to display
+ */
 function displayResults(establishments) {
   resultsSection.style.display = "block";
 
@@ -394,6 +441,12 @@ function displayResults(establishments) {
   resultsContainer.innerHTML = html;
 }
 
+/**
+ * Renders an address HTML from an establishment object
+ *
+ * @param {object} establishment - The establishment object containing address data
+ * @returns {string} - HTML string representation of the address
+ */
 function renderAddress(establishment) {
   const addressParts = [];
 
@@ -406,6 +459,9 @@ function renderAddress(establishment) {
   return `<address>${addressParts.join(", ")}</address>`;
 }
 
+/**
+ * Updates the pagination controls based on current state
+ */
 function updatePagination() {
   pagination.innerHTML = "";
 
@@ -439,6 +495,13 @@ function updatePagination() {
   }
 }
 
+/**
+ * Creates a pagination button with the specified text and page number
+ *
+ * @param {string|number} text - The text to display on the button
+ * @param {number} page - The page number this button should navigate to
+ * @returns {HTMLButtonElement} The created button element
+ */
 function createPaginationButton(text, page) {
   const button = document.createElement("button");
   button.textContent = text;
@@ -457,11 +520,23 @@ function createPaginationButton(text, page) {
   return button;
 }
 
+/**
+ * Shows or hides the loading indicator and results section
+ *
+ * @param {boolean} isLoading - Whether to show the loading state
+ */
 function showLoading(isLoading) {
   loadingIndicator.style.display = isLoading ? "block" : "none";
   resultsSection.style.display = isLoading ? "none" : "block";
 }
 
+/**
+ * Fetches data from the FHRS API
+ *
+ * @param {string} endpoint - The API endpoint to fetch
+ * @returns {Promise<object>} The JSON response from the API
+ * @throws {Error} If the request fails or user has not given consent
+ */
 async function fetchAPI(endpoint) {
   // Safety check - don't fetch if no consent
   if (!userConsent) {
@@ -479,6 +554,12 @@ async function fetchAPI(endpoint) {
   return await response.json();
 }
 
+/**
+ * Formats a date string into a human-readable format
+ *
+ * @param {string} dateString - The date string to format
+ * @returns {string} Formatted date string or "Not available" if no date
+ */
 function formatDate(dateString) {
   if (!dateString) return "Not available";
 
@@ -490,7 +571,12 @@ function formatDate(dateString) {
   });
 }
 
-// Helper function to create URL-friendly slugs
+/**
+ * Creates a URL-friendly slug from a text string
+ *
+ * @param {string} text - The text to convert to a slug
+ * @returns {string} URL-friendly slug
+ */
 function slugify(text) {
   return text
     .toString()

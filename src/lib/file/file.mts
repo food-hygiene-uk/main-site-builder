@@ -29,8 +29,15 @@ const reservedNames = [
   "lpt9",
 ];
 
-// Accepts a string and returns a string that is a valid name part of a filename.
-export const encodeName = (string: string) => {
+/**
+ * Accepts a string and returns a string that is a valid name part of a filename.
+ * Replaces invalid characters with hyphens and throws an error for reserved names.
+ *
+ * @param {string} string - The input string to convert to a valid filename
+ * @returns {string} A valid filename string with invalid characters replaced
+ * @throws {Error} If the input string converts to a reserved filename
+ */
+export const encodeName = (string: string): string => {
   const filename = string.toLowerCase().replace(replacedCharactersRegex, "-");
 
   if (reservedNames.includes(filename)) {

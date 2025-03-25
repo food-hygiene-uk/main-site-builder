@@ -17,6 +17,12 @@ const pageTemplatePath = fromFileUrl(
 );
 const template = await env.load(pageTemplatePath);
 
+/**
+ * Extracts address information from an establishment
+ *
+ * @param {Establishment} establishment - The establishment to extract the address from
+ * @returns {Object} Object containing address lines, postcode, and location link
+ */
 const getAddress = (establishment: Establishment): {
   lines: string[];
   postcode: string | null;
@@ -52,13 +58,23 @@ const getAddress = (establishment: Establishment): {
   };
 };
 
+/**
+ * Creates an address component factory
+ *
+ * @returns {Object} Object containing the component's CSS and render function
+ */
 export const Address = () => {
   const classSuffix = getClassSuffix();
   const processedCss = cssContent.replace(/__CLASS_SUFFIX__/g, classSuffix);
 
   const css = processedCss;
 
-  // deno-lint-ignore require-await
+  /**
+   * Renders an address for the given establishment
+   *
+   * @param {Establishment} establishment - The establishment to render the address for
+   * @returns {Promise<Object>} Promise resolving to the rendered template
+   */
   const render = async (
     establishment: Establishment,
   ): Promise<ReturnType<typeof template>> => {
