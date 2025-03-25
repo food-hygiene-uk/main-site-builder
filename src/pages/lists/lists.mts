@@ -37,23 +37,36 @@ const detailPageCssContent = Deno.readTextFileSync(detailPageCssPath);
 const detailPageJsPath = fromFileUrl(import.meta.resolve("./detail.mjs"));
 const detailPageJsContent = Deno.readTextFileSync(detailPageJsPath);
 
-const [listPageTemplate, detailPageTemplate, Header, Footer] = await Promise.all([
-  listPageTemplatePromise,
-  detailPageTemplatePromise,
-  HeaderPromise,
-  FooterPromise,
-]);
+const [listPageTemplate, detailPageTemplate, Header, Footer] = await Promise
+  .all([
+    listPageTemplatePromise,
+    detailPageTemplatePromise,
+    HeaderPromise,
+    FooterPromise,
+  ]);
 
 export const outputListsPages = async () => {
   const classSuffix = getClassSuffix();
 
   // Process CSS and JS for lists page
-  const processedListsPageCss = listsPageCssContent.replace(/__CLASS_SUFFIX__/g, classSuffix);
-  const processedListsPageJs = listsPageJsContent.replace(/__CLASS_SUFFIX__/g, classSuffix);
+  const processedListsPageCss = listsPageCssContent.replace(
+    /__CLASS_SUFFIX__/g,
+    classSuffix,
+  );
+  const processedListsPageJs = listsPageJsContent.replace(
+    /__CLASS_SUFFIX__/g,
+    classSuffix,
+  );
 
   // Process CSS and JS for detail page
-  const processedDetailPageCss = detailPageCssContent.replace(/__CLASS_SUFFIX__/g, classSuffix);
-  const processedDetailPageJs = detailPageJsContent.replace(/__CLASS_SUFFIX__/g, classSuffix);
+  const processedDetailPageCss = detailPageCssContent.replace(
+    /__CLASS_SUFFIX__/g,
+    classSuffix,
+  );
+  const processedDetailPageJs = detailPageJsContent.replace(
+    /__CLASS_SUFFIX__/g,
+    classSuffix,
+  );
 
   // Generate the main lists page
   const listsPageHtml = await listPageTemplate({
@@ -88,10 +101,16 @@ export const outputListsPages = async () => {
   // Create directories if they don't exist
   await Deno.mkdir(join("dist", "lists"), { recursive: true });
   await Deno.mkdir(join("dist", "lists", "detail"), { recursive: true });
-  
+
   // Write the main lists page
-  await Deno.writeTextFile(join("dist", "lists", "index.html"), listsPageHtml.content);
-  
+  await Deno.writeTextFile(
+    join("dist", "lists", "index.html"),
+    listsPageHtml.content,
+  );
+
   // Write the detail page
-  await Deno.writeTextFile(join("dist", "lists", "detail", "index.html"), detailPageHtml.content);
+  await Deno.writeTextFile(
+    join("dist", "lists", "detail", "index.html"),
+    detailPageHtml.content,
+  );
 };

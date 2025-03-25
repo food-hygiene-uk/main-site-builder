@@ -96,9 +96,12 @@ const _renderMap = (establishment: Establishment): string => {
     maxLon: longitude + 0.0005,
     maxLat: latitude + 0.0005,
   };
-  const bboxString = `${bbox.minLon},${bbox.minLat},${bbox.maxLon},${bbox.maxLat}`;
-  const mapUrl = `https://www.openstreetmap.org/export/embed.html?bbox=${bboxString}&layer=mapnik`;
-  const viewUrl = `https://www.openstreetmap.org/#map=19/${latitude}/${longitude}`;
+  const bboxString =
+    `${bbox.minLon},${bbox.minLat},${bbox.maxLon},${bbox.maxLat}`;
+  const mapUrl =
+    `https://www.openstreetmap.org/export/embed.html?bbox=${bboxString}&layer=mapnik`;
+  const viewUrl =
+    `https://www.openstreetmap.org/#map=19/${latitude}/${longitude}`;
   const mapHtml = `<iframe
     src="${mapUrl}"
     style="border: 1px solid black">

@@ -6,7 +6,7 @@ class RecentEstablishmentsService {
    * Initialize the service with default storage key and maximum items
    */
   constructor() {
-    this.STORAGE_KEY = 'recent-establishments';
+    this.STORAGE_KEY = "recent-establishments";
     this.MAX_ITEMS = 30;
   }
 
@@ -21,12 +21,14 @@ class RecentEstablishmentsService {
    */
   addEstablishment(establishment) {
     // Don't run in server-side code
-    if (typeof window === 'undefined') return;
+    if (typeof window === "undefined") return;
 
     const recentItems = this.getRecentEstablishments();
 
     // Check if the establishment is already in the list
-    const existingIndex = recentItems.findIndex(item => item.id === establishment.id);
+    const existingIndex = recentItems.findIndex((item) =>
+      item.id === establishment.id
+    );
 
     if (existingIndex !== -1) {
       // Remove the existing item so we can add it to the top (most recent)
@@ -36,7 +38,7 @@ class RecentEstablishmentsService {
     // Add the establishment with the current timestamp
     recentItems.unshift({
       ...establishment,
-      lastVisited: new Date().toISOString()
+      lastVisited: new Date().toISOString(),
     });
 
     // Trim the list if it exceeds the maximum number of items
@@ -54,7 +56,7 @@ class RecentEstablishmentsService {
    */
   getRecentEstablishments() {
     // Don't run in server-side code
-    if (typeof window === 'undefined') return [];
+    if (typeof window === "undefined") return [];
 
     const storedItems = localStorage.getItem(this.STORAGE_KEY);
     if (!storedItems) {
@@ -64,7 +66,7 @@ class RecentEstablishmentsService {
     try {
       return JSON.parse(storedItems);
     } catch (error) {
-      console.error('Error parsing recent establishments', error);
+      console.error("Error parsing recent establishments", error);
       return [];
     }
   }
@@ -74,7 +76,7 @@ class RecentEstablishmentsService {
    */
   clearRecentEstablishments() {
     // Don't run in server-side code
-    if (typeof window === 'undefined') return;
+    if (typeof window === "undefined") return;
 
     localStorage.removeItem(this.STORAGE_KEY);
   }

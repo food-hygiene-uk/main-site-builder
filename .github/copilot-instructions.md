@@ -23,17 +23,22 @@ This project is a static website generator that creates HTML, CSS, and JavaScrip
 ## Coding Standards
 
 ### TypeScript (`.mts` files)
+
 - Use standard TypeScript for type definitions
 - Document all functions using JSDoc
 - Utilize Deno API for file operations and other server-side functionality
 - Any function that returns a Promise should be marked as async
+- Always use `globalThis` instead of `window` for accessing global objects
 
 ### JavaScript (`.mjs` files)
+
 - Use JSDoc for type information
 - Should be browser-compatible without transpilation
 - Any function that returns a Promise should be marked as async
+- Always use `globalThis` instead of `window` for accessing global objects
 
 ### CSS
+
 - All styles must support both light and dark modes
   - because the site allows theme preference and falls back to browser settings the following code must be used to check if Dark mode is enabled:
 
@@ -47,5 +52,6 @@ This project is a static website generator that creates HTML, CSS, and JavaScrip
 - Follow the established theming patterns
 
 ### Vento Templates (`.vto` files)
+
 - Used for HTML generation
 - Can include components and page-specific content
