@@ -13,11 +13,12 @@ This project is a static website generator that creates HTML, CSS, and JavaScrip
 
 ## File Structure
 
-- `generate-site.mts` - Main orchestrator file and entry point for code execution
-- `pages/` - Contains top-level page directories (no nested pages)
-  - Each page has its own directory with associated files
-  - Page `.mts` files extract content from `.css` and `.mjs` files and pass it to Vento templates
-- `components/` - Contains reusable components used across multiple pages
+- `src/` - Parent directory containing all source files
+  - `generate-site.mts` - Main orchestrator file and entry point for code execution
+  - `pages/` - Contains top-level page directories (no nested pages)
+    - Each page has its own directory with associated files
+    - Page `.mts` files extract content from `.css` and `.mjs` files and pass it to Vento templates
+  - `components/` - Contains reusable components used across multiple pages
 
 ## Coding Standards
 
@@ -34,6 +35,15 @@ This project is a static website generator that creates HTML, CSS, and JavaScrip
 
 ### CSS
 - All styles must support both light and dark modes
+  - because the site allows theme preference and falls back to browser settings the following code must be used to check if Dark mode is enabled:
+
+  ```
+  @media (not (scripting: none)) or (prefers-color-scheme: dark) {
+    html:not([data-color-scheme="light"]) {
+      /* dark styles here */
+    }
+  }
+  ```
 - Follow the established theming patterns
 
 ### Vento Templates (`.vto` files)

@@ -35,6 +35,30 @@
 .content-__CLASS_SUFFIX__ {
   display: contents;
 
+  /* Component-scoped variables */
+  --card-bg: white;
+  --card-border: #ddd;
+  --card-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  --input-bg: #fff;
+  --input-border: #ccc;
+  --text-muted: #666;
+  --section-bg: #f8f8f8;
+  --highlight-hover: #f0f0f0;
+
+  /* Apply dark mode changes */
+  @media (not (scripting: none)) or (prefers-color-scheme: dark) {
+    html:not([data-color-scheme="light"]) & {
+      --card-bg: #2a2a2a;
+      --card-border: #444;
+      --card-shadow: 0 2px 4px rgba(0, 0, 0, 0.3);
+      --input-bg: #333;
+      --input-border: #555;
+      --text-muted: #aaa;
+      --section-bg: #222;
+      --highlight-hover: #333;
+    }
+  }
+
   .container {
     max-width: 1200px;
     margin: 0 auto;
@@ -48,11 +72,11 @@
   }
 
   .search-form {
-    background-color: #f8f8f8;
+    background-color: var(--section-bg);
     border-radius: 8px;
     padding: 20px;
     margin-bottom: 30px;
-    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    box-shadow: var(--card-shadow);
   }
 
   .search-fields {
@@ -88,9 +112,11 @@
   .search-field input,
   .search-field select {
     padding: 10px;
-    border: 1px solid #ccc;
+    border: 1px solid var(--input-border);
     border-radius: 4px;
     font-size: 1em;
+    background-color: var(--input-bg);
+    color: var(--text-color);
   }
 
   .search-actions {
@@ -171,11 +197,11 @@
   }
 
   .establishment {
-    border: 1px solid #ddd;
+    border: 1px solid var(--card-border);
     border-radius: 8px;
     padding: 15px;
-    background-color: white;
-    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+    background-color: var(--card-bg);
+    box-shadow: var(--card-shadow);
     transition: transform 0.2s;
   }
 
@@ -257,10 +283,10 @@
   }
 
   .consent-section {
-    background-color: #f9f9f9;
+    background-color: var(--section-bg);
     border-radius: 8px;
     margin: 20px 0;
-    border: 3px solid #ddd;
+    border: 3px solid var(--card-border);
     box-sizing: border-box;
 
     &.attention-effect {
