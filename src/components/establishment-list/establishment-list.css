@@ -1,0 +1,158 @@
+/* Make sure our element is visible and has appropriate styling */
+.establishment-list-component {
+  display: block;
+  margin-bottom: 30px;
+  width: 100%;
+}
+
+/* View toggle buttons */
+.view-toggle {
+  display: flex;
+  justify-content: flex-end;
+  margin-bottom: 15px;
+}
+
+.toggle-button {
+  background-color: var(--hygiene-green);
+  color: white;
+  border: none;
+  padding: 5px 10px;
+  margin-left: 10px;
+  border-radius: 4px;
+  cursor: pointer;
+  font-weight: bold;
+  transition: background-color 0.2s;
+}
+
+.toggle-button.active {
+  background-color: #005a30;
+}
+
+.establishments-list {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+  margin-bottom: 20px;
+  width: 100%;
+}
+
+.establishments-list .establishment {
+  padding: 15px;
+  position: relative;
+  border: 1px solid #ddd;
+  border-radius: 8px;
+  background-color: #fff;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+}
+
+.establishments-list .establishment h3 {
+  font-size: 1.2em;
+  margin-top: 0;
+  margin-bottom: 10px;
+  color: var(--hygiene-green);
+}
+
+.establishments-list .establishment-details {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 10px;
+}
+
+@media (min-width: 768px) {
+  .establishments-list .establishment-details {
+    grid-template-columns: 1fr 1fr;
+  }
+}
+
+.establishments-list .business-type {
+  font-style: italic;
+  margin-bottom: 10px;
+  color: #555;
+}
+
+.establishments-list .viewed-time {
+  color: #666;
+  font-size: 0.9em;
+  margin-bottom: 10px;
+}
+
+.establishments-list .details-link {
+  display: block;
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  z-index: 1;
+  text-indent: -9999px; /* Hide the text */
+}
+
+.establishments-list .establishment:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+}
+
+.establishments-list hr {
+  border: none;
+  border-top: 1px solid var(--hygiene-green);
+  margin: 0;
+}
+
+/* Pagination */
+.pagination {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin-top: 20px;
+  gap: 5px;
+}
+
+.pagination button {
+  padding: 5px 10px;
+  background-color: #f0f0f0;
+  color: #333;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+  cursor: pointer;
+  min-width: 40px;
+  text-align: center;
+}
+
+.pagination button.active {
+  background-color: var(--hygiene-green);
+  color: white;
+  border-color: var(--hygiene-green);
+}
+
+.pagination button:hover:not(.active) {
+  background-color: #e0e0e0;
+}
+
+/* Dark mode support */
+@media (not (scripting: none)) or (prefers-color-scheme: dark) {
+  html:not([data-color-scheme="light"]) {
+    .establishments-list .establishment {
+      background-color: #2d2d2d;
+      border-color: #444;
+      box-shadow: 0 2px 5px rgba(0, 0, 0, 0.3);
+    }
+
+    .establishments-list .business-type {
+      color: #bbb;
+    }
+
+    .establishments-list .viewed-time {
+      color: #aaa;
+    }
+
+    .pagination button {
+      background-color: #333;
+      border-color: #444;
+      color: #ddd;
+    }
+
+    .pagination button:hover:not(.active) {
+      background-color: #444;
+    }
+  }
+}

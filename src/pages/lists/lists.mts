@@ -1,9 +1,10 @@
 import { fromFileUrl, join } from "@std/path";
 import vento from "@vento/vento";
 import autoTrim from "@vento/vento/plugins/auto_trim.ts";
-import { forgeRoot } from "../../components/root/forge.mts";
-import { forgeHeader } from "../../components/header/forge.mts";
-import { forgeFooter } from "../../components/footer/forge.mts";
+import { forgeRoot } from "components/root/forge.mts";
+import { forgeHeader } from "components/header/forge.mts";
+import { forgeFooter } from "components/footer/forge.mts";
+import { Address } from "components/address/forge.mts";
 import { getClassSuffix } from "../../lib/template/template.mts";
 import { config } from "../../lib/config/config.mts";
 
@@ -22,6 +23,7 @@ const detailPageTemplatePromise = env.load(detailPageTemplatePath);
 const Root = forgeRoot();
 const HeaderPromise = forgeHeader();
 const FooterPromise = forgeFooter();
+const address = Address();
 
 // Load CSS and JS for lists page
 const listsPageCssPath = fromFileUrl(import.meta.resolve("./lists.css"));
@@ -29,13 +31,6 @@ const listsPageCssContent = Deno.readTextFileSync(listsPageCssPath);
 
 const listsPageJsPath = fromFileUrl(import.meta.resolve("./lists.mjs"));
 const listsPageJsContent = Deno.readTextFileSync(listsPageJsPath);
-
-// Load CSS and JS for detail page
-const detailPageCssPath = fromFileUrl(import.meta.resolve("./detail.css"));
-const detailPageCssContent = Deno.readTextFileSync(detailPageCssPath);
-
-const detailPageJsPath = fromFileUrl(import.meta.resolve("./detail.mjs"));
-const detailPageJsContent = Deno.readTextFileSync(detailPageJsPath);
 
 const [listPageTemplate, detailPageTemplate, Header, Footer] = await Promise
   .all([
@@ -58,16 +53,6 @@ export const outputListsPages = async () => {
     classSuffix,
   );
 
-  // Process CSS and JS for detail page
-  const processedDetailPageCss = detailPageCssContent.replace(
-    /__CLASS_SUFFIX__/g,
-    classSuffix,
-  );
-  const processedDetailPageJs = detailPageJsContent.replace(
-    /__CLASS_SUFFIX__/g,
-    classSuffix,
-  );
-
   // Generate the main lists page
   const listsPageHtml = await listPageTemplate({
     headHtml: await Root.renderHead({
@@ -82,6 +67,47 @@ export const outputListsPages = async () => {
     footerHtml: Footer.html,
     processedJs: processedListsPageJs,
   });
+
+  // Load CSS and JS for detail page
+  const detailPageCssPath = fromFileUrl(import.meta.resolve("./detail.css"));
+  const detailPageCssContent = Deno.readTextFileSync(detailPageCssPath);
+
+  const detailPageJsPath = fromFileUrl(import.meta.resolve("./detail.mjs"));
+  const detailPageJsContent = Deno.readTextFileSync(detailPageJsPath);
+
+  // Process JS for detail page
+  const processedDetailPageJs = detailPageJsContent.replace(
+    /__CLASS_SUFFIX__/g,
+    classSuffix,
+  );
+
+  // Read the component CSS files
+  const establishmentCardCssPath = fromFileUrl(
+    import.meta.resolve(
+      "../../components/establishment-card/establishment-card.css",
+    ),
+  );
+  const establishmentCardCss = Deno.readTextFileSync(establishmentCardCssPath);
+
+  const establishmentListCssPath = fromFileUrl(
+    import.meta.resolve(
+      "../../components/establishment-list/establishment-list.css",
+    ),
+  );
+  const establishmentListCss = Deno.readTextFileSync(establishmentListCssPath);
+
+  const processedDetailPageCss = detailPageCssContent.replace(
+    /__CLASS_SUFFIX__/g,
+    classSuffix,
+  )
+    .replace(
+      /\/\* __ADDITIONAL_CSS__ \*\//g,
+      `
+      ${address.css}
+      ${establishmentCardCss}
+      ${establishmentListCss}
+    `,
+    );
 
   // Generate the detail page (a single page that handles all list types via URL parameters)
   const detailPageHtml = await detailPageTemplate({

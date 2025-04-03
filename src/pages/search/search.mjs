@@ -1,3 +1,5 @@
+import { EstablishmentList } from "components/establishment-list/establishment-list.mjs";
+
 // FHRS API Configuration
 const API_BASE = "https://api.ratings.food.gov.uk";
 const API_HEADERS = {
@@ -13,9 +15,11 @@ const loadingIndicator = document.getElementById("loading");
 const resultsContainer = document.getElementById("resultsContainer");
 const resultsSection = document.getElementById("results");
 const resultsCount = document.getElementById("resultsCount");
-const pagination = document.getElementById("pagination");
 const consentSection = document.getElementById("consentSection");
 const consentToggle = document.getElementById("consentToggle");
+
+// Establishment list component
+let establishmentList;
 
 // Consent state
 const CONSENT_STORAGE_KEY = "fhrs_api_consent";
@@ -32,6 +36,16 @@ const state = {
 
 // Initialize page
 document.addEventListener("DOMContentLoaded", () => {
+  // Initialize the establishment list component
+  establishmentList = new EstablishmentList({
+    container: resultsContainer,
+    loadingElement: loadingIndicator,
+    emptyElement: document.createElement("div"), // We'll handle empty state manually
+    errorElement: document.createElement("div"), // We'll handle errors manually
+    countElement: resultsCount,
+    pageSize: state.pageSize,
+  });
+
   setupConsentHandling();
   setupEventListeners();
 
@@ -213,19 +227,6 @@ function setupEventListeners() {
       highlightConsentSection();
     }
   });
-
-  // Remove the individual focus handlers we added before
-  // (The section below can be removed since we're replacing it with the form-level handlers)
-  /*
-    const formFields = searchForm.querySelectorAll("input, select");
-    formFields.forEach((field) => {
-      field.addEventListener("focus", () => {
-        if (!userConsent) {
-          highlightConsentSection();
-        }
-      });
-    });
-    */
 }
 
 // Rest of the JavaScript remains the same...
@@ -353,7 +354,9 @@ async function performSearch() {
     return;
   }
 
-  showLoading(true);
+  // Show loading state
+  resultsSection.style.display = "block";
+  await establishmentList.loadEstablishments({ establishments: [] }, true);
 
   try {
     // Build search query
@@ -371,163 +374,62 @@ async function performSearch() {
     state.totalPages = Math.ceil(state.totalResults / state.pageSize);
 
     // Display results
-    displayResults(response.establishments);
-    updatePagination();
+    await displayResults(response.establishments);
 
     // Scroll to results
     resultsSection.scrollIntoView({ behavior: "smooth" });
   } catch (error) {
     console.error("Search failed:", error);
-    resultsContainer.innerHTML = `
-      <div class="error-message">
-        <p>Sorry, there was an error performing your search. Please try again.</p>
-      </div>
-    `;
-  } finally {
-    showLoading(false);
+    establishmentList.showError(
+      "Sorry, there was an error performing your search. Please try again.",
+    );
   }
 }
 
 /**
- * Displays search results in the results container
+ * Displays search results using the establishment list component
  *
  * @param {Array<object>} establishments - Array of establishment objects to display
+ * @returns {Promise<void>}
  */
-function displayResults(establishments) {
+async function displayResults(establishments) {
   resultsSection.style.display = "block";
 
   if (establishments.length === 0) {
-    resultsContainer.innerHTML = `
-      <div class="no-results">
-        <p>No establishments found matching your search criteria.</p>
-      </div>
-    `;
-    resultsCount.textContent = "0 results found";
+    establishmentList.showError(
+      "No establishments found matching your search criteria.",
+    );
     return;
   }
 
-  resultsCount.textContent =
-    `Showing ${establishments.length} of ${state.totalResults} results`;
-
-  // Generate HTML for each establishment
-  const html = establishments.map((establishment) => {
-    const ratingClass = establishment.RatingValue
-      ? `rating-${establishment.RatingValue}`
-      : "";
-    const ratingText = establishment.RatingValue
-      ? `Rating: ${establishment.RatingValue}`
-      : "No rating";
-
-    return `
-      <div class="establishment" data-establishment-id="${establishment.FHRSID}">
-        <h3>${establishment.BusinessName}</h3>
-        <div class="establishment-details">
-          <div>
-            <p class="business-type">${establishment.BusinessType}</p>
-            ${renderAddress(establishment)}
-          </div>
-          <div>
-            <p><span class="rating-badge ${ratingClass}">${ratingText}</span></p>
-            <p>Last inspection: ${formatDate(establishment.RatingDate)}</p>
-            <a href="/e/${
-      slugify(establishment.BusinessName)
-    }-${establishment.FHRSID}" class="details-link">View Details</a>
-          </div>
-        </div>
-      </div>
-    `;
-  }).join("");
-
-  resultsContainer.innerHTML = html;
+  // Load the establishments into the list component
+  await establishmentList.loadEstablishments(
+    {
+      establishments: establishments,
+      totalResults: state.totalResults,
+      currentPage: state.currentPage,
+      pageSize: state.pageSize,
+    },
+    false,
+    handlePageChange,
+  );
 }
 
 /**
- * Renders an address HTML from an establishment object
+ * Handles page changes in the establishment list
  *
- * @param {object} establishment - The establishment object containing address data
- * @returns {string} - HTML string representation of the address
+ * @param {number} page - The page number to navigate to
  */
-function renderAddress(establishment) {
-  const addressParts = [];
+async function handlePageChange(page) {
+  state.currentPage = page;
+  state.searchParams.set("pageNumber", page.toString());
 
-  if (establishment.AddressLine1) addressParts.push(establishment.AddressLine1);
-  if (establishment.AddressLine2) addressParts.push(establishment.AddressLine2);
-  if (establishment.AddressLine3) addressParts.push(establishment.AddressLine3);
-  if (establishment.AddressLine4) addressParts.push(establishment.AddressLine4);
-  if (establishment.PostCode) addressParts.push(establishment.PostCode);
+  // Update URL without triggering a full page reload
+  const newRelativePathQuery = globalThis.location.pathname + "?" +
+    state.searchParams.toString();
+  history.pushState(null, "", newRelativePathQuery);
 
-  return `<address>${addressParts.join(", ")}</address>`;
-}
-
-/**
- * Updates the pagination controls based on current state
- */
-function updatePagination() {
-  pagination.innerHTML = "";
-
-  if (state.totalPages <= 1) return;
-
-  // Previous button
-  if (state.currentPage > 1) {
-    const prevButton = createPaginationButton(
-      "Previous",
-      state.currentPage - 1,
-    );
-    pagination.appendChild(prevButton);
-  }
-
-  // Page numbers
-  const startPage = Math.max(1, state.currentPage - 2);
-  const endPage = Math.min(state.totalPages, startPage + 4);
-
-  for (let i = startPage; i <= endPage; i++) {
-    const button = createPaginationButton(i, i);
-    if (i === state.currentPage) {
-      button.classList.add("active");
-    }
-    pagination.appendChild(button);
-  }
-
-  // Next button
-  if (state.currentPage < state.totalPages) {
-    const nextButton = createPaginationButton("Next", state.currentPage + 1);
-    pagination.appendChild(nextButton);
-  }
-}
-
-/**
- * Creates a pagination button with the specified text and page number
- *
- * @param {string|number} text - The text to display on the button
- * @param {number} page - The page number this button should navigate to
- * @returns {HTMLButtonElement} The created button element
- */
-function createPaginationButton(text, page) {
-  const button = document.createElement("button");
-  button.textContent = text;
-  button.addEventListener("click", () => {
-    // Only proceed if user has given consent
-    if (!userConsent) {
-      highlightConsentSection();
-      return;
-    }
-
-    state.currentPage = page;
-    state.searchParams.set("pageNumber", page);
-    updateURLFromForm();
-    performSearch();
-  });
-  return button;
-}
-
-/**
- * Shows or hides the loading indicator and results section
- *
- * @param {boolean} isLoading - Whether to show the loading state
- */
-function showLoading(isLoading) {
-  loadingIndicator.style.display = isLoading ? "block" : "none";
-  resultsSection.style.display = isLoading ? "none" : "block";
+  await performSearch();
 }
 
 /**
@@ -552,38 +454,4 @@ async function fetchAPI(endpoint) {
   }
 
   return await response.json();
-}
-
-/**
- * Formats a date string into a human-readable format
- *
- * @param {string} dateString - The date string to format
- * @returns {string} Formatted date string or "Not available" if no date
- */
-function formatDate(dateString) {
-  if (!dateString) return "Not available";
-
-  const date = new Date(dateString);
-  return date.toLocaleDateString("en-GB", {
-    day: "numeric",
-    month: "short",
-    year: "numeric",
-  });
-}
-
-/**
- * Creates a URL-friendly slug from a text string
- *
- * @param {string} text - The text to convert to a slug
- * @returns {string} URL-friendly slug
- */
-function slugify(text) {
-  return text
-    .toString()
-    .toLowerCase()
-    .replace(/\s+/g, "-")
-    .replace(/[^\w\-]+/g, "")
-    .replace(/\-\-+/g, "-")
-    .replace(/^-+/, "")
-    .replace(/-+$/, "");
 }

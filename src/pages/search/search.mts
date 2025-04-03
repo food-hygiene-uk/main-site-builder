@@ -1,10 +1,10 @@
 import { fromFileUrl, join } from "@std/path";
 import vento from "@vento/vento";
 import autoTrim from "@vento/vento/plugins/auto_trim.ts";
-import { forgeRoot } from "../../components/root/forge.mts";
-import { forgeHeader } from "../../components/header/forge.mts";
-import { forgeFooter } from "../../components/footer/forge.mts";
-import { Address } from "../../components/address/forge.mts";
+import { forgeRoot } from "components/root/forge.mts";
+import { forgeHeader } from "components/header/forge.mts";
+import { forgeFooter } from "components/footer/forge.mts";
+import { Address } from "components/address/forge.mts";
 import { getClassSuffix } from "../../lib/template/template.mts";
 
 const env = vento();
@@ -37,8 +37,30 @@ export const outputSearchPage = async () => {
   const jsPath = fromFileUrl(import.meta.resolve("./search.mjs"));
   const jsContent = Deno.readTextFileSync(jsPath);
 
+  // Read the component CSS files
+  const establishmentCardCssPath = fromFileUrl(
+    import.meta.resolve(
+      "../../components/establishment-card/establishment-card.css",
+    ),
+  );
+  const establishmentCardCss = Deno.readTextFileSync(establishmentCardCssPath);
+
+  const establishmentListCssPath = fromFileUrl(
+    import.meta.resolve(
+      "../../components/establishment-list/establishment-list.css",
+    ),
+  );
+  const establishmentListCss = Deno.readTextFileSync(establishmentListCssPath);
+
   const processedCss = cssContent.replace(/__CLASS_SUFFIX__/g, classSuffix)
-    .replace(/\/\* __ADDITIONAL_CSS__ \*\//g, `\n${address.css}`);
+    .replace(
+      /\/\* __ADDITIONAL_CSS__ \*\//g,
+      `
+      ${address.css}
+      ${establishmentCardCss}
+      ${establishmentListCss}
+    `,
+    );
 
   const pageCSS = processedCss;
   const processedJs = jsContent.replace(/__CLASS_SUFFIX__/g, classSuffix);

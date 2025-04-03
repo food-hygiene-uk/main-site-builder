@@ -4,6 +4,14 @@
   <title>{{ fullTitle }}</title>
   <link rel="icon" href="/favicon.svg" type="image/svg+xml">
   <link rel="canonical" href="{{ canonical }}" />
+  <script type="importmap">
+    {
+      "imports": {
+        "components/": "/components/",
+        "scripts/": "/scripts/"
+      }
+    }
+  </script>
   <script>
     {{ processedJs }}
   </script>

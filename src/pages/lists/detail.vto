@@ -10,18 +10,18 @@
           <p id="listDescription" class="list-description"></p>
           <a href="/lists/" class="back-button">← Back to Lists</a>
         </div>
-        
+
         <div id="loading" class="loading-indicator">Loading establishments...</div>
-        
+
         <div id="establishmentsList" class="establishments-container" style="display: none;">
           <!-- This will be populated via JavaScript -->
         </div>
-        
+
         <div id="emptyList" class="empty-list-message" style="display: none;">
           <p>This list doesn't have any establishments yet.</p>
           <p>When you view establishment details, they'll automatically be added to your "Recent" list.</p>
         </div>
-        
+
         <div id="errorMessage" class="error-message" style="display: none;">
           <p>Sorry, we couldn't find the requested list.</p>
           <p>Please return to the <a href="/lists/">Lists page</a> and try again.</p>
@@ -29,10 +29,8 @@
       </div>
     </div>
     {{ footerHtml }}
-    
-    <script type="module">
-        import recentEstablishmentsService from '/scripts/recent-establishments-service.mjs';
 
+    <script type="module">
       {{ processedJs }}
     </script>
   </body>

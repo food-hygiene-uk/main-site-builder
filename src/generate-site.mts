@@ -23,11 +23,26 @@ await ensureDir("dist/search");
 await ensureDir("dist/e");
 await ensureDir("dist/l");
 await ensureDir("dist/lists");
+await ensureDir("dist/lists/detail");
 await ensureDir("dist/scripts");
 await ensureDir("dist/sitemap");
+await ensureDir("dist/components");
+await ensureDir("dist/components/establishment-card");
+await ensureDir("dist/components/establishment-list");
 
+// Copy needed files to dist directory
 await copy("assets", "dist", { overwrite: true });
-await copy("src/services", "dist/scripts", { overwrite: true });
+await copy("src/scripts", "dist/scripts", { overwrite: true });
+await copy(
+  "src/components/establishment-card",
+  "dist/components/establishment-card",
+  { overwrite: true },
+);
+await copy(
+  "src/components/establishment-list",
+  "dist/components/establishment-list",
+  { overwrite: true },
+);
 
 const baseURL = config.BASE_URL;
 

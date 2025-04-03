@@ -25,17 +25,23 @@ This project is a static website generator that creates HTML, CSS, and JavaScrip
 ### TypeScript (`.mts` files)
 
 - Use standard TypeScript for type definitions
+- Use specific types, not primitives
 - Document all functions using JSDoc
 - Utilize Deno API for file operations and other server-side functionality
-- Any function that returns a Promise should be marked as async
+- Any function that returns a Promise should be marked as `async`
 - Always use `globalThis` instead of `window` for accessing global objects
+- Prefer arrow function expressions (`const fn = () => {}`) over traditional function declarations (`function fn() {}`). Exceptions: generators, object methods requiring dynamic `this`
+- Prefer modules to classes
 
 ### JavaScript (`.mjs` files)
 
 - Use JSDoc for type information
+- Use specific types, not primitives
 - Should be browser-compatible without transpilation
 - Any function that returns a Promise should be marked as async
 - Always use `globalThis` instead of `window` for accessing global objects
+- Prefer arrow function expressions (`const fn = () => {}`) over traditional function declarations (`function fn() {}`). Exceptions: generators, object methods requiring dynamic `this`
+- Prefer modules to classes
 
 ### CSS
 

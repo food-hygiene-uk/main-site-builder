@@ -6,20 +6,11 @@ document.addEventListener("DOMContentLoaded", () => {
   const establishmentId = establishmentElement.getAttribute(
     "data-establishment-id",
   );
-  const establishmentName = establishmentElement.querySelector(".name")
-    ?.textContent;
 
-  if (!establishmentId || !establishmentName) return;
-
-  // Construct the URL for this establishment
-  const url =
-    document.querySelector('link[rel="canonical"]')?.getAttribute("href") ||
-    globalThis.location.pathname;
+  if (!establishmentId) return;
 
   // Add this establishment to the recently viewed list
   recentEstablishmentsService.addEstablishment({
-    id: establishmentId,
-    name: establishmentName,
-    url: url,
+    FHRSID: establishmentId,
   });
 });

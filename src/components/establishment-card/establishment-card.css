@@ -1,0 +1,120 @@
+.establishment-card {
+  background-color: #fff;
+  border-radius: 8px;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+  overflow: hidden;
+  transition: transform 0.2s, box-shadow 0.2s;
+}
+
+.establishment-card:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+}
+
+.establishment-content {
+  padding: 15px;
+}
+
+.establishment-name {
+  margin-top: 0;
+  margin-bottom: 10px;
+  font-size: 1.2em;
+  color: var(--hygiene-green);
+}
+
+.establishment-type {
+  font-style: italic;
+  margin-bottom: 10px;
+  color: #555;
+}
+
+.establishment-details {
+  color: #666;
+  font-size: 0.9em;
+  margin-bottom: 10px;
+}
+
+.establishment-rating {
+  margin-bottom: 10px;
+}
+
+.rating-date {
+  font-size: 0.9em;
+  color: #666;
+  margin-bottom: 10px;
+}
+
+.view-details {
+  display: inline-block;
+  background-color: var(--hygiene-green);
+  color: white;
+  padding: 5px 10px;
+  border-radius: 4px;
+  text-decoration: none;
+  font-size: 0.9em;
+  font-weight: bold;
+  transition: background-color 0.2s;
+}
+
+.view-details:hover {
+  background-color: #005a30;
+}
+
+/* Rating badges */
+.rating-badge {
+  display: inline-block;
+  padding: 5px 10px;
+  border-radius: 20px;
+  font-weight: 600;
+  margin-right: 10px;
+  text-align: center;
+}
+
+.rating-5 {
+  background-color: #00a651;
+  color: white;
+}
+
+.rating-4 {
+  background-color: #8dc63f;
+  color: white;
+}
+
+.rating-3 {
+  background-color: #ffcc00;
+  color: black;
+}
+
+.rating-2 {
+  background-color: #f7941d;
+  color: white;
+}
+
+.rating-1 {
+  background-color: #ed1c24;
+  color: white;
+}
+
+.rating-0 {
+  background-color: #ed1c24;
+  color: white;
+}
+
+/* Dark mode support */
+@media (not (scripting: none)) or (prefers-color-scheme: dark) {
+  html:not([data-color-scheme="light"]) {
+    .establishment-card {
+      background-color: #2d2d2d;
+      box-shadow: 0 2px 5px rgba(0, 0, 0, 0.3);
+    }
+
+    .establishment-type {
+      color: #bbb;
+    }
+
+    .establishment-details,
+    .rating-date {
+      color: #aaa;
+    }
+  }
+}

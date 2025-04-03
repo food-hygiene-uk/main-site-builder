@@ -41,58 +41,6 @@
     font-style: italic;
   }
 
-  .establishments-container {
-    display: grid;
-    grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
-    gap: 20px;
-  }
-
-  .establishment-card {
-    background-color: #fff;
-    border-radius: 8px;
-    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
-    overflow: hidden;
-    transition: transform 0.2s, box-shadow 0.2s;
-  }
-
-  .establishment-card:hover {
-    transform: translateY(-5px);
-    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
-  }
-
-  .establishment-content {
-    padding: 15px;
-  }
-
-  .establishment-name {
-    margin-top: 0;
-    margin-bottom: 10px;
-    font-size: 1.2em;
-    color: var(--hygiene-green);
-  }
-
-  .establishment-details {
-    color: #666;
-    font-size: 0.9em;
-    margin-bottom: 10px;
-  }
-
-  .view-details {
-    display: inline-block;
-    background-color: var(--hygiene-green);
-    color: white;
-    padding: 5px 10px;
-    border-radius: 4px;
-    text-decoration: none;
-    font-size: 0.9em;
-    font-weight: bold;
-    transition: background-color 0.2s;
-  }
-
-  .view-details:hover {
-    background-color: #005a30;
-  }
-
   .empty-list-message, .error-message {
     text-align: center;
     padding: 40px;
@@ -114,4 +62,25 @@
   .empty-list-message a:hover, .error-message a:hover {
     text-decoration: underline;
   }
+
+  /* Dark mode support */
+  @media (not (scripting: none)) or (prefers-color-scheme: dark) {
+    html:not([data-color-scheme="light"]) {
+      .list-description {
+        color: #aaa;
+      }
+
+      .loading-indicator {
+        color: #aaa;
+      }
+
+      .empty-list-message,
+      .error-message {
+        background-color: #333;
+        color: #ccc;
+      }
+    }
+  }
+
+  /* __ADDITIONAL_CSS__ */
 }
