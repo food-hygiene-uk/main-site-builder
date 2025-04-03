@@ -181,7 +181,7 @@ export class EstablishmentList {
 
     try {
       // Render items in list view
-      for (const [index, establishment] of currentItems.entries()) {
+      for (const [_index, establishment] of currentItems.entries()) {
         try {
           const item = await renderEstablishmentCard(establishment);
           this.listElement.appendChild(item);
@@ -274,8 +274,12 @@ export class EstablishmentList {
       // Update count element if it exists
       if (this.countElement) {
         const start = ((this.currentPage - 1) * this.pageSize) + 1;
-        const end = Math.min(start + this.establishments.length - 1, this.totalResults);
-        this.countElement.textContent = `Showing ${start}-${end} of ${this.totalResults} results`;
+        const end = Math.min(
+          start + this.establishments.length - 1,
+          this.totalResults,
+        );
+        this.countElement.textContent =
+          `Showing ${start}-${end} of ${this.totalResults} results`;
       }
 
       // Render establishments and pagination

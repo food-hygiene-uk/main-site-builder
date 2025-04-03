@@ -64,21 +64,29 @@ document.addEventListener("DOMContentLoaded", () => {
       establishmentsContainer.style.display = "block";
 
       // Just re-render the current page with the existing establishments
-      await establishmentList.loadEstablishments({
-        establishments: establishments,
-        totalResults: establishments.length,
-        currentPage: page,
-        pageSize: 10,
-      }, false, handleClientPageChange);
+      await establishmentList.loadEstablishments(
+        {
+          establishments: establishments,
+          totalResults: establishments.length,
+          currentPage: page,
+          pageSize: 10,
+        },
+        false,
+        handleClientPageChange,
+      );
     };
 
     // Load all establishments at once for client-side pagination
-    await establishmentList.loadEstablishments({
-      establishments: establishments,
-      totalResults: establishments.length,
-      currentPage: 1,
-      pageSize: 10,
-    }, false, handleClientPageChange);
+    await establishmentList.loadEstablishments(
+      {
+        establishments: establishments,
+        totalResults: establishments.length,
+        currentPage: 1,
+        pageSize: 10,
+      },
+      false,
+      handleClientPageChange,
+    );
 
     // Double-check visibility after loading
     establishmentsContainer.style.display = "block";
