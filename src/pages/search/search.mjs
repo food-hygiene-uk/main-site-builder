@@ -393,7 +393,9 @@ async function performSearch() {
  * @returns {Promise<void>}
  */
 async function displayResults(establishments) {
+  // Make sure results section is visible
   resultsSection.style.display = "block";
+  resultsContainer.style.display = "block";
 
   if (establishments.length === 0) {
     establishmentList.showError(
@@ -422,13 +424,19 @@ async function displayResults(establishments) {
  */
 async function handlePageChange(page) {
   state.currentPage = page;
-  state.searchParams.set("pageNumber", page.toString());
 
-  // Update URL without triggering a full page reload
+  // Update URL to reflect new page
+  state.searchParams.set("pageNumber", page.toString());
   const newRelativePathQuery = globalThis.location.pathname + "?" +
     state.searchParams.toString();
   history.pushState(null, "", newRelativePathQuery);
 
+  // Show loading state but don't hide containing elements
+  if (loadingIndicator) {
+    loadingIndicator.style.display = "block";
+  }
+
+  // Fetch new results for this page
   await performSearch();
 }
 

@@ -57,15 +57,31 @@ document.addEventListener("DOMContentLoaded", () => {
     // Make sure the container is visible before loading establishments
     establishmentsContainer.style.display = "block";
 
-    // Simulate a short loading delay for better UX
-    setTimeout(async () => {
+    // For client-side pagination, we need a page change handler that updates the view
+    // without loading new data from the server
+    const handleClientPageChange = async (page) => {
+      // Make sure container stays visible
+      establishmentsContainer.style.display = "block";
+
+      // Just re-render the current page with the existing establishments
       await establishmentList.loadEstablishments({
         establishments: establishments,
         totalResults: establishments.length,
-        currentPage: 1,
+        currentPage: page,
         pageSize: 10,
-      });
-    }, 300);
+      }, false, handleClientPageChange);
+    };
+
+    // Load all establishments at once for client-side pagination
+    await establishmentList.loadEstablishments({
+      establishments: establishments,
+      totalResults: establishments.length,
+      currentPage: 1,
+      pageSize: 10,
+    }, false, handleClientPageChange);
+
+    // Double-check visibility after loading
+    establishmentsContainer.style.display = "block";
   }
 
   // Load establishments when the page loads

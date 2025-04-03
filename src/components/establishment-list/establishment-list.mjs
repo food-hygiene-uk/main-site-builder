@@ -70,6 +70,13 @@ export class EstablishmentList {
    * @private
    */
   _getCurrentPageItems() {
+    // For server-side pagination, we've already received just the items for this page
+    // so we should return all items rather than trying to slice them
+    if (this.establishments.length <= this.pageSize) {
+      return this.establishments;
+    }
+
+    // For client-side pagination, we calculate the slice
     const startIndex = (this.currentPage - 1) * this.pageSize;
     const endIndex = startIndex + this.pageSize;
     return this.establishments.slice(startIndex, endIndex);
@@ -129,17 +136,23 @@ export class EstablishmentList {
   _createPaginationButton(text, page, onPageChange) {
     const button = document.createElement("button");
     button.textContent = text;
-    button.addEventListener("click", () => {
-      this.goToPage(page);
+    button.addEventListener("click", (e) => {
+      e.preventDefault(); // Prevent any default action
+
+      // Always call external callback if provided (for server-side pagination)
       if (onPageChange) {
         onPageChange(page);
+        return; // Let the callback handle everything
       }
+
+      // Otherwise handle client-side pagination ourselves
+      this.goToPage(page);
     });
     return button;
   }
 
   /**
-   * Go to a specific page
+   * Go to a specific page (only for client-side pagination)
    * @param {number} page - The page number to go to
    * @returns {Promise<void>} Promise that resolves when the page is rendered
    */
@@ -149,11 +162,7 @@ export class EstablishmentList {
     }
 
     this.currentPage = page;
-
-    // Only re-render if we're handling the data locally
-    if (this.establishments.length > 0) {
-      await this._renderCurrentPage();
-    }
+    await this._renderCurrentPage();
   }
 
   /**
@@ -165,23 +174,39 @@ export class EstablishmentList {
     const currentItems = this._getCurrentPageItems();
     this.listElement.innerHTML = "";
 
-    // Render items in list view
-    for (const [index, establishment] of currentItems.entries()) {
-      try {
-        const item = await renderEstablishmentCard(establishment);
-        this.listElement.appendChild(item);
+    // Show loading state while rendering
+    if (this.loadingElement) {
+      this.loadingElement.style.display = "block";
+    }
 
-        // Add a horizontal rule if this isn't the last item
-        if (index < currentItems.length - 1) {
-          const hr = document.createElement("hr");
-          this.listElement.appendChild(hr);
+    try {
+      // Render items in list view
+      for (const [index, establishment] of currentItems.entries()) {
+        try {
+          const item = await renderEstablishmentCard(establishment);
+          this.listElement.appendChild(item);
+        } catch (err) {
+          console.error(
+            "Error rendering establishment card:",
+            err,
+            establishment,
+          );
         }
-      } catch (err) {
-        console.error(
-          "Error rendering establishment card:",
-          err,
-          establishment,
-        );
+      }
+    } finally {
+      // Hide loading indicator when done
+      if (this.loadingElement) {
+        this.loadingElement.style.display = "none";
+      }
+
+      // Ensure our wrapper is visible
+      if (this.wrapper) {
+        this.wrapper.style.display = "block";
+      }
+
+      // Ensure our list element is visible
+      if (this.listElement) {
+        this.listElement.style.display = "flex";
       }
     }
   }
@@ -199,6 +224,7 @@ export class EstablishmentList {
    */
   async loadEstablishments(data, isLoading = false, onPageChange = null) {
     if (isLoading) {
+      // Only show loading and hide results when explicitly in loading state
       if (this.loadingElement) this.loadingElement.style.display = "block";
       if (this.emptyElement) this.emptyElement.style.display = "none";
       if (this.errorElement) this.errorElement.style.display = "none";
@@ -225,24 +251,31 @@ export class EstablishmentList {
       this.totalPages = Math.ceil(this.totalResults / this.pageSize);
     }
 
-    // Show/hide appropriate elements
+    // Store the onPageChange callback for future use
+    this._onPageChangeCallback = onPageChange;
+
+    // Hide loading indicator now that we have data
     if (this.loadingElement) this.loadingElement.style.display = "none";
 
     if (this.establishments.length === 0) {
       if (this.emptyElement) this.emptyElement.style.display = "block";
-      this.wrapper.style.display = "none";
+      if (this.wrapper) this.wrapper.style.display = "none";
       if (this.countElement) {
         this.countElement.textContent = "0 results found";
       }
     } else {
       if (this.emptyElement) this.emptyElement.style.display = "none";
-      this.wrapper.style.display = "block";
+
+      // Make sure wrapper is visible when we have results
+      if (this.wrapper) {
+        this.wrapper.style.display = "block";
+      }
 
       // Update count element if it exists
       if (this.countElement) {
-        this.countElement.textContent = `Showing ${
-          Math.min(this.pageSize, this.establishments.length)
-        } of ${this.totalResults} results`;
+        const start = ((this.currentPage - 1) * this.pageSize) + 1;
+        const end = Math.min(start + this.establishments.length - 1, this.totalResults);
+        this.countElement.textContent = `Showing ${start}-${end} of ${this.totalResults} results`;
       }
 
       // Render establishments and pagination

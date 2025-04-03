@@ -14,9 +14,6 @@ class RecentEstablishmentsService {
   constructor() {
     this.STORAGE_KEY = "recent-establishments";
     this.MAX_ITEMS = 30;
-
-    // Log service creation to help with debugging
-    console.log("RecentEstablishmentsService initialized");
   }
 
   /**
@@ -76,7 +73,6 @@ class RecentEstablishmentsService {
 
     try {
       const storedItems = globalThis.localStorage.getItem(this.STORAGE_KEY);
-      console.log("Raw storage data:", storedItems);
 
       if (!storedItems) {
         console.log("No stored items found in localStorage");
