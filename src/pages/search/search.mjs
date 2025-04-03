@@ -251,7 +251,7 @@ async function loadReferenceData() {
 
     // Load ratings
     const ratings = await fetchAPI("/Ratings");
-    populateSelect("ratingKey", ratings.ratings, "ratingKey", "ratingName");
+    populateSelect("ratingKey", ratings.ratings, "ratingKeyName", "ratingName");
 
     // Load authorities
     const authorities = await fetchAPI("/Authorities");
