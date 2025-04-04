@@ -13,17 +13,23 @@ document.addEventListener("DOMContentLoaded", () => {
 
   // Get the business name from the h1 element
   const businessNameElement = establishmentElement.querySelector("h1.name");
-  const businessName = businessNameElement ? businessNameElement.textContent.trim() : "";
+  const businessName = businessNameElement
+    ? businessNameElement.textContent.trim()
+    : "";
 
   // Get the business type if available
-  const businessTypeElement = establishmentElement.querySelector("div[itemprop='servesCuisine']");
-  const businessType = businessTypeElement ? businessTypeElement.textContent.trim() : "";
+  const businessTypeElement = establishmentElement.querySelector(
+    "div[itemprop='servesCuisine']",
+  );
+  const businessType = businessTypeElement
+    ? businessTypeElement.textContent.trim()
+    : "";
 
   // Add this establishment to the recently viewed list with name and type
   recentEstablishmentsService.addEstablishment({
     FHRSID: establishmentId,
     BusinessName: businessName,
-    BusinessType: businessType
+    BusinessType: businessType,
   });
 
   // Load and display recently viewed establishments (excluding current one)
@@ -43,7 +49,7 @@ const displayRecentlyViewed = (currentId) => {
 
   // Get all recent establishments and filter out the current one
   const allRecent = recentEstablishmentsService.getRecentEstablishments();
-  const recentToShow = allRecent.filter(est => est.FHRSID !== currentId);
+  const recentToShow = allRecent.filter((est) => est.FHRSID !== currentId);
 
   // Only show section if we have other recent establishments
   if (recentToShow.length === 0) return;
@@ -52,10 +58,12 @@ const displayRecentlyViewed = (currentId) => {
   const recentLimit = recentToShow.slice(0, 4);
 
   // Create HTML for each recent establishment
-  recentLimit.forEach(establishment => {
+  recentLimit.forEach((establishment) => {
     // Create link that will wrap the entire item
     const link = document.createElement("a");
-    link.href = `/e/${slugify(establishment.BusinessName)}-${establishment.FHRSID}`;
+    link.href = `/e/${
+      slugify(establishment.BusinessName)
+    }-${establishment.FHRSID}`;
     link.className = "establishment-link";
 
     // Create container
