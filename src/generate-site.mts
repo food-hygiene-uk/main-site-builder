@@ -24,6 +24,7 @@ await ensureDir("dist/e");
 await ensureDir("dist/l");
 await ensureDir("dist/lists");
 await ensureDir("dist/lists/detail");
+await ensureDir("dist/lists/shared");
 await ensureDir("dist/scripts");
 await ensureDir("dist/sitemap");
 await ensureDir("dist/components");

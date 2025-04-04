@@ -20,6 +20,10 @@ const listPageTemplatePromise = env.load(listPageTemplatePath);
 const detailPageTemplatePath = fromFileUrl(import.meta.resolve("./detail.vto"));
 const detailPageTemplatePromise = env.load(detailPageTemplatePath);
 
+// Load templates and assets for shared page
+const sharedPageTemplatePath = fromFileUrl(import.meta.resolve("./shared.vto"));
+const sharedPageTemplatePromise = env.load(sharedPageTemplatePath);
+
 const Root = forgeRoot();
 const HeaderPromise = forgeHeader();
 const FooterPromise = forgeFooter();
@@ -32,10 +36,17 @@ const listsPageCssContent = Deno.readTextFileSync(listsPageCssPath);
 const listsPageJsPath = fromFileUrl(import.meta.resolve("./lists.mjs"));
 const listsPageJsContent = Deno.readTextFileSync(listsPageJsPath);
 
-const [listPageTemplate, detailPageTemplate, Header, Footer] = await Promise
+const [
+  listPageTemplate,
+  detailPageTemplate,
+  sharedPageTemplate,
+  Header,
+  Footer,
+] = await Promise
   .all([
     listPageTemplatePromise,
     detailPageTemplatePromise,
+    sharedPageTemplatePromise,
     HeaderPromise,
     FooterPromise,
   ]);
@@ -124,9 +135,28 @@ export const outputListsPages = async () => {
     processedJs: processedDetailPageJs,
   });
 
-  // Create directories if they don't exist
-  await Deno.mkdir(join("dist", "lists"), { recursive: true });
-  await Deno.mkdir(join("dist", "lists", "detail"), { recursive: true });
+  // Load and process JS for shared page
+  const sharedPageJsPath = fromFileUrl(import.meta.resolve("./shared.mjs"));
+  const sharedPageJsContent = Deno.readTextFileSync(sharedPageJsPath);
+  const processedSharedPageJs = sharedPageJsContent.replace(
+    /__CLASS_SUFFIX__/g,
+    classSuffix,
+  );
+
+  // Generate the shared page using the same CSS as the detail page
+  const sharedPageHtml = await sharedPageTemplate({
+    headHtml: await Root.renderHead({
+      canonical: `${config.BASE_URL}/lists/shared/`,
+      title: "Shared List",
+      pageCSS: processedDetailPageCss, // Reuse the same CSS
+      headerCSS: Header.css,
+      footerCSS: Footer.css,
+    }),
+    headerHtml: Header.html,
+    classSuffix,
+    footerHtml: Footer.html,
+    processedJs: processedSharedPageJs,
+  });
 
   // Write the main lists page
   await Deno.writeTextFile(
@@ -138,5 +168,11 @@ export const outputListsPages = async () => {
   await Deno.writeTextFile(
     join("dist", "lists", "detail", "index.html"),
     detailPageHtml.content,
+  );
+
+  // Write the shared page
+  await Deno.writeTextFile(
+    join("dist", "lists", "shared", "index.html"),
+    sharedPageHtml.content,
   );
 };

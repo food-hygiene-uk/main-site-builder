@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="en">
+  {{ headHtml }}
+  <body>
+    {{ headerHtml }}
+    <div class="content-{{ classSuffix }}">
+      <div class="container">
+        <div class="list-header">
+          <h1 id="listTitle">Shared List</h1>
+          <p id="listDescription" class="list-description">Loading shared establishments...</p>
+          <div class="list-actions">
+            <button id="saveListButton" class="save-list-button" style="display: none;">
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <path d="M19 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11l5 5v11a2 2 0 0 1-2 2z"></path>
+                <polyline points="17 21 17 13 7 13 7 21"></polyline>
+                <polyline points="7 3 7 8 15 8"></polyline>
+              </svg>
+              Save List
+            </button>
+          </div>
+        </div>
+
+        <div id="loading" class="loading-indicator">Loading establishments...</div>
+
+        <div id="establishmentsList" class="establishments-container" style="display: none;">
+          <!-- This will be populated via JavaScript -->
+        </div>
+
+        <div id="emptyList" class="empty-list-message" style="display: none;">
+          <p>This shared list doesn't have any establishments.</p>
+          <p>The link may be invalid or the establishments no longer exist.</p>
+        </div>
+
+        <div id="errorMessage" class="error-message" style="display: none;">
+          <p>Sorry, we couldn't load the shared list.</p>
+          <p>Please check the URL and try again.</p>
+        </div>
+
+        <div id="saveModal" class="save-modal" style="display: none;">
+          <div class="save-modal-content">
+            <h3>Save This List</h3>
+            <p>Give this list a name to save it to your lists:</p>
+            <div class="save-form">
+              <input type="text" id="listNameInput" placeholder="Enter a name for this list" />
+              <div class="save-form-buttons">
+                <button id="confirmSaveButton" class="primary-button">Save</button>
+                <button id="cancelSaveButton" class="secondary-button">Cancel</button>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    {{ footerHtml }}
+
+    <script type="module">
+      {{ processedJs }}
+    </script>
+  </body>
+</html>

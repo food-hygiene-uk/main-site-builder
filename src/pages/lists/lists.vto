@@ -6,18 +6,20 @@
     <div class="content-{{ classSuffix }}">
       <div class="container">
         <h1>My Lists</h1>
-        
+
         <div class="lists-container">
           <div class="list-item recent-list">
             <h2>Recent</h2>
             <p>Recently viewed establishments</p>
-            <a href="/lists/detail/?id=recent" class="view-list-button">View List</a>
+            <div class="list-actions">
+              <a href="/lists/detail/?id=recent" class="view-list-button">View List</a>
+            </div>
           </div>
-          
+
           <div id="noLists" class="no-lists-message" style="display: none;">
             <p>You haven't created any additional lists yet.</p>
           </div>
-          
+
           <div id="userLists" class="user-lists-container">
             <!-- User lists will be dynamically added here -->
           </div>
@@ -25,7 +27,7 @@
       </div>
     </div>
     {{ footerHtml }}
-    
+
     <script type="module">
       {{ processedJs }}
     </script>
