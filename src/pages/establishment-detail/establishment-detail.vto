@@ -51,12 +51,19 @@
             <a href="{{ localAuthority.Url }}" itemprop="url">{{ localAuthority.Url }}</a>
           </div>
         </article>
+
+        <!-- Recently Viewed Section -->
+        <section id="recentlyViewed" class="recently-viewed-section" style="display: none;">
+          <h2>Recently Viewed</h2>
+          <div id="recentEstablishments" class="recent-establishments-grid"></div>
+          <div class="view-all-link">
+            <a href="/lists/detail/?id=recent">View all recently viewed establishments →</a>
+          </div>
+        </section>
       </div>
     </div>
     {{ footerHtml }}
     <script type="module">
-      import recentEstablishmentsService from '/scripts/recent-establishments-service.mjs';
-
       {{ processedJs }}
     </script>
   </body>

@@ -1,6 +1,8 @@
 /**
  * @typedef {Object} MinimalEstablishment
  * @property {string} FHRSID - Unique identifier for the establishment
+ * @property {string} [BusinessName] - Name of the establishment
+ * @property {string} [BusinessType] - Type of the establishment
  * @property {string} lastVisited - ISO date string of when the establishment page was last visited
  */
 
@@ -31,16 +33,21 @@ class RecentEstablishmentsService {
       item.FHRSID === establishment.FHRSID
     );
 
+    // Create a minimal record with required fields
+    const newRecord = {
+      FHRSID: establishment.FHRSID,
+      BusinessName: establishment.BusinessName || "Unknown Establishment",
+      BusinessType: establishment.BusinessType,
+      lastVisited: new Date().toISOString(),
+    };
+
     if (existingIndex !== -1) {
       // Remove the existing item so we can add it to the top (most recent)
       recentItems.splice(existingIndex, 1);
     }
 
     // Add the establishment with the current timestamp
-    recentItems.unshift({
-      ...establishment,
-      lastVisited: new Date().toISOString(),
-    });
+    recentItems.unshift(newRecord);
 
     // Trim the list if it exceeds the maximum number of items
     if (recentItems.length > this.MAX_ITEMS) {

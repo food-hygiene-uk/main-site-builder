@@ -108,7 +108,7 @@ const getHydratedEstablishment = async (establishment) => {
   const FHRSID = establishment.FHRSID;
 
   // Check if we need to fetch additional data
-  if (!establishment.BusinessName) {
+  if (!establishment.RatingKey) {
     try {
       // Simply fetch and return the API data without modifications
       return await fetchEstablishmentDetails(FHRSID);
