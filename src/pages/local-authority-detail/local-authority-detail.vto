@@ -17,7 +17,7 @@
             {{ set last = establishments.length - 1 }}
             {{ for index, establishment of establishments }}
               <div class="establishment" data-establishment-id="{{ establishment.FHRSID }}">
-                <h3>{{ establishment.BusinessName }}</h3>
+                <h3>{{ establishment.BusinessName |> escape }}</h3>
                 {{ (await address.render(establishment)).content }}
                 <a href="{{ getLinkURL(establishment) }}" class="details-link">
                   More
