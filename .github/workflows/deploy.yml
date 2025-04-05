@@ -100,6 +100,32 @@ jobs:
         working-directory: ./repos/source
         run: deno task build
 
+      - name: Minify HTML files
+        run: |
+          find ./repos/source/dist -name "*.html" -type f -exec npx html-minifier-terser --collapse-whitespace --remove-comments --remove-redundant-attributes --remove-script-type-attributes --remove-tag-whitespace --minify-css true --minify-js true -o {} {} \;
+
+      - name: Minify CSS files
+        run: |
+          find ./repos/source/dist -name "*.css" -type f -exec npx clean-css-cli -o {} {} \;
+
+      - name: Minify JavaScript files
+        run: |
+          find ./repos/source/dist -name "*.mjs" -type f -exec npx terser {} -c -m -o {} \;
+
+      - name: Minify XML files
+        run: |
+          find ./repos/source/dist -name "*.xml" -type f -exec npx minify-xml {} --in-place \;
+
+      - name: Optimize SVG files
+        run: |
+          find ./repos/source/dist -name "*.svg" -type f -exec npx svgo {} -o {} \;
+
+      - name: Optimize images
+        run: |
+          sudo apt-get update && sudo apt-get install -y optipng jpegoptim
+          find ./repos/source/dist -name "*.png" -exec optipng -o5 {} \;
+          find ./repos/source/dist -name "*.jpg" -name "*.jpeg" -exec jpegoptim --max=85 {} \;
+
       - name: Checkout GitHub Pages repository
         uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683 # v4.2.2
         with:
