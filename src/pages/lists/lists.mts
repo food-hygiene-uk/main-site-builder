@@ -7,8 +7,8 @@ import { forgeFooter } from "components/footer/forge.mts";
 import { Address } from "components/address/forge.mts";
 import { getClassSuffix } from "../../lib/template/template.mts";
 import { config } from "../../lib/config/config.mts";
-import postcss from "postcss";
-import cssnano from "cssnano";
+import { cssAddSuffix, processCssFile } from "../../lib/css/css.mts";
+import { jsAddSuffix, processJsFile } from "../../lib/js/js.mts";
 
 const env = vento();
 env.use(autoTrim());
@@ -31,16 +31,49 @@ const HeaderPromise = forgeHeader();
 const FooterPromise = forgeFooter();
 const address = Address();
 
-// Load CSS and JS for lists page
-const listsPageCssPath = fromFileUrl(import.meta.resolve("./lists.css"));
-const listsPageCssContent = Deno.readTextFileSync(listsPageCssPath);
-const processedListsPageCssContent = await postcss([cssnano]).process(
-  listsPageCssContent,
-  { from: undefined },
-);
+// Process CSS and JS for lists page
+const processedListsPageCssPromise = processCssFile({
+  path: import.meta.resolve("./lists.css"),
+  additionalCss: "",
+});
 
-const listsPageJsPath = fromFileUrl(import.meta.resolve("./lists.mjs"));
-const listsPageJsContent = Deno.readTextFileSync(listsPageJsPath);
+// Read the component CSS files
+const processedEstablishmentCardCssPromise = processCssFile({
+  path: import.meta.resolve(
+    "../../components/establishment-card/establishment-card.css",
+  ),
+  additionalCss: "",
+});
+
+const processedEstablishmentListCssPromise = processCssFile({
+  path: import.meta.resolve(
+    "../../components/establishment-list/establishment-list.css",
+  ),
+  additionalCss: "",
+});
+
+const processedListsPageJsPromise = processJsFile({
+  path: import.meta.resolve("./lists.mjs"),
+});
+
+// Process CSS for detail page
+const processedDetailPageCssPromise = processCssFile({
+  path: import.meta.resolve("./detail.css"),
+  additionalCss: `
+  ${address.css}
+  ${await processedEstablishmentCardCssPromise}
+  ${await processedEstablishmentListCssPromise}
+`,
+});
+
+const processedDetailPageJsPromise = processJsFile({
+  path: import.meta.resolve("./detail.mjs"),
+});
+
+// Load and process JS for shared page
+const processedSharedPageJsPromise = processJsFile({
+  path: import.meta.resolve("./shared.mjs"),
+});
 
 const [
   listPageTemplate,
@@ -48,25 +81,37 @@ const [
   sharedPageTemplate,
   Header,
   Footer,
-] = await Promise
-  .all([
-    listPageTemplatePromise,
-    detailPageTemplatePromise,
-    sharedPageTemplatePromise,
-    HeaderPromise,
-    FooterPromise,
-  ]);
+  processedListsPageCss,
+  processedListsPageJs,
+  processedDetailPageCss,
+  processedDetailPageJs,
+  processedSharedPageJs,
+] = await Promise.all([
+  listPageTemplatePromise,
+  detailPageTemplatePromise,
+  sharedPageTemplatePromise,
+  HeaderPromise,
+  FooterPromise,
+  processedListsPageCssPromise,
+  processedListsPageJsPromise,
+  processedDetailPageCssPromise,
+  processedDetailPageJsPromise,
+  processedSharedPageJsPromise,
+]);
 
-export const outputListsPages = async () => {
+/**
+ * Generates and outputs the lists pages, including the main lists page, detail page, and shared page.
+ * @returns {Promise<void>} Resolves when all pages are written to the output directory.
+ */
+export const outputListsPages = async (): Promise<void> => {
   const classSuffix = getClassSuffix();
 
-  // Process CSS and JS for lists page
-  const processedListsPageCss = processedListsPageCssContent.css.replace(
-    /__CLASS_SUFFIX__/g,
+  const processedListsPageCssWithSuffix = cssAddSuffix(
+    processedListsPageCss,
     classSuffix,
   );
-  const processedListsPageJs = listsPageJsContent.replace(
-    /__CLASS_SUFFIX__/g,
+  const processedListsPageJsWithSuffix = jsAddSuffix(
+    processedListsPageJs,
     classSuffix,
   );
 
@@ -75,79 +120,36 @@ export const outputListsPages = async () => {
     headHtml: await Root.renderHead({
       canonical: `${config.BASE_URL}/lists/`,
       title: "My Lists",
-      pageCSS: processedListsPageCss,
+      pageCSS: processedListsPageCssWithSuffix,
       headerCSS: Header.css,
       footerCSS: Footer.css,
     }),
     headerHtml: Header.html,
     classSuffix,
     footerHtml: Footer.html,
-    processedJs: processedListsPageJs,
+    processedJs: processedListsPageJsWithSuffix,
   });
 
-  // Load CSS and JS for detail page
-  const detailPageCssPath = fromFileUrl(import.meta.resolve("./detail.css"));
-  const detailPageCssContent = Deno.readTextFileSync(detailPageCssPath);
-
-  const detailPageJsPath = fromFileUrl(import.meta.resolve("./detail.mjs"));
-  const detailPageJsContent = Deno.readTextFileSync(detailPageJsPath);
-
   // Process JS for detail page
-  const processedDetailPageJs = detailPageJsContent.replace(
-    /__CLASS_SUFFIX__/g,
-    classSuffix,
-  );
-
-  // Read the component CSS files
-  const establishmentCardCssPath = fromFileUrl(
-    import.meta.resolve(
-      "../../components/establishment-card/establishment-card.css",
-    ),
-  );
-  const establishmentCardCss = Deno.readTextFileSync(establishmentCardCssPath);
-
-  const establishmentListCssPath = fromFileUrl(
-    import.meta.resolve(
-      "../../components/establishment-list/establishment-list.css",
-    ),
-  );
-  const establishmentListCss = Deno.readTextFileSync(establishmentListCssPath);
-
-  const processedDetailPageCss = detailPageCssContent.replace(
-    /__CLASS_SUFFIX__/g,
-    classSuffix,
-  )
-    .replace(
-      /\/\* __ADDITIONAL_CSS__ \*\//g,
-      `
-      ${address.css}
-      ${establishmentCardCss}
-      ${establishmentListCss}
-    `,
-    );
+  const detailPageJs = jsAddSuffix(processedDetailPageJs, classSuffix);
+  const detailPageCss = cssAddSuffix(processedDetailPageCss, classSuffix);
 
   // Generate the detail page (a single page that handles all list types via URL parameters)
   const detailPageHtml = await detailPageTemplate({
     headHtml: await Root.renderHead({
       canonical: `${config.BASE_URL}/lists/detail/`,
       title: "List Details",
-      pageCSS: processedDetailPageCss,
+      pageCSS: detailPageCss,
       headerCSS: Header.css,
       footerCSS: Footer.css,
     }),
     headerHtml: Header.html,
     classSuffix,
     footerHtml: Footer.html,
-    processedJs: processedDetailPageJs,
+    processedJs: detailPageJs,
   });
 
-  // Load and process JS for shared page
-  const sharedPageJsPath = fromFileUrl(import.meta.resolve("./shared.mjs"));
-  const sharedPageJsContent = Deno.readTextFileSync(sharedPageJsPath);
-  const processedSharedPageJs = sharedPageJsContent.replace(
-    /__CLASS_SUFFIX__/g,
-    classSuffix,
-  );
+  const sharedPageJs = jsAddSuffix(processedSharedPageJs, classSuffix);
 
   // Generate the shared page using the same CSS as the detail page
   const sharedPageHtml = await sharedPageTemplate({
@@ -161,7 +163,7 @@ export const outputListsPages = async () => {
     headerHtml: Header.html,
     classSuffix,
     footerHtml: Footer.html,
-    processedJs: processedSharedPageJs,
+    processedJs: sharedPageJs,
   });
 
   // Write the main lists page

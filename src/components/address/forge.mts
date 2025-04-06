@@ -3,26 +3,24 @@ import vento from "@vento/vento";
 import autoTrim from "@vento/vento/plugins/auto_trim.ts";
 import { Establishment } from "../../generate-site/schema.mts";
 import { getClassSuffix } from "../../lib/template/template.mts";
-import postcss from "postcss";
-import cssnano from "cssnano";
+import { cssAddSuffix, processCssFile } from "../../lib/css/css.mts";
 
-// Read the file using the absolute path
-const cssPath = fromFileUrl(
-  import.meta.resolve("./styles.css"),
-);
-const cssContent = Deno.readTextFileSync(cssPath);
-
-const processedCssResult = await postcss([cssnano]).process(cssContent, {
-  from: undefined,
+const processedCssPromise = processCssFile({
+  path: import.meta.resolve("./styles.css"),
+  additionalCss: "",
 });
-const processedCssContent = processedCssResult.css;
 
 const env = vento();
 env.use(autoTrim());
 const pageTemplatePath = fromFileUrl(
   import.meta.resolve("./html.vto"),
 );
-const template = await env.load(pageTemplatePath);
+const templatePromise = env.load(pageTemplatePath);
+
+const [processedCss, template] = await Promise.all([
+  processedCssPromise,
+  templatePromise,
+]);
 
 /**
  * Extracts address information from an establishment
@@ -68,22 +66,17 @@ const getAddress = (establishment: Establishment): {
 /**
  * Creates an address component factory
  *
- * @returns {Object} Object containing the component's CSS and render function
+ * @returns {{ css: string; render: (establishment: Establishment) => Promise<ReturnType<typeof template>> }} Object containing the component's CSS and render function
  */
 export const Address = () => {
   const classSuffix = getClassSuffix();
-  const processedCss = processedCssContent.replace(
-    /__CLASS_SUFFIX__/g,
-    classSuffix,
-  );
-
-  const css = processedCss;
+  const css = cssAddSuffix(processedCss, classSuffix);
 
   /**
    * Renders an address for the given establishment
    *
    * @param {Establishment} establishment - The establishment to render the address for
-   * @returns {Promise<Object>} Promise resolving to the rendered template
+   * @returns {Promise<ReturnType<typeof template>>} Promise resolving to the rendered template
    */
   const render = async (
     establishment: Establishment,

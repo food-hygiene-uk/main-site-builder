@@ -1,6 +1,8 @@
+const classSuffix = "__CLASS_SUFFIX__";
+
 // Cache DOM queries and use more specific selectors
 const searchInput = document.querySelector(
-  ".content-__CLASS_SUFFIX__ #filter-input",
+  `.content-${classSuffix} #filter-input`,
 );
 const container = document.querySelector(".establishments-container");
 
@@ -19,13 +21,13 @@ const establishmentData = establishments.map((establishment) => ({
  * Debounces a function, delaying its execution until after a certain amount of time has passed
  * since the last invocation.
  *
- * @param {Function} func - The function to debounce.
+ * @param {(args: any[]) => void} func - The function to debounce.
  * @param {number} wait - The number of milliseconds to wait before executing the function.
- * @returns {Function} A debounced version of the function.
+ * @returns {(args: any[]) => void} A debounced version of the function.
  */
-function debounce(func, wait) {
+const debounce = (func, wait) => {
   let timeout;
-  return function executedFunction(...args) {
+  return (...args) => {
     const later = () => {
       clearTimeout(timeout);
       func(...args);
@@ -33,7 +35,7 @@ function debounce(func, wait) {
     clearTimeout(timeout);
     timeout = setTimeout(later, wait);
   };
-}
+};
 
 /**
  * Parses a search string into individual search terms, handling quoted phrases.
@@ -41,7 +43,7 @@ function debounce(func, wait) {
  * @param {string} searchTerm - The search string to parse.
  * @returns {string[]} An array of lowercase search terms.
  */
-function parseSearchTerms(searchTerm) {
+const parseSearchTerms = (searchTerm) => {
   const regex = /"([^"]+)"|(\S+)/g;
   const terms = [];
   let match;
@@ -52,7 +54,7 @@ function parseSearchTerms(searchTerm) {
     terms.push(term);
   }
   return terms;
-}
+};
 
 /**
  * Appends a list of establishments to a container, clearing the container's existing content.
@@ -90,7 +92,7 @@ const updates = new Set(); // Store visibility updates
  * @param {Function} resolve - The resolve function of the promise.
  * @returns {void}
  */
-function processBatch(index, batchSize, searchTerms, resolve) {
+const processBatch = (index, batchSize, searchTerms, resolve) => {
   const end = Math.min(index + batchSize, establishmentData.length);
 
   for (let i = index; i < end; i++) {
@@ -120,7 +122,7 @@ function processBatch(index, batchSize, searchTerms, resolve) {
       requestAnimationFrame(nextBatch);
     }
   }
-}
+};
 
 /**
  * Handles the search functionality, filtering establishments based on the search term.
@@ -129,8 +131,7 @@ function processBatch(index, batchSize, searchTerms, resolve) {
  * @returns {Promise<void>} A promise that resolves when the search is complete.
  * @async
  */
-// deno-lint-ignore require-await
-async function handleSearch(searchTerm) {
+const handleSearch = async (searchTerm) => {
   const searchTerms = parseSearchTerms(searchTerm);
 
   // If search is empty, restore all establishments
@@ -148,7 +149,7 @@ async function handleSearch(searchTerm) {
       processBatch(0, batchSize, searchTerms, resolve);
     });
   });
-}
+};
 
 // Attach debounced event listener
 searchInput.addEventListener(

@@ -24,23 +24,26 @@ This project is a static website generator that creates HTML, CSS, and JavaScrip
 
 ### TypeScript (`.mts` files)
 
-- Use standard TypeScript for type definitions
-- Use specific types, not primitives
-- Document all functions using JSDoc
 - Utilize Deno API for file operations and other server-side functionality
+- Only use TypeScript for type definitions
+- Document all functions using JSDoc
+- Do not add types where they can be derived from function return types or context
+- Use specific types, never use "Object"
 - Any function that returns a Promise should be marked as `async`
 - Always use `globalThis` instead of `window` for accessing global objects
-- Prefer arrow function expressions (`const fn = () => {}`) over traditional function declarations (`function fn() {}`). Exceptions: generators, object methods requiring dynamic `this`
+- Prefer arrow function expressions (`const fn = () => {}`) over function declarations (`function fn() {}`). Exceptions: generators, object methods requiring dynamic `this`
 - Prefer modules to classes
 
 ### JavaScript (`.mjs` files)
 
-- Use JSDoc for type information
-- Use specific types, not primitives
 - Should be browser-compatible without transpilation
-- Any function that returns a Promise should be marked as async
+- Only use JSDoc for type definitions
+- Document all functions using JSDoc
+- Do not add types where they can be derived from function return types or context
+- Use specific types, never use "Object"
+- Any function that returns a Promise should be marked as `async`
 - Always use `globalThis` instead of `window` for accessing global objects
-- Prefer arrow function expressions (`const fn = () => {}`) over traditional function declarations (`function fn() {}`). Exceptions: generators, object methods requiring dynamic `this`
+- Prefer arrow function expressions (`const fn = () => {}`) over function declarations (`function fn() {}`). Exceptions: generators, object methods requiring dynamic `this`
 - Prefer modules to classes
 
 ### CSS
@@ -61,3 +64,67 @@ This project is a static website generator that creates HTML, CSS, and JavaScrip
 
 - Used for HTML generation
 - Can include components and page-specific content
+
+## Checklist for Compliance
+
+### TypeScript (`.mts` files)
+
+- [ ] Use specific types, never "Object"
+- [ ] Document all functions with JSDoc
+- [ ] Use `async` for functions returning a Promise
+- [ ] Use `globalThis` for global objects
+- [ ] Prefer arrow functions unless exceptions apply
+- [ ] Use modules instead of classes
+- [ ] Utilize Deno API for file operations and server-side functionality
+
+### JavaScript (`.mjs` files)
+
+- [ ] Use specific types, never "Object"
+- [ ] Document all functions with JSDoc
+- [ ] Use `async` for functions returning a Promise
+- [ ] Use `globalThis` for global objects
+- [ ] Prefer arrow functions unless exceptions apply
+- [ ] Use modules instead of classes
+- [ ] Ensure browser compatibility without transpilation
+
+### CSS
+
+- [ ] Support both light and dark modes
+- [ ] Use the provided media query for dark mode
+- [ ] Follow established theming patterns
+
+### Vento Templates (`.vto` files)
+
+- [ ] Ensure templates are used for HTML generation
+- [ ] Include components and page-specific content
+- [ ] Ensure proper integration with `.mts` files for dynamic content injection
+
+## Examples
+
+### TypeScript (`.mts` files)
+
+#### Incorrect
+
+```typescript
+/**
+ * Processes a CSS file.
+ * @param {Object} params - Parameters for processing CSS.
+ */
+const processCss = (params) => {
+  // ...
+};
+```
+
+#### Correct
+
+```typescript
+/**
+ * Processes a CSS file.
+ * @param {{ path: string; additionalCss: string }} params - Parameters for processing CSS.
+ */
+const processCss = (
+  { path, additionalCss }: { path: string; additionalCss: string },
+) => {
+  // ...
+};
+```

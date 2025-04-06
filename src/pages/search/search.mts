@@ -6,8 +6,8 @@ import { forgeHeader } from "components/header/forge.mts";
 import { forgeFooter } from "components/footer/forge.mts";
 import { Address } from "components/address/forge.mts";
 import { getClassSuffix } from "../../lib/template/template.mts";
-import postcss from "postcss";
-import cssnano from "cssnano";
+import { cssAddSuffix, processCssFile } from "../../lib/css/css.mts";
+import { jsAddSuffix, processJsFile } from "../../lib/js/js.mts";
 
 const env = vento();
 env.use(autoTrim());
@@ -22,16 +22,6 @@ const Root = forgeRoot();
 const HeaderPromise = forgeHeader();
 const FooterPromise = forgeFooter();
 const address = Address();
-
-const [template, Header, Footer] = await Promise.all([
-  templatePromise,
-  HeaderPromise,
-  FooterPromise,
-]);
-
-// Process the CSS
-const cssPath = fromFileUrl(import.meta.resolve("./search.css"));
-const cssContent = Deno.readTextFileSync(cssPath);
 
 // Read the component CSS files
 const establishmentCardCssPath = fromFileUrl(
@@ -48,30 +38,35 @@ const establishmentListCssPath = fromFileUrl(
 );
 const establishmentListCss = Deno.readTextFileSync(establishmentListCssPath);
 
-const combinedCssContent = cssContent.replace(
-  /\/\* __ADDITIONAL_CSS__ \*\//g,
-  `
-  ${address.css}
-  ${establishmentCardCss}
-  ${establishmentListCss}
-`,
+const processedCssPromise = processCssFile({
+  path: import.meta.resolve("./search.css"),
+  additionalCss:
+    `${address.css}\n${establishmentCardCss}\n${establishmentListCss}`,
+});
+
+const processedJsPromise = processJsFile({
+  path: import.meta.resolve("./search.mjs"),
+});
+
+const [template, Header, Footer, processedCss, processedJs] = await Promise.all(
+  [
+    templatePromise,
+    HeaderPromise,
+    FooterPromise,
+    processedCssPromise,
+    processedJsPromise,
+  ],
 );
 
-const processedCssContent = await postcss([cssnano]).process(
-  combinedCssContent,
-  { from: undefined },
-);
-const fullCssContent = processedCssContent.css;
-
-const jsPath = fromFileUrl(import.meta.resolve("./search.mjs"));
-const jsContent = Deno.readTextFileSync(jsPath);
-
-export const outputSearchPage = async () => {
+/**
+ * Generates and outputs the search page HTML.
+ * @returns {Promise<void>} Resolves when the search page has been written to the output directory.
+ */
+export const outputSearchPage = async (): Promise<void> => {
   const classSuffix = getClassSuffix();
 
-  const pageCSS = fullCssContent.replace(/__CLASS_SUFFIX__/g, classSuffix);
-
-  const processedJs = jsContent.replace(/__CLASS_SUFFIX__/g, classSuffix);
+  const pageCSS = cssAddSuffix(processedCss, classSuffix);
+  const pageJs = jsAddSuffix(processedJs, classSuffix);
 
   const html = await template({
     headHtml: await Root.renderHead({
@@ -84,7 +79,7 @@ export const outputSearchPage = async () => {
     headerHtml: Header.html,
     classSuffix,
     footerHtml: Footer.html,
-    processedJs,
+    processedJs: pageJs,
   });
 
   // Write the main search page

@@ -6,8 +6,7 @@ import { forgeHeader } from "../../components/header/forge.mts";
 import { forgeFooter } from "../../components/footer/forge.mts";
 import { config } from "../../lib/config/config.mts";
 import { getClassSuffix } from "../../lib/template/template.mts";
-import postcss from "postcss";
-import cssnano from "cssnano";
+import { cssAddSuffix, processCssFile } from "../../lib/css/css.mts";
 
 const env = vento();
 env.use(autoTrim());
@@ -22,31 +21,26 @@ const Root = forgeRoot();
 const HeaderPromise = forgeHeader();
 const FooterPromise = forgeFooter();
 
-const cssPath = fromFileUrl(
-  import.meta.resolve("./homepage.css"),
-);
-const cssContent = Deno.readTextFileSync(cssPath);
-
-const processedCssContent = await postcss([cssnano]).process(cssContent, {
-  from: undefined,
+const processedCssPromise = processCssFile({
+  path: import.meta.resolve("./homepage.css"),
+  additionalCss: "",
 });
-const minifiedCssContent = processedCssContent.css;
 
-const [template, Header, Footer] = await Promise.all([
+const [template, Header, Footer, processedCss] = await Promise.all([
   templatePromise,
   HeaderPromise,
   FooterPromise,
+  processedCssPromise,
 ]);
 
-export const outputHomepagePage = async () => {
+/**
+ * Generates the homepage HTML and writes it to the `dist` directory.
+ * @returns {Promise<void>} Resolves when the homepage has been generated.
+ */
+export const outputHomepagePage = async (): Promise<void> => {
   const classSuffix = getClassSuffix();
 
-  const processedCss = minifiedCssContent.replace(
-    /__CLASS_SUFFIX__/g,
-    classSuffix,
-  );
-
-  const pageCSS = processedCss;
+  const pageCSS = cssAddSuffix(processedCss, classSuffix);
 
   const html = await template({
     headHtml: await Root.renderHead({
@@ -62,5 +56,5 @@ export const outputHomepagePage = async () => {
   });
 
   const filename = `index.html`;
-  await Deno.writeTextFile(join("dist", filename), html.content);
+  await globalThis.Deno.writeTextFile(join("dist", filename), html.content);
 };

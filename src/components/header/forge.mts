@@ -2,8 +2,12 @@ import { fromFileUrl } from "@std/path";
 import vento from "@vento/vento";
 import autoTrim from "@vento/vento/plugins/auto_trim.ts";
 import { getClassSuffix } from "../../lib/template/template.mts";
-import postcss from "postcss";
-import cssnano from "cssnano";
+import { cssAddSuffix, processCssFile } from "../../lib/css/css.mts";
+
+const processedCssPromise = processCssFile({
+  path: import.meta.resolve("./styles.css"),
+  additionalCss: "",
+});
 
 const env = vento();
 env.use(autoTrim());
@@ -12,27 +16,31 @@ env.cache.clear();
 const pageTemplatePath = fromFileUrl(
   import.meta.resolve("./header.vto"),
 );
-const template = await env.load(pageTemplatePath);
+const templatePromise = env.load(pageTemplatePath);
 
-// Read the file using the absolute path
-const cssPath = fromFileUrl(
-  import.meta.resolve("./styles.css"),
-);
-const cssContent = Deno.readTextFileSync(cssPath);
-const processedCss = await postcss([cssnano]).process(cssContent, {
-  from: undefined,
-});
+const [processedCss, template] = await Promise.all([
+  processedCssPromise,
+  templatePromise,
+]);
 
-export const forgeHeader = async () => {
+/**
+ * Generates the header component.
+ *
+ * @returns {Promise<{ css: string; html: string }>} An object containing the CSS and HTML for the header.
+ */
+export const forgeHeader = async (): Promise<{
+  css: string;
+  html: string;
+}> => {
   const classSuffix = getClassSuffix();
-  const css = processedCss.css.replace(/__CLASS_SUFFIX__/g, classSuffix);
+  const css = cssAddSuffix(processedCss, classSuffix);
 
-  const html = await template({
+  const html = (await template({
     classSuffix,
-  });
+  })).content;
 
   return {
     css,
-    html: html.content,
+    html,
   };
 };

@@ -18,8 +18,8 @@ import {
   getHtmlFilename,
 } from "../../lib/establishment/establishment.mts";
 import { Address } from "../../components/address/forge.mts";
-import postcss from "postcss";
-import cssnano from "cssnano";
+import { jsAddSuffix, processJsFile } from "../../lib/js/js.mts";
+import { cssAddSuffix, processCssFile } from "../../lib/css/css.mts";
 
 const env = vento();
 env.use(autoTrim());
@@ -140,12 +140,13 @@ const getRatingDate = (
  * Extracts and formats score data from an establishment's scores
  *
  * @param {Establishment["Scores"]} scores - The scores object from an establishment
- * @returns {Array<Object>|null} Array of score data objects, or null if no scores
+ * @returns {Array<{ title: string; description: string; value: string }> | null} Array of score data objects, or null if no scores
  */
-const getScoreData = (scores: Establishment["Scores"]) => {
+const getScoreData = (
+  scores: Establishment["Scores"],
+): Array<{ title: string; description: string; value: string }> | null => {
   if (scores === null) return null;
 
-  // TODO: Don't be sloppy with the types here
   return [
     {
       title: "Hygiene",
@@ -163,8 +164,8 @@ const getScoreData = (scores: Establishment["Scores"]) => {
     {
       title: "Structural",
       description: scoreToDescription(
-        scores.Hygiene.toString() as ScoreKey,
-        "Hygiene",
+        scores.Structural.toString() as ScoreKey,
+        "Structural",
         "en",
       ),
       value: scoreToText(
@@ -176,8 +177,8 @@ const getScoreData = (scores: Establishment["Scores"]) => {
     {
       title: "Confidence in Management",
       description: scoreToDescription(
-        scores.Hygiene.toString() as ScoreKey,
-        "Hygiene",
+        scores.ConfidenceInManagement.toString() as ScoreKey,
+        "Confidence",
         "en",
       ),
       value: scoreToText(
@@ -189,26 +190,24 @@ const getScoreData = (scores: Establishment["Scores"]) => {
   ];
 };
 
-const cssPath = fromFileUrl(
-  import.meta.resolve("./establishment-detail.css"),
-);
-const cssContent = Deno.readTextFileSync(cssPath);
-const processedCssResult = (await postcss([cssnano]).process(cssContent, {
-  from: undefined,
-})).css
-  .replace(/\/\* __ADDITIONAL_CSS__ \*\//g, `\n${address.css}`);
+const processedCssPromise = processCssFile({
+  path: import.meta.resolve("./establishment-detail.css"),
+  additionalCss: `\n${address.css}`,
+});
 
-// Add JavaScript for tracking recent establishments
-const jsPath = fromFileUrl(
-  import.meta.resolve("./establishment-detail.mjs"),
-);
-const jsContent = Deno.readTextFileSync(jsPath);
+const processedJsPromise = processJsFile({
+  path: import.meta.resolve("./establishment-detail.mjs"),
+});
 
-const [template, Header, Footer] = await Promise.all([
-  templatePromise,
-  HeaderPromise,
-  FooterPromise,
-]);
+const [template, Header, Footer, processedCss, processedJs] = await Promise.all(
+  [
+    templatePromise,
+    HeaderPromise,
+    FooterPromise,
+    processedCssPromise,
+    processedJsPromise,
+  ],
+);
 
 /**
  * Generates HTML pages for each establishment in a local authority
@@ -223,14 +222,8 @@ export const outputEstablishmentDetailPage = async (
 ): Promise<void> => {
   const classSuffix = getClassSuffix();
 
-  const processedCss = processedCssResult.replace(
-    /__CLASS_SUFFIX__/g,
-    classSuffix,
-  );
-  const pageCSS = processedCss;
-
-  // Process the JavaScript
-  const processedJs = jsContent.replace(/__CLASS_SUFFIX__/g, classSuffix);
+  const pageCSS = cssAddSuffix(processedCss, classSuffix);
+  const pageJs = jsAddSuffix(processedJs, classSuffix);
 
   // Generate HTML for each establishment and save to a file
   await Promise.all(establishments.map(async (establishment) => {
@@ -271,7 +264,7 @@ export const outputEstablishmentDetailPage = async (
       addressHtml: (await addressHtml).content,
       ratingDate,
       scoreData,
-      processedJs,
+      pageJs,
     });
 
     const filename = getHtmlFilename(establishment);

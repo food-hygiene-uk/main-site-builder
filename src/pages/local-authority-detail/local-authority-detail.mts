@@ -10,8 +10,8 @@ import { Address } from "../../components/address/forge.mts";
 import { EnrichedLocalAuthority } from "../../generate-site/schema-app.mts";
 import { getLinkURL } from "../../lib/establishment/establishment.mts";
 import { getCanonicalLinkURL } from "../../lib/authority/authority.mts";
-import postcss from "postcss";
-import cssnano from "cssnano";
+import { cssAddSuffix, processCssFile } from "../../lib/css/css.mts";
+import { jsAddSuffix, processJsFile } from "../../lib/js/js.mts";
 
 const env = vento();
 env.use(autoTrim());
@@ -27,44 +27,39 @@ const HeaderPromise = forgeHeader();
 const FooterPromise = forgeFooter();
 const address = Address();
 
-// Read the file using the absolute path
-const mjsPath = fromFileUrl(
-  import.meta.resolve("./local-authority-detail.mjs"),
-);
-const mjsContent = Deno.readTextFileSync(mjsPath);
-
-const cssPath = fromFileUrl(
-  import.meta.resolve("./local-authority-detail.css"),
-);
-const cssContent = Deno.readTextFileSync(cssPath);
-
-const processedCssContent = await postcss([cssnano]).process(cssContent, {
-  from: undefined,
+const processedCssPromise = processCssFile({
+  path: import.meta.resolve("./local-authority-detail.css"),
+  additionalCss: address.css,
 });
-const minifiedCssContent = processedCssContent.css.replace(
-  /\/\* __ADDITIONAL_CSS__ \*\//g,
-  `\n${address.css}`,
+
+const processedJsPromise = processJsFile({
+  path: import.meta.resolve("./local-authority-detail.mjs"),
+});
+
+const [template, Header, Footer, processedCss, processedJs] = await Promise.all(
+  [
+    templatePromise,
+    HeaderPromise,
+    FooterPromise,
+    processedCssPromise,
+    processedJsPromise,
+  ],
 );
 
-const [template, Header, Footer] = await Promise.all([
-  templatePromise,
-  HeaderPromise,
-  FooterPromise,
-]);
-
+/**
+ * Generates the Local Authority Detail page.
+ * @param {EnrichedLocalAuthority} localAuthority - The enriched local authority data.
+ * @param {Establishment[]} establishments - The list of establishments.
+ * @returns {Promise<void>} A promise that resolves when the page is generated.
+ */
 export const outputLocalAuthorityDetailPage = async (
   localAuthority: EnrichedLocalAuthority,
   establishments: Establishment[],
 ) => {
   const classSuffix = getClassSuffix();
 
-  const processedMjs = mjsContent.replace(/__CLASS_SUFFIX__/g, classSuffix);
-  const processedCss = minifiedCssContent.replace(
-    /__CLASS_SUFFIX__/g,
-    classSuffix,
-  );
-
-  const pageCSS = processedCss;
+  const pageCSS = cssAddSuffix(processedCss, classSuffix);
+  const processedMjs = jsAddSuffix(processedJs, classSuffix);
 
   const html = await template({
     headHtml: await Root.renderHead({
