@@ -100,9 +100,9 @@ jobs:
         working-directory: ./repos/source
         run: deno task build
 
-      - name: Minify HTML files
-        run: |
-          find ./repos/source/dist -name "*.html" -type f -exec npx html-minifier-terser --collapse-whitespace --remove-comments --remove-redundant-attributes --remove-script-type-attributes --remove-tag-whitespace --minify-css true --minify-js true -o {} {} \;
+      # - name: Minify HTML files
+      #   run: |
+      #     find ./repos/source/dist -name "*.html" -type f -exec npx html-minifier-terser --collapse-whitespace --remove-comments --remove-redundant-attributes --remove-script-type-attributes --remove-tag-whitespace --minify-css true --minify-js true -o {} {} \;
 
       - name: Minify CSS files
         run: |
