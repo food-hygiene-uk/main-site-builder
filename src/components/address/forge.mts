@@ -3,12 +3,19 @@ import vento from "@vento/vento";
 import autoTrim from "@vento/vento/plugins/auto_trim.ts";
 import { Establishment } from "../../generate-site/schema.mts";
 import { getClassSuffix } from "../../lib/template/template.mts";
+import postcss from "postcss";
+import cssnano from "cssnano";
 
 // Read the file using the absolute path
 const cssPath = fromFileUrl(
   import.meta.resolve("./styles.css"),
 );
 const cssContent = Deno.readTextFileSync(cssPath);
+
+const processedCssResult = await postcss([cssnano]).process(cssContent, {
+  from: undefined,
+});
+const processedCssContent = processedCssResult.css;
 
 const env = vento();
 env.use(autoTrim());
@@ -65,7 +72,10 @@ const getAddress = (establishment: Establishment): {
  */
 export const Address = () => {
   const classSuffix = getClassSuffix();
-  const processedCss = cssContent.replace(/__CLASS_SUFFIX__/g, classSuffix);
+  const processedCss = processedCssContent.replace(
+    /__CLASS_SUFFIX__/g,
+    classSuffix,
+  );
 
   const css = processedCss;
 

@@ -6,6 +6,8 @@ import { forgeHeader } from "../../components/header/forge.mts";
 import { forgeFooter } from "../../components/footer/forge.mts";
 import { config } from "../../lib/config/config.mts";
 import { getClassSuffix } from "../../lib/template/template.mts";
+import postcss from "postcss";
+import cssnano from "cssnano";
 
 const env = vento();
 env.use(autoTrim());
@@ -25,6 +27,11 @@ const cssPath = fromFileUrl(
 );
 const cssContent = Deno.readTextFileSync(cssPath);
 
+const processedCssContent = await postcss([cssnano]).process(cssContent, {
+  from: undefined,
+});
+const minifiedCssContent = processedCssContent.css;
+
 const [template, Header, Footer] = await Promise.all([
   templatePromise,
   HeaderPromise,
@@ -34,7 +41,10 @@ const [template, Header, Footer] = await Promise.all([
 export const outputHomepagePage = async () => {
   const classSuffix = getClassSuffix();
 
-  const processedCss = cssContent.replace(/__CLASS_SUFFIX__/g, classSuffix);
+  const processedCss = minifiedCssContent.replace(
+    /__CLASS_SUFFIX__/g,
+    classSuffix,
+  );
 
   const pageCSS = processedCss;
 

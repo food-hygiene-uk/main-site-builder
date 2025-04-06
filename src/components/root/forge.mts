@@ -2,6 +2,8 @@ import { fromFileUrl } from "@std/path";
 import vento from "@vento/vento";
 import autoTrim from "@vento/vento/plugins/auto_trim.ts";
 import { getClassSuffix } from "../../lib/template/template.mts";
+import postcss from "postcss";
+import cssnano from "cssnano";
 
 const env = vento();
 env.use(autoTrim());
@@ -17,6 +19,11 @@ const cssPath = fromFileUrl(
   import.meta.resolve("./styles.css"),
 );
 const cssContent = Deno.readTextFileSync(cssPath);
+
+const processedCssResult = await postcss([cssnano]).process(cssContent, {
+  from: undefined,
+});
+const processedCss = processedCssResult.css;
 
 const jsPath = fromFileUrl(
   import.meta.resolve("./script.js"),
@@ -40,9 +47,9 @@ export const forgeRoot = (): {
   }) => Promise<string>;
 } => {
   const classSuffix = getClassSuffix();
-  const processedCss = cssContent.replace(/__CLASS_SUFFIX__/g, classSuffix);
+  const finalCss = processedCss.replace(/__CLASS_SUFFIX__/g, classSuffix);
 
-  const css = processedCss;
+  const css = finalCss;
 
   const processedJs = jsContent.replace(/__CLASS_SUFFIX__/g, classSuffix);
 

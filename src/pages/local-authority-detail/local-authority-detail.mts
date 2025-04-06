@@ -10,6 +10,8 @@ import { Address } from "../../components/address/forge.mts";
 import { EnrichedLocalAuthority } from "../../generate-site/schema-app.mts";
 import { getLinkURL } from "../../lib/establishment/establishment.mts";
 import { getCanonicalLinkURL } from "../../lib/authority/authority.mts";
+import postcss from "postcss";
+import cssnano from "cssnano";
 
 const env = vento();
 env.use(autoTrim());
@@ -36,6 +38,14 @@ const cssPath = fromFileUrl(
 );
 const cssContent = Deno.readTextFileSync(cssPath);
 
+const processedCssContent = await postcss([cssnano]).process(cssContent, {
+  from: undefined,
+});
+const minifiedCssContent = processedCssContent.css.replace(
+  /\/\* __ADDITIONAL_CSS__ \*\//g,
+  `\n${address.css}`,
+);
+
 const [template, Header, Footer] = await Promise.all([
   templatePromise,
   HeaderPromise,
@@ -49,8 +59,10 @@ export const outputLocalAuthorityDetailPage = async (
   const classSuffix = getClassSuffix();
 
   const processedMjs = mjsContent.replace(/__CLASS_SUFFIX__/g, classSuffix);
-  const processedCss = cssContent.replace(/__CLASS_SUFFIX__/g, classSuffix)
-    .replace(/\/\* __ADDITIONAL_CSS__ \*\//g, `\n${address.css}`);
+  const processedCss = minifiedCssContent.replace(
+    /__CLASS_SUFFIX__/g,
+    classSuffix,
+  );
 
   const pageCSS = processedCss;
 

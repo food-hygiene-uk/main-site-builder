@@ -18,6 +18,8 @@ import {
   getHtmlFilename,
 } from "../../lib/establishment/establishment.mts";
 import { Address } from "../../components/address/forge.mts";
+import postcss from "postcss";
+import cssnano from "cssnano";
 
 const env = vento();
 env.use(autoTrim());
@@ -191,6 +193,10 @@ const cssPath = fromFileUrl(
   import.meta.resolve("./establishment-detail.css"),
 );
 const cssContent = Deno.readTextFileSync(cssPath);
+const processedCssResult = (await postcss([cssnano]).process(cssContent, {
+  from: undefined,
+})).css
+  .replace(/\/\* __ADDITIONAL_CSS__ \*\//g, `\n${address.css}`);
 
 // Add JavaScript for tracking recent establishments
 const jsPath = fromFileUrl(
@@ -217,13 +223,14 @@ export const outputEstablishmentDetailPage = async (
 ): Promise<void> => {
   const classSuffix = getClassSuffix();
 
-  const processedCss = cssContent.replace(/__CLASS_SUFFIX__/g, classSuffix)
-    .replace(/\/\* __ADDITIONAL_CSS__ \*\//g, `\n${address.css}`);
+  const processedCss = processedCssResult.replace(
+    /__CLASS_SUFFIX__/g,
+    classSuffix,
+  );
+  const pageCSS = processedCss;
 
   // Process the JavaScript
   const processedJs = jsContent.replace(/__CLASS_SUFFIX__/g, classSuffix);
-
-  const pageCSS = processedCss;
 
   // Generate HTML for each establishment and save to a file
   await Promise.all(establishments.map(async (establishment) => {

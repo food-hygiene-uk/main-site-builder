@@ -7,6 +7,8 @@ import { forgeFooter } from "components/footer/forge.mts";
 import { Address } from "components/address/forge.mts";
 import { getClassSuffix } from "../../lib/template/template.mts";
 import { config } from "../../lib/config/config.mts";
+import postcss from "postcss";
+import cssnano from "cssnano";
 
 const env = vento();
 env.use(autoTrim());
@@ -32,6 +34,10 @@ const address = Address();
 // Load CSS and JS for lists page
 const listsPageCssPath = fromFileUrl(import.meta.resolve("./lists.css"));
 const listsPageCssContent = Deno.readTextFileSync(listsPageCssPath);
+const processedListsPageCssContent = await postcss([cssnano]).process(
+  listsPageCssContent,
+  { from: undefined },
+);
 
 const listsPageJsPath = fromFileUrl(import.meta.resolve("./lists.mjs"));
 const listsPageJsContent = Deno.readTextFileSync(listsPageJsPath);
@@ -55,7 +61,7 @@ export const outputListsPages = async () => {
   const classSuffix = getClassSuffix();
 
   // Process CSS and JS for lists page
-  const processedListsPageCss = listsPageCssContent.replace(
+  const processedListsPageCss = processedListsPageCssContent.css.replace(
     /__CLASS_SUFFIX__/g,
     classSuffix,
   );

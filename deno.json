@@ -4,6 +4,9 @@
     "@std/fs": "jsr:@std/fs@1.0.11",
     "@std/path": "jsr:@std/path@1.0.8",
     "@vento/vento": "jsr:@vento/vento@1.12.16",
+    "cssnano": "npm:cssnano@7.0.6",
+    "cssnano-preset-advanced": "npm:cssnano-preset-advanced@7.0.6",
+    "postcss": "npm:postcss@8.5.3",
     "zod": "npm:zod@3.24.1",
     "components/": "./src/components/",
     "scripts/": "./src/scripts/"
@@ -15,7 +18,11 @@
     },
     "build": {
       "description": "Builds the site",
-      "command": "deno run --allow-env=CI --allow-net=api.ratings.food.gov.uk:443,ratings.food.gov.uk:443 --allow-read=./assets,./build,./dist,./src --allow-write=./build,./dist src/generate-site.mts"
+      "command": "DENO_TRACE_PERMISSIONS=1 BROWSERSLIST_ROOT_PATH=. deno run --allow-env=CI,NO_COLOR,FORCE_COLOR,TERM,BROWSERSLIST,BROWSERSLIST_DISABLE_CACHE,BROWSERSLIST_IGNORE_OLD_DATA,BROWSERSLIST_STATS,BROWSERSLIST_ROOT_PATH,BROWSERSLIST_CONFIG,BROWSERSLIST_ENV,NODE_ENV --allow-net=api.ratings.food.gov.uk:443,ratings.food.gov.uk:443 --allow-read=./,./assets,./build,./dist,./src,./package.json --allow-write=./build,./dist --allow-sys=homedir,uid src/generate-site.mts"
+    },
+    "lock-update": {
+      "description": "Updates the lock file",
+      "command": "deno cache --frozen=false src/generate-site.mts && deno install"
     }
   },
   "fmt": {
@@ -38,5 +45,6 @@
   },
   "exclude": [
     "./assets/google3decab8acc23e179.html"
-  ]
+  ],
+  "nodeModulesDir": "auto"
 }

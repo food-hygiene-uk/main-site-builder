@@ -6,6 +6,8 @@ import { forgeHeader } from "components/header/forge.mts";
 import { forgeFooter } from "components/footer/forge.mts";
 import { Address } from "components/address/forge.mts";
 import { getClassSuffix } from "../../lib/template/template.mts";
+import postcss from "postcss";
+import cssnano from "cssnano";
 
 const env = vento();
 env.use(autoTrim());
@@ -27,42 +29,48 @@ const [template, Header, Footer] = await Promise.all([
   FooterPromise,
 ]);
 
+// Process the CSS
+const cssPath = fromFileUrl(import.meta.resolve("./search.css"));
+const cssContent = Deno.readTextFileSync(cssPath);
+
+// Read the component CSS files
+const establishmentCardCssPath = fromFileUrl(
+  import.meta.resolve(
+    "../../components/establishment-card/establishment-card.css",
+  ),
+);
+const establishmentCardCss = Deno.readTextFileSync(establishmentCardCssPath);
+
+const establishmentListCssPath = fromFileUrl(
+  import.meta.resolve(
+    "../../components/establishment-list/establishment-list.css",
+  ),
+);
+const establishmentListCss = Deno.readTextFileSync(establishmentListCssPath);
+
+const combinedCssContent = cssContent.replace(
+  /\/\* __ADDITIONAL_CSS__ \*\//g,
+  `
+  ${address.css}
+  ${establishmentCardCss}
+  ${establishmentListCss}
+`,
+);
+
+const processedCssContent = await postcss([cssnano]).process(
+  combinedCssContent,
+  { from: undefined },
+);
+const fullCssContent = processedCssContent.css;
+
+const jsPath = fromFileUrl(import.meta.resolve("./search.mjs"));
+const jsContent = Deno.readTextFileSync(jsPath);
+
 export const outputSearchPage = async () => {
   const classSuffix = getClassSuffix();
 
-  // Read the CSS and JS files
-  const cssPath = fromFileUrl(import.meta.resolve("./search.css"));
-  const cssContent = Deno.readTextFileSync(cssPath);
+  const pageCSS = fullCssContent.replace(/__CLASS_SUFFIX__/g, classSuffix);
 
-  const jsPath = fromFileUrl(import.meta.resolve("./search.mjs"));
-  const jsContent = Deno.readTextFileSync(jsPath);
-
-  // Read the component CSS files
-  const establishmentCardCssPath = fromFileUrl(
-    import.meta.resolve(
-      "../../components/establishment-card/establishment-card.css",
-    ),
-  );
-  const establishmentCardCss = Deno.readTextFileSync(establishmentCardCssPath);
-
-  const establishmentListCssPath = fromFileUrl(
-    import.meta.resolve(
-      "../../components/establishment-list/establishment-list.css",
-    ),
-  );
-  const establishmentListCss = Deno.readTextFileSync(establishmentListCssPath);
-
-  const processedCss = cssContent.replace(/__CLASS_SUFFIX__/g, classSuffix)
-    .replace(
-      /\/\* __ADDITIONAL_CSS__ \*\//g,
-      `
-      ${address.css}
-      ${establishmentCardCss}
-      ${establishmentListCss}
-    `,
-    );
-
-  const pageCSS = processedCss;
   const processedJs = jsContent.replace(/__CLASS_SUFFIX__/g, classSuffix);
 
   const html = await template({

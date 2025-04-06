@@ -7,6 +7,8 @@ import { forgeHeader } from "../../components/header/forge.mts";
 import { forgeFooter } from "../../components/footer/forge.mts";
 import { getLinkURL } from "../../lib/authority/authority.mts";
 import { getClassSuffix } from "../../lib/template/template.mts";
+import postcss from "postcss";
+import cssnano from "cssnano";
 
 const env = vento();
 env.use(autoTrim());
@@ -60,6 +62,11 @@ const cssPath = fromFileUrl(
 );
 const cssContent = Deno.readTextFileSync(cssPath);
 
+const processedCssContent = await postcss([cssnano]).process(cssContent, {
+  from: undefined,
+});
+const processedCss = processedCssContent.css;
+
 const [template, Header, Footer] = await Promise.all([
   templatePromise,
   HeaderPromise,
@@ -71,9 +78,7 @@ export const outputLocalAuthorityListPage = async (
 ) => {
   const classSuffix = getClassSuffix();
 
-  const processedCss = cssContent.replace(/__CLASS_SUFFIX__/g, classSuffix);
-
-  const pageCSS = processedCss;
+  const pageCSS = processedCss.replace(/__CLASS_SUFFIX__/g, classSuffix);
 
   const html = await template({
     headHtml: await Root.renderHead({
