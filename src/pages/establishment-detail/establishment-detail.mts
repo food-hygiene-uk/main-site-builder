@@ -264,7 +264,7 @@ export const outputEstablishmentDetailPage = async (
       addressHtml: (await addressHtml).content,
       ratingDate,
       scoreData,
-      pageJs,
+      processedJs: pageJs,
     });
 
     const filename = getHtmlFilename(establishment);

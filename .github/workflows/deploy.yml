@@ -102,7 +102,7 @@ jobs:
 
       # - name: Minify HTML files
       #   run: |
-      #     find ./repos/source/dist -name "*.html" -type f -exec npx html-minifier-terser --collapse-whitespace --remove-comments --remove-redundant-attributes --remove-script-type-attributes --remove-tag-whitespace --minify-js true -o {} {} \;
+      #     find ./repos/source/dist -name "*.html" -type f -exec npx html-minifier-terser --collapse-whitespace --remove-comments --remove-redundant-attributes --remove-script-type-attributes --remove-tag-whitespace -o {} {} \;
 
       - name: Minify JavaScript files
         run: |

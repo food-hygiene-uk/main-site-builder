@@ -4,8 +4,5 @@
   "description": "Stub package.json",
   "cssnano": {
     "preset": "cssnano-preset-advanced"
-  },
-  "browserslist": [
-    "defaults"
-  ]
+  }
 }
