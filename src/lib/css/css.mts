@@ -14,11 +14,13 @@ export const processCssFile = async (
   { path, additionalCss }: { path: string; additionalCss: string },
 ): Promise<string> => {
   const cssPath = fromFileUrl(path);
-  const cssContent = await globalThis.Deno.readTextFile(cssPath);
+  const cssContent = (await globalThis.Deno.readTextFile(cssPath)).replace(
+    /\/\* __ADDITIONAL_CSS__ \*\//g,
+    additionalCss,
+  );
   return (await postcss([cssnano]).process(cssContent, {
     from: undefined,
-  })).css
-    .replace(/\/\* __ADDITIONAL_CSS__ \*\//g, additionalCss);
+  })).css;
 };
 
 /**

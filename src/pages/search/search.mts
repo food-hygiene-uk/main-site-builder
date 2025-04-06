@@ -24,24 +24,24 @@ const FooterPromise = forgeFooter();
 const address = Address();
 
 // Read the component CSS files
-const establishmentCardCssPath = fromFileUrl(
-  import.meta.resolve(
+const processedEstablishmentCardCssPromise = processCssFile({
+  path: import.meta.resolve(
     "../../components/establishment-card/establishment-card.css",
   ),
-);
-const establishmentCardCss = Deno.readTextFileSync(establishmentCardCssPath);
+  additionalCss: "",
+});
 
-const establishmentListCssPath = fromFileUrl(
-  import.meta.resolve(
+const processedEstablishmentListCssPromise = processCssFile({
+  path: import.meta.resolve(
     "../../components/establishment-list/establishment-list.css",
   ),
-);
-const establishmentListCss = Deno.readTextFileSync(establishmentListCssPath);
+  additionalCss: "",
+});
 
 const processedCssPromise = processCssFile({
   path: import.meta.resolve("./search.css"),
   additionalCss:
-    `${address.css}\n${establishmentCardCss}\n${establishmentListCss}`,
+    `${address.css}\n${await processedEstablishmentCardCssPromise}\n${await processedEstablishmentListCssPromise}`,
 });
 
 const processedJsPromise = processJsFile({
