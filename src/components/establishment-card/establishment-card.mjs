@@ -78,7 +78,7 @@ export function slugify(text) {
  * @returns {string} HTML encoded string
  */
 function htmlEncode(str) {
-  const div = document.createElement('div');
+  const div = document.createElement("div");
   div.textContent = str;
   return div.innerHTML;
 }
