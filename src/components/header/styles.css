@@ -21,6 +21,7 @@
   }
 
   .nav-links-__CLASS_SUFFIX__ {
+    box-sizing: border-box;
     list-style: none;
     display: flex;
     gap: 1.5rem;
@@ -68,6 +69,7 @@
     }
 
     .nav-links-__CLASS_SUFFIX__ {
+      box-sizing: border-box;
       position: fixed;
       top: 84px; /* Ensures it doesn't cover the title bar */
       right: -100%;
