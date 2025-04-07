@@ -72,18 +72,6 @@ export function slugify(text) {
 }
 
 /**
- * Encodes HTML special characters to prevent XSS
- *
- * @param {string} str - String to encode
- * @returns {string} HTML encoded string
- */
-function htmlEncode(str) {
-  const div = document.createElement("div");
-  div.textContent = str;
-  return div.innerHTML;
-}
-
-/**
  * Fetches establishment details from the FHRS API
  *
  * @param {string|number} FHRSID - The FHRSID of the establishment
@@ -166,7 +154,7 @@ export async function renderEstablishmentCard(establishment) {
 
   // Create content
   const nameElem = document.createElement("h3");
-  nameElem.textContent = htmlEncode(hydratedEstablishment.BusinessName);
+  nameElem.textContent = hydratedEstablishment.BusinessName;
   item.appendChild(nameElem);
 
   const details = document.createElement("div");
