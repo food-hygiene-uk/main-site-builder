@@ -21,8 +21,6 @@ const initializeListSelectionModal = (FHRSID) => {
   // Clear existing content
   modalBody.innerHTML = "";
 
-  const savedLists = getSavedLists();
-
   // Add a form to create a new list
   const newListForm = document.createElement("form");
   newListForm.className = "new-list-form styled-form";
@@ -42,6 +40,10 @@ const initializeListSelectionModal = (FHRSID) => {
   newListForm.appendChild(newListButton);
   modalBody.appendChild(newListForm);
 
+  const savedList = document.createElement("div");
+  savedList.className = "saved-list";
+  modalBody.appendChild(savedList);
+
   newListForm.addEventListener("submit", (event) => {
     event.preventDefault();
     const listName = newListInput.value.trim();
@@ -50,21 +52,6 @@ const initializeListSelectionModal = (FHRSID) => {
       newListInput.value = "";
       updateCheckboxStates(FHRSID);
     }
-  });
-
-  // Add existing lists with checkboxes
-  Object.entries(savedLists).forEach(([listId, list]) => {
-    const listItem = document.createElement("div");
-    listItem.className = "list-item styled-list-item";
-
-    const checkbox = document.createElement("input");
-    checkbox.type = "checkbox";
-    checkbox.className = "styled-checkbox";
-    checkbox.dataset.listId = listId; // Store the list ID for reference
-
-    listItem.appendChild(checkbox);
-    listItem.appendChild(document.createTextNode(list.name));
-    modalBody.appendChild(listItem);
   });
 
   // Attach a single event listener to the modal body for checkbox changes
@@ -84,13 +71,27 @@ const initializeListSelectionModal = (FHRSID) => {
  */
 const updateCheckboxStates = (FHRSID) => {
   const savedLists = getSavedLists();
-  const checkboxes = document.querySelectorAll(".styled-checkbox");
+  const savedListContainer = document.querySelector(".saved-list");
 
-  checkboxes.forEach((checkbox) => {
-    const listId = checkbox.dataset.listId;
-    const list = savedLists[listId];
-    checkbox.checked = list &&
-      list.establishments.some((est) => est.FHRSID === FHRSID);
+  if (!savedListContainer) return;
+
+  // Clear existing content
+  savedListContainer.innerHTML = "";
+
+  // Re-render the saved lists
+  Object.entries(savedLists).forEach(([listId, list]) => {
+    const listItem = document.createElement("div");
+    listItem.className = "list-item styled-list-item";
+
+    const checkbox = document.createElement("input");
+    checkbox.type = "checkbox";
+    checkbox.className = "styled-checkbox";
+    checkbox.dataset.listId = listId; // Store the list ID for reference
+    checkbox.checked = list.establishments.some((est) => est.FHRSID === FHRSID);
+
+    listItem.appendChild(checkbox);
+    listItem.appendChild(document.createTextNode(list.name));
+    savedListContainer.appendChild(listItem);
   });
 };
 
