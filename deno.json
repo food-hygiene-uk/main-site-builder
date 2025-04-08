@@ -24,6 +24,10 @@
     "lock-update": {
       "description": "Updates the lock file",
       "command": "deno cache --frozen=false src/generate-site.mts && deno install"
+    },
+    "update-deno": {
+      "description": "Fetches the latest Deno version and updates .deno-version and devcontainer.json",
+      "command": "deno run --allow-net=api.github.com --allow-read=.deno-version,./.devcontainer/devcontainer.json --allow-write=.deno-version,./.devcontainer/devcontainer.json scripts/update-deno.mts"
     }
   },
   "fmt": {
