@@ -23,25 +23,9 @@ const HeaderPromise = forgeHeader();
 const FooterPromise = forgeFooter();
 const address = Address();
 
-// Read the component CSS files
-const processedEstablishmentCardCssPromise = processCssFile({
-  path: import.meta.resolve(
-    "../../components/establishment-card/establishment-card.css",
-  ),
-  additionalCss: "",
-});
-
-const processedEstablishmentListCssPromise = processCssFile({
-  path: import.meta.resolve(
-    "../../components/establishment-list/establishment-list.css",
-  ),
-  additionalCss: "",
-});
-
 const processedCssPromise = processCssFile({
   path: import.meta.resolve("./search.css"),
-  additionalCss:
-    `${address.css}\n${await processedEstablishmentCardCssPromise}\n${await processedEstablishmentListCssPromise}`,
+  additionalCss: `\n${address.css}`,
 });
 
 const processedJsPromise = processJsFile({

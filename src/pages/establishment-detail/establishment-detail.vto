@@ -6,7 +6,9 @@
     <div class="content-{{ classSuffix }}">
       <div class="container">
         <article class="establishment" itemscope itemtype="https://schema.org/FoodEstablishment" data-establishment-id="{{ establishment.FHRSID }}">
-          <h1 class="name" itemprop="name">{{ establishment.BusinessName |> escape}}</h1>
+          <div class="establishment-header">
+            <h1 class="name" itemprop="name">{{ establishment.BusinessName |> escape}}</h1>
+          </div>
 
           <h2>Business Type</h2>
           <div itemprop="servesCuisine">{{ establishment.BusinessType }}</div>

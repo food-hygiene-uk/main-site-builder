@@ -33,6 +33,7 @@ This project is a static website generator that creates HTML, CSS, and JavaScrip
 - Always use `globalThis` instead of `window` for accessing global objects
 - Prefer arrow function expressions (`const fn = () => {}`) over function declarations (`function fn() {}`). Exceptions: generators, object methods requiring dynamic `this`
 - Prefer modules to classes
+- Comments should only be used to aid future readers in understanding the current state of the code. Avoid using comments to track work or highlight changes.
 
 ### JavaScript (`.mjs` files)
 
@@ -45,6 +46,7 @@ This project is a static website generator that creates HTML, CSS, and JavaScrip
 - Always use `globalThis` instead of `window` for accessing global objects
 - Prefer arrow function expressions (`const fn = () => {}`) over function declarations (`function fn() {}`). Exceptions: generators, object methods requiring dynamic `this`
 - Prefer modules to classes
+- Comments should only be used to aid future readers in understanding the current state of the code. Avoid using comments to track work or highlight changes.
 
 ### CSS
 
@@ -76,6 +78,7 @@ This project is a static website generator that creates HTML, CSS, and JavaScrip
 - [ ] Prefer arrow functions unless exceptions apply
 - [ ] Use modules instead of classes
 - [ ] Utilize Deno API for file operations and server-side functionality
+- [ ] Comments should only be used to aid future readers in understanding the current state of the code. Avoid using comments to track work or highlight changes.
 
 ### JavaScript (`.mjs` files)
 
@@ -86,6 +89,7 @@ This project is a static website generator that creates HTML, CSS, and JavaScrip
 - [ ] Prefer arrow functions unless exceptions apply
 - [ ] Use modules instead of classes
 - [ ] Ensure browser compatibility without transpilation
+- [ ] Comments should only be used to aid future readers in understanding the current state of the code. Avoid using comments to track work or highlight changes.
 
 ### CSS
 

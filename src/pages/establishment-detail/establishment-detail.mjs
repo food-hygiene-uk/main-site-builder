@@ -1,4 +1,5 @@
 import recentEstablishmentsService from "scripts/recent-establishments-service.mjs";
+import { renderListSelectionButton } from "components/list-selection-button/list-selection-button.mjs";
 
 document.addEventListener("DOMContentLoaded", () => {
   // Find the establishment element and extract data
@@ -34,6 +35,14 @@ document.addEventListener("DOMContentLoaded", () => {
 
   // Load and display recently viewed establishments (excluding current one)
   displayRecentlyViewed(establishmentId);
+
+  // Update the "Add to List" button to match the new design with a bookmark icon and "Save" text
+  if (businessNameElement) {
+    const wrapper = document.querySelector(".establishment-header");
+    const listSelectionButton = renderListSelectionButton(establishmentId);
+
+    wrapper.appendChild(listSelectionButton);
+  }
 });
 
 /**

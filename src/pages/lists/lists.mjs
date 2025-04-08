@@ -1,3 +1,5 @@
+import { getListCreationDate } from "scripts/list-service.mjs";
+
 // Storage key for saved lists
 const SAVED_LISTS_STORAGE_KEY = "saved-establishment-lists";
 
@@ -118,7 +120,7 @@ document.addEventListener("DOMContentLoaded", () => {
       const listDescription = document.createElement("p");
       listDescription.textContent =
         `${listData.establishments.length} establishments • Saved on ${
-          new Date(listData.created).toLocaleDateString()
+          getListCreationDate(listId).toLocaleDateString()
         }`;
 
       const listActions = document.createElement("div");

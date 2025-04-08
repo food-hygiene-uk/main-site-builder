@@ -34,16 +34,19 @@ await ensureDir("dist/components/establishment-list");
 // Copy needed files to dist directory
 await copy("assets", "dist", { overwrite: true });
 await copy("src/scripts", "dist/scripts", { overwrite: true });
-await copy(
-  "src/components/establishment-card",
-  "dist/components/establishment-card",
-  { overwrite: true },
-);
-await copy(
-  "src/components/establishment-list",
-  "dist/components/establishment-list",
-  { overwrite: true },
-);
+
+const components = [
+  "establishment-card",
+  "establishment-list",
+  "list-selection-button",
+  "modal",
+];
+
+for (const component of components) {
+  await copy(`src/components/${component}`, `dist/components/${component}`, {
+    overwrite: true,
+  });
+}
 
 const baseURL = config.BASE_URL;
 

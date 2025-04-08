@@ -37,21 +37,6 @@ const processedListsPageCssPromise = processCssFile({
   additionalCss: "",
 });
 
-// Read the component CSS files
-const processedEstablishmentCardCssPromise = processCssFile({
-  path: import.meta.resolve(
-    "../../components/establishment-card/establishment-card.css",
-  ),
-  additionalCss: "",
-});
-
-const processedEstablishmentListCssPromise = processCssFile({
-  path: import.meta.resolve(
-    "../../components/establishment-list/establishment-list.css",
-  ),
-  additionalCss: "",
-});
-
 const processedListsPageJsPromise = processJsFile({
   path: import.meta.resolve("./lists.mjs"),
 });
@@ -59,11 +44,7 @@ const processedListsPageJsPromise = processJsFile({
 // Process CSS for detail page
 const processedDetailPageCssPromise = processCssFile({
   path: import.meta.resolve("./detail.css"),
-  additionalCss: `
-  ${address.css}
-  ${await processedEstablishmentCardCssPromise}
-  ${await processedEstablishmentListCssPromise}
-`,
+  additionalCss: `\n${address.css}`,
 });
 
 const processedDetailPageJsPromise = processJsFile({

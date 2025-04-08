@@ -1,9 +1,20 @@
 import recentEstablishmentsService from "scripts/recent-establishments-service.mjs";
+import { renderListSelectionButton } from "components/list-selection-button/list-selection-button.mjs";
 
 /**
  * @typedef {import("scripts/recent-establishments-service.mjs").MinimalEstablishment} MinimalEstablishment
  * @typedef {import("../../generate-site/schema.mts").Establishment} Establishment
  */
+
+/**
+ * Adds the CSS link for the component to the document head.
+ */
+{
+  const link = document.createElement("link");
+  link.rel = "stylesheet";
+  link.href = "/components/establishment-card/establishment-card.css";
+  document.head.appendChild(link);
+}
 
 // FHRS API Configuration
 const API_BASE = "https://api.ratings.food.gov.uk";
@@ -246,6 +257,12 @@ export async function renderEstablishmentCard(establishment) {
   link.className = "details-link";
   link.textContent = "View details";
   item.appendChild(link);
+
+  // Add an "Add to List" button to the establishment card using the reusable component
+  const listSelectionButton = renderListSelectionButton(
+    hydratedEstablishment.FHRSID,
+  );
+  item.appendChild(listSelectionButton);
 
   return item;
 }

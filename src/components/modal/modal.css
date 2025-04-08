@@ -1,0 +1,111 @@
+/* Styles for the modal component */
+.modal-container {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.5);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 1000;
+}
+
+.modal-content {
+  background-color: white;
+  padding: 20px;
+  border-radius: 8px;
+  width: 90%;
+  max-width: 500px;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+}
+
+.modal-content h2 {
+  margin-top: 0;
+}
+
+.modal-content .modal-body {
+  margin: 20px 0;
+}
+
+.modal-content button {
+  background-color: var(--hygiene-green);
+  color: white;
+  border: none;
+  padding: 10px 15px;
+  border-radius: 5px;
+  cursor: pointer;
+  font-size: 1em;
+}
+
+/* Add styles for the list-selection modal */
+.styled-form {
+  display: flex;
+  gap: 10px;
+  margin-bottom: 20px;
+}
+
+.styled-input {
+  flex: 1;
+  padding: 10px;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  font-size: 1em;
+}
+
+.styled-button {
+  background-color: var(--hygiene-green);
+  color: white;
+  border: none;
+  padding: 10px 15px;
+  border-radius: 4px;
+  cursor: pointer;
+  font-size: 1em;
+  transition: background-color 0.3s;
+}
+
+.styled-button:hover {
+  background-color: #007a3d;
+}
+
+.styled-list-item {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin-bottom: 10px;
+}
+
+.styled-checkbox {
+  width: 20px;
+  height: 20px;
+  cursor: pointer;
+}
+
+/* Dark mode support */
+@media (not (scripting: none)) or (prefers-color-scheme: dark) {
+  html:not([data-color-scheme="light"]) {
+    .modal-content {
+      background-color: #333;
+      color: #ddd;
+    }
+
+    .modal-content button {
+      background-color: #007a3d;
+    }
+
+    .styled-input {
+      background-color: #333;
+      color: #ddd;
+      border-color: #555;
+    }
+
+    .styled-button {
+      background-color: #007a3d;
+    }
+
+    .styled-list-item {
+      color: #ddd;
+    }
+  }
+}

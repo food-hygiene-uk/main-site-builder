@@ -29,7 +29,7 @@ const address = Address();
 
 const processedCssPromise = processCssFile({
   path: import.meta.resolve("./local-authority-detail.css"),
-  additionalCss: address.css,
+  additionalCss: `\n${address.css}`,
 });
 
 const processedJsPromise = processJsFile({

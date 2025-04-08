@@ -125,7 +125,7 @@
     align-items: flex-end;
   }
 
-  button {
+  .styled-button {
     padding: 10px 20px;
     background-color: var(--hygiene-green);
     color: white;
@@ -136,7 +136,7 @@
     font-weight: 600;
   }
 
-  button:hover {
+  .styled-button:hover {
     background-color: #005a30;
   }
 
@@ -172,22 +172,6 @@
     justify-content: space-between;
     align-items: center;
     margin-bottom: 15px;
-  }
-
-  .pagination {
-    display: flex;
-    gap: 5px;
-  }
-
-  .pagination button {
-    padding: 5px 10px;
-    background-color: #f0f0f0;
-    color: #333;
-  }
-
-  .pagination button.active {
-    background-color: var(--hygiene-green);
-    color: white;
   }
 
   .establishments-container {

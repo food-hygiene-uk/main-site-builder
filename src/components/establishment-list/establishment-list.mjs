@@ -5,6 +5,16 @@ import { renderEstablishmentCard } from "components/establishment-card/establish
  */
 
 /**
+ * Adds the CSS link for the component to the document head.
+ */
+{
+  const link = document.createElement("link");
+  link.rel = "stylesheet";
+  link.href = "/components/establishment-list/establishment-list.css";
+  document.head.appendChild(link);
+}
+
+/**
  * A reusable component for rendering lists of establishments with pagination
  */
 export class EstablishmentList {
