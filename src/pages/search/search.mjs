@@ -29,8 +29,6 @@ let userConsent = false;
 const state = {
   currentPage: 1,
   pageSize: 10,
-  totalPages: 0,
-  totalResults: 0,
   searchParams: new URLSearchParams(globalThis.location.search),
 };
 
@@ -229,7 +227,6 @@ function setupEventListeners() {
   });
 }
 
-// Rest of the JavaScript remains the same...
 /**
  * Loads reference data from the API and populates select dropdowns
  *
@@ -356,7 +353,12 @@ async function performSearch() {
 
   // Show loading state
   resultsSection.style.display = "block";
-  await establishmentList.loadEstablishments({ establishments: [] }, true);
+  await establishmentList.loadEstablishments({
+    establishments: [],
+    totalResults: 0,
+    currentPage: state.currentPage,
+    pageSize: state.pageSize,
+  }, true);
 
   try {
     // Build search query
@@ -369,12 +371,14 @@ async function performSearch() {
       `/Establishments?${queryParams.toString()}`,
     );
 
-    // Update state with pagination info
-    state.totalResults = response.meta.totalCount;
-    state.totalPages = Math.ceil(state.totalResults / state.pageSize);
+    const establishments = response.establishments || [];
+    const totalResults = response.meta.totalCount;
 
     // Display results
-    await displayResults(response.establishments);
+    await displayResults({
+      establishments,
+      totalResults,
+    });
 
     // Scroll to results
     resultsSection.scrollIntoView({ behavior: "smooth" });
@@ -387,42 +391,41 @@ async function performSearch() {
 }
 
 /**
+ * @typedef {Object} DisplayResultsData
+ * @property {Array<Establishment>} establishments - Array of establishment objects to display
+ * @property {number} totalResults - Total number of results
+ */
+
+/**
  * Displays search results using the establishment list component
  *
- * @param {Array<object>} establishments - Array of establishment objects to display
- * @returns {Promise<void>}
+ * @param {DisplayResultsData} data - Data containing establishments and pagination info
+ * @returns {Promise<void>} Resolves when the results are displayed
  */
-async function displayResults(establishments) {
+export const displayResults = async ({ establishments, totalResults }) => {
   // Make sure results section is visible
   resultsSection.style.display = "block";
   resultsContainer.style.display = "block";
 
-  if (establishments.length === 0) {
-    establishmentList.showError(
-      "No establishments found matching your search criteria.",
-    );
-    return;
-  }
-
   // Load the establishments into the list component
   await establishmentList.loadEstablishments(
     {
-      establishments: establishments,
-      totalResults: state.totalResults,
+      establishments,
+      totalResults,
       currentPage: state.currentPage,
       pageSize: state.pageSize,
     },
     false,
     handlePageChange,
   );
-}
+};
 
 /**
  * Handles page changes in the establishment list
  *
  * @param {number} page - The page number to navigate to
  */
-async function handlePageChange(page) {
+export const handlePageChange = async (page) => {
   state.currentPage = page;
 
   // Update URL to reflect new page
@@ -438,7 +441,7 @@ async function handlePageChange(page) {
 
   // Fetch new results for this page
   await performSearch();
-}
+};
 
 /**
  * Fetches data from the FHRS API
@@ -447,7 +450,7 @@ async function handlePageChange(page) {
  * @returns {Promise<object>} The JSON response from the API
  * @throws {Error} If the request fails or user has not given consent
  */
-async function fetchAPI(endpoint) {
+export const fetchAPI = async (endpoint) => {
   // Safety check - don't fetch if no consent
   if (!userConsent) {
     throw new Error("Cannot fetch API without user consent");
@@ -462,4 +465,4 @@ async function fetchAPI(endpoint) {
   }
 
   return await response.json();
-}
+};
