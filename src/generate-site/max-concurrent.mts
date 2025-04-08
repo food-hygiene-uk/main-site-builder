@@ -8,11 +8,11 @@
  * @param {function(T, number): Promise<R>} fn - The function to run on each item, which returns a promise.
  * @returns {Promise<Array<R>>} A promise that resolves to an array of results.
  */
-export const mapConcurrent = <T, R>(
+export function mapConcurrent<T, R>(
   items: T[],
   maxConcurrent: number,
   fn: (item: T, index: number) => Promise<R>,
-): Promise<R[]> => {
+): Promise<R[]> {
   let index = 0;
   let inFlightCntr = 0;
   let doneCntr = 0;
@@ -48,4 +48,4 @@ export const mapConcurrent = <T, R>(
 
     run();
   });
-};
+}

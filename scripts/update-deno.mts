@@ -3,12 +3,15 @@
  * file and the devcontainer.json file with the new version.
  */
 const updateDenoVersion = async () => {
-  const latestReleaseUrl = "https://api.github.com/repos/denoland/deno/releases/latest";
+  const latestReleaseUrl =
+    "https://api.github.com/repos/denoland/deno/releases/latest";
 
   // Fetch the latest release information from GitHub
   const response = await fetch(latestReleaseUrl);
   if (!response.ok) {
-    throw new Error(`Failed to fetch latest Deno version: ${response.statusText}`);
+    throw new Error(
+      `Failed to fetch latest Deno version: ${response.statusText}`,
+    );
   }
 
   const releaseData = await response.json();
@@ -21,14 +24,21 @@ const updateDenoVersion = async () => {
 
   // Update devcontainer.json
   const devcontainerPath = "./.devcontainer/devcontainer.json";
-  const devcontainerContent = JSON.parse(await Deno.readTextFile(devcontainerPath));
-  devcontainerContent.build.options = devcontainerContent.build.options.map((option: string) => {
-    return option.startsWith("--build-arg=DENO_VERSION=")
-      ? `--build-arg=DENO_VERSION=${latestVersion}`
-      : option;
-  });
+  const devcontainerContent = JSON.parse(
+    await Deno.readTextFile(devcontainerPath),
+  );
+  devcontainerContent.build.options = devcontainerContent.build.options.map(
+    (option: string) => {
+      return option.startsWith("--build-arg=DENO_VERSION=")
+        ? `--build-arg=DENO_VERSION=${latestVersion}`
+        : option;
+    },
+  );
 
-  await Deno.writeTextFile(devcontainerPath, `${JSON.stringify(devcontainerContent, null, 2)}\n`);
+  await Deno.writeTextFile(
+    devcontainerPath,
+    `${JSON.stringify(devcontainerContent, null, 2)}\n`,
+  );
   console.log(`Updated devcontainer.json to use Deno version ${latestVersion}`);
 };
 
