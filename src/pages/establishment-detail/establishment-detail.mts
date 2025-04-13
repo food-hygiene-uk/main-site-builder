@@ -74,6 +74,41 @@ const scoreToDescription = (
 };
 
 /**
+ * Precomputes and caches a Map of scores for each score type.
+ */
+const cachedScoreMaps: Record<ScoreType, Map<number, number>> = {
+  Hygiene: new Map(
+    Object.keys(scoreDescriptors.scoreDescriptors.Hygiene)
+      .map(Number)
+      .sort((a, b) => b - a)
+      .map((score, index) => [score, index + 1]),
+  ),
+  Structural: new Map(
+    Object.keys(scoreDescriptors.scoreDescriptors.Structural)
+      .map(Number)
+      .sort((a, b) => b - a)
+      .map((score, index) => [score, index + 1]),
+  ),
+  Confidence: new Map(
+    Object.keys(scoreDescriptors.scoreDescriptors.Confidence)
+      .map(Number)
+      .sort((a, b) => b - a)
+      .map((score, index) => [score, index + 1]),
+  ),
+};
+
+/**
+ * Converts a raw score value to a simplified subscore using a cached Map.
+ *
+ * @param {number} rawScore - The raw score value
+ * @param {ScoreType} scoreType - The type of score
+ * @returns {number} The simplified subscore
+ */
+const calculateSubscore = (rawScore: number, scoreType: ScoreType): number => {
+  return cachedScoreMaps[scoreType].get(rawScore) ?? -1;
+};
+
+/**
  * Generates an HTML string containing an embedded OpenStreetMap iframe and a link to view a larger map.
  *
  * @param establishment - The establishment object containing details about the location.
@@ -137,14 +172,18 @@ const getRatingDate = (
 };
 
 /**
- * Extracts and formats score data from an establishment's scores
+ * Extracts and formats score data with subscores from an establishment's scores
  *
  * @param {Establishment["Scores"]} scores - The scores object from an establishment
- * @returns {Array<{ title: string; description: string; value: string }> | null} Array of score data objects, or null if no scores
+ * @returns {Array<{ title: string; description: string; value: string; subscore: string }> | null} Array of score data objects, or null if no scores
  */
-const getScoreData = (
+const getScoreDataWithSubscores = (
   scores: Establishment["Scores"],
-): Array<{ title: string; description: string; value: string }> | null => {
+):
+  | Array<
+    { title: string; description: string; value: string; subscore: string }
+  >
+  | null => {
   if (scores === null) return null;
 
   return [
@@ -160,6 +199,9 @@ const getScoreData = (
         "Hygiene",
         "en",
       ),
+      subscore: `${calculateSubscore(scores.Hygiene, "Hygiene")} out of ${
+        Object.keys(scoreDescriptors.scoreDescriptors["Hygiene"]).length
+      }`,
     },
     {
       title: "Structural",
@@ -173,6 +215,9 @@ const getScoreData = (
         "Structural",
         "en",
       ),
+      subscore: `${calculateSubscore(scores.Structural, "Structural")} out of ${
+        Object.keys(scoreDescriptors.scoreDescriptors["Structural"]).length
+      }`,
     },
     {
       title: "Confidence in Management",
@@ -186,6 +231,11 @@ const getScoreData = (
         "Confidence",
         "en",
       ),
+      subscore: `${
+        calculateSubscore(scores.ConfidenceInManagement, "Confidence")
+      } out of ${
+        Object.keys(scoreDescriptors.scoreDescriptors["Confidence"]).length
+      }`,
     },
   ];
 };
@@ -234,7 +284,7 @@ export const outputEstablishmentDetailPage = async (
     ];
     const ratingText = ratingValueObj.text;
     const ratingDisplayText = !isNaN(Number(establishment.RatingValue))
-      ? `${establishment.RatingValue} out of 5. ${ratingText}`
+      ? `${establishment.RatingValue} - ${ratingText}`
       : ratingText;
 
     const ratingImage = {
@@ -243,7 +293,7 @@ export const outputEstablishmentDetailPage = async (
     };
 
     const ratingDate = getRatingDate(establishment.RatingDate);
-    const scoreData = getScoreData(establishment.Scores);
+    const scoreData = getScoreDataWithSubscores(establishment.Scores);
     const addressHtml = address.render(establishment);
 
     const html = await template({

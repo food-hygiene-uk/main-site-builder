@@ -23,22 +23,24 @@
           {{/* renderMap(establishment) */ "" }}
 
           {{ if ratingDate !== null }}
-          <h2>Rating Date</h2>
+          <h2>Date Last Inspected</h2>
           <time datetime="{{ ratingDate.iso }}" itemprop="fhrsRatingDate">{{ ratingDate.formatted }}</time>
           {{ /if }}
 
           {{ if scoreData !== null }}
-          <h2>Score parts</h2>
+          <h2>Inspection Results</h2>
           <table class="scores">
             <thead>
               <th>Category</th>
-              <th>Score</th>
-              <th>Description</th>
+              <th>Simple Score</th>
+              <th>Meaning</th>
+              <th>Explanation</th>
             </thead>
             <tbody>
               {{ for score of scoreData }}
               <tr>
                 <td class="title">{{ score.title }}</td>
+                <td class="subscore">{{ score.subscore }}</td>
                 <td class="score">{{ score.value }}</td>
                 <td>{{ score.description }}</td>
               </tr>
