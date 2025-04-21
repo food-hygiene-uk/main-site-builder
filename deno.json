@@ -14,10 +14,6 @@
     "zod": "npm:zod@3.24.1"
   },
   "tasks": {
-    "prettier:check": {
-      "description": "Runs prettier on the code through Deno - --check",
-      "command": "deno run --deny-env --allow-read=./,./.gitignore,./.prettierignore,./package.json,./node_modules --allow-write=./node_modules/.cache/prettier --allow-sys=cpus,uid npm:prettier . --check"
-    },
     "prettier:debug-check": {
       "description": "Runs prettier on the code through Deno - --debug-check",
       "command": "deno run --deny-env --allow-read=./,./.gitignore,./.prettierignore,./package.json,./node_modules --allow-write=./node_modules/.cache/prettier --allow-sys=cpus,uid npm:prettier . --debug-check"

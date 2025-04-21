@@ -54,11 +54,14 @@ jobs:
       - name: Run Deno lint
         run: deno lint .
 
-      - name: Run Pretter
-        run: deno task prettier:check
-
-      - name: Run Deno fmt
-        run: deno fmt --check .
+      - name: Run formatter
+        working-directory: ./repos/source
+        run: |
+          deno task prettier:write && deno fmt --check
+          if [ -n "$(git status --porcelain)" ]; then
+            echo "Error: Unformatted files detected. Please commit changes after running the formatter."
+            exit 1
+          fi
 
       - name: Run Deno check
         run: deno check src/generate-site.mts
