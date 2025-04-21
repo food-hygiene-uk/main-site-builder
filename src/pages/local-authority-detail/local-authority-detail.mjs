@@ -12,8 +12,9 @@ const establishments = Array.from(container.querySelectorAll(".establishment"));
 const establishmentData = establishments.map((establishment) => ({
   element: establishment,
   name: (establishment.querySelector("h3")?.textContent || "").toLowerCase(),
-  address: (establishment.querySelector("address")?.textContent || "")
-    .toLowerCase(),
+  address: (
+    establishment.querySelector("address")?.textContent || ""
+  ).toLowerCase(),
   clone: establishment.cloneNode(true), // Store a clone for the fragment
 }));
 
@@ -97,8 +98,8 @@ const processBatch = (index, batchSize, searchTerms, resolve) => {
 
   for (let i = index; i < end; i++) {
     const data = establishmentData[i];
-    const matchesAll = searchTerms.every((term) =>
-      data.name.includes(term) || data.address.includes(term)
+    const matchesAll = searchTerms.every(
+      (term) => data.name.includes(term) || data.address.includes(term),
     );
     if (matchesAll) {
       updates.add(data);

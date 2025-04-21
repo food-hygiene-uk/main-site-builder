@@ -31,7 +31,7 @@ const processedCssPromise = processCssFile({
 const regionMap = {
   "East Counties": "East of England",
   "East Midlands": "East Midlands",
-  "London": "London",
+  London: "London",
   "North East": "North East",
   "North West": "North West",
   "South East": "South East",
@@ -39,8 +39,8 @@ const regionMap = {
   "West Midlands": "West Midlands",
   "Yorkshire and Humberside": "Yorkshire and the Humber",
   "Northern Ireland": "Northern Ireland",
-  "Scotland": "Scotland",
-  "Wales": "Wales",
+  Scotland: "Scotland",
+  Wales: "Wales",
 };
 
 /**
@@ -49,12 +49,15 @@ const regionMap = {
  * @returns {Array<{ region: string; authorities: Authorities }>} Grouped and sorted local authorities by region.
  */
 const getRegionLocalAuthorities = (localAuthorities: Authorities) => {
-  const groupedByRegion = localAuthorities.reduce((acc, authority) => {
-    const region = regionMap[authority.RegionName] || "Unknown Region";
-    acc[region] ??= [];
-    acc[region].push(authority);
-    return acc;
-  }, {} as Record<string, typeof localAuthorities>);
+  const groupedByRegion = localAuthorities.reduce(
+    (acc, authority) => {
+      const region = regionMap[authority.RegionName] || "Unknown Region";
+      acc[region] ??= [];
+      acc[region].push(authority);
+      return acc;
+    },
+    {} as Record<string, typeof localAuthorities>,
+  );
 
   return Object.values(regionMap).map((region) => {
     const authorities = groupedByRegion[region] || [];

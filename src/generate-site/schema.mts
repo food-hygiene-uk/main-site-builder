@@ -16,7 +16,7 @@ const validConfidenceScores = Object.freeze(
 ).map(Number);
 
 export const ratingValue = {
-  "FHRS": {
+  FHRS: {
     "5": {
       text: "Very Good",
       image_cy: "/images/fhrs/fhrs_5_cy-gb.svg",
@@ -81,7 +81,7 @@ export const ratingValue = {
       ratingKey_cy: "fhrs_exempt_cy-gb",
     },
   },
-  "FHIS": {
+  FHIS: {
     "Awaiting Inspection": {
       text: "Awaiting Inspection",
       image_en: "/images/fhis/fhis_awaiting_inspection.jpg",
@@ -122,110 +122,120 @@ export const schemeNoRatingScoreFHRS: (keyof typeof ratingValue.FHRS)[] = [
 ];
 
 const fhrsValidRatingKeys = (key: keyof typeof ratingValue.FHRS) => {
-  return z.literal(
-    ratingValue.FHRS[key].ratingKey_en,
-  ).or(z.literal(
-    ratingValue.FHRS[key].ratingKey_cy,
-  ));
+  return z
+    .literal(ratingValue.FHRS[key].ratingKey_en)
+    .or(z.literal(ratingValue.FHRS[key].ratingKey_cy));
 };
 
-const ratingValueFHRS = z.object({
-  SchemeType: z.literal("FHRS"),
-}).and(
-  z.discriminatedUnion("RatingValue", [
-    z.object({
-      RatingValue: z.literal("never"),
-      RatingKey: z.string(),
-      RatingDate: z.literal("never"),
-      Scores: z.literal(null),
-    }),
-    ...schemeNoRatingScoreFHRS.map((key) =>
+const ratingValueFHRS = z
+  .object({
+    SchemeType: z.literal("FHRS"),
+  })
+  .and(
+    z.discriminatedUnion("RatingValue", [
       z.object({
-        RatingValue: z.literal(key),
-        RatingKey: fhrsValidRatingKeys(key),
-        RatingDate: z.literal(null),
+        RatingValue: z.literal("never"),
+        RatingKey: z.string(),
+        RatingDate: z.literal("never"),
         Scores: z.literal(null),
-      })
-    ),
-    ...Object.keys(ratingValue.FHRS)
-      .filter((key) =>
-        schemeNoRatingScoreFHRS.includes(
-          key as keyof typeof ratingValue.FHRS,
-        ) === false
-      )
-      .map((key) =>
+      }),
+      ...schemeNoRatingScoreFHRS.map((key) =>
         z.object({
           RatingValue: z.literal(key),
-          RatingKey: fhrsValidRatingKeys(key as keyof typeof ratingValue.FHRS),
-          // FHRSID 1709868 has a rating, but no rating date. So RatingDate needs to be nullable. (last checked 2024-12-18)
-          RatingDate: z.string().nullable(),
-          // FHRSID 351094 has a rating, but no scores. So Scores needs to be nullable. (last checked 2024-11-23)
-          Scores: z.object({
-            Hygiene: constructZodLiteralUnionType(validHygieneScores),
-            Structural: constructZodLiteralUnionType(validStructuralScores),
-            ConfidenceInManagement: constructZodLiteralUnionType(
-              validConfidenceScores,
-            ),
-          }).nullable(),
+          RatingKey: fhrsValidRatingKeys(key),
+          RatingDate: z.literal(null),
+          Scores: z.literal(null),
         })
       ),
-  ]),
-);
+      ...Object.keys(ratingValue.FHRS)
+        .filter(
+          (key) =>
+            schemeNoRatingScoreFHRS.includes(
+              key as keyof typeof ratingValue.FHRS,
+            ) === false,
+        )
+        .map((key) =>
+          z.object({
+            RatingValue: z.literal(key),
+            RatingKey: fhrsValidRatingKeys(
+              key as keyof typeof ratingValue.FHRS,
+            ),
+            // FHRSID 1709868 has a rating, but no rating date. So RatingDate needs to be nullable. (last checked 2024-12-18)
+            RatingDate: z.string().nullable(),
+            // FHRSID 351094 has a rating, but no scores. So Scores needs to be nullable. (last checked 2024-11-23)
+            Scores: z
+              .object({
+                Hygiene: constructZodLiteralUnionType(validHygieneScores),
+                Structural: constructZodLiteralUnionType(validStructuralScores),
+                ConfidenceInManagement: constructZodLiteralUnionType(
+                  validConfidenceScores,
+                ),
+              })
+              .nullable(),
+          })
+        ),
+    ]),
+  );
 
-const ratingValueFHIS = z.object({
-  SchemeType: z.literal("FHIS"),
-}).and(
-  z.discriminatedUnion("RatingValue", [
-    z.object({
-      RatingValue: z.literal("never"),
-      RatingKey: z.string(),
-      RatingDate: z.literal("never"),
-      Scores: z.literal(null),
-    }),
-    ...Object.keys(ratingValue.FHIS)
-      .map((key) =>
+const ratingValueFHIS = z
+  .object({
+    SchemeType: z.literal("FHIS"),
+  })
+  .and(
+    z.discriminatedUnion("RatingValue", [
+      z.object({
+        RatingValue: z.literal("never"),
+        RatingKey: z.string(),
+        RatingDate: z.literal("never"),
+        Scores: z.literal(null),
+      }),
+      ...Object.keys(ratingValue.FHIS).map((key) =>
         z.object({
           RatingValue: z.literal(key),
           RatingKey: z.literal(
-            ratingValue.FHIS[key as keyof typeof ratingValue.FHIS]
-              .ratingKey,
+            ratingValue.FHIS[key as keyof typeof ratingValue.FHIS].ratingKey,
           ),
           // FHRSID 1436677 is Exempt, but has a rating date. So it can be null or a string. (last checked 2024-11-20)
           RatingDate: z.string().nullable(),
           Scores: z.literal(null),
         })
       ),
-  ]),
-);
+    ]),
+  );
 
 export const dataSchema = z.object({
   FHRSEstablishment: z.object({
     EstablishmentCollection: z.array(
-      z.object({
-        FHRSID: z.number(),
-        BusinessName: z.string(),
-        BusinessType: z.string(),
-      }).and(z.union([
-        z.object({
-          Geocode: z.object({
-            Latitude: z.string(),
-            Longitude: z.string(),
-          }),
-          // FHRSID 1714030 is missing AddressLine1, but has AddressLine2. So AddressLine1 needs to be optional. (last checked 2024-11-23)
-          AddressLine1: z.string().optional(),
-          // FHRSID 1385728 is missing the real first line of the address, so the second line is in AddressLine1.
-          // So AddressLine2, AddressLine3, and AddressLine4 need to be optional. (last checed 2024-11-20)
-          AddressLine2: z.string().optional(),
-          AddressLine3: z.string().optional(),
-          AddressLine4: z.string().optional(),
-          // FHRSID 1496369 is a mobile caterer, it has an address, but no postcode.
-          // So PostCode needs to be optional. (last checked 2024-11-20)
-          PostCode: z.string().optional(),
-        }),
-        z.object({
-          Geocode: z.literal(null),
-        }),
-      ])).and(z.union([ratingValueFHRS, ratingValueFHIS])),
+      z
+        .object({
+          FHRSID: z.number(),
+          BusinessName: z.string(),
+          BusinessType: z.string(),
+        })
+        .and(
+          z.union([
+            z.object({
+              Geocode: z.object({
+                Latitude: z.string(),
+                Longitude: z.string(),
+              }),
+              // FHRSID 1714030 is missing AddressLine1, but has AddressLine2. So AddressLine1 needs to be optional. (last checked 2024-11-23)
+              AddressLine1: z.string().optional(),
+              // FHRSID 1385728 is missing the real first line of the address, so the second line is in AddressLine1.
+              // So AddressLine2, AddressLine3, and AddressLine4 need to be optional. (last checed 2024-11-20)
+              AddressLine2: z.string().optional(),
+              AddressLine3: z.string().optional(),
+              AddressLine4: z.string().optional(),
+              // FHRSID 1496369 is a mobile caterer, it has an address, but no postcode.
+              // So PostCode needs to be optional. (last checked 2024-11-20)
+              PostCode: z.string().optional(),
+            }),
+            z.object({
+              Geocode: z.literal(null),
+            }),
+          ]),
+        )
+        .and(z.union([ratingValueFHRS, ratingValueFHIS])),
     ),
   }),
 });

@@ -3,7 +3,7 @@ import { EstablishmentList } from "components/establishment-list/establishment-l
 // FHRS API Configuration
 const API_BASE = "https://api.ratings.food.gov.uk";
 const API_HEADERS = {
-  "accept": "application/json",
+  accept: "application/json",
   "x-api-version": "2",
 };
 

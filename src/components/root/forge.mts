@@ -18,9 +18,7 @@ const env = vento();
 env.use(autoTrim());
 env.cache.clear();
 
-const pageTemplatePath = fromFileUrl(
-  import.meta.resolve("./root.vto"),
-);
+const pageTemplatePath = fromFileUrl(import.meta.resolve("./root.vto"));
 const templatePromise = env.load(pageTemplatePath);
 
 const [processedCss, processedJs, template] = await Promise.all([
@@ -55,28 +53,34 @@ export const forgeRoot = (): {
    * @param {{ canonical: string; title?: string; pageCSS: string; headerCSS: string; footerCSS: string; }} options - Options for rendering the head.
    * @returns {Promise<string>} The rendered head section as a string.
    */
-  const renderHead = async (
-    { canonical, title, pageCSS, headerCSS, footerCSS }: {
-      canonical: string;
-      title?: string;
-      pageCSS: string;
-      headerCSS: string;
-      footerCSS: string;
-    },
-  ): Promise<string> => {
-    const fullTitle = [title, "Food Hygiene Ratings UK"].filter(Boolean).join(
-      " - ",
-    );
+  const renderHead = async ({
+    canonical,
+    title,
+    pageCSS,
+    headerCSS,
+    footerCSS,
+  }: {
+    canonical: string;
+    title?: string;
+    pageCSS: string;
+    headerCSS: string;
+    footerCSS: string;
+  }): Promise<string> => {
+    const fullTitle = [title, "Food Hygiene Ratings UK"]
+      .filter(Boolean)
+      .join(" - ");
 
-    return (await template({
-      canonical,
-      css,
-      footerCSS,
-      fullTitle,
-      headerCSS,
-      pageCSS,
-      processedJs: js,
-    })).content;
+    return (
+      await template({
+        canonical,
+        css,
+        footerCSS,
+        fullTitle,
+        headerCSS,
+        pageCSS,
+        processedJs: js,
+      })
+    ).content;
   };
 
   return {

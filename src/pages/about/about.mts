@@ -12,9 +12,7 @@ const env = vento();
 env.use(autoTrim());
 env.cache.clear();
 
-const pageTemplatePath = fromFileUrl(
-  import.meta.resolve("./about.vto"),
-);
+const pageTemplatePath = fromFileUrl(import.meta.resolve("./about.vto"));
 const templatePromise = env.load(pageTemplatePath);
 
 const Root = forgeRoot();

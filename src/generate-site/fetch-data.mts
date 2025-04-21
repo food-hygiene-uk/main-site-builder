@@ -24,24 +24,27 @@ const USE_CACHED_DATA = false;
 export const fetchLocalAuthorityData = async (
   localAuthorities: Authorities,
 ): Promise<EnrichedLocalAuthorities> => {
-  return await Promise.all(localAuthorities.map(async (localAuthority) => {
-    const jsonDataURL = localAuthority.FileName.replace(/\.xml$/, ".json");
-    const filename = getBuildFileName(localAuthority);
+  return await Promise.all(
+    localAuthorities.map(async (localAuthority) => {
+      const jsonDataURL = localAuthority.FileName.replace(/\.xml$/, ".json");
+      const filename = getBuildFileName(localAuthority);
 
-    if (
-      USE_CACHED_DATA && await exists(filename, {
-        isReadable: true,
-        isFile: true,
-      })
-    ) {
-      console.log(
-        `Skipping ${localAuthority.Name} - ${filename} already exists.`,
-      );
-    } else {
-      const jsonData = await api.localAuthorityData(jsonDataURL);
-      await Deno.writeTextFile(filename, JSON.stringify(jsonData, null, 2));
-    }
+      if (
+        USE_CACHED_DATA &&
+        (await exists(filename, {
+          isReadable: true,
+          isFile: true,
+        }))
+      ) {
+        console.log(
+          `Skipping ${localAuthority.Name} - ${filename} already exists.`,
+        );
+      } else {
+        const jsonData = await api.localAuthorityData(jsonDataURL);
+        await Deno.writeTextFile(filename, JSON.stringify(jsonData, null, 2));
+      }
 
-    return { ...localAuthority, buildFileName: filename };
-  }));
+      return { ...localAuthority, buildFileName: filename };
+    }),
+  );
 };

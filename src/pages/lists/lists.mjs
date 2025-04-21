@@ -120,7 +120,9 @@ document.addEventListener("DOMContentLoaded", () => {
       const listDescription = document.createElement("p");
       listDescription.textContent =
         `${listData.establishments.length} establishments • Saved on ${
-          getListCreationDate(listId).toLocaleDateString()
+          getListCreationDate(
+            listId,
+          ).toLocaleDateString()
         }`;
 
       const listActions = document.createElement("div");

@@ -8,8 +8,8 @@ import {
 } from "./types.mts";
 
 const fetchInit = {
-  "headers": {
-    "accept": "application/json",
+  headers: {
+    accept: "application/json",
     "accept-language": "",
     "sec-ch-ua":
       '"Google Chrome";v="131", "Chromium";v="131", "Not_A Brand";v="24"',
@@ -21,21 +21,19 @@ const fetchInit = {
     "sec-gpc": "1",
     "x-api-version": "2",
   },
-  "referrer": "https://ratings.food.gov.uk/",
-  "referrerPolicy": "strict-origin-when-cross-origin",
-  "body": null,
-  "method": "GET",
-  "mode": "cors",
-  "credentials": "omit",
+  referrer: "https://ratings.food.gov.uk/",
+  referrerPolicy: "strict-origin-when-cross-origin",
+  body: null,
+  method: "GET",
+  mode: "cors",
+  credentials: "omit",
 } satisfies RequestInit;
 
 export const authorities = async (): Promise<AuthoritiesResponse> => {
   return authoritiesResponseSchema.parse(
-    await (await fetch(
-      "https://api.ratings.food.gov.uk/authorities",
-      fetchInit,
-    ))
-      .json(),
+    await (
+      await fetch("https://api.ratings.food.gov.uk/authorities", fetchInit)
+    ).json(),
   );
 };
 
@@ -50,7 +48,5 @@ export const localAuthorityData = async (
     "https://ratings.food.gov.uk/api/open-data-files/",
   );
 
-  return dataSchema.parse(
-    await (await fetch(redirectedURL, fetchInit)).json(),
-  );
+  return dataSchema.parse(await (await fetch(redirectedURL, fetchInit)).json());
 };

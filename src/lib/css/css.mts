@@ -10,17 +10,23 @@ import cssnano from "cssnano";
  * @param {string} params.additionalCss - Additional CSS to inject into the file.
  * @returns {Promise<string>} A promise that resolves to the processed CSS as a string.
  */
-export const processCssFile = async (
-  { path, additionalCss }: { path: string; additionalCss: string },
-): Promise<string> => {
+export const processCssFile = async ({
+  path,
+  additionalCss,
+}: {
+  path: string;
+  additionalCss: string;
+}): Promise<string> => {
   const cssPath = fromFileUrl(path);
   const cssContent = (await globalThis.Deno.readTextFile(cssPath)).replace(
     /\/\* __ADDITIONAL_CSS__ \*\//g,
     additionalCss,
   );
-  return (await postcss([cssnano]).process(cssContent, {
-    from: undefined,
-  })).css;
+  return (
+    await postcss([cssnano]).process(cssContent, {
+      from: undefined,
+    })
+  ).css;
 };
 
 /**
@@ -30,9 +36,6 @@ export const processCssFile = async (
  * @param {string} classSuffix - The suffix to append to class names.
  * @returns {string} The modified CSS with suffixed class names.
  */
-export const cssAddSuffix = (
-  css: string,
-  classSuffix: string,
-): string => {
+export const cssAddSuffix = (css: string, classSuffix: string): string => {
   return css.replace(/__CLASS_SUFFIX__/g, classSuffix);
 };

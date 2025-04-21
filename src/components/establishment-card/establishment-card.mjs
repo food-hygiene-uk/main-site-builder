@@ -19,7 +19,7 @@ import { renderListSelectionButton } from "components/list-selection-button/list
 // FHRS API Configuration
 const API_BASE = "https://api.ratings.food.gov.uk";
 const API_HEADERS = {
-  "accept": "application/json",
+  accept: "application/json",
   "x-api-version": "2",
 };
 
@@ -183,8 +183,10 @@ export async function renderEstablishmentCard(establishment) {
 
   // Address if available
   if (
-    hydratedEstablishment.AddressLine1 || hydratedEstablishment.AddressLine2 ||
-    hydratedEstablishment.AddressLine3 || hydratedEstablishment.AddressLine4 ||
+    hydratedEstablishment.AddressLine1 ||
+    hydratedEstablishment.AddressLine2 ||
+    hydratedEstablishment.AddressLine3 ||
+    hydratedEstablishment.AddressLine4 ||
     hydratedEstablishment.PostCode
   ) {
     // Create address from address lines
@@ -252,7 +254,9 @@ export async function renderEstablishmentCard(establishment) {
   // Create the link that covers the entire establishment
   const link = document.createElement("a");
   link.href = `/e/${
-    slugify(hydratedEstablishment.BusinessName)
+    slugify(
+      hydratedEstablishment.BusinessName,
+    )
   }-${hydratedEstablishment.FHRSID}`;
   link.className = "details-link";
   link.textContent = "View details";

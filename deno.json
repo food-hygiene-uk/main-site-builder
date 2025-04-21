@@ -4,18 +4,31 @@
     "@std/fs": "jsr:@std/fs@1.0.11",
     "@std/path": "jsr:@std/path@1.0.8",
     "@vento/vento": "jsr:@vento/vento@1.12.16",
-    "cssnano": "npm:cssnano@7.0.6",
-    "cssnano-preset-advanced": "npm:cssnano-preset-advanced@7.0.6",
-    "postcss": "npm:postcss@8.5.3",
-    "zod": "npm:zod@3.24.1",
     "components/": "./src/components/",
+    "cssnano-preset-advanced": "npm:cssnano-preset-advanced@7.0.6",
+    "cssnano": "npm:cssnano@7.0.6",
+    "postcss": "npm:postcss@8.5.3",
+    "prettier": "npm:prettier@3.5.3",
     "scripts/": "./src/scripts/",
-    "uglify-js": "npm:uglify-js@3.19.3"
+    "uglify-js": "npm:uglify-js@3.19.3",
+    "zod": "npm:zod@3.24.1"
   },
   "tasks": {
+    "prettier:check": {
+      "description": "Runs prettier on the code through Deno - --check",
+      "command": "deno run --deny-env --allow-read=./,./.gitignore,./.prettierignore,./package.json,./node_modules --allow-write=./node_modules/.cache/prettier --allow-sys=cpus,uid npm:prettier . --check"
+    },
+    "prettier:debug-check": {
+      "description": "Runs prettier on the code through Deno - --debug-check",
+      "command": "deno run --deny-env --allow-read=./,./.gitignore,./.prettierignore,./package.json,./node_modules --allow-write=./node_modules/.cache/prettier --allow-sys=cpus,uid npm:prettier . --debug-check"
+    },
+    "prettier:write": {
+      "description": "Runs prettier on the code through Deno - --write",
+      "command": "deno run --deny-env --allow-read=./,./.gitignore,./.prettierignore,./package.json,./node_modules --allow-write=./node_modules/.cache/prettier,./src --allow-sys=cpus,uid npm:prettier . --write"
+    },
     "pre-commit": {
       "description": "Updates and validadates the code as done in CI",
-      "command": "deno install && deno test && deno lint && deno fmt && deno check src/generate-site.mts"
+      "command": "deno install && deno test && deno lint && deno task prettier:debug-check && deno task prettier:write && deno fmt && deno check src/generate-site.mts"
     },
     "build": {
       "description": "Builds the site",
@@ -40,16 +53,10 @@
   },
   "lint": {
     "rules": {
-      "tags": [
-        "recommended"
-      ],
-      "exclude": [
-        "require-await"
-      ]
+      "tags": ["recommended"],
+      "exclude": ["require-await"]
     }
   },
-  "exclude": [
-    "./assets/google3decab8acc23e179.html"
-  ],
+  "exclude": ["./assets/google3decab8acc23e179.html"],
   "nodeModulesDir": "auto"
 }

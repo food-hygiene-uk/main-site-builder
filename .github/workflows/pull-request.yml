@@ -54,6 +54,9 @@ jobs:
       - name: Run Deno lint
         run: deno lint .
 
+      - name: Run Pretter
+        run: deno task prettier:check
+
       - name: Run Deno fmt
         run: deno fmt --check .
 

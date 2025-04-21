@@ -12,9 +12,7 @@ const processedCssPromise = processCssFile({
 
 const env = vento();
 env.use(autoTrim());
-const pageTemplatePath = fromFileUrl(
-  import.meta.resolve("./html.vto"),
-);
+const pageTemplatePath = fromFileUrl(import.meta.resolve("./html.vto"));
 const templatePromise = env.load(pageTemplatePath);
 
 const [processedCss, template] = await Promise.all([
@@ -28,7 +26,9 @@ const [processedCss, template] = await Promise.all([
  * @param {Establishment} establishment - The establishment to extract the address from
  * @returns {Object} Object containing address lines, postcode, and location link
  */
-const getAddress = (establishment: Establishment): {
+const getAddress = (
+  establishment: Establishment,
+): {
   lines: string[];
   postcode: string | null;
   locationLink: string | null;

@@ -113,7 +113,8 @@
     font-style: italic;
   }
 
-  .empty-list-message, .error-message {
+  .empty-list-message,
+  .error-message {
     text-align: center;
     padding: 40px;
     background-color: #f9f9f9;
@@ -125,13 +126,15 @@
     border-left: 4px solid #ed1c24;
   }
 
-  .empty-list-message a, .error-message a {
+  .empty-list-message a,
+  .error-message a {
     color: var(--hygiene-green);
     font-weight: bold;
     text-decoration: none;
   }
 
-  .empty-list-message a:hover, .error-message a:hover {
+  .empty-list-message a:hover,
+  .error-message a:hover {
     text-decoration: underline;
   }
 

@@ -51,6 +51,7 @@ This project is a static website generator that creates HTML, CSS, and JavaScrip
 ### CSS
 
 - All styles must support both light and dark modes
+
   - because the site allows theme preference and falls back to browser settings the following code must be used to check if Dark mode is enabled:
 
   ```
@@ -60,6 +61,7 @@ This project is a static website generator that creates HTML, CSS, and JavaScrip
     }
   }
   ```
+
 - Follow the established theming patterns
 
 ### Vento Templates (`.vto` files)
@@ -126,9 +128,13 @@ const processCss = (params) => {
  * Processes a CSS file.
  * @param {{ path: string; additionalCss: string }} params - Parameters for processing CSS.
  */
-const processCss = (
-  { path, additionalCss }: { path: string; additionalCss: string },
-) => {
+const processCss = ({
+  path,
+  additionalCss,
+}: {
+  path: string;
+  additionalCss: string;
+}) => {
   // ...
 };
 ```

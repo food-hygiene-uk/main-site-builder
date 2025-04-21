@@ -19,7 +19,7 @@ const getCallerFilenameHash = (): string => {
     // Generate a simple hash for non-security purposes
     let hash = 0;
     for (let i = 0; i < filename.length; i++) {
-      hash = ((hash << 5) - hash) + filename.charCodeAt(i);
+      hash = (hash << 5) - hash + filename.charCodeAt(i);
       hash |= 0; // Convert to 32bit integer
     }
 

@@ -283,7 +283,7 @@ export class EstablishmentList {
 
       // Update count element if it exists
       if (this.countElement) {
-        const start = ((this.currentPage - 1) * this.pageSize) + 1;
+        const start = (this.currentPage - 1) * this.pageSize + 1;
         const end = Math.min(
           start + this.establishments.length - 1,
           this.totalResults,

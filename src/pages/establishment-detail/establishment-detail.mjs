@@ -71,7 +71,9 @@ const displayRecentlyViewed = (currentId) => {
     // Create link that will wrap the entire item
     const link = document.createElement("a");
     link.href = `/e/${
-      slugify(establishment.BusinessName)
+      slugify(
+        establishment.BusinessName,
+      )
     }-${establishment.FHRSID}`;
     link.className = "establishment-link";
 

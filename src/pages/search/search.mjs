@@ -3,7 +3,7 @@ import { EstablishmentList } from "components/establishment-list/establishment-l
 // FHRS API Configuration
 const API_BASE = "https://api.ratings.food.gov.uk";
 const API_HEADERS = {
-  "accept": "application/json",
+  accept: "application/json",
   "x-api-version": "2",
 };
 
@@ -324,8 +324,11 @@ function populateFormFromURL() {
   }
 
   // Check if we need to show advanced search
-  const hasAdvancedParams = ["businessTypeId", "ratingKey", "localAuthorityId"]
-    .some((param) => state.searchParams.has(param));
+  const hasAdvancedParams = [
+    "businessTypeId",
+    "ratingKey",
+    "localAuthorityId",
+  ].some((param) => state.searchParams.has(param));
 
   if (hasAdvancedParams) {
     advancedSearch.style.display = "grid";
@@ -353,12 +356,15 @@ async function performSearch() {
 
   // Show loading state
   resultsSection.style.display = "block";
-  await establishmentList.loadEstablishments({
-    establishments: [],
-    totalResults: 0,
-    currentPage: state.currentPage,
-    pageSize: state.pageSize,
-  }, true);
+  await establishmentList.loadEstablishments(
+    {
+      establishments: [],
+      totalResults: 0,
+      currentPage: state.currentPage,
+      pageSize: state.pageSize,
+    },
+    true,
+  );
 
   try {
     // Build search query

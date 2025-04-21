@@ -51,7 +51,10 @@
     content: ":";
   }
 
-  p, address, td, th {
+  p,
+  address,
+  td,
+  th {
     font-size: 1em;
     line-height: 1.5;
   }
@@ -82,7 +85,8 @@
     color: #333;
   }
 
-  th, td {
+  th,
+  td {
     border: 1px solid #ddd;
     padding: 0.5em;
     text-align: left;

@@ -54,8 +54,8 @@ export const updateList = (FHRSID, listId, add) => {
     // If the list doesn't exist, there's nothing to do
     if (!list) return;
 
-    list.establishments = list.establishments.filter((est) =>
-      est.FHRSID !== FHRSID
+    list.establishments = list.establishments.filter(
+      (est) => est.FHRSID !== FHRSID,
     );
   }
 

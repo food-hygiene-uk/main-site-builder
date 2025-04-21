@@ -13,9 +13,7 @@ const env = vento();
 env.use(autoTrim());
 env.cache.clear();
 
-const pageTemplatePath = fromFileUrl(
-  import.meta.resolve("./header.vto"),
-);
+const pageTemplatePath = fromFileUrl(import.meta.resolve("./header.vto"));
 const templatePromise = env.load(pageTemplatePath);
 
 const [processedCss, template] = await Promise.all([
@@ -35,9 +33,11 @@ export const forgeHeader = async (): Promise<{
   const classSuffix = getClassSuffix();
   const css = cssAddSuffix(processedCss, classSuffix);
 
-  const html = (await template({
-    classSuffix,
-  })).content;
+  const html = (
+    await template({
+      classSuffix,
+    })
+  ).content;
 
   return {
     css,

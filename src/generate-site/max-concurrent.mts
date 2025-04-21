@@ -23,16 +23,19 @@ export function mapConcurrent<T, R>(
     function runNext() {
       const i = index;
       ++inFlightCntr;
-      fn(items[index], index += 1).then(function (val) {
-        ++doneCntr;
-        --inFlightCntr;
-        results[i] = val;
-        run();
-      }, function (err) {
-        // set flag so we don't launch any more requests
-        stop = true;
-        reject(err);
-      });
+      fn(items[index], index += 1).then(
+        function (val) {
+          ++doneCntr;
+          --inFlightCntr;
+          results[i] = val;
+          run();
+        },
+        function (err) {
+          // set flag so we don't launch any more requests
+          stop = true;
+          reject(err);
+        },
+      );
     }
 
     function run() {

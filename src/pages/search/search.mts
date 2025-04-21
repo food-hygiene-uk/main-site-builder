@@ -13,9 +13,7 @@ const env = vento();
 env.use(autoTrim());
 env.cache.clear();
 
-const pageTemplatePath = fromFileUrl(
-  import.meta.resolve("./search.vto"),
-);
+const pageTemplatePath = fromFileUrl(import.meta.resolve("./search.vto"));
 const templatePromise = env.load(pageTemplatePath);
 
 const Root = forgeRoot();

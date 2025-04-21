@@ -16,28 +16,30 @@ const apiRegions = [
 ] as const;
 
 export const authoritiesResponseSchema = z.object({
-  authorities: z.array(z.object({
-    LocalAuthorityId: z.number(),
-    LocalAuthorityIdCode: z.string(),
-    Name: z.string(),
-    FriendlyName: z.string(),
-    Url: z.string(),
-    SchemeUrl: z.string(),
-    Email: z.string(),
-    RegionName: z.enum(apiRegions),
-    FileName: z.string(),
-    FileNameWelsh: z.string().nullable(),
-    EstablishmentCount: z.number(),
-    CreationDate: z.string().datetime({ local: true }),
-    LastPublishedDate: z.string().datetime({ local: true }),
-    SchemeType: z.number(),
-    links: z.array(
-      z.object({
-        rel: z.string(),
-        href: z.string(),
-      }),
-    ),
-  })),
+  authorities: z.array(
+    z.object({
+      LocalAuthorityId: z.number(),
+      LocalAuthorityIdCode: z.string(),
+      Name: z.string(),
+      FriendlyName: z.string(),
+      Url: z.string(),
+      SchemeUrl: z.string(),
+      Email: z.string(),
+      RegionName: z.enum(apiRegions),
+      FileName: z.string(),
+      FileNameWelsh: z.string().nullable(),
+      EstablishmentCount: z.number(),
+      CreationDate: z.string().datetime({ local: true }),
+      LastPublishedDate: z.string().datetime({ local: true }),
+      SchemeType: z.number(),
+      links: z.array(
+        z.object({
+          rel: z.string(),
+          href: z.string(),
+        }),
+      ),
+    }),
+  ),
   meta: z.object({
     dataSource: z.string(),
     extractDate: z.string(),

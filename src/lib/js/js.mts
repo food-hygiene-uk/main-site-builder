@@ -23,9 +23,11 @@ const minifyOptions = {
  * @param {string} params.path - The file path to the JavaScript file.
  * @returns {Promise<string>} A promise that resolves to the minified content of the JavaScript file as a string.
  */
-export const processJsFile = async (
-  { path }: { path: string },
-): Promise<string> => {
+export const processJsFile = async ({
+  path,
+}: {
+  path: string;
+}): Promise<string> => {
   const jsPath = fromFileUrl(path);
   const content = await globalThis.Deno.readTextFile(jsPath);
   const result = UglifyJS.minify(content, minifyOptions);
@@ -43,9 +45,6 @@ export const processJsFile = async (
  * @param {string} classSuffix - The suffix to append to class names.
  * @returns {string} The modified JavaScript with suffixed class names.
  */
-export const jsAddSuffix = (
-  js: string,
-  classSuffix: string,
-): string => {
+export const jsAddSuffix = (js: string, classSuffix: string): string => {
   return js.replace(/__CLASS_SUFFIX__/g, classSuffix);
 };

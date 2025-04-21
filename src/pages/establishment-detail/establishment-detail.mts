@@ -36,7 +36,7 @@ const FooterPromise = forgeFooter();
 const address = Address();
 
 type ScoreType = keyof typeof scoreDescriptors.scoreDescriptors;
-type ScoreKey = keyof typeof scoreDescriptors.scoreDescriptors[ScoreType];
+type ScoreKey = keyof (typeof scoreDescriptors.scoreDescriptors)[ScoreType];
 type Language = "en" | "cy";
 
 const scoreToText = (
@@ -160,10 +160,9 @@ const getRatingDate = (
 
   const date = new Date(ratingDate);
   const options = { year: "numeric", month: "long", day: "numeric" } as const;
-  const formattedDate = date.toLocaleDateString("en-GB", options).replace(
-    /(\d{2}) (\w{3}) (\d{4})/,
-    "$1 $2 $3",
-  );
+  const formattedDate = date
+    .toLocaleDateString("en-GB", options)
+    .replace(/(\d{2}) (\w{3}) (\d{4})/, "$1 $2 $3");
 
   return {
     iso: ratingDate,
@@ -180,9 +179,12 @@ const getRatingDate = (
 const getScoreDataWithSubscores = (
   scores: Establishment["Scores"],
 ):
-  | Array<
-    { title: string; description: string; value: string; subscore: string }
-  >
+  | Array<{
+    title: string;
+    description: string;
+    value: string;
+    subscore: string;
+  }>
   | null => {
   if (scores === null) return null;
 
@@ -232,7 +234,10 @@ const getScoreDataWithSubscores = (
         "en",
       ),
       subscore: `${
-        calculateSubscore(scores.ConfidenceInManagement, "Confidence")
+        calculateSubscore(
+          scores.ConfidenceInManagement,
+          "Confidence",
+        )
       } out of ${
         Object.keys(scoreDescriptors.scoreDescriptors["Confidence"]).length
       }`,
@@ -276,48 +281,50 @@ export const outputEstablishmentDetailPage = async (
   const pageJs = jsAddSuffix(processedJs, classSuffix);
 
   // Generate HTML for each establishment and save to a file
-  await Promise.all(establishments.map(async (establishment) => {
-    const ratingValueObj = ratingValue[establishment.SchemeType][
-      establishment.RatingValue as
-        & keyof typeof ratingValue.FHRS
-        & keyof typeof ratingValue.FHIS
-    ];
-    const ratingText = ratingValueObj.text;
-    const ratingDisplayText = !isNaN(Number(establishment.RatingValue))
-      ? `${establishment.RatingValue} - ${ratingText}`
-      : ratingText;
+  await Promise.all(
+    establishments.map(async (establishment) => {
+      const ratingValueObj = ratingValue[establishment.SchemeType][
+        establishment.RatingValue as
+          & keyof typeof ratingValue.FHRS
+          & keyof typeof ratingValue.FHIS
+      ];
+      const ratingText = ratingValueObj.text;
+      const ratingDisplayText = !isNaN(Number(establishment.RatingValue))
+        ? `${establishment.RatingValue} - ${ratingText}`
+        : ratingText;
 
-    const ratingImage = {
-      alt: `Food Hygiene Rating: ${ratingDisplayText}`,
-      url: ratingValueObj.image_en,
-    };
+      const ratingImage = {
+        alt: `Food Hygiene Rating: ${ratingDisplayText}`,
+        url: ratingValueObj.image_en,
+      };
 
-    const ratingDate = getRatingDate(establishment.RatingDate);
-    const scoreData = getScoreDataWithSubscores(establishment.Scores);
-    const addressHtml = address.render(establishment);
+      const ratingDate = getRatingDate(establishment.RatingDate);
+      const scoreData = getScoreDataWithSubscores(establishment.Scores);
+      const addressHtml = address.render(establishment);
 
-    const html = await template({
-      headHtml: await Root.renderHead({
-        canonical: getCanonicalLinkURL(establishment),
-        title: establishment.BusinessName,
-        pageCSS,
-        headerCSS: Header.css,
-        footerCSS: Footer.css,
-      }),
-      headerHtml: Header.html,
-      classSuffix,
-      establishment,
-      localAuthority,
-      ratingImage,
-      ratingDisplayText,
-      footerHtml: Footer.html,
-      addressHtml: (await addressHtml).content,
-      ratingDate,
-      scoreData,
-      processedJs: pageJs,
-    });
+      const html = await template({
+        headHtml: await Root.renderHead({
+          canonical: getCanonicalLinkURL(establishment),
+          title: establishment.BusinessName,
+          pageCSS,
+          headerCSS: Header.css,
+          footerCSS: Footer.css,
+        }),
+        headerHtml: Header.html,
+        classSuffix,
+        establishment,
+        localAuthority,
+        ratingImage,
+        ratingDisplayText,
+        footerHtml: Footer.html,
+        addressHtml: (await addressHtml).content,
+        ratingDate,
+        scoreData,
+        processedJs: pageJs,
+      });
 
-    const filename = getHtmlFilename(establishment);
-    await Deno.writeTextFile(join("dist", filename), html.content);
-  }));
+      const filename = getHtmlFilename(establishment);
+      await Deno.writeTextFile(join("dist", filename), html.content);
+    }),
+  );
 };

@@ -251,7 +251,9 @@ document.addEventListener("DOMContentLoaded", () => {
         listInfo = {
           title: savedList.name,
           description: `Saved on ${
-            new Date(savedList.created).toLocaleDateString()
+            new Date(
+              savedList.created,
+            ).toLocaleDateString()
           }`,
         };
 

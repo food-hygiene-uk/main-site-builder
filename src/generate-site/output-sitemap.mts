@@ -17,13 +17,17 @@ export const generateSitemap = async (
   for await (const localAuthority of localAuthorities) {
     localAuthoritySitemaps.push(
       `  <sitemap>\n    <loc>${baseUrl}/sitemap/l-${
-        getLinkName(localAuthority)
+        getLinkName(
+          localAuthority,
+        )
       }.xml</loc>\n  </sitemap>`,
     );
 
     localAuthorityIndexes.push(
       `  <url>\n    <loc>${
-        getCanonicalLinkURL(localAuthority)
+        getCanonicalLinkURL(
+          localAuthority,
+        )
       }</loc>\n  </url>\n`,
     );
   }

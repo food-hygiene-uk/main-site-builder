@@ -13,7 +13,9 @@ export const outputLocalAuthoritySitemap = async (
 
   for (const establishment of establishments) {
     sitemap += `  <url>\n    <loc>${
-      getCanonicalLinkURL(establishment)
+      getCanonicalLinkURL(
+        establishment,
+      )
     }</loc>\n  </url>\n`;
   }
 

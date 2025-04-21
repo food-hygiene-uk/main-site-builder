@@ -29,8 +29,8 @@ class RecentEstablishmentsService {
     const recentItems = this.getRecentEstablishments();
 
     // Check if the establishment is already in the list
-    const existingIndex = recentItems.findIndex((item) =>
-      item.FHRSID === establishment.FHRSID
+    const existingIndex = recentItems.findIndex(
+      (item) => item.FHRSID === establishment.FHRSID,
     );
 
     // Create a minimal record with required fields

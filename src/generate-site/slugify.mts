@@ -6,7 +6,8 @@
  * @returns {string} A URL-friendly slug
  */
 export const slugify = (text: string): string => {
-  return text.toLowerCase()
+  return text
+    .toLowerCase()
     .replace(/\s/g, "-")
     .replace(/[^a-z0-9-]/g, "")
     .replace(/--+/g, "-")
