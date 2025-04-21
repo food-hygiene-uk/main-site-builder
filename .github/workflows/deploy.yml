@@ -89,6 +89,7 @@ jobs:
         run: deno lint
 
       - name: Run Pretter
+        working-directory: ./repos/source
         run: deno task prettier:check
 
       - name: Run Deno fmt
