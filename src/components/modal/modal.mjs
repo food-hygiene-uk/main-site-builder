@@ -9,11 +9,12 @@
   const link = document.createElement("link");
   link.rel = "stylesheet";
   link.href = "/components/modal/modal.css";
-  document.head.appendChild(link);
+  document.head.append(link);
 }
 
 /**
  * Opens a modal with the specified content.
+ *
  * @param {string} title - The title of the modal.
  * @param {HTMLElement} content - The content to display inside the modal.
  * @param {Function} [onClose] - Optional callback invoked when the modal is closed.
@@ -34,7 +35,7 @@ export const openModal = (title, content, onClose) => {
 
   // Append the content to the modal body
   const modalBody = modal.querySelector(".modal-body");
-  modalBody.appendChild(content);
+  modalBody.append(content);
 
   // Close modal functionality
   modal.querySelector("#close-modal").addEventListener("click", () => {
@@ -45,5 +46,5 @@ export const openModal = (title, content, onClose) => {
   });
 
   // Append modal to the body
-  document.body.appendChild(modal);
+  document.body.append(modal);
 };

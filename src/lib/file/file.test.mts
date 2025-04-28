@@ -16,14 +16,14 @@ Deno.test("encodeName handles empty string", () => {
 });
 
 Deno.test("encodeName replaces invalid characters with underscores", () => {
-  const input = 'invalid<>:"/\\|?*\x00-\x1Ffilename';
+  const input = 'invalid<>:"/\\|?*\u0000-\u001Ffilename';
   const expected = "invalid------------filename";
   const result = encodeName(input);
   assertEquals(result, expected);
 });
 
 Deno.test("encodeName handles string with only invalid characters", () => {
-  const input = '<>:"/\\|?*\x00-\x1F';
+  const input = '<>:"/\\|?*\u0000-\u001F';
   const expected = "------------";
   const result = encodeName(input);
   assertEquals(result, expected);

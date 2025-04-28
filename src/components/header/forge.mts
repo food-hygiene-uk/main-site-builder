@@ -9,12 +9,12 @@ const processedCssPromise = processCssFile({
   additionalCss: "",
 });
 
-const env = vento();
-env.use(autoTrim());
-env.cache.clear();
+const environment = vento();
+environment.use(autoTrim());
+environment.cache.clear();
 
 const pageTemplatePath = fromFileUrl(import.meta.resolve("./header.vto"));
-const templatePromise = env.load(pageTemplatePath);
+const templatePromise = environment.load(pageTemplatePath);
 
 const [processedCss, template] = await Promise.all([
   processedCssPromise,
@@ -24,7 +24,7 @@ const [processedCss, template] = await Promise.all([
 /**
  * Generates the header component.
  *
- * @returns {Promise<{ css: string; html: string }>} An object containing the CSS and HTML for the header.
+ * @returns An object containing the CSS and HTML for the header.
  */
 export const forgeHeader = async (): Promise<{
   css: string;
@@ -33,11 +33,11 @@ export const forgeHeader = async (): Promise<{
   const classSuffix = getClassSuffix();
   const css = cssAddSuffix(processedCss, classSuffix);
 
-  const html = (
-    await template({
-      classSuffix,
-    })
-  ).content;
+  const result = await template({
+    classSuffix,
+  });
+
+  const html = result.content;
 
   return {
     css,

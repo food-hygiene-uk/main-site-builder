@@ -62,10 +62,7 @@ await Deno.writeTextFile(robotsTxtPath, robotsTxtContent);
 // Update sitemap.xml to include BASE_URL
 const sitemapXmlPath = "dist/sitemap.xml";
 let sitemapXmlContent = await Deno.readTextFile(sitemapXmlPath);
-sitemapXmlContent = sitemapXmlContent.replaceAll(
-  /<loc>\//g,
-  `<loc>${baseURL}/`,
-);
+sitemapXmlContent = sitemapXmlContent.replaceAll("<loc>/", `<loc>${baseURL}/`);
 await Deno.writeTextFile(sitemapXmlPath, sitemapXmlContent);
 
 const authoritiesResponse = await api.authorities();

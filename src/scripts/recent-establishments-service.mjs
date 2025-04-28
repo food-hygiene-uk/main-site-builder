@@ -1,5 +1,5 @@
 /**
- * @typedef {Object} MinimalEstablishment
+ * @typedef {object} MinimalEstablishment
  * @property {string} FHRSID - Unique identifier for the establishment
  * @property {string} [BusinessName] - Name of the establishment
  * @property {string} [BusinessType] - Type of the establishment
@@ -20,11 +20,12 @@ class RecentEstablishmentsService {
 
   /**
    * Add an establishment to the recent list
-   * @param {MinimalEstablishment} establishment
+   *
+   * @param {MinimalEstablishment} establishment - The establishment object to add
    */
   addEstablishment(establishment) {
     // Don't run in server-side code
-    if (typeof globalThis.localStorage === "undefined") return;
+    if (globalThis.localStorage === "undefined") return;
 
     const recentItems = this.getRecentEstablishments();
 
@@ -69,11 +70,12 @@ class RecentEstablishmentsService {
 
   /**
    * Get all recent establishments, ordered by most recent first
+   *
    * @returns {Array<MinimalEstablishment>} Array of establishment objects
    */
   getRecentEstablishments() {
     // Don't run in server-side code
-    if (typeof globalThis.localStorage === "undefined") {
+    if (globalThis.localStorage === "undefined") {
       console.log("localStorage is not available, returning empty array");
       return [];
     }
@@ -100,7 +102,7 @@ class RecentEstablishmentsService {
    */
   clearRecentEstablishments() {
     // Don't run in server-side code
-    if (typeof globalThis.localStorage === "undefined") return;
+    if (globalThis.localStorage === "undefined") return;
 
     globalThis.localStorage.removeItem(this.STORAGE_KEY);
     console.log("Cleared all recent establishments from localStorage");

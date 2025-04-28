@@ -3,61 +3,61 @@ import { getListCreationDate } from "scripts/list-service.mjs";
 // Storage key for saved lists
 const SAVED_LISTS_STORAGE_KEY = "saved-establishment-lists";
 
-document.addEventListener("DOMContentLoaded", () => {
-  const userListsContainer = document.getElementById("userLists");
-  const noListsMessage = document.getElementById("noLists");
+/**
+ * Gets all saved lists from localStorage
+ *
+ * @returns {{ [key: string]: { name: string; establishments: any[] } }} Object containing all saved lists
+ */
+const getSavedLists = () => {
+  if (globalThis.localStorage === "undefined") return {};
 
-  /**
-   * Gets all saved lists from localStorage
-   *
-   * @returns {Object} Object containing all saved lists
-   */
-  const getSavedLists = () => {
-    if (typeof globalThis.localStorage === "undefined") return {};
+  try {
+    const savedListsJson = globalThis.localStorage.getItem(
+      SAVED_LISTS_STORAGE_KEY,
+    );
+    return savedListsJson ? JSON.parse(savedListsJson) : {};
+  } catch (error) {
+    console.error("Error retrieving saved lists:", error);
+    return {};
+  }
+};
 
-    try {
-      const savedListsJson = globalThis.localStorage.getItem(
-        SAVED_LISTS_STORAGE_KEY,
-      );
-      return savedListsJson ? JSON.parse(savedListsJson) : {};
-    } catch (error) {
-      console.error("Error retrieving saved lists:", error);
-      return {};
-    }
-  };
+/**
+ * Deletes a saved list by ID
+ *
+ * @param {string} listId - The ID of the list to delete
+ * @returns {boolean} True if deletion was successful
+ */
+const deleteList = (listId) => {
+  if (globalThis.localStorage === undefined) return false;
 
-  /**
-   * Deletes a saved list by ID
-   *
-   * @param {string} listId - The ID of the list to delete
-   * @returns {boolean} True if deletion was successful
-   */
-  const deleteList = (listId) => {
-    if (typeof globalThis.localStorage === "undefined") return false;
+  try {
+    const savedLists = getSavedLists();
 
-    try {
-      const savedLists = getSavedLists();
-
-      // Check if the list exists
-      if (!savedLists[listId]) {
-        return false;
-      }
-
-      // Delete the list
-      delete savedLists[listId];
-
-      // Save back to localStorage
-      globalThis.localStorage.setItem(
-        SAVED_LISTS_STORAGE_KEY,
-        JSON.stringify(savedLists),
-      );
-
-      return true;
-    } catch (error) {
-      console.error("Error deleting list:", error);
+    // Check if the list exists
+    if (!savedLists[listId]) {
       return false;
     }
-  };
+
+    // Delete the list
+    delete savedLists[listId];
+
+    // Save back to localStorage
+    globalThis.localStorage.setItem(
+      SAVED_LISTS_STORAGE_KEY,
+      JSON.stringify(savedLists),
+    );
+
+    return true;
+  } catch (error) {
+    console.error("Error deleting list:", error);
+    return false;
+  }
+};
+
+document.addEventListener("DOMContentLoaded", () => {
+  const userListsContainer = document.querySelector("#userLists");
+  const noListsMessage = document.querySelector("#noLists");
 
   /**
    * Handles the delete button click event
@@ -110,7 +110,7 @@ document.addEventListener("DOMContentLoaded", () => {
     }
 
     // Create elements for each list
-    listEntries.forEach(([listId, listData]) => {
+    for (const [listId, listData] of listEntries) {
       const listItem = document.createElement("div");
       listItem.className = "list-item user-list";
 
@@ -138,18 +138,18 @@ document.addEventListener("DOMContentLoaded", () => {
       deleteButton.textContent = "Delete";
       deleteButton.addEventListener(
         "click",
-        (e) => handleDeleteClick(e, listId),
+        (event) => handleDeleteClick(event, listId),
       );
 
-      listActions.appendChild(viewButton);
-      listActions.appendChild(deleteButton);
+      listActions.append(viewButton);
+      listActions.append(deleteButton);
 
-      listItem.appendChild(listName);
-      listItem.appendChild(listDescription);
-      listItem.appendChild(listActions);
+      listItem.append(listName);
+      listItem.append(listDescription);
+      listItem.append(listActions);
 
-      userListsContainer.appendChild(listItem);
-    });
+      userListsContainer.append(listItem);
+    }
   };
 
   // Render saved lists when the page loads

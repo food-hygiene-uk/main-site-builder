@@ -11,7 +11,7 @@ import { renderEstablishmentCard } from "components/establishment-card/establish
   const link = document.createElement("link");
   link.rel = "stylesheet";
   link.href = "/components/establishment-list/establishment-list.css";
-  document.head.appendChild(link);
+  document.head.append(link);
 }
 
 /**
@@ -20,13 +20,14 @@ import { renderEstablishmentCard } from "components/establishment-card/establish
 export class EstablishmentList {
   /**
    * Creates a new establishment list instance
-   * @param {Object} options - Configuration options
+   *
+   * @param {object} options - Configuration options
    * @param {HTMLElement} options.container - The container element to render the list in
    * @param {HTMLElement} [options.loadingElement] - Element to show/hide during loading
    * @param {HTMLElement} [options.emptyElement] - Element to show when list is empty
    * @param {HTMLElement} [options.errorElement] - Element to show when an error occurs
    * @param {HTMLElement} [options.countElement] - Element to show result count
-   * @param {number} [options.pageSize=10] - Number of items per page
+   * @param {number} [options.pageSize] - Number of items per page
    */
   constructor(options) {
     this.container = options.container;
@@ -53,6 +54,7 @@ export class EstablishmentList {
 
   /**
    * Create the necessary DOM elements
+   *
    * @private
    */
   _createElements() {
@@ -63,19 +65,20 @@ export class EstablishmentList {
     // Establishments container - always use list view
     this.listElement = document.createElement("div");
     this.listElement.className = "establishments-list";
-    this.wrapper.appendChild(this.listElement);
+    this.wrapper.append(this.listElement);
 
     // Pagination
     this.paginationElement = document.createElement("div");
     this.paginationElement.className = "pagination";
-    this.wrapper.appendChild(this.paginationElement);
+    this.wrapper.append(this.paginationElement);
 
     // Add to container
-    this.container.appendChild(this.wrapper);
+    this.container.append(this.wrapper);
   }
 
   /**
    * Get establishments for the current page
+   *
    * @returns {Array} Array of establishments for the current page
    * @private
    */
@@ -94,6 +97,7 @@ export class EstablishmentList {
 
   /**
    * Render the pagination controls
+   *
    * @param {Function} [onPageChange] - Callback to execute when page changes
    * @private
    */
@@ -104,24 +108,24 @@ export class EstablishmentList {
 
     // Previous button
     if (this.currentPage > 1) {
-      const prevButton = this._createPaginationButton(
+      const previousButton = this._createPaginationButton(
         "Previous",
         this.currentPage - 1,
         onPageChange,
       );
-      this.paginationElement.appendChild(prevButton);
+      this.paginationElement.append(previousButton);
     }
 
     // Page numbers
     const startPage = Math.max(1, this.currentPage - 2);
     const endPage = Math.min(this.totalPages, startPage + 4);
 
-    for (let i = startPage; i <= endPage; i++) {
-      const button = this._createPaginationButton(i, i, onPageChange);
-      if (i === this.currentPage) {
+    for (let index = startPage; index <= endPage; index++) {
+      const button = this._createPaginationButton(index, index, onPageChange);
+      if (index === this.currentPage) {
         button.classList.add("active");
       }
-      this.paginationElement.appendChild(button);
+      this.paginationElement.append(button);
     }
 
     // Next button
@@ -131,12 +135,13 @@ export class EstablishmentList {
         this.currentPage + 1,
         onPageChange,
       );
-      this.paginationElement.appendChild(nextButton);
+      this.paginationElement.append(nextButton);
     }
   }
 
   /**
    * Creates a pagination button with the specified text and page number
+   *
    * @param {string|number} text - The text to display on the button
    * @param {number} page - The page number this button should navigate to
    * @param {Function} [onPageChange] - Callback to execute when page changes
@@ -146,8 +151,8 @@ export class EstablishmentList {
   _createPaginationButton(text, page, onPageChange) {
     const button = document.createElement("button");
     button.textContent = text;
-    button.addEventListener("click", (e) => {
-      e.preventDefault(); // Prevent any default action
+    button.addEventListener("click", (event) => {
+      event.preventDefault(); // Prevent any default action
 
       // Always call external callback if provided (for server-side pagination)
       if (onPageChange) {
@@ -163,6 +168,7 @@ export class EstablishmentList {
 
   /**
    * Go to a specific page (only for client-side pagination)
+   *
    * @param {number} page - The page number to go to
    * @returns {Promise<void>} Promise that resolves when the page is rendered
    */
@@ -177,6 +183,7 @@ export class EstablishmentList {
 
   /**
    * Render the establishments for the current page
+   *
    * @private
    * @returns {Promise<void>} Promise that resolves when rendering is complete
    */
@@ -191,14 +198,14 @@ export class EstablishmentList {
 
     try {
       // Render items in list view
-      for (const [_index, establishment] of currentItems.entries()) {
+      for (const establishment of currentItems) {
         try {
           const item = await renderEstablishmentCard(establishment);
-          this.listElement.appendChild(item);
-        } catch (err) {
+          this.listElement.append(item);
+        } catch (error) {
           console.error(
             "Error rendering establishment card:",
-            err,
+            error,
             establishment,
           );
         }
@@ -223,12 +230,13 @@ export class EstablishmentList {
 
   /**
    * Load and display establishments
-   * @param {Object} data - Data object with establishments and metadata
+   *
+   * @param {object} data - Data object with establishments and metadata
    * @param {Array<Establishment>} data.establishments - Array of establishment objects to display
    * @param {number} [data.totalResults] - Total number of results (for pagination)
    * @param {number} [data.currentPage] - Current page number
    * @param {number} [data.pageSize] - Page size
-   * @param {boolean} [isLoading=false] - Whether the data is still loading
+   * @param {boolean} [isLoading] - Whether the data is still loading
    * @param {Function} [onPageChange] - Callback to execute when page changes
    * @returns {Promise<void>} Promise that resolves when establishments are loaded and rendered
    */
@@ -253,11 +261,11 @@ export class EstablishmentList {
       this.pageSize = data.pageSize;
     }
 
-    if (data.totalResults !== undefined) {
-      this.totalResults = data.totalResults;
+    if (data.totalResults === undefined) {
+      this.totalResults = this.establishments.length;
       this.totalPages = Math.ceil(this.totalResults / this.pageSize);
     } else {
-      this.totalResults = this.establishments.length;
+      this.totalResults = data.totalResults;
       this.totalPages = Math.ceil(this.totalResults / this.pageSize);
     }
 
@@ -300,6 +308,7 @@ export class EstablishmentList {
 
   /**
    * Show an error message
+   *
    * @param {string} message - The error message to display
    */
   showError(message) {

@@ -11,7 +11,16 @@
     "prettier": "npm:prettier@3.5.3",
     "scripts/": "./src/scripts/",
     "uglify-js": "npm:uglify-js@3.19.3",
-    "zod": "npm:zod@3.24.1"
+    "zod": "npm:zod@3.24.1",
+    "@typescript-eslint/eslint-plugin": "npm:@typescript-eslint/eslint-plugin@8.31.0",
+    "@typescript-eslint/parser": "npm:@typescript-eslint/parser@8.31.0",
+    "eslint-config-prettier": "npm:eslint-config-prettier@10.1.2",
+    "eslint-plugin-import": "npm:eslint-plugin-import@2.31.0",
+    "eslint-plugin-jsdoc": "npm:eslint-plugin-jsdoc@50.6.10",
+    "eslint-plugin-promise": "npm:eslint-plugin-promise@7.2.1",
+    "eslint-plugin-unicorn": "npm:eslint-plugin-unicorn@58.0.0",
+    "eslint": "npm:eslint@9.25.1",
+    "jiti": "npm:jiti@2.4.2"
   },
   "tasks": {
     "prettier:debug-check": {
@@ -20,15 +29,19 @@
     },
     "prettier:write": {
       "description": "Runs prettier on the code through Deno - --write",
-      "command": "deno run --deny-env --allow-read=./,./.gitignore,./.prettierignore,./package.json,./node_modules --allow-write=./node_modules/.cache/prettier,./src --allow-sys=cpus,uid npm:prettier . --write"
+      "command": "deno run --deny-env --allow-read=./,./.gitignore,./.prettierignore,./package.json,./node_modules --allow-write=./ --allow-sys=cpus,uid npm:prettier . --write"
+    },
+    "eslint": {
+      "description": "Runs ESLint on the codebase",
+      "command": "deno run --allow-env --allow-read --allow-write=./.eslintcache --allow-sys=cpus,homedir npm:eslint ."
     },
     "pre-commit": {
       "description": "Updates and validadates the code as done in CI",
-      "command": "deno install && deno test && deno lint && deno task prettier:debug-check && deno task prettier:write && deno fmt && deno check src/generate-site.mts"
+      "command": "deno install && deno test && deno lint && deno task eslint && deno task prettier:debug-check && deno task prettier:write && deno fmt && deno check src/generate-site.mts"
     },
     "build": {
       "description": "Builds the site",
-      "command": "DENO_TRACE_PERMISSIONS=1 BROWSERSLIST_ROOT_PATH=. deno run --allow-env=CI,BROWSERSLIST_ROOT_PATH --deny-env=NO_COLOR,FORCE_COLOR,TERM,BROWSERSLIST,BROWSERSLIST_DISABLE_CACHE,BROWSERSLIST_IGNORE_OLD_DATA,BROWSERSLIST_STATS,BROWSERSLIST_CONFIG,BROWSERSLIST_ENV,UGLIFY_BUG_REPORT,NODE_ENV --allow-net=api.ratings.food.gov.uk:443,ratings.food.gov.uk:443 --allow-read=./,./assets,./build,./dist,./src --allow-write=./build,./dist --allow-sys=homedir,uid src/generate-site.mts"
+      "command": "BROWSERSLIST_ROOT_PATH=. deno run --allow-env=CI,BROWSERSLIST_ROOT_PATH --deny-env=NO_COLOR,FORCE_COLOR,TERM,BROWSERSLIST,BROWSERSLIST_DISABLE_CACHE,BROWSERSLIST_IGNORE_OLD_DATA,BROWSERSLIST_STATS,BROWSERSLIST_CONFIG,BROWSERSLIST_ENV,UGLIFY_BUG_REPORT,NODE_ENV --allow-net=api.ratings.food.gov.uk:443,ratings.food.gov.uk:443 --allow-read=./,./assets,./build,./dist,./src --allow-write=./build,./dist --allow-sys=homedir,uid src/generate-site.mts"
     },
     "lock-update": {
       "description": "Updates the lock file",

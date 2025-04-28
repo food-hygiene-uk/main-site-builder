@@ -7,19 +7,33 @@ import { getBuildFileName } from "../lib/local-authority/local-authority.mts";
 const USE_CACHED_DATA = false;
 
 /**
- * Fetches data for a list of local authorities and saves it to JSON files.
+ * Fetches and processes data for a list of local authorities.
  *
- * @param {Authorities} localAuthorities - An array of local authority objects containing file information.
- * @returns {Promise<string[]>} - A promise that resolves to an array of filenames where the data is saved.
+ * This function retrieves JSON data for each local authority, either by using
+ * cached data if available or by fetching it from an external API. The data
+ * is then saved to a file, and an enriched version of the local authority
+ * object is returned with the build file name included.
  *
- * This function performs the following steps:
- * 1. Iterates over the provided local authorities.
- * 2. Converts the XML file URL to a JSON file URL.
- * 3. Constructs the filename for saving the JSON data.
- * 4. Checks if the file already exists and is readable, and skips fetching if the cached data is used.
- * 5. Fetches the data from the URL and saves it as a JSON file.
+ * - If `USE_CACHED_DATA` is enabled and the file already exists, the function
+ *   skips fetching and writing the data for that local authority.
+ * - The JSON data is fetched from a URL derived from the `FileName` property
+ *   of the local authority, replacing the `.xml` extension with `.json`.
+ * - The generated file is saved using the `getBuildFileName` function to
+ *   determine the file path.
  *
- * The function uses `Promise.all` to handle multiple asynchronous fetch operations concurrently.
+ * @param localAuthorities - An array of local authority objects to process.
+ * @returns A promise that resolves to an array of enriched local authority objects,
+ *          each containing the original data and the generated build file name.
+ * @example
+ * ```typescript
+ * const localAuthorities = [
+ *   { Name: "Authority1", FileName: "data1.xml" },
+ *   { Name: "Authority2", FileName: "data2.xml" },
+ * ];
+ *
+ * const enrichedData = await fetchLocalAuthorityData(localAuthorities);
+ * console.log(enrichedData);
+ * ```
  */
 export const fetchLocalAuthorityData = async (
   localAuthorities: Authorities,

@@ -30,11 +30,12 @@ const fetchInit = {
 } satisfies RequestInit;
 
 export const authorities = async (): Promise<AuthoritiesResponse> => {
-  return authoritiesResponseSchema.parse(
-    await (
-      await fetch("https://api.ratings.food.gov.uk/authorities", fetchInit)
-    ).json(),
+  const response = await fetch(
+    "https://api.ratings.food.gov.uk/authorities",
+    fetchInit,
   );
+
+  return authoritiesResponseSchema.parse(await response.json());
 };
 
 export const localAuthorityData = async (
@@ -48,5 +49,7 @@ export const localAuthorityData = async (
     "https://ratings.food.gov.uk/api/open-data-files/",
   );
 
-  return dataSchema.parse(await (await fetch(redirectedURL, fetchInit)).json());
+  const response = await fetch(redirectedURL, fetchInit);
+
+  return dataSchema.parse(await response.json());
 };

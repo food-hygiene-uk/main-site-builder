@@ -12,6 +12,7 @@ import { openModal } from "components/modal/modal.mjs";
 
 /**
  * Initializes the list selection modal content and attaches event listeners.
+ *
  * @param {string} FHRSID - The unique identifier of the establishment.
  */
 const initializeListSelectionModal = (FHRSID) => {
@@ -36,13 +37,13 @@ const initializeListSelectionModal = (FHRSID) => {
   newListButton.textContent = "Create List";
   newListButton.className = "styled-button";
 
-  newListForm.appendChild(newListInput);
-  newListForm.appendChild(newListButton);
-  modalBody.appendChild(newListForm);
+  newListForm.append(newListInput);
+  newListForm.append(newListButton);
+  modalBody.append(newListForm);
 
   const savedList = document.createElement("div");
   savedList.className = "saved-list";
-  modalBody.appendChild(savedList);
+  modalBody.append(savedList);
 
   newListForm.addEventListener("submit", (event) => {
     event.preventDefault();
@@ -67,6 +68,7 @@ const initializeListSelectionModal = (FHRSID) => {
 
 /**
  * Updates the state of the checkboxes in the modal.
+ *
  * @param {string} FHRSID - The unique identifier of the establishment.
  */
 const updateCheckboxStates = (FHRSID) => {
@@ -79,7 +81,7 @@ const updateCheckboxStates = (FHRSID) => {
   savedListContainer.innerHTML = "";
 
   // Re-render the saved lists
-  Object.entries(savedLists).forEach(([listId, list]) => {
+  for (const [listId, list] of Object.entries(savedLists)) {
     const listItem = document.createElement("div");
     listItem.className = "list-item styled-list-item";
 
@@ -89,16 +91,17 @@ const updateCheckboxStates = (FHRSID) => {
     checkbox.dataset.listId = listId; // Store the list ID for reference
     checkbox.checked = list.establishments.some((est) => est.FHRSID === FHRSID);
 
-    listItem.appendChild(checkbox);
-    listItem.appendChild(document.createTextNode(list.name));
-    savedListContainer.appendChild(listItem);
-  });
+    listItem.append(checkbox);
+    listItem.append(document.createTextNode(list.name));
+    savedListContainer.append(listItem);
+  }
 };
 
 /**
  * Opens a list selection modal for managing an establishment's lists.
+ *
  * @param {string} FHRSID - The unique identifier of the establishment.
- * @param {function} onClose - Callback function invoked when the modal is closed.
+ * @param {Function} onClose - Callback function invoked when the modal is closed.
  */
 export const openListSelectionModal = (FHRSID, onClose) => {
   const content = document.createElement("div");

@@ -8,12 +8,12 @@ import { getClassSuffix } from "../../lib/template/template.mts";
 import { config } from "../../lib/config/config.mts";
 import { cssAddSuffix, processCssFile } from "../../lib/css/css.mts";
 
-const env = vento();
-env.use(autoTrim());
-env.cache.clear();
+const environment = vento();
+environment.use(autoTrim());
+environment.cache.clear();
 
 const pageTemplatePath = fromFileUrl(import.meta.resolve("./about.vto"));
-const templatePromise = env.load(pageTemplatePath);
+const templatePromise = environment.load(pageTemplatePath);
 
 const Root = forgeRoot();
 const HeaderPromise = forgeHeader();
@@ -33,7 +33,8 @@ const [template, Header, Footer, processedCss] = await Promise.all([
 
 /**
  * Generates the "About" page and writes it to the output directory.
- * @returns {Promise<void>} Resolves when the page has been successfully written.
+ *
+ * @returns Resolves when the page has been successfully written.
  */
 export const outputAboutPage = async (): Promise<void> => {
   const classSuffix = getClassSuffix();

@@ -13,7 +13,7 @@ import { renderListSelectionButton } from "components/list-selection-button/list
   const link = document.createElement("link");
   link.rel = "stylesheet";
   link.href = "/components/establishment-card/establishment-card.css";
-  document.head.appendChild(link);
+  document.head.append(link);
 }
 
 // FHRS API Configuration
@@ -25,6 +25,7 @@ const API_HEADERS = {
 
 /**
  * Formats a date as a relative time (e.g., "2 days ago")
+ *
  * @param {string} date - ISO date string to format
  * @returns {string} Formatted relative time string
  */
@@ -51,6 +52,7 @@ export function formatRelativeTime(date) {
 
 /**
  * Formats a date string into a human-readable format
+ *
  * @param {string} dateString - The date string to format
  * @returns {string} Formatted date string or "Not available" if no date
  */
@@ -75,9 +77,9 @@ export function slugify(text) {
   return text
     .toString()
     .toLowerCase()
-    .replace(/\s+/g, "-")
-    .replace(/[^\w\-]+/g, "")
-    .replace(/\-\-+/g, "-")
+    .replaceAll(/\s+/g, "-")
+    .replaceAll(/[^\w\-]+/g, "")
+    .replaceAll(/\-\-+/g, "-")
     .replace(/^-+/, "")
     .replace(/-+$/, "");
 }
@@ -164,9 +166,9 @@ export async function renderEstablishmentCard(establishment) {
   item.dataset.establishmentId = FHRSID;
 
   // Create content
-  const nameElem = document.createElement("h3");
-  nameElem.textContent = hydratedEstablishment.BusinessName;
-  item.appendChild(nameElem);
+  const nameElement = document.createElement("h3");
+  nameElement.textContent = hydratedEstablishment.BusinessName;
+  item.append(nameElement);
 
   const details = document.createElement("div");
   details.className = "establishment-details";
@@ -175,10 +177,10 @@ export async function renderEstablishmentCard(establishment) {
   const leftCol = document.createElement("div");
 
   if (hydratedEstablishment.BusinessType) {
-    const typeElem = document.createElement("p");
-    typeElem.className = "business-type";
-    typeElem.textContent = hydratedEstablishment.BusinessType;
-    leftCol.appendChild(typeElem);
+    const typeElement = document.createElement("p");
+    typeElement.className = "business-type";
+    typeElement.textContent = hydratedEstablishment.BusinessType;
+    leftCol.append(typeElement);
   }
 
   // Address if available
@@ -208,9 +210,9 @@ export async function renderEstablishmentCard(establishment) {
     }
 
     if (addressParts.length > 0) {
-      const addressElem = document.createElement("address");
-      addressElem.textContent = addressParts.join(", ");
-      leftCol.appendChild(addressElem);
+      const addressElement = document.createElement("address");
+      addressElement.textContent = addressParts.join(", ");
+      leftCol.append(addressElement);
     }
   }
 
@@ -227,15 +229,15 @@ export async function renderEstablishmentCard(establishment) {
     const badge = document.createElement("span");
     badge.className = `rating-badge ${ratingClass}`;
     badge.textContent = ratingText;
-    ratingP.appendChild(badge);
-    rightCol.appendChild(ratingP);
+    ratingP.append(badge);
+    rightCol.append(ratingP);
 
     // Rating date if available
     const ratingDate = hydratedEstablishment.RatingDate;
     if (ratingDate) {
       const dateP = document.createElement("p");
       dateP.textContent = `Last inspection: ${formatDate(ratingDate)}`;
-      rightCol.appendChild(dateP);
+      rightCol.append(dateP);
     }
   }
 
@@ -244,12 +246,12 @@ export async function renderEstablishmentCard(establishment) {
     const visitedP = document.createElement("p");
     visitedP.className = "viewed-time";
     visitedP.textContent = `Viewed ${formatRelativeTime(lastVisited)}`;
-    rightCol.appendChild(visitedP);
+    rightCol.append(visitedP);
   }
 
-  details.appendChild(leftCol);
-  details.appendChild(rightCol);
-  item.appendChild(details);
+  details.append(leftCol);
+  details.append(rightCol);
+  item.append(details);
 
   // Create the link that covers the entire establishment
   const link = document.createElement("a");
@@ -260,13 +262,13 @@ export async function renderEstablishmentCard(establishment) {
   }-${hydratedEstablishment.FHRSID}`;
   link.className = "details-link";
   link.textContent = "View details";
-  item.appendChild(link);
+  item.append(link);
 
   // Add an "Add to List" button to the establishment card using the reusable component
   const listSelectionButton = renderListSelectionButton(
     hydratedEstablishment.FHRSID,
   );
-  item.appendChild(listSelectionButton);
+  item.append(listSelectionButton);
 
   return item;
 }

@@ -9,12 +9,12 @@ import { getClassSuffix } from "../../lib/template/template.mts";
 import { cssAddSuffix, processCssFile } from "../../lib/css/css.mts";
 import { jsAddSuffix, processJsFile } from "../../lib/js/js.mts";
 
-const env = vento();
-env.use(autoTrim());
-env.cache.clear();
+const environment = vento();
+environment.use(autoTrim());
+environment.cache.clear();
 
 const pageTemplatePath = fromFileUrl(import.meta.resolve("./search.vto"));
-const templatePromise = env.load(pageTemplatePath);
+const templatePromise = environment.load(pageTemplatePath);
 
 const Root = forgeRoot();
 const HeaderPromise = forgeHeader();
@@ -42,7 +42,8 @@ const [template, Header, Footer, processedCss, processedJs] = await Promise.all(
 
 /**
  * Generates and outputs the search page HTML.
- * @returns {Promise<void>} Resolves when the search page has been written to the output directory.
+ *
+ * @returns Resolves when the search page has been written to the output directory.
  */
 export const outputSearchPage = async (): Promise<void> => {
   const classSuffix = getClassSuffix();

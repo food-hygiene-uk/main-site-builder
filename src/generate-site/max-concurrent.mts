@@ -3,42 +3,49 @@
  *
  * @template T - The type of the items in the array.
  * @template R - The type of the result returned by the function.
- * @param {Array<T>} items - The array of items to process.
- * @param {number} maxConcurrent - The maximum number of concurrent requests.
- * @param {function(T, number): Promise<R>} fn - The function to run on each item, which returns a promise.
- * @returns {Promise<Array<R>>} A promise that resolves to an array of results.
+ * @param items - The array of items to process.
+ * @param maxConcurrent - The maximum number of concurrent requests.
+ * @param function_ - The function to run on each item, which returns a promise.
+ * @returns A promise that resolves to an array of results.
  */
 export function mapConcurrent<T, R>(
   items: T[],
   maxConcurrent: number,
-  fn: (item: T, index: number) => Promise<R>,
+  function_: (item: T, index: number) => Promise<R>,
 ): Promise<R[]> {
   let index = 0;
   let inFlightCntr = 0;
   let doneCntr = 0;
-  const results = new Array<R>(items.length);
+  const results = Array.from({ length: items.length }) satisfies R[];
   let stop = false;
 
   return new Promise(function (resolve, reject) {
+    /**
+     * Executes the next function in the queue, updating the in-flight counter and handling results or errors.
+     */
     function runNext() {
-      const i = index;
+      const index_ = index;
       ++inFlightCntr;
-      fn(items[index], index += 1).then(
-        function (val) {
+      function_(items[index], index += 1)
+        .then(function (value) {
           ++doneCntr;
           --inFlightCntr;
-          results[i] = val;
+          results[index_] = value;
           run();
-        },
-        function (err) {
+
+          return;
+        })
+        .catch(function (error) {
           // set flag so we don't launch any more requests
           stop = true;
-          reject(err);
-        },
-      );
+          reject(error);
+        });
     }
 
-    function run() {
+    /**
+     * Manages the execution of the function on items, ensuring the maximum concurrency limit is respected.
+     */
+    function run(): void {
       // launch as many as we're allowed to
       while (!stop && inFlightCntr < maxConcurrent && index < items.length) {
         runNext();

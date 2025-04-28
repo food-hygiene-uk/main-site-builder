@@ -84,6 +84,10 @@ jobs:
         working-directory: ./repos/source
         run: deno test
 
+      - name: Run ESLint
+        working-directory: ./repos/source
+        run: eslint .
+
       - name: Run Deno lint
         working-directory: ./repos/source
         run: deno lint

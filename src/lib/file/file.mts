@@ -4,7 +4,7 @@
 // The "." is removed since these strings should not have extensions.
 const replacedCharactersRegex = /[^a-z0-9-]/g;
 
-const reservedNames = [
+const reservedNames = new Set([
   "con",
   "prn",
   "aux",
@@ -27,20 +27,22 @@ const reservedNames = [
   "lpt7",
   "lpt8",
   "lpt9",
-];
+]);
 
 /**
  * Accepts a string and returns a string that is a valid name part of a filename.
  * Replaces invalid characters with hyphens and throws an error for reserved names.
  *
- * @param {string} string - The input string to convert to a valid filename
- * @returns {string} A valid filename string with invalid characters replaced
+ * @param string - The input string to convert to a valid filename
+ * @returns A valid filename string with invalid characters replaced
  * @throws {Error} If the input string converts to a reserved filename
  */
 export const encodeName = (string: string): string => {
-  const filename = string.toLowerCase().replace(replacedCharactersRegex, "-");
+  const filename = string
+    .toLowerCase()
+    .replaceAll(replacedCharactersRegex, "-");
 
-  if (reservedNames.includes(filename)) {
+  if (reservedNames.has(filename)) {
     throw new Error(`Filename "${filename}" is disallowed.`);
   }
 

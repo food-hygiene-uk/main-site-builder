@@ -43,7 +43,9 @@ const updateDenoVersion = async () => {
 };
 
 // Run the update function
-updateDenoVersion().catch((error) => {
+try {
+  await updateDenoVersion();
+} catch (error) {
   console.error(error);
   Deno.exit(1);
-});
+}

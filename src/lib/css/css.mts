@@ -5,10 +5,10 @@ import cssnano from "cssnano";
 /**
  * Processes a CSS file by applying transformations and injecting additional CSS.
  *
- * @param {{ path: string; additionalCss: string }} params - Parameters for processing CSS.
- * @param {string} params.path - The file path to the CSS file.
- * @param {string} params.additionalCss - Additional CSS to inject into the file.
- * @returns {Promise<string>} A promise that resolves to the processed CSS as a string.
+ * @param params - Parameters for processing CSS.
+ * @param params.path - The file path to the CSS file.
+ * @param params.additionalCss - Additional CSS to inject into the file.
+ * @returns A promise that resolves to the processed CSS as a string.
  */
 export const processCssFile = async ({
   path,
@@ -18,24 +18,26 @@ export const processCssFile = async ({
   additionalCss: string;
 }): Promise<string> => {
   const cssPath = fromFileUrl(path);
-  const cssContent = (await globalThis.Deno.readTextFile(cssPath)).replace(
-    /\/\* __ADDITIONAL_CSS__ \*\//g,
+  const content = await globalThis.Deno.readTextFile(cssPath);
+  const cssContent = content.replaceAll(
+    "/* __ADDITIONAL_CSS__ */",
     additionalCss,
   );
-  return (
-    await postcss([cssnano]).process(cssContent, {
-      from: undefined,
-    })
-  ).css;
+
+  const processedCss = await postcss([cssnano]).process(cssContent, {
+    from: undefined,
+  });
+
+  return processedCss.css;
 };
 
 /**
  * Adds a suffix to all CSS class names in the provided CSS string.
  *
- * @param {string} css - The CSS content as a string.
- * @param {string} classSuffix - The suffix to append to class names.
- * @returns {string} The modified CSS with suffixed class names.
+ * @param css - The CSS content as a string.
+ * @param classSuffix - The suffix to append to class names.
+ * @returns The modified CSS with suffixed class names.
  */
 export const cssAddSuffix = (css: string, classSuffix: string): string => {
-  return css.replace(/__CLASS_SUFFIX__/g, classSuffix);
+  return css.replaceAll("__CLASS_SUFFIX__", classSuffix);
 };

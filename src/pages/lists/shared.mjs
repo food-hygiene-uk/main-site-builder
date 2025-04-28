@@ -10,53 +10,77 @@ const API_HEADERS = {
 // Storage key for saved lists
 const SAVED_LISTS_STORAGE_KEY = "saved-establishment-lists";
 
+/**
+ * Decodes a compact string representation back into an array of establishment IDs
+ *
+ * @param {string} encoded - The encoded string to decode
+ * @returns {Array<string>} Array of decoded establishment IDs
+ */
+const decodeEstablishmentIds = (encoded) => {
+  try {
+    // Decode the base64 string
+    const jsonString = atob(encoded);
+
+    // Parse the JSON
+    const dataObject = JSON.parse(jsonString);
+
+    // Convert the base36 ids back to decimal
+    return dataObject.i.map((id) => Number.parseInt(id, 36).toString());
+  } catch (error) {
+    console.error("Error decoding establishment IDs:", error);
+    return [];
+  }
+};
+
+/**
+ * Loads establishment details for a single establishment by ID
+ *
+ * @param {string} id - The FHRSID of the establishment to load
+ * @returns {Promise<object|null>} The establishment data or null if not found
+ */
+const loadEstablishmentById = async (id) => {
+  try {
+    const response = await fetch(`${API_BASE}/Establishments/${id}`, {
+      headers: API_HEADERS,
+    });
+
+    if (!response.ok) {
+      console.error(`Failed to fetch establishment ${id}: ${response.status}`);
+      return null;
+    }
+
+    return await response.json();
+  } catch (error) {
+    console.error(`Error fetching establishment ${id}:`, error);
+    return null;
+  }
+};
+
 document.addEventListener("DOMContentLoaded", () => {
   // Get DOM elements
-  const listTitle = document.getElementById("listTitle");
-  const listDescription = document.getElementById("listDescription");
-  const establishmentsContainer = document.getElementById("establishmentsList");
-  const emptyListMessage = document.getElementById("emptyList");
-  const errorMessage = document.getElementById("errorMessage");
-  const loadingIndicator = document.getElementById("loading");
-  const saveListButton = document.getElementById("saveListButton");
-  const saveModal = document.getElementById("saveModal");
-  const listNameInput = document.getElementById("listNameInput");
-  const confirmSaveButton = document.getElementById("confirmSaveButton");
-  const cancelSaveButton = document.getElementById("cancelSaveButton");
+  const listTitle = document.querySelector("#listTitle");
+  const listDescription = document.querySelector("#listDescription");
+  const establishmentsContainer = document.querySelector("#establishmentsList");
+  const emptyListMessage = document.querySelector("#emptyList");
+  const errorMessage = document.querySelector("#errorMessage");
+  const loadingIndicator = document.querySelector("#loading");
+  const saveListButton = document.querySelector("#saveListButton");
+  const saveModal = document.querySelector("#saveModal");
+  const listNameInput = document.querySelector("#listNameInput");
+  const confirmSaveButton = document.querySelector("#confirmSaveButton");
+  const cancelSaveButton = document.querySelector("#cancelSaveButton");
 
   // Store loaded establishments for saving
   let loadedEstablishments = [];
 
   // Get shared list parameters from URL
-  const urlParams = new URLSearchParams(globalThis.location.search);
-  const sharedTitle = urlParams.get("title") || "Shared List";
-
-  /**
-   * Decodes a compact string representation back into an array of establishment IDs
-   *
-   * @param {string} encoded - The encoded string to decode
-   * @returns {Array<string>} Array of decoded establishment IDs
-   */
-  const decodeEstablishmentIds = (encoded) => {
-    try {
-      // Decode the base64 string
-      const jsonString = atob(encoded);
-
-      // Parse the JSON
-      const dataObj = JSON.parse(jsonString);
-
-      // Convert the base36 ids back to decimal
-      return dataObj.i.map((id) => parseInt(id, 36).toString());
-    } catch (error) {
-      console.error("Error decoding establishment IDs:", error);
-      return [];
-    }
-  };
+  const urlParameters = new URLSearchParams(globalThis.location.search);
+  const sharedTitle = urlParameters.get("title") || "Shared List";
 
   // Get the encoded data and decode it
   let establishmentIds = [];
-  if (urlParams.has("data")) {
-    const encodedData = urlParams.get("data");
+  if (urlParameters.has("data")) {
+    const encodedData = urlParameters.get("data");
     establishmentIds = decodeEstablishmentIds(encodedData);
   }
 
@@ -71,32 +95,6 @@ document.addEventListener("DOMContentLoaded", () => {
   });
 
   /**
-   * Loads establishment details for a single establishment by ID
-   *
-   * @param {string} id - The FHRSID of the establishment to load
-   * @returns {Promise<object|null>} The establishment data or null if not found
-   */
-  const loadEstablishmentById = async (id) => {
-    try {
-      const response = await fetch(`${API_BASE}/Establishments/${id}`, {
-        headers: API_HEADERS,
-      });
-
-      if (!response.ok) {
-        console.error(
-          `Failed to fetch establishment ${id}: ${response.status}`,
-        );
-        return null;
-      }
-
-      return await response.json();
-    } catch (error) {
-      console.error(`Error fetching establishment ${id}:`, error);
-      return null;
-    }
-  };
-
-  /**
    * Saves a list of establishments to localStorage
    *
    * @param {string} listName - The name of the list to save
@@ -105,7 +103,7 @@ document.addEventListener("DOMContentLoaded", () => {
    */
   const saveList = (listName, establishments) => {
     // Don't run in server-side code
-    if (typeof globalThis.localStorage === "undefined") return null;
+    if (globalThis.localStorage === undefined) return null;
 
     try {
       // Get existing saved lists
@@ -209,16 +207,16 @@ document.addEventListener("DOMContentLoaded", () => {
 
   if (listNameInput) {
     // Allow pressing Enter to save
-    listNameInput.addEventListener("keydown", (e) => {
-      if (e.key === "Enter") {
+    listNameInput.addEventListener("keydown", (event) => {
+      if (event.key === "Enter") {
         handleSaveList();
       }
     });
   }
 
   // Close modal when clicking outside
-  saveModal.addEventListener("click", (e) => {
-    if (e.target === saveModal) {
+  saveModal.addEventListener("click", (event) => {
+    if (event.target === saveModal) {
       hideSaveModal();
     }
   });
@@ -236,7 +234,7 @@ document.addEventListener("DOMContentLoaded", () => {
     document.title = `${sharedTitle} - Food Hygiene Ratings`;
 
     // Check if we have IDs to load
-    if (!establishmentIds.length) {
+    if (establishmentIds.length === 0) {
       establishmentList.showError("No establishments found in the shared list");
       return;
     }
@@ -249,7 +247,9 @@ document.addEventListener("DOMContentLoaded", () => {
       const establishments = await Promise.all(establishmentPromises);
 
       // Filter out any failed loads (nulls)
-      const validEstablishments = establishments.filter((e) => e !== null);
+      const validEstablishments = establishments.filter(
+        (establishment) => establishment !== null,
+      );
 
       // Store the loaded establishments for saving later
       loadedEstablishments = validEstablishments;

@@ -4,25 +4,45 @@ import recentEstablishmentsService from "scripts/recent-establishments-service.m
 // Storage key for saved lists
 const SAVED_LISTS_STORAGE_KEY = "saved-establishment-lists";
 
+/**
+ * Encodes an array of establishment IDs into a compact string representation
+ *
+ * @param {Array<string>} ids - Array of establishment IDs to encode
+ * @returns {string} Encoded string representation
+ */
+const encodeEstablishmentIds = (ids) => {
+  // Convert to base36 representation for more compact encoding
+  const base36Ids = ids.map((id) => Number.parseInt(id).toString(36));
+
+  // Create a compact JSON object with the ids
+  const dataObject = { i: base36Ids };
+
+  // Convert to JSON and then to base64 for URL safety
+  const jsonString = JSON.stringify(dataObject);
+
+  // Use built-in btoa for base64 encoding (browser-compatible)
+  return btoa(jsonString);
+};
+
 document.addEventListener("DOMContentLoaded", () => {
   // Get DOM elements
-  const listTitle = document.getElementById("listTitle");
-  const listDescription = document.getElementById("listDescription");
-  const establishmentsContainer = document.getElementById("establishmentsList");
-  const emptyListMessage = document.getElementById("emptyList");
-  const errorMessage = document.getElementById("errorMessage");
-  const loadingIndicator = document.getElementById("loading");
-  const shareButton = document.getElementById("shareButton");
-  const clearButton = document.getElementById("clearButton");
-  const deleteButton = document.getElementById("deleteButton");
-  const shareModal = document.getElementById("shareModal");
-  const shareUrlInput = document.getElementById("shareUrl");
-  const copyShareUrlButton = document.getElementById("copyShareUrl");
-  const closeShareModalButton = document.getElementById("closeShareModal");
+  const listTitle = document.querySelector("#listTitle");
+  const listDescription = document.querySelector("#listDescription");
+  const establishmentsContainer = document.querySelector("#establishmentsList");
+  const emptyListMessage = document.querySelector("#emptyList");
+  const errorMessage = document.querySelector("#errorMessage");
+  const loadingIndicator = document.querySelector("#loading");
+  const shareButton = document.querySelector("#shareButton");
+  const clearButton = document.querySelector("#clearButton");
+  const deleteButton = document.querySelector("#deleteButton");
+  const shareModal = document.querySelector("#shareModal");
+  const shareUrlInput = document.querySelector("#shareUrl");
+  const copyShareUrlButton = document.querySelector("#copyShareUrl");
+  const closeShareModalButton = document.querySelector("#closeShareModal");
 
   // Get list ID from URL
-  const urlParams = new URLSearchParams(globalThis.location.search);
-  const listId = urlParams.get("id") || "recent";
+  const urlParameters = new URLSearchParams(globalThis.location.search);
+  const listId = urlParameters.get("id") || "recent";
 
   // Initialize the establishment list component with explicit defaultView
   const establishmentList = new EstablishmentList({
@@ -39,33 +59,13 @@ document.addEventListener("DOMContentLoaded", () => {
   let currentListTitle = "";
 
   /**
-   * Encodes an array of establishment IDs into a compact string representation
-   *
-   * @param {Array<string>} ids - Array of establishment IDs to encode
-   * @returns {string} Encoded string representation
-   */
-  const encodeEstablishmentIds = (ids) => {
-    // Convert to base36 representation for more compact encoding
-    const base36Ids = ids.map((id) => parseInt(id).toString(36));
-
-    // Create a compact JSON object with the ids
-    const dataObj = { i: base36Ids };
-
-    // Convert to JSON and then to base64 for URL safety
-    const jsonString = JSON.stringify(dataObj);
-
-    // Use built-in btoa for base64 encoding (browser-compatible)
-    return btoa(jsonString);
-  };
-
-  /**
    * Gets a saved list by ID
    *
    * @param {string} id - The ID of the saved list to retrieve
    * @returns {object|null} The saved list or null if not found
    */
   const getSavedList = (id) => {
-    if (typeof globalThis.localStorage === "undefined") return null;
+    if (globalThis.localStorage === undefined) return null;
 
     try {
       const savedListsJson = globalThis.localStorage.getItem(
@@ -88,7 +88,7 @@ document.addEventListener("DOMContentLoaded", () => {
    * @returns {boolean} True if deletion was successful
    */
   const deleteList = (id) => {
-    if (typeof globalThis.localStorage === "undefined") return false;
+    if (globalThis.localStorage === undefined) return false;
 
     try {
       const savedListsJson = globalThis.localStorage.getItem(
@@ -184,8 +184,8 @@ document.addEventListener("DOMContentLoaded", () => {
 
   // Also close modal when clicking outside
   if (shareModal) {
-    shareModal.addEventListener("click", (e) => {
-      if (e.target === shareModal) {
+    shareModal.addEventListener("click", (event) => {
+      if (event.target === shareModal) {
         shareModal.style.display = "none";
       }
     });
@@ -201,13 +201,13 @@ document.addEventListener("DOMContentLoaded", () => {
     const ids = currentEstablishments.map((est) => est.FHRSID);
 
     // Create URL parameters with efficient encoding
-    const params = new URLSearchParams();
-    params.set("title", currentListTitle);
-    params.set("data", encodeEstablishmentIds(ids));
+    const parameters = new URLSearchParams();
+    parameters.set("title", currentListTitle);
+    parameters.set("data", encodeEstablishmentIds(ids));
 
     // Generate the complete share URL
     const shareUrl =
-      `${globalThis.location.origin}/lists/shared/?${params.toString()}`;
+      `${globalThis.location.origin}/lists/shared/?${parameters.toString()}`;
 
     // Set the URL in the input field
     if (shareUrlInput) {
@@ -215,7 +215,10 @@ document.addEventListener("DOMContentLoaded", () => {
     }
   };
 
-  // Function to load and display establishments from the specified list
+  /**
+   * Loads and displays establishments from the specified list.
+   * Handles recent establishments, saved lists, and updates the UI accordingly.
+   */
   async function loadEstablishments() {
     // Show loading state
     await establishmentList.loadEstablishments({ establishments: [] }, true);

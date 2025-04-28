@@ -9,14 +9,14 @@ import { getLinkURL } from "../../lib/authority/authority.mts";
 import { getClassSuffix } from "../../lib/template/template.mts";
 import { cssAddSuffix, processCssFile } from "../../lib/css/css.mts";
 
-const env = vento();
-env.use(autoTrim());
-env.cache.clear();
+const environment = vento();
+environment.use(autoTrim());
+environment.cache.clear();
 
 const pageTemplatePath = fromFileUrl(
   import.meta.resolve("./local-authority-list.vto"),
 );
-const templatePromise = env.load(pageTemplatePath);
+const templatePromise = environment.load(pageTemplatePath);
 
 const Root = forgeRoot();
 const HeaderPromise = forgeHeader();
@@ -41,23 +41,29 @@ const regionMap = {
   "Northern Ireland": "Northern Ireland",
   Scotland: "Scotland",
   Wales: "Wales",
-};
+} as const;
 
 /**
  * Maps local authorities to their respective regions.
- * @param {Authorities} localAuthorities - List of local authorities.
- * @returns {Array<{ region: string; authorities: Authorities }>} Grouped and sorted local authorities by region.
+ *
+ * @param localAuthorities - List of local authorities.
+ * @returns Grouped and sorted local authorities by region.
  */
-const getRegionLocalAuthorities = (localAuthorities: Authorities) => {
-  const groupedByRegion = localAuthorities.reduce(
-    (acc, authority) => {
-      const region = regionMap[authority.RegionName] || "Unknown Region";
-      acc[region] ??= [];
-      acc[region].push(authority);
-      return acc;
-    },
-    {} as Record<string, typeof localAuthorities>,
-  );
+const getRegionLocalAuthorities = (
+  localAuthorities: Authorities,
+): Array<{
+  region: (typeof regionMap)[keyof typeof regionMap];
+  authorities: Authorities;
+}> => {
+  const groupedByRegion = {} as Record<
+    (typeof regionMap)[keyof typeof regionMap],
+    typeof localAuthorities
+  >;
+  for (const authority of localAuthorities) {
+    const region = regionMap[authority.RegionName] || "Unknown Region";
+    groupedByRegion[region] ??= [];
+    groupedByRegion[region].push(authority);
+  }
 
   return Object.values(regionMap).map((region) => {
     const authorities = groupedByRegion[region] || [];
@@ -78,8 +84,9 @@ const [template, Header, Footer, processedCss] = await Promise.all([
 
 /**
  * Outputs the local authority list page to the `dist` directory.
- * @param {Authorities} localAuthorities - List of local authorities.
- * @returns {Promise<void>} Resolves when the page is written to disk.
+ *
+ * @param localAuthorities - List of local authorities.
+ * @returns Resolves when the page is written to disk.
  */
 export const outputLocalAuthorityListPage = async (
   localAuthorities: Authorities,

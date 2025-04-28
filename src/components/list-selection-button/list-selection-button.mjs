@@ -8,7 +8,7 @@ import { openListSelectionModal } from "components/modal/list-selection.mjs";
   const link = document.createElement("link");
   link.rel = "stylesheet";
   link.href = "/components/list-selection-button/list-selection-button.css";
-  document.head.appendChild(link);
+  document.head.append(link);
 }
 
 /**
@@ -34,7 +34,7 @@ export const renderListSelectionButton = (FHRSID) => {
 
   const buttonText = document.createElement("span");
   buttonText.textContent = "Save";
-  listSelectionButton.appendChild(buttonText);
+  listSelectionButton.append(buttonText);
 
   // Check if the establishment is already on a list (excluding recent)
   const isOnList = isEstablishmentOnList(FHRSID);

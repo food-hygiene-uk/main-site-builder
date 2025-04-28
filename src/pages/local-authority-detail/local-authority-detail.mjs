@@ -6,7 +6,7 @@ const searchInput = document.querySelector(
 );
 const container = document.querySelector(".establishments-container");
 
-const establishments = Array.from(container.querySelectorAll(".establishment"));
+const establishments = [...container.querySelectorAll(".establishment")];
 
 // Pre-cache establishment data to avoid DOM queries during search
 const establishmentData = establishments.map((establishment) => ({
@@ -22,16 +22,16 @@ const establishmentData = establishments.map((establishment) => ({
  * Debounces a function, delaying its execution until after a certain amount of time has passed
  * since the last invocation.
  *
- * @param {(args: any[]) => void} func - The function to debounce.
+ * @param {(args: any[]) => void} function_ - The function to debounce.
  * @param {number} wait - The number of milliseconds to wait before executing the function.
  * @returns {(args: any[]) => void} A debounced version of the function.
  */
-const debounce = (func, wait) => {
+const debounce = (function_, wait) => {
   let timeout;
-  return (...args) => {
+  return (...arguments_) => {
     const later = () => {
       clearTimeout(timeout);
-      func(...args);
+      function_(...arguments_);
     };
     clearTimeout(timeout);
     timeout = setTimeout(later, wait);
@@ -51,7 +51,7 @@ const parseSearchTerms = (searchTerm) => {
   while ((match = regex.exec(searchTerm)) !== null) {
     let term = (match[1] || match[2]).toLowerCase();
     // Remove stray quotes from beginning and end of the term
-    term = term.replace(/^"+|"+$/g, "");
+    term = term.replaceAll(/^"+|"+$/g, "");
     terms.push(term);
   }
   return terms;
@@ -71,15 +71,15 @@ const appendEstablishments = (container, establishments) => {
   // Add visible establishments from fragment
   const visibleFragment = document.createDocumentFragment();
   const hrTemplate = document.createElement("hr");
-  establishments.forEach((data) => {
-    visibleFragment.appendChild(data.clone);
-    visibleFragment.appendChild(hrTemplate.cloneNode());
-  });
+  for (const data of establishments) {
+    visibleFragment.append(data.clone);
+    visibleFragment.append(hrTemplate.cloneNode());
+  }
   // Remove the last hr
   if (visibleFragment.lastChild) {
     visibleFragment.lastChild.remove();
   }
-  container.appendChild(visibleFragment);
+  container.append(visibleFragment);
 };
 
 const updates = new Set(); // Store visibility updates
@@ -87,17 +87,17 @@ const updates = new Set(); // Store visibility updates
 /**
  * Processes a batch of establishments, determining their visibility based on search terms.
  *
- * @param {number} index - The starting index of the batch.
+ * @param {number} startIndex - The starting index of the batch.
  * @param {number} batchSize - The size of the batch.
  * @param {string[]} searchTerms - The array of search terms.
  * @param {Function} resolve - The resolve function of the promise.
  * @returns {void}
  */
-const processBatch = (index, batchSize, searchTerms, resolve) => {
-  const end = Math.min(index + batchSize, establishmentData.length);
+const processBatch = (startIndex, batchSize, searchTerms, resolve) => {
+  const end = Math.min(startIndex + batchSize, establishmentData.length);
 
-  for (let i = index; i < end; i++) {
-    const data = establishmentData[i];
+  for (let index = startIndex; index < end; index++) {
+    const data = establishmentData[index];
     const matchesAll = searchTerms.every(
       (term) => data.name.includes(term) || data.address.includes(term),
     );
@@ -155,7 +155,7 @@ const handleSearch = async (searchTerm) => {
 // Attach debounced event listener
 searchInput.addEventListener(
   "input",
-  debounce((e) => {
-    handleSearch(e.target.value.toLowerCase());
+  debounce((event) => {
+    handleSearch(event.target.value.toLowerCase());
   }, 150),
 );

@@ -10,10 +10,10 @@ const processedCssPromise = processCssFile({
   additionalCss: "",
 });
 
-const env = vento();
-env.use(autoTrim());
+const environment = vento();
+environment.use(autoTrim());
 const pageTemplatePath = fromFileUrl(import.meta.resolve("./html.vto"));
-const templatePromise = env.load(pageTemplatePath);
+const templatePromise = environment.load(pageTemplatePath);
 
 const [processedCss, template] = await Promise.all([
   processedCssPromise,
@@ -23,8 +23,8 @@ const [processedCss, template] = await Promise.all([
 /**
  * Extracts address information from an establishment
  *
- * @param {Establishment} establishment - The establishment to extract the address from
- * @returns {Object} Object containing address lines, postcode, and location link
+ * @param establishment - The establishment to extract the address from
+ * @returns Object containing address lines, postcode, and location link
  */
 const getAddress = (
   establishment: Establishment,
@@ -66,17 +66,22 @@ const getAddress = (
 /**
  * Creates an address component factory
  *
- * @returns {{ css: string; render: (establishment: Establishment) => Promise<ReturnType<typeof template>> }} Object containing the component's CSS and render function
+ * @returns Object containing the component's CSS and render function
  */
-export const Address = () => {
+export const Address = (): {
+  css: string;
+  render: (
+    establishment: Establishment,
+  ) => Promise<ReturnType<typeof template>>;
+} => {
   const classSuffix = getClassSuffix();
   const css = cssAddSuffix(processedCss, classSuffix);
 
   /**
    * Renders an address for the given establishment
    *
-   * @param {Establishment} establishment - The establishment to render the address for
-   * @returns {Promise<ReturnType<typeof template>>} Promise resolving to the rendered template
+   * @param establishment - The establishment to render the address for
+   * @returns Promise resolving to the rendered template
    */
   const render = async (
     establishment: Establishment,

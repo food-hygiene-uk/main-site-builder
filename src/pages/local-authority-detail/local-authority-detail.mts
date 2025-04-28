@@ -13,14 +13,14 @@ import { getCanonicalLinkURL } from "../../lib/authority/authority.mts";
 import { cssAddSuffix, processCssFile } from "../../lib/css/css.mts";
 import { jsAddSuffix, processJsFile } from "../../lib/js/js.mts";
 
-const env = vento();
-env.use(autoTrim());
-env.cache.clear();
+const environment = vento();
+environment.use(autoTrim());
+environment.cache.clear();
 
 const pageTemplatePath = fromFileUrl(
   import.meta.resolve("./local-authority-detail.vto"),
 );
-const templatePromise = env.load(pageTemplatePath);
+const templatePromise = environment.load(pageTemplatePath);
 
 const Root = forgeRoot();
 const HeaderPromise = forgeHeader();
@@ -48,14 +48,15 @@ const [template, Header, Footer, processedCss, processedJs] = await Promise.all(
 
 /**
  * Generates the Local Authority Detail page.
- * @param {EnrichedLocalAuthority} localAuthority - The enriched local authority data.
- * @param {Establishment[]} establishments - The list of establishments.
- * @returns {Promise<void>} A promise that resolves when the page is generated.
+ *
+ * @param localAuthority - The enriched local authority data.
+ * @param establishments - The list of establishments.
+ * @returns A promise that resolves when the page is generated.
  */
 export const outputLocalAuthorityDetailPage = async (
   localAuthority: EnrichedLocalAuthority,
   establishments: Establishment[],
-) => {
+): Promise<void> => {
   const classSuffix = getClassSuffix();
 
   const pageCSS = cssAddSuffix(processedCss, classSuffix);

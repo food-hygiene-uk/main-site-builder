@@ -3,12 +3,11 @@ const suffixPoolIndexes = new Map();
 /**
  * Gets a hash of the caller's filename for consistent class suffix generation
  *
- * @returns {string} A hash string derived from the caller's filename
- * @private
+ * @returns A hash string derived from the caller's filename
  */
 const getCallerFilenameHash = (): string => {
-  const err = new Error();
-  const stack = (err.stack ?? "").split("\n");
+  const error = new Error("generate stack trace");
+  const stack = (error.stack ?? "").split("\n");
   const callerLine = stack[3]; // 0: Error, 1: getCallerFilenameHash, 2: getClassSuffix, 3: caller
 
   // Extract filename from the caller line (format may vary)
@@ -18,13 +17,13 @@ const getCallerFilenameHash = (): string => {
 
     // Generate a simple hash for non-security purposes
     let hash = 0;
-    for (let i = 0; i < filename.length; i++) {
-      hash = (hash << 5) - hash + filename.charCodeAt(i);
-      hash |= 0; // Convert to 32bit integer
+    for (let index = 0; index < filename.length; index++) {
+      hash = (hash << 5) - hash + filename.codePointAt(index)!;
+      hash = Math.trunc(hash); // Convert to 32bit integer
     }
 
     // Convert the hash to a 7 character string
-    return Math.abs(hash).toString(36).substring(0, 7);
+    return Math.abs(hash).toString(36).slice(0, 7);
   } else {
     console.warn("Could not extract filename from stack trace.");
 
@@ -146,12 +145,12 @@ const suffixPool = [
  *
  * There is a pool of suffixes that will be rotated between.
  *
- * @returns {string} A random string of characters.
+ * @returns A random string of characters.
  */
 export const getClassSuffix = (): string => {
   const callerHash = getCallerFilenameHash();
 
-  const seedFromHash = parseInt(callerHash.slice(0, 8), 36);
+  const seedFromHash = Number.parseInt(callerHash.slice(0, 8), 36);
   const index = (suffixPoolIndexes.get(callerHash) || seedFromHash) %
     suffixPool.length;
   const suffix = suffixPool[index];

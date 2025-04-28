@@ -6,9 +6,7 @@ document.addEventListener("DOMContentLoaded", () => {
   const establishmentElement = document.querySelector(".establishment");
   if (!establishmentElement) return;
 
-  const establishmentId = establishmentElement.getAttribute(
-    "data-establishment-id",
-  );
+  const establishmentId = establishmentElement.dataset.establishmentId;
 
   if (!establishmentId) return;
 
@@ -41,7 +39,7 @@ document.addEventListener("DOMContentLoaded", () => {
     const wrapper = document.querySelector(".establishment-header");
     const listSelectionButton = renderListSelectionButton(establishmentId);
 
-    wrapper.appendChild(listSelectionButton);
+    wrapper.append(listSelectionButton);
   }
 });
 
@@ -51,8 +49,8 @@ document.addEventListener("DOMContentLoaded", () => {
  * @param {string} currentId - The ID of the current establishment to exclude
  */
 const displayRecentlyViewed = (currentId) => {
-  const recentSection = document.getElementById("recentlyViewed");
-  const recentContainer = document.getElementById("recentEstablishments");
+  const recentSection = document.querySelector("#recentlyViewed");
+  const recentContainer = document.querySelector("#recentEstablishments");
 
   if (!recentSection || !recentContainer) return;
 
@@ -67,7 +65,7 @@ const displayRecentlyViewed = (currentId) => {
   const recentLimit = recentToShow.slice(0, 4);
 
   // Create HTML for each recent establishment
-  recentLimit.forEach((establishment) => {
+  for (const establishment of recentLimit) {
     // Create link that will wrap the entire item
     const link = document.createElement("a");
     link.href = `/e/${
@@ -104,20 +102,20 @@ const displayRecentlyViewed = (currentId) => {
     visitedTime.textContent = formatRelativeTime(establishment.lastVisited);
 
     // Assemble the structure
-    contentWrapper.appendChild(name);
-    contentWrapper.appendChild(type);
+    contentWrapper.append(name);
+    contentWrapper.append(type);
 
-    footer.appendChild(visitedTime);
+    footer.append(visitedTime);
 
-    item.appendChild(contentWrapper);
-    item.appendChild(footer);
+    item.append(contentWrapper);
+    item.append(footer);
 
     // Add item to link (making the entire card clickable)
-    link.appendChild(item);
+    link.append(item);
 
     // Add to container
-    recentContainer.appendChild(link);
-  });
+    recentContainer.append(link);
+  }
 
   // Show the recently viewed section
   recentSection.style.display = "block";
@@ -160,9 +158,9 @@ const slugify = (text) => {
   return text
     .toString()
     .toLowerCase()
-    .replace(/\s+/g, "-")
-    .replace(/[^\w\-]+/g, "")
-    .replace(/\-\-+/g, "-")
+    .replaceAll(/\s+/g, "-")
+    .replaceAll(/[^\w\-]+/g, "")
+    .replaceAll(/\-\-+/g, "-")
     .replace(/^-+/, "")
     .replace(/-+$/, "");
 };

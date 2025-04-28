@@ -4,7 +4,8 @@
 
 /**
  * Retrieves all saved lists from localStorage.
- * @returns {Object} An object containing all saved lists.
+ *
+ * @returns {object} An object containing all saved lists.
  */
 export const getSavedLists = () => {
   try {
@@ -20,6 +21,7 @@ export const getSavedLists = () => {
 
 /**
  * Checks if an establishment is on any saved list.
+ *
  * @param {string} FHRSID - The unique identifier of the establishment.
  * @returns {boolean} True if the establishment is on any list, false otherwise.
  */
@@ -32,6 +34,7 @@ export const isEstablishmentOnList = (FHRSID) => {
 
 /**
  * Updates the saved lists by adding or removing an establishment.
+ *
  * @param {string} FHRSID - The unique identifier of the establishment.
  * @param {string} listId - The ID of the list to update.
  * @param {boolean} add - Whether to add (true) or remove (false) the establishment.
@@ -67,12 +70,13 @@ export const updateList = (FHRSID, listId, add) => {
 
 /**
  * Saves a new list with the given name and establishments.
+ *
  * @param {string} listName - The name of the list.
  * @param {Array} establishments - The establishments to include in the list.
  * @returns {string|null} The ID of the saved list, or null if an error occurred.
  */
 export const saveList = (listName, establishments) => {
-  if (typeof globalThis.localStorage === "undefined") return null;
+  if (globalThis.localStorage === "undefined") return null;
 
   try {
     const savedLists = getSavedLists();
@@ -106,8 +110,10 @@ export const saveList = (listName, establishments) => {
 
 /**
  * Creates a new list with the given name and adds an establishment to it.
+ *
  * @param {string} listName - The name of the new list.
  * @param {string} FHRSID - The unique identifier of the establishment to add.
+ * @returns {string} The ID of the new list.
  */
 export const createNewList = (listName, FHRSID) => {
   const savedLists = getSavedLists();
@@ -125,6 +131,7 @@ export const createNewList = (listName, FHRSID) => {
 
 /**
  * Derives the creation date from the list ID.
+ *
  * @param {string} listId - The ID of the list.
  * @returns {Date} The creation date of the list.
  */

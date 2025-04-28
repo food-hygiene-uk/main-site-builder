@@ -10,21 +10,21 @@ import { config } from "../../lib/config/config.mts";
 import { cssAddSuffix, processCssFile } from "../../lib/css/css.mts";
 import { jsAddSuffix, processJsFile } from "../../lib/js/js.mts";
 
-const env = vento();
-env.use(autoTrim());
-env.cache.clear();
+const environment = vento();
+environment.use(autoTrim());
+environment.cache.clear();
 
 // Load templates and assets for main lists page
 const listPageTemplatePath = fromFileUrl(import.meta.resolve("./lists.vto"));
-const listPageTemplatePromise = env.load(listPageTemplatePath);
+const listPageTemplatePromise = environment.load(listPageTemplatePath);
 
 // Load templates and assets for detail page
 const detailPageTemplatePath = fromFileUrl(import.meta.resolve("./detail.vto"));
-const detailPageTemplatePromise = env.load(detailPageTemplatePath);
+const detailPageTemplatePromise = environment.load(detailPageTemplatePath);
 
 // Load templates and assets for shared page
 const sharedPageTemplatePath = fromFileUrl(import.meta.resolve("./shared.vto"));
-const sharedPageTemplatePromise = env.load(sharedPageTemplatePath);
+const sharedPageTemplatePromise = environment.load(sharedPageTemplatePath);
 
 const Root = forgeRoot();
 const HeaderPromise = forgeHeader();
@@ -82,7 +82,8 @@ const [
 
 /**
  * Generates and outputs the lists pages, including the main lists page, detail page, and shared page.
- * @returns {Promise<void>} Resolves when all pages are written to the output directory.
+ *
+ * @returns Resolves when all pages are written to the output directory.
  */
 export const outputListsPages = async (): Promise<void> => {
   const classSuffix = getClassSuffix();

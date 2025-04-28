@@ -21,14 +21,14 @@ import { Address } from "../../components/address/forge.mts";
 import { jsAddSuffix, processJsFile } from "../../lib/js/js.mts";
 import { cssAddSuffix, processCssFile } from "../../lib/css/css.mts";
 
-const env = vento();
-env.use(autoTrim());
-env.cache.clear();
+const environment = vento();
+environment.use(autoTrim());
+environment.cache.clear();
 
 const pageTemplatePath = fromFileUrl(
   import.meta.resolve("./establishment-detail.vto"),
 );
-const templatePromise = env.load(pageTemplatePath);
+const templatePromise = environment.load(pageTemplatePath);
 
 const Root = forgeRoot();
 const HeaderPromise = forgeHeader();
@@ -55,10 +55,10 @@ const scoreToText = (
 /**
  * Converts a score value to a detailed description
  *
- * @param {ScoreKey} score - The score key
- * @param {ScoreType} scoreType - The type of score
- * @param {Language} language - The language for the description
- * @returns {string} The detailed score description
+ * @param score - The score key
+ * @param scoreType - The type of score
+ * @param language - The language for the description
+ * @returns The detailed score description
  */
 const scoreToDescription = (
   score: ScoreKey,
@@ -100,9 +100,9 @@ const cachedScoreMaps: Record<ScoreType, Map<number, number>> = {
 /**
  * Converts a raw score value to a simplified subscore using a cached Map.
  *
- * @param {number} rawScore - The raw score value
- * @param {ScoreType} scoreType - The type of score
- * @returns {number} The simplified subscore
+ * @param rawScore - The raw score value
+ * @param scoreType - The type of score
+ * @returns The simplified subscore
  */
 const calculateSubscore = (rawScore: number, scoreType: ScoreType): number => {
   return cachedScoreMaps[scoreType].get(rawScore) ?? -1;
@@ -123,7 +123,7 @@ const _renderMap = (establishment: Establishment): string => {
 
   const latitude = Number(latitudeString);
   const longitude = Number(longitudeString);
-  if (isNaN(latitude) || isNaN(longitude)) {
+  if (Number.isNaN(latitude) || Number.isNaN(longitude)) {
     return "";
   }
 
@@ -150,8 +150,8 @@ const _renderMap = (establishment: Establishment): string => {
 /**
  * Formats a rating date into ISO and human-readable formats
  *
- * @param {string|null} ratingDate - The rating date string
- * @returns {Object|null} Object containing ISO and formatted date strings, or null if no date
+ * @param ratingDate - The rating date string
+ * @returns Object containing ISO and formatted date strings, or null if no date
  */
 const getRatingDate = (
   ratingDate: string | null,
@@ -173,8 +173,8 @@ const getRatingDate = (
 /**
  * Extracts and formats score data with subscores from an establishment's scores
  *
- * @param {Establishment["Scores"]} scores - The scores object from an establishment
- * @returns {Array<{ title: string; description: string; value: string; subscore: string }> | null} Array of score data objects, or null if no scores
+ * @param scores - The scores object from an establishment
+ * @returns Array of score data objects, or null if no scores
  */
 const getScoreDataWithSubscores = (
   scores: Establishment["Scores"],
@@ -267,9 +267,8 @@ const [template, Header, Footer, processedCss, processedJs] = await Promise.all(
 /**
  * Generates HTML pages for each establishment in a local authority
  *
- * @param {EnrichedLocalAuthority} localAuthority - The local authority object
- * @param {Establishment[]} establishments - Array of establishments to generate pages for
- * @returns {Promise<void>}
+ * @param localAuthority - The local authority object
+ * @param establishments - Array of establishments to generate pages for
  */
 export const outputEstablishmentDetailPage = async (
   localAuthority: EnrichedLocalAuthority,
@@ -283,24 +282,24 @@ export const outputEstablishmentDetailPage = async (
   // Generate HTML for each establishment and save to a file
   await Promise.all(
     establishments.map(async (establishment) => {
-      const ratingValueObj = ratingValue[establishment.SchemeType][
+      const ratingValueObject = ratingValue[establishment.SchemeType][
         establishment.RatingValue as
           & keyof typeof ratingValue.FHRS
           & keyof typeof ratingValue.FHIS
       ];
-      const ratingText = ratingValueObj.text;
-      const ratingDisplayText = !isNaN(Number(establishment.RatingValue))
-        ? `${establishment.RatingValue} - ${ratingText}`
-        : ratingText;
+      const ratingText = ratingValueObject.text;
+      const ratingDisplayText = Number.isNaN(Number(establishment.RatingValue))
+        ? ratingText
+        : `${establishment.RatingValue} - ${ratingText}`;
 
       const ratingImage = {
         alt: `Food Hygiene Rating: ${ratingDisplayText}`,
-        url: ratingValueObj.image_en,
+        url: ratingValueObject.image_en,
       };
 
       const ratingDate = getRatingDate(establishment.RatingDate);
       const scoreData = getScoreDataWithSubscores(establishment.Scores);
-      const addressHtml = address.render(establishment);
+      const addressHtml = await address.render(establishment);
 
       const html = await template({
         headHtml: await Root.renderHead({
@@ -317,7 +316,7 @@ export const outputEstablishmentDetailPage = async (
         ratingImage,
         ratingDisplayText,
         footerHtml: Footer.html,
-        addressHtml: (await addressHtml).content,
+        addressHtml: addressHtml.content,
         ratingDate,
         scoreData,
         processedJs: pageJs,

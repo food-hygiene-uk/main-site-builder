@@ -8,15 +8,15 @@ const API_HEADERS = {
 };
 
 // DOM Elements
-const searchForm = document.getElementById("searchForm");
-const advancedToggle = document.getElementById("advancedToggle");
-const advancedSearch = document.getElementById("advancedSearch");
-const loadingIndicator = document.getElementById("loading");
-const resultsContainer = document.getElementById("resultsContainer");
-const resultsSection = document.getElementById("results");
-const resultsCount = document.getElementById("resultsCount");
-const consentSection = document.getElementById("consentSection");
-const consentToggle = document.getElementById("consentToggle");
+const searchForm = document.querySelector("#searchForm");
+const advancedToggle = document.querySelector("#advancedToggle");
+const advancedSearch = document.querySelector("#advancedSearch");
+const loadingIndicator = document.querySelector("#loading");
+const resultsContainer = document.querySelector("#resultsContainer");
+const resultsSection = document.querySelector("#results");
+const resultsCount = document.querySelector("#resultsCount");
+const consentSection = document.querySelector("#consentSection");
+const consentToggle = document.querySelector("#consentToggle");
 
 // Establishment list component
 let establishmentList;
@@ -63,6 +63,10 @@ document.addEventListener("DOMContentLoaded", () => {
   }
 });
 
+/**
+ * Sets up consent handling by checking for existing consent,
+ * updating the UI accordingly, and adding event listeners for consent changes.
+ */
 function setupConsentHandling() {
   // Check for existing consent
   const storedConsent = localStorage.getItem(CONSENT_STORAGE_KEY);
@@ -126,9 +130,9 @@ function updateUIForConsent(hasConsent) {
 function disableFormElements(disabled) {
   // Disable/enable all form inputs
   const formElements = searchForm.querySelectorAll("input, select, button");
-  formElements.forEach((element) => {
+  for (const element of formElements) {
     element.disabled = disabled;
-  });
+  }
 
   // Also disable the advanced toggle
   if (advancedToggle) {
@@ -186,8 +190,8 @@ function setupEventListeners() {
   });
 
   // Search form submission
-  searchForm.addEventListener("submit", (e) => {
-    e.preventDefault();
+  searchForm.addEventListener("submit", (event) => {
+    event.preventDefault();
 
     // Only proceed if user has given consent
     if (userConsent) {
@@ -200,18 +204,18 @@ function setupEventListeners() {
   });
 
   // Add a click event for the entire form
-  searchForm.addEventListener("click", (e) => {
+  searchForm.addEventListener("click", (event) => {
     if (!userConsent) {
       // Call highlight animation when clicking anywhere on the disabled form
       highlightConsentSection();
 
       // Prevent default actions only for interactive elements (but still allow the click)
       if (
-        e.target.tagName === "INPUT" ||
-        e.target.tagName === "SELECT" ||
-        e.target.tagName === "BUTTON"
+        event.target.tagName === "INPUT" ||
+        event.target.tagName === "SELECT" ||
+        event.target.tagName === "BUTTON"
       ) {
-        e.preventDefault();
+        event.preventDefault();
       }
     }
   });
@@ -272,13 +276,13 @@ async function loadReferenceData() {
  * @param {string} textKey - The key in each object to use as the option text
  */
 function populateSelect(selectId, options, valueKey, textKey) {
-  const select = document.getElementById(selectId);
-  options.forEach((option) => {
-    const el = document.createElement("option");
-    el.value = option[valueKey];
-    el.textContent = option[textKey];
-    select.appendChild(el);
-  });
+  const select = document.querySelector(`#${selectId}`);
+  for (const option of options) {
+    const element = document.createElement("option");
+    element.value = option[valueKey];
+    element.textContent = option[textKey];
+    select.append(element);
+  }
 }
 
 /**
@@ -287,27 +291,27 @@ function populateSelect(selectId, options, valueKey, textKey) {
  */
 function updateURLFromForm() {
   const formData = new FormData(searchForm);
-  const params = new URLSearchParams();
+  const parameters = new URLSearchParams();
 
   // Only add non-empty values
   for (const [key, value] of formData.entries()) {
     if (value.trim()) {
-      params.append(key, value.trim());
+      parameters.append(key, value.trim());
     }
   }
 
   // Add current page if not first page
   if (state.currentPage > 1) {
-    params.append("pageNumber", state.currentPage);
+    parameters.append("pageNumber", state.currentPage);
   }
 
   // Update browser URL without reloading
   const newRelativePathQuery = globalThis.location.pathname + "?" +
-    params.toString();
+    parameters.toString();
   history.pushState(null, "", newRelativePathQuery);
 
   // Update state
-  state.searchParams = params;
+  state.searchParams = parameters;
 }
 
 /**
@@ -324,21 +328,21 @@ function populateFormFromURL() {
   }
 
   // Check if we need to show advanced search
-  const hasAdvancedParams = [
+  const hasAdvancedParameters = [
     "businessTypeId",
     "ratingKey",
     "localAuthorityId",
-  ].some((param) => state.searchParams.has(param));
+  ].some((paramameter) => state.searchParams.has(paramameter));
 
-  if (hasAdvancedParams) {
+  if (hasAdvancedParameters) {
     advancedSearch.style.display = "grid";
     advancedToggle.textContent = "Hide Advanced Options";
   }
 
   // Set current page
-  const pageParam = state.searchParams.get("pageNumber");
-  if (pageParam) {
-    state.currentPage = parseInt(pageParam, 10);
+  const pageParameter = state.searchParams.get("pageNumber");
+  if (pageParameter) {
+    state.currentPage = Number.parseInt(pageParameter, 10);
   }
 }
 
@@ -368,13 +372,13 @@ async function performSearch() {
 
   try {
     // Build search query
-    const queryParams = new URLSearchParams(state.searchParams);
-    queryParams.set("pageNumber", state.currentPage.toString());
-    queryParams.set("pageSize", state.pageSize.toString());
+    const queryParameters = new URLSearchParams(state.searchParams);
+    queryParameters.set("pageNumber", state.currentPage.toString());
+    queryParameters.set("pageSize", state.pageSize.toString());
 
     // Fetch results
     const response = await fetchAPI(
-      `/Establishments?${queryParams.toString()}`,
+      `/Establishments?${queryParameters.toString()}`,
     );
 
     const establishments = response.establishments || [];
@@ -397,7 +401,7 @@ async function performSearch() {
 }
 
 /**
- * @typedef {Object} DisplayResultsData
+ * @typedef {object} DisplayResultsData
  * @property {Array<Establishment>} establishments - Array of establishment objects to display
  * @property {number} totalResults - Total number of results
  */
