@@ -53,7 +53,7 @@ jobs:
 
       - name: Run ESLint
         working-directory: ./repos/source
-        run: eslint .
+        run: deno task eslint
 
       - name: Run Deno lint
         run: deno lint .
