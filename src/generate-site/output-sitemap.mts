@@ -16,24 +16,24 @@ export const generateSitemap = async (
 
   for await (const localAuthority of localAuthorities) {
     localAuthoritySitemaps.push(
-      `  <sitemap>\n    <loc>${baseUrl}/sitemap/l-${
+      `<sitemap><loc>${baseUrl}/sitemap/l-${
         getLinkName(
           localAuthority,
         )
-      }.xml</loc>\n  </sitemap>`,
+      }.xml</loc></sitemap>`,
     );
 
     localAuthorityIndexes.push(
-      `  <url>\n    <loc>${
+      `<url><loc>${
         getCanonicalLinkURL(
           localAuthority,
         )
-      }</loc>\n  </url>\n`,
+      }</loc></url>`,
     );
   }
 
   let sitemap =
-    `<?xml version="1.0" encoding="UTF-8"?>\n<sitemapindex xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">`;
+    `<?xml version="1.0" encoding="UTF-8"?><sitemapindex xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">`;
   sitemap += localAuthoritySitemaps.join("");
   sitemap += `</sitemapindex>`;
   await Deno.writeTextFile(
@@ -42,7 +42,7 @@ export const generateSitemap = async (
   );
 
   sitemap =
-    `<?xml version="1.0" encoding="UTF-8"?>\n<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">`;
+    `<?xml version="1.0" encoding="UTF-8"?><urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">`;
   sitemap += localAuthorityIndexes.join("");
   sitemap += `</urlset>`;
   await Deno.writeTextFile("dist/sitemap/local-authority-indexes.xml", sitemap);

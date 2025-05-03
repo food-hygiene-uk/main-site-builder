@@ -9,14 +9,14 @@ export const outputLocalAuthoritySitemap = async (
   establishments: Establishment[],
 ) => {
   let sitemap =
-    `<?xml version="1.0" encoding="UTF-8"?>\n<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">\n`;
+    `<?xml version="1.0" encoding="UTF-8"?><urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">`;
 
   for (const establishment of establishments) {
-    sitemap += `  <url>\n    <loc>${
+    sitemap += `<url><loc>${
       getCanonicalLinkURL(
         establishment,
       )
-    }</loc>\n  </url>\n`;
+    }</loc></url>`;
   }
 
   sitemap += `</urlset>`;

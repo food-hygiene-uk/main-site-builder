@@ -117,10 +117,6 @@ jobs:
         run: |
           find ./repos/source/dist -name "*.mjs" -type f -exec npx terser {} -c -m -o {} \;
 
-      - name: Minify XML files
-        run: |
-          find ./repos/source/dist -name "*.xml" -type f -exec npx minify-xml {} --in-place \;
-
       - name: Optimize SVG files
         run: |
           find ./repos/source/dist -name "*.svg" -type f -exec npx svgo {} -o {} \;
