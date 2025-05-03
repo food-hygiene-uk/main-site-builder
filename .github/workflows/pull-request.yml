@@ -52,14 +52,12 @@ jobs:
         run: deno test .
 
       - name: Run ESLint
-        working-directory: ./repos/source
         run: deno task eslint
 
       - name: Run Deno lint
         run: deno lint .
 
       - name: Run formatter
-        working-directory: ./repos/source
         run: |
           (deno task prettier:write || [ $? -eq 1 ]) && deno fmt
           if [ -n "$(git status --porcelain)" ]; then
