@@ -24,11 +24,7 @@ export const generateSitemap = async (
     );
 
     localAuthorityIndexes.push(
-      `<url><loc>${
-        getCanonicalLinkURL(
-          localAuthority,
-        )
-      }</loc></url>`,
+      `<url><loc>${getCanonicalLinkURL(localAuthority)}</loc></url>`,
     );
   }
 
