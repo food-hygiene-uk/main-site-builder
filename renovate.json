@@ -1,0 +1,22 @@
+{
+  "$schema": "https://docs.renovatebot.com/renovate-schema.json",
+  "extends": ["config:recommended"],
+  "customManagers": [
+    {
+      "customType": "regex",
+      "fileMatch": ["^.deno-version$"],
+      "matchStrings": ["^(?<currentValue>\\\\d+\\\\.\\\\d+\\\\.\\\\d+)$"],
+      "depNameTemplate": "denoland/deno",
+      "datasourceTemplate": "github-releases"
+    },
+    {
+      "customType": "regex",
+      "fileMatch": ["^\\\\.devcontainer/devcontainer\\\\.json$"],
+      "matchStrings": [
+        "--build-arg=DENO_VERSION=(?<currentValue>\\\\d+\\\\.\\\\d+\\\\.\\\\d+)"
+      ],
+      "depNameTemplate": "denoland/deno",
+      "datasourceTemplate": "github-releases"
+    }
+  ]
+}
