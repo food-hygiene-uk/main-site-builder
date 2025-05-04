@@ -47,6 +47,10 @@
       "description": "Runs prettier on the code through Deno - --write",
       "command": "deno run --allow-env --allow-read=./,./.gitignore,./.prettierignore,./package.json,./node_modules --allow-write=./ --allow-sys=cpus,uid npm:prettier . --write"
     },
+    "renovate:config-check": {
+      "description": "Runs Renovate config validator",
+      "command": "npx --yes --package renovate -- renovate-config-validator --strict"
+    },
     "update-deno": {
       "description": "Fetches the latest Deno version and updates .deno-version and devcontainer.json",
       "command": "deno run --allow-net=api.github.com --allow-read=.deno-version,./.devcontainer/devcontainer.json --allow-write=.deno-version,./.devcontainer/devcontainer.json scripts/update-deno.mts"
