@@ -5,15 +5,15 @@
     {
       "customType": "regex",
       "fileMatch": ["^.deno-version$"],
-      "matchStrings": ["^(?<currentValue>\\\\d+\\\\.\\\\d+\\\\.\\\\d+)$"],
+      "matchStrings": ["^(?<currentValue>\\d+\\.\\d+\\.\\d+)$"],
       "depNameTemplate": "denoland/deno",
       "datasourceTemplate": "github-releases"
     },
     {
       "customType": "regex",
-      "fileMatch": ["^\\\\.devcontainer/devcontainer\\\\.json$"],
+      "fileMatch": ["^\\.devcontainer/devcontainer\\.json$"],
       "matchStrings": [
-        "--build-arg=DENO_VERSION=(?<currentValue>\\\\d+\\\\.\\\\d+\\\\.\\\\d+)"
+        "--build-arg=DENO_VERSION=(?<currentValue>\\d+\\.\\d+\\.\\d+)"
       ],
       "depNameTemplate": "denoland/deno",
       "datasourceTemplate": "github-releases"
