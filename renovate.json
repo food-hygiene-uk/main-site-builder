@@ -4,7 +4,7 @@
   "customManagers": [
     {
       "customType": "regex",
-      "managerFilePatterns": ["/^deno.json$/", "/^deno.jsonc$/"],
+      "fileMatch": ["/^deno.json$/", "/^deno.jsonc$/"],
       "matchStrings": [
         "^\"\\w\": \"npm:(?<depName>\\w)@(?<currentValue>\\d+\\.\\d+\\.\\d+)$"
       ],
@@ -12,7 +12,7 @@
     },
     {
       "customType": "regex",
-      "managerFilePatterns": ["/^deno.json$/", "/^deno.jsonc$/"],
+      "fileMatch": ["/^deno.json$/", "/^deno.jsonc$/"],
       "matchStrings": [
         "^\"\\w\": \"jsr:(?<depName>@(?<namespace>.+?)/(?<package>.+?))@(?<currentValue>\\d+\\.\\d+\\.\\d+)$"
       ],
@@ -21,14 +21,14 @@
     },
     {
       "customType": "regex",
-      "managerFilePatterns": ["^.deno-version$"],
+      "fileMatch": ["^.deno-version$"],
       "matchStrings": ["^(?<currentValue>\\d+\\.\\d+\\.\\d+)$"],
       "depNameTemplate": "denoland/deno",
       "datasourceTemplate": "github-releases"
     },
     {
       "customType": "regex",
-      "managerFilePatterns": ["^\\.devcontainer/devcontainer\\.json$"],
+      "fileMatch": ["^\\.devcontainer/devcontainer\\.json$"],
       "matchStrings": [
         "--build-arg=DENO_VERSION=(?<currentValue>\\d+\\.\\d+\\.\\d+)"
       ],
