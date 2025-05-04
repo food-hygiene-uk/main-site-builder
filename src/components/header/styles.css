@@ -3,9 +3,11 @@
 
   header {
     background-color: var(--header-background-color);
-    padding: 1rem 2rem;
+    padding: 1rem calc((100vw - 1200px) / 2);
     border-bottom: 1px solid var(--header-rule-color);
     position: relative;
+    max-width: 100vw;
+    box-sizing: border-box;
 
     overflow: hidden;
   }

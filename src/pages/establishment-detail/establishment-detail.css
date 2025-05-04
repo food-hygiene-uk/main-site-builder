@@ -21,14 +21,13 @@
     h1 {
       font-size: 2em;
       margin-block-end: 0;
+      margin-block-start: 0;
       flex: 1 1 auto;
       word-break: break-word;
     }
 
     .list-selection-button {
-      margin-top: 38px;
-      margin-bottom: 8px;
-      flex: 0 0 auto;
+      margin-block-start: 8px;
     }
 
     @media screen and (max-width: 768px) {
