@@ -41,11 +41,11 @@
     },
     "prettier:debug-check": {
       "description": "Runs prettier on the code through Deno - --debug-check",
-      "command": "deno run --deny-env --allow-read=./,./.gitignore,./.prettierignore,./package.json,./node_modules --allow-write=./node_modules/.cache/prettier --allow-sys=cpus,uid npm:prettier . --debug-check"
+      "command": "deno run --allow-env --allow-read=./,./.gitignore,./.prettierignore,./package.json,./node_modules --allow-write=./node_modules/.cache/prettier --allow-sys=cpus,uid npm:prettier . --debug-check"
     },
     "prettier:write": {
       "description": "Runs prettier on the code through Deno - --write",
-      "command": "deno run --deny-env --allow-read=./,./.gitignore,./.prettierignore,./package.json,./node_modules --allow-write=./ --allow-sys=cpus,uid npm:prettier . --write"
+      "command": "deno run --allow-env --allow-read=./,./.gitignore,./.prettierignore,./package.json,./node_modules --allow-write=./ --allow-sys=cpus,uid npm:prettier . --write"
     },
     "update-deno": {
       "description": "Fetches the latest Deno version and updates .deno-version and devcontainer.json",
