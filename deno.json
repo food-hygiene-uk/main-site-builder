@@ -1,8 +1,8 @@
 {
   "imports": {
-    "@std/assert": "jsr:@std/assert@1.0.11",
-    "@std/fs": "jsr:@std/fs@1.0.11",
-    "@std/path": "jsr:@std/path@1.0.8",
+    "@std/assert": "jsr:@std/assert@1.0.13",
+    "@std/fs": "jsr:@std/fs@1.0.17",
+    "@std/path": "jsr:@std/path@1.0.9",
     "@vento/vento": "jsr:@vento/vento@1.12.16",
     "components/": "./src/components/",
     "cssnano-preset-advanced": "npm:cssnano-preset-advanced@7.0.6",
@@ -11,15 +11,15 @@
     "prettier": "npm:prettier@3.5.3",
     "scripts/": "./src/scripts/",
     "uglify-js": "npm:uglify-js@3.19.3",
-    "zod": "npm:zod@3.24.1",
-    "@typescript-eslint/eslint-plugin": "npm:@typescript-eslint/eslint-plugin@8.31.0",
-    "@typescript-eslint/parser": "npm:@typescript-eslint/parser@8.31.0",
+    "zod": "npm:zod@3.24.4",
+    "@typescript-eslint/eslint-plugin": "npm:@typescript-eslint/eslint-plugin@8.31.1",
+    "@typescript-eslint/parser": "npm:@typescript-eslint/parser@8.31.1",
     "eslint-config-prettier": "npm:eslint-config-prettier@10.1.2",
     "eslint-plugin-import": "npm:eslint-plugin-import@2.31.0",
-    "eslint-plugin-jsdoc": "npm:eslint-plugin-jsdoc@50.6.10",
+    "eslint-plugin-jsdoc": "npm:eslint-plugin-jsdoc@50.6.11",
     "eslint-plugin-promise": "npm:eslint-plugin-promise@7.2.1",
-    "eslint-plugin-unicorn": "npm:eslint-plugin-unicorn@58.0.0",
-    "eslint": "npm:eslint@9.25.1",
+    "eslint-plugin-unicorn": "npm:eslint-plugin-unicorn@59.0.0",
+    "eslint": "npm:eslint@9.26.0",
     "jiti": "npm:jiti@2.4.2"
   },
   "tasks": {
