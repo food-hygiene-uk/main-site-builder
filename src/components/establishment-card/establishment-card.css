@@ -97,6 +97,11 @@
     z-index: 1;
     text-indent: -9999px; /* Hide the text */
   }
+
+  .button-container {
+    position:relative;
+    z-index: 2;
+  }
 }
 
 /* Dark mode support */

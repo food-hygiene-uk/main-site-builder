@@ -267,10 +267,13 @@ export async function renderEstablishmentCard(establishment) {
   item.append(link);
 
   // Add an "Add to List" button to the establishment card using the reusable component
+  const buttonContainer = document.createElement("div");
+  buttonContainer.className = "button-container";
   const listSelectionButton = renderListSelectionButton(
     hydratedEstablishment.FHRSID,
   );
-  item.append(listSelectionButton);
+  buttonContainer.append(listSelectionButton);
+  item.append(buttonContainer);
 
   return item;
 }

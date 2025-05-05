@@ -10,31 +10,34 @@
   border-radius: 18px;
   cursor: pointer;
   font-size: 1.05em;
-  transition: background-color 0.3s;
-}
 
-.list-selection-button .bookmark-icon {
-  width: 24px;
-  height: 24px;
-}
+  &:hover {
+    background-color: #e5e5e5;
+  }
 
-.list-selection-button.on-list .bookmark-icon .interior {
-  fill: var(--hygiene-green);
-}
+  .bookmark-icon {
+    width: 24px;
+    height: 24px;
+  }
 
-.list-selection-button:hover {
-  background-color: #e5e5e5;
+  &.on-list .bookmark-icon .interior {
+    fill: var(--hygiene-green);
+  }
 }
 
 /* Dark mode support */
 @media (not (scripting: none)) or (prefers-color-scheme: dark) {
   html:not([data-color-scheme="light"]) {
     .list-selection-button {
-      background-color: #007a3d;
-    }
+      background-color: hsl(0, 0%, 80%);
 
-    .list-selection-button.on-list {
-      background-color: #005a30;
+      &:hover {
+        background-color: hsl(0, 0%, 90%);
+      }
+
+      &.on-list {
+        background-color: #005a30;
+      }
     }
   }
 }
