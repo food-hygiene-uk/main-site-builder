@@ -151,7 +151,9 @@ export async function renderEstablishmentCard(establishment) {
   }
 
   // Get last visited time from service or original data
-  const lastVisited = recentEstablishmentsService.getLastVisitedTime(FHRSID);
+  const lastVisited = recentEstablishmentsService.getLastVisitedTime(
+    String(FHRSID),
+  );
 
   const hydratedEstablishment = await getHydratedEstablishment(establishment);
 
@@ -162,7 +164,7 @@ export async function renderEstablishmentCard(establishment) {
 
   // Create the card element
   const item = document.createElement("div");
-  item.className = "establishment";
+  item.className = "establishment-card";
   item.dataset.establishmentId = FHRSID;
 
   // Create content
