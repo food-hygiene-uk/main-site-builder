@@ -164,7 +164,7 @@ export async function renderEstablishmentCard(establishment) {
 
   // Create the card element
   const item = document.createElement("div");
-  item.className = "establishment-card";
+  item.className = "establishment-card box-shadow-hover";
   item.dataset.establishmentId = FHRSID;
 
   // Create content

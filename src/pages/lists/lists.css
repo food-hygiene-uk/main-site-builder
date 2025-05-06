@@ -1,12 +1,6 @@
 .content-__CLASS_SUFFIX__ {
   display: contents;
 
-  .container {
-    max-width: 1200px;
-    margin: 0 auto;
-    padding: 20px;
-  }
-
   h1 {
     font-size: 2em;
     margin-bottom: 1.5rem;
@@ -24,24 +18,22 @@
     background-color: #f8f8f8;
     border-radius: 8px;
     padding: 1.5rem;
-    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
-    transition: transform 0.2s, box-shadow 0.2s;
-  }
+    transition: transform 0.2s;
 
-  .list-item:hover {
-    transform: translateY(-3px);
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.15);
-  }
+    &:hover {
+      transform: scale(1.01);
+    }
 
-  .list-item h2 {
-    margin-top: 0;
-    margin-bottom: 0.5rem;
-    color: var(--hygiene-green);
-  }
+    h2 {
+      margin-top: 0;
+      margin-bottom: 0.5rem;
+      color: var(--hygiene-green);
+    }
 
-  .list-item p {
-    margin-bottom: 1.5rem;
-    color: #666;
+    p {
+      margin-bottom: 1.5rem;
+      color: #666;
+    }
   }
 
   .list-actions {
@@ -109,16 +101,18 @@
     border-radius: 8px;
     color: #666;
   }
+}
 
-  /* Dark mode styles */
-  @media (not (scripting: none)) or (prefers-color-scheme: dark) {
-    html:not([data-color-scheme="light"]) {
+/* Dark mode styles */
+@media (not (scripting: none)) or (prefers-color-scheme: dark) {
+  html:not([data-color-scheme="light"]) {
+    .content-__CLASS_SUFFIX__ {
       .list-item {
         background-color: #333;
-      }
 
-      .list-item p {
-        color: #bbb;
+        p {
+          color: #bbb;
+        }
       }
 
       .no-lists-message {

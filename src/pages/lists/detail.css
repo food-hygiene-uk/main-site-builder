@@ -1,12 +1,6 @@
 .content-__CLASS_SUFFIX__ {
   display: contents;
 
-  .container {
-    max-width: 1200px;
-    margin: 0 auto;
-    padding: 20px;
-  }
-
   h1 {
     font-size: 2em;
     margin-bottom: 0.5rem;
@@ -157,7 +151,6 @@
     border-radius: 8px;
     max-width: 90%;
     width: 600px;
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
   }
 
   .save-modal {

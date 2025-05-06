@@ -1,13 +1,11 @@
 .content-__CLASS_SUFFIX__ {
   display: contents;
 
-  article {
+  .article {
     max-width: 800px;
     margin: 2rem auto;
     padding: 2rem;
-    background-color: white;
     border-radius: 8px;
-    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
   }
 
   h1 {
@@ -15,7 +13,8 @@
     font-size: 2.5em;
     border-bottom: 2px solid var(--hygiene-green);
     padding-bottom: 0.5rem;
-    margin-bottom: 1.5rem;
+    margin-block-end: 1.5rem;
+    margin-block-start: 0;
   }
 
   h2 {
@@ -62,5 +61,20 @@
   .fsa-logo {
     max-width: 120px;
     height: auto;
+  }
+}
+
+/* Dark mode support */
+@media (not (scripting: none)) or (prefers-color-scheme: dark) {
+  html:not([data-color-scheme="light"]) {
+    .content-__CLASS_SUFFIX__ {
+      .contribution-links {
+        background-color: #0d0d0d;
+      }
+
+      .data-source {
+        background-color: #0d0d0d;
+      }
+    }
   }
 }

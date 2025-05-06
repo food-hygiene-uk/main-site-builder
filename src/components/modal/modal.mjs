@@ -26,7 +26,7 @@ export const openModal = (title, content, onClose) => {
 
   // Modal content
   modal.innerHTML = `
-    <div class="modal-content">
+    <div class="modal-content box-shadow">
       <h2>${title}</h2>
       <div class="modal-body"></div>
       <button id="close-modal">Close</button>

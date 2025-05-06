@@ -68,13 +68,13 @@
     text-decoration: none;
     border-radius: 4px;
     margin: 1rem;
-    transition: background-color 0.3s;
     font-weight: 500;
+    transition: transform 0.2s;
+    border-color: transparent;
   }
 
   .cta-button:hover {
-    transform: translateY(-1px);
-    box-shadow: 0 8px 15px rgba(0, 0, 0, 0.2);
+    transform: scale(1.01);
   }
 }
 

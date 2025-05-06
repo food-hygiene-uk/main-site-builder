@@ -112,7 +112,7 @@ document.addEventListener("DOMContentLoaded", () => {
     // Create elements for each list
     for (const [listId, listData] of listEntries) {
       const listItem = document.createElement("div");
-      listItem.className = "list-item user-list";
+      listItem.className = "list-item user-list box-shadow-hover";
 
       const listName = document.createElement("h2");
       listName.textContent = listData.name;

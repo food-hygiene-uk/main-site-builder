@@ -2,10 +2,8 @@
   display: contents;
 
   .establishment {
-    border-bottom: 1px solid #ccc;
     padding: 1rem;
     margin: 20px 0;
-    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
     border-radius: 8px;
   }
 
@@ -63,7 +61,6 @@
     height: auto;
     display: block;
     margin: 10px 0;
-    box-shadow: white 0 0 0 1px;
     border-radius: 9px;
   }
 
@@ -128,12 +125,10 @@
     background-color: #f8f8f8;
     border-radius: 8px;
     padding: 1rem;
-    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
     transition: transform 0.2s;
 
     &:hover {
       transform: scale(1.04);
-      box-shadow: 0 4px 8px rgba(0, 0, 0, 0.15);
     }
 
     .establishment-name {
@@ -181,19 +176,27 @@
     text-decoration: underline;
   }
 
-  /* Dark mode support */
-  @media (not (scripting: none)) or (prefers-color-scheme: dark) {
-    html:not([data-color-scheme="light"]) {
+  /* __ADDITIONAL_CSS__ */
+}
+
+/* Dark mode support */
+@media (not (scripting: none)) or (prefers-color-scheme: dark) {
+  html:not([data-color-scheme="light"]) {
+    .content-__CLASS_SUFFIX__ {
+      img.rating-image {
+        box-shadow: rgba(255, 255, 255, 0.2) 0 0 0 1px;
+      }
+
       .recently-viewed-section {
         border-top-color: #444;
       }
 
       .recent-establishment-item {
         background-color: #333;
-      }
 
-      .recent-establishment-item .business-type {
-        color: #bbb;
+        .business-type {
+          color: #bbb;
+        }
       }
 
       .visited-time {
@@ -201,6 +204,4 @@
       }
     }
   }
-
-  /* __ADDITIONAL_CSS__ */
 }

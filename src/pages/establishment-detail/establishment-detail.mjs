@@ -77,7 +77,8 @@ const displayRecentlyViewed = (currentId) => {
 
     // Create container
     const item = document.createElement("div");
-    item.className = "recent-establishment-item";
+    item.className = "recent-establishment-item box-shadow-hover";
+    item.dataset.establishmentId = establishment.FHRSID;
 
     // Create content wrapper to help with consistent height
     const contentWrapper = document.createElement("div");

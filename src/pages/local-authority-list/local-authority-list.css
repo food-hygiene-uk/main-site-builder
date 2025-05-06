@@ -1,8 +1,7 @@
 .authorities {
-  background-color: white;
   padding: 1rem;
   border-radius: 8px;
-  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  margin: 2rem auto;
 
   h2 {
     color: var(--primary-blue);
@@ -35,19 +34,14 @@
 }
 
 .authority-link {
-  background-color: var(--light-grey);
   padding: 1rem;
   border-radius: 4px;
   text-decoration: none;
-  color: var(--teal);
-  transition: all 0.3s ease;
-  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-  border: 2px solid transparent;
+  transition: transform 0.2s ease;
   text-align: center;
 }
 
 .authority-link:hover {
-  transform: translateY(-2px);
-  border-color: var(--teal);
-  background-color: white;
+  transform: scale(1.01);
+  text-decoration: none;
 }
