@@ -8,6 +8,7 @@ import { Address } from "components/address/forge.mts";
 import { getClassSuffix } from "../../lib/template/template.mts";
 import { cssAddSuffix, processCssFile } from "../../lib/css/css.mts";
 import { jsAddSuffix, processJsFile } from "../../lib/js/js.mts";
+import { config } from "../../lib/config/config.mts";
 
 const environment = vento();
 environment.use(autoTrim());
@@ -53,7 +54,7 @@ export const outputSearchPage = async (): Promise<void> => {
 
   const html = await template({
     headHtml: await Root.renderHead({
-      canonical: "https://food-hygiene-ratings.uk/search",
+      canonical: `${config.BASE_URL}/search/`,
       title: "Search Food Hygiene Ratings",
       pageCSS,
       headerCSS: Header.css,

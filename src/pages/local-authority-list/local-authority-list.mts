@@ -8,6 +8,7 @@ import { forgeFooter } from "../../components/footer/forge.mts";
 import { getLinkURL } from "../../lib/authority/authority.mts";
 import { getClassSuffix } from "../../lib/template/template.mts";
 import { cssAddSuffix, processCssFile } from "../../lib/css/css.mts";
+import { config } from "../../lib/config/config.mts";
 
 const environment = vento();
 environment.use(autoTrim());
@@ -97,7 +98,7 @@ export const outputLocalAuthorityListPage = async (
 
   const html = await template({
     headHtml: await Root.renderHead({
-      canonical: "/l/",
+      canonical: `${config.BASE_URL}/l/`,
       title: "Regions",
       pageCSS,
       headerCSS: Header.css,

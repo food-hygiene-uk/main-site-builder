@@ -43,7 +43,7 @@ export const outputAboutPage = async (): Promise<void> => {
 
   const html = await template({
     headHtml: await Root.renderHead({
-      canonical: `${config.BASE_URL}/`,
+      canonical: `${config.BASE_URL}/about/`,
       title: "About",
       pageCSS,
       headerCSS: Header.css,
