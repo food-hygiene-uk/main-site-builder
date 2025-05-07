@@ -1,5 +1,6 @@
 import { EstablishmentList } from "components/establishment-list/establishment-list.mjs";
 import recentEstablishmentsService from "scripts/recent-establishments-service.mjs";
+import { openModal } from "components/modal/modal.mjs";
 
 // Storage key for saved lists
 const SAVED_LISTS_STORAGE_KEY = "saved-establishment-lists";
@@ -35,10 +36,6 @@ document.addEventListener("DOMContentLoaded", () => {
   const shareButton = document.querySelector("#shareButton");
   const clearButton = document.querySelector("#clearButton");
   const deleteButton = document.querySelector("#deleteButton");
-  const shareModal = document.querySelector("#shareModal");
-  const shareUrlInput = document.querySelector("#shareUrl");
-  const copyShareUrlButton = document.querySelector("#copyShareUrl");
-  const closeShareModalButton = document.querySelector("#closeShareModal");
 
   // Get list ID from URL
   const urlParameters = new URLSearchParams(globalThis.location.search);
@@ -122,28 +119,62 @@ document.addEventListener("DOMContentLoaded", () => {
   // Share modal event handlers
   if (shareButton) {
     shareButton.addEventListener("click", () => {
-      generateShareUrl();
-      shareModal.style.display = "flex";
-    });
-  }
+      const modalContent = document.createElement("div");
+      modalContent.className = "modal-content";
 
-  if (closeShareModalButton) {
-    closeShareModalButton.addEventListener("click", () => {
-      shareModal.style.display = "none";
-    });
-  }
+      const instruction = document.createElement("p");
+      instruction.textContent = "Copy this link to share your list:";
+      modalContent.append(instruction);
 
-  if (copyShareUrlButton && shareUrlInput) {
-    copyShareUrlButton.addEventListener("click", () => {
-      shareUrlInput.select();
-      document.execCommand("copy");
+      const shareUrlContainer = document.createElement("div");
+      shareUrlContainer.className = "share-url-container";
 
-      // Provide feedback that the URL was copied
-      const originalText = copyShareUrlButton.textContent;
-      copyShareUrlButton.textContent = "Copied!";
-      setTimeout(() => {
-        copyShareUrlButton.textContent = originalText;
-      }, 2000);
+      const shareUrlInput = document.createElement("input");
+      shareUrlInput.type = "text";
+      shareUrlInput.id = "shareUrl";
+      shareUrlInput.readOnly = true;
+      shareUrlContainer.append(shareUrlInput);
+
+      const copyShareUrlButton = document.createElement("button");
+      copyShareUrlButton.id = "copyShareUrl";
+      copyShareUrlButton.textContent = "Copy";
+      shareUrlContainer.append(copyShareUrlButton);
+
+      modalContent.append(shareUrlContainer);
+
+      const buttonsContainer = document.createElement("div");
+      buttonsContainer.className = "button-group"; // For styling buttons
+
+      const closeModalButton = document.createElement("button");
+      closeModalButton.className = "secondary-button";
+      closeModalButton.textContent = "Close";
+
+      buttonsContainer.append(closeModalButton);
+      modalContent.append(buttonsContainer);
+
+      const dialogElement = openModal("Share This List", modalContent, () => {
+        // Optional cleanup logic when modal is closed
+      });
+
+      // Generate the share URL and set it in the input field
+      const shareUrl = generateShareUrl();
+      shareUrlInput.value = shareUrl;
+
+      copyShareUrlButton.addEventListener("click", () => {
+        shareUrlInput.select();
+        document.execCommand("copy");
+
+        // Provide feedback that the URL was copied
+        const originalText = copyShareUrlButton.textContent;
+        copyShareUrlButton.textContent = "Copied!";
+        setTimeout(() => {
+          copyShareUrlButton.textContent = originalText;
+        }, 2000);
+      });
+
+      closeModalButton.addEventListener("click", () => {
+        dialogElement.close();
+      });
     });
   }
 
@@ -182,15 +213,6 @@ document.addEventListener("DOMContentLoaded", () => {
     });
   }
 
-  // Also close modal when clicking outside
-  if (shareModal) {
-    shareModal.addEventListener("click", (event) => {
-      if (event.target === shareModal) {
-        shareModal.style.display = "none";
-      }
-    });
-  }
-
   /**
    * Generates a shareable URL containing the list title and establishment IDs
    */
@@ -209,10 +231,7 @@ document.addEventListener("DOMContentLoaded", () => {
     const shareUrl =
       `${globalThis.location.origin}/lists/shared/?${parameters.toString()}`;
 
-    // Set the URL in the input field
-    if (shareUrlInput) {
-      shareUrlInput.value = shareUrl;
-    }
+    return shareUrl;
   };
 
   /**

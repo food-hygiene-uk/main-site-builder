@@ -14,17 +14,21 @@ import { openModal } from "components/modal/modal.mjs";
  * Initializes the list selection modal content and attaches event listeners.
  *
  * @param {string} FHRSID - The unique identifier of the establishment.
+ * @param {HTMLDialogElement} modalElement - The dialog element for the modal.
  */
-const initializeListSelectionModal = (FHRSID) => {
-  const modalBody = document.querySelector(".modal-body");
+const initializeListSelectionModal = (FHRSID, modalElement) => {
+  const modalBody = modalElement.querySelector(".modal-body");
   if (!modalBody) return;
 
   // Clear existing content
   modalBody.innerHTML = "";
 
   // Add a form to create a new list
-  const newListForm = document.createElement("form");
-  newListForm.className = "new-list-form styled-form";
+  const modalContent = document.createElement("div");
+  modalContent.className = "modal-content";
+
+  const newListGroup = document.createElement("div");
+  newListGroup.className = "new-list-group";
 
   const newListInput = document.createElement("input");
   newListInput.type = "text";
@@ -34,18 +38,34 @@ const initializeListSelectionModal = (FHRSID) => {
 
   const newListButton = document.createElement("button");
   newListButton.type = "submit";
-  newListButton.textContent = "Create List";
-  newListButton.className = "styled-button";
+  newListButton.textContent = "Create New List";
+  newListButton.className = "primary-button";
 
-  newListForm.append(newListInput);
-  newListForm.append(newListButton);
-  modalBody.append(newListForm);
+  newListGroup.append(newListInput);
+  newListGroup.append(newListButton);
+  modalContent.append(newListGroup);
+  modalBody.append(modalContent);
 
   const savedList = document.createElement("div");
   savedList.className = "saved-list";
   modalBody.append(savedList);
 
-  newListForm.addEventListener("submit", (event) => {
+  const buttonGroup = document.createElement("div");
+  buttonGroup.className = "button-group";
+
+  const closeButton = document.createElement("button");
+  closeButton.type = "button";
+  closeButton.textContent = "Close";
+  closeButton.className = "primary-button";
+
+  buttonGroup.append(closeButton);
+  modalBody.append(buttonGroup);
+
+  closeButton.addEventListener("click", () => {
+    modalElement.close();
+  });
+
+  newListGroup.addEventListener("submit", (event) => {
     event.preventDefault();
     const listName = newListInput.value.trim();
     if (listName) {
@@ -62,6 +82,8 @@ const initializeListSelectionModal = (FHRSID) => {
       const listId = target.dataset.listId;
       const isChecked = target.checked;
       updateList(FHRSID, listId, isChecked);
+      // After updating the list, refresh the checkbox states within this specific modal
+      updateCheckboxStates(FHRSID, modalElement);
     }
   });
 };
@@ -70,10 +92,11 @@ const initializeListSelectionModal = (FHRSID) => {
  * Updates the state of the checkboxes in the modal.
  *
  * @param {string} FHRSID - The unique identifier of the establishment.
+ * @param {HTMLDialogElement} modalElement - The dialog element for the modal.
  */
-const updateCheckboxStates = (FHRSID) => {
+const updateCheckboxStates = (FHRSID, modalElement) => {
   const savedLists = getSavedLists();
-  const savedListContainer = document.querySelector(".saved-list");
+  const savedListContainer = modalElement.querySelector(".saved-list");
 
   if (!savedListContainer) return;
 
@@ -104,15 +127,15 @@ const updateCheckboxStates = (FHRSID) => {
  * @param {Function} onClose - Callback function invoked when the modal is closed.
  */
 export const openListSelectionModal = (FHRSID, onClose) => {
-  const content = document.createElement("div");
-  content.className = "modal-body";
+  // Create a placeholder div. openModal will place this inside its own .modal-body.
+  // initializeListSelectionModal will then populate that .modal-body.
+  const contentPlaceholder = document.createElement("div");
 
-  // Open the modal with an empty body initially
-  openModal("Manage Lists", content, onClose);
+  const dialogElement = openModal("Manage Lists", contentPlaceholder, onClose);
 
-  // Initialize the modal content and attach event listeners
-  initializeListSelectionModal(FHRSID);
+  // Initialize the modal content and attach event listeners, scoped to the dialog
+  initializeListSelectionModal(FHRSID, dialogElement);
 
-  // Update checkbox states dynamically
-  updateCheckboxStates(FHRSID);
+  // Update checkbox states dynamically, scoped to the dialog
+  updateCheckboxStates(FHRSID, dialogElement);
 };

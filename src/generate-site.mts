@@ -12,7 +12,9 @@ import { readLocalAuthorityData } from "./lib/local-authority/local-authority.mt
 import { config } from "./lib/config/config.mts";
 import { outputAboutPage } from "./pages/about/about.mts";
 import { outputSearchPage } from "./pages/search/search.mts";
-import { outputListsPages } from "./pages/lists/lists.mts";
+import { outputListsPage } from "./pages/lists/lists.mts";
+import { outputListDetailPage } from "./pages/list-detail/list-detail.mts";
+import { outputListSharedPage } from "./pages/list-shared/list-shared.mts";
 
 // Ensure build/dist directories exist
 await ensureDir("build");
@@ -124,5 +126,7 @@ await outputLocalAuthorityListPage(localAuthorities);
 console.timeEnd("outputRegionIndex");
 
 console.time("outputListsPages");
-await outputListsPages();
+await outputListsPage();
+await outputListDetailPage();
+await outputListSharedPage();
 console.timeEnd("outputListsPages");

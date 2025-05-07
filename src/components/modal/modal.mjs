@@ -1,5 +1,5 @@
 /**
- * Modal component for displaying dynamic content.
+ * Modal component for displaying dynamic content using HTMLDialogElement.
  */
 
 /**
@@ -17,34 +17,47 @@
  *
  * @param {string} title - The title of the modal.
  * @param {HTMLElement} content - The content to display inside the modal.
- * @param {Function} [onClose] - Optional callback invoked when the modal is closed.
+ * @param {Function} [onCloseCallback] - Optional callback invoked when the modal is closed.
+ * @returns {HTMLDialogElement} The created modal dialog element.
  */
-export const openModal = (title, content, onClose) => {
-  // Create the modal container
-  const modal = document.createElement("div");
-  modal.className = "modal-container";
+export const openModal = (title, content, onCloseCallback) => {
+  // Create the dialog element
+  const dialog = document.createElement("dialog");
+  dialog.className = "modal-dialog box-shadow";
 
-  // Modal content
-  modal.innerHTML = `
-    <div class="modal-content box-shadow">
-      <h2>${title}</h2>
+  // Modal content structure
+  dialog.innerHTML = `
+    <form method="dialog" class="modal-form">
+      <header class="modal-header">
+        <h2>${title}</h2>
+        <button type="button" aria-label="Close" class="modal-close-button">×</button>
+      </header>
       <div class="modal-body"></div>
-      <button id="close-modal">Close</button>
-    </div>
+    </form>
   `;
 
-  // Append the content to the modal body
-  const modalBody = modal.querySelector(".modal-body");
+  const closeButton = dialog.querySelector(".modal-close-button");
+  closeButton.addEventListener("click", () => {
+    dialog.close();
+  });
+
+  // Append the dynamic content to the modal body
+  const modalBody = dialog.querySelector(".modal-body");
   modalBody.append(content);
 
-  // Close modal functionality
-  modal.querySelector("#close-modal").addEventListener("click", () => {
-    modal.remove();
-    if (typeof onClose === "function") {
-      onClose();
+  // Handle the close event
+  dialog.addEventListener("close", () => {
+    // Remove the dialog from the DOM when it's closed
+    dialog.remove();
+
+    if (typeof onCloseCallback === "function") {
+      onCloseCallback();
     }
   });
 
-  // Append modal to the body
-  document.body.append(modal);
+  // Append dialog to the body and show it
+  document.body.append(dialog);
+  dialog.showModal();
+
+  return dialog; // Return the created dialog element
 };

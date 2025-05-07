@@ -1,4 +1,5 @@
 import { EstablishmentList } from "components/establishment-list/establishment-list.mjs";
+import { openModal } from "components/modal/modal.mjs";
 
 // FHRS API Configuration
 const API_BASE = "https://api.ratings.food.gov.uk";
@@ -65,10 +66,6 @@ document.addEventListener("DOMContentLoaded", () => {
   const errorMessage = document.querySelector("#errorMessage");
   const loadingIndicator = document.querySelector("#loading");
   const saveListButton = document.querySelector("#saveListButton");
-  const saveModal = document.querySelector("#saveModal");
-  const listNameInput = document.querySelector("#listNameInput");
-  const confirmSaveButton = document.querySelector("#confirmSaveButton");
-  const cancelSaveButton = document.querySelector("#cancelSaveButton");
 
   // Store loaded establishments for saving
   let loadedEstablishments = [];
@@ -99,7 +96,7 @@ document.addEventListener("DOMContentLoaded", () => {
    *
    * @param {string} listName - The name of the list to save
    * @param {Array<object>} establishments - Array of establishment objects to save
-   * @returns {string} The ID of the saved list
+   * @returns {string | null} The ID of the saved list or null on error
    */
   const saveList = (listName, establishments) => {
     // Don't run in server-side code
@@ -154,29 +151,12 @@ document.addEventListener("DOMContentLoaded", () => {
   };
 
   /**
-   * Shows the save list modal
-   */
-  const showSaveModal = () => {
-    // Pre-populate with the shared title
-    listNameInput.value = sharedTitle;
-    saveModal.style.display = "flex";
-    listNameInput.focus();
-    listNameInput.select();
-  };
-
-  /**
-   * Hides the save list modal
-   */
-  const hideSaveModal = () => {
-    saveModal.style.display = "none";
-  };
-
-  /**
    * Handles saving the list and redirecting to the saved list page
+   *
+   * @param {string} listName - The name for the new list.
+   * @param {() => void} closeModalCallback - Callback to close the modal.
    */
-  const handleSaveList = () => {
-    const listName = listNameInput.value.trim() || sharedTitle;
-
+  const handleSaveList = (listName, closeModalCallback) => {
     if (loadedEstablishments.length === 0) {
       alert("Cannot save an empty list.");
       return;
@@ -190,36 +170,82 @@ document.addEventListener("DOMContentLoaded", () => {
     } else {
       alert("Sorry, there was an error saving your list. Please try again.");
     }
+    if (closeModalCallback) {
+      closeModalCallback();
+    }
+  };
+
+  /**
+   * Shows the save list modal
+   */
+  const showSaveModal = () => {
+    const modalContent = document.createElement("div");
+    modalContent.className = "modal-content";
+
+    const instruction = document.createElement("p");
+    instruction.textContent = "Give this list a name to save it to your lists:";
+    modalContent.append(instruction);
+
+    const listNameInput = document.createElement("input");
+    listNameInput.type = "text";
+    listNameInput.placeholder = "Enter a name for this list";
+    listNameInput.value = sharedTitle; // Pre-populate
+    listNameInput.className = "styled-input";
+    modalContent.append(listNameInput);
+
+    const buttonsContainer = document.createElement("div");
+    buttonsContainer.className = "button-group";
+
+    const confirmSaveButton = document.createElement("button");
+    confirmSaveButton.textContent = "Save";
+    confirmSaveButton.className = "primary-button";
+
+    const cancelSaveButton = document.createElement("button");
+    cancelSaveButton.textContent = "Cancel";
+    cancelSaveButton.className = "secondary-button";
+
+    buttonsContainer.append(confirmSaveButton);
+    buttonsContainer.append(cancelSaveButton);
+    modalContent.append(buttonsContainer);
+
+    let dialogElement; // To store the reference to the modal dialog element
+
+    const closeDialog = () => {
+      if (dialogElement) {
+        dialogElement.close(); // This will trigger the 'close' event on the dialog
+        // The dialog removes itself on the 'close' event (handled in openModal)
+      }
+    };
+
+    // The onCloseCallback for openModal, called when the dialog is closed.
+    const onModalClosed = () => {
+      dialogElement = null; // Clear the reference
+    };
+
+    dialogElement = openModal("Save This List", modalContent, onModalClosed);
+
+    confirmSaveButton.addEventListener("click", () => {
+      const listName = listNameInput.value.trim() || sharedTitle;
+      handleSaveList(listName, closeDialog); // handleSaveList will call closeDialog
+    });
+
+    cancelSaveButton.addEventListener("click", closeDialog);
+
+    listNameInput.addEventListener("keydown", (event) => {
+      if (event.key === "Enter") {
+        event.preventDefault(); // Prevent form submission if it were in a form
+        const listName = listNameInput.value.trim() || sharedTitle;
+        handleSaveList(listName, closeDialog); // handleSaveList will call closeDialog
+      }
+    });
+    listNameInput.focus();
+    listNameInput.select();
   };
 
   // Set up event listeners for the save functionality
   if (saveListButton) {
     saveListButton.addEventListener("click", showSaveModal);
   }
-
-  if (confirmSaveButton) {
-    confirmSaveButton.addEventListener("click", handleSaveList);
-  }
-
-  if (cancelSaveButton) {
-    cancelSaveButton.addEventListener("click", hideSaveModal);
-  }
-
-  if (listNameInput) {
-    // Allow pressing Enter to save
-    listNameInput.addEventListener("keydown", (event) => {
-      if (event.key === "Enter") {
-        handleSaveList();
-      }
-    });
-  }
-
-  // Close modal when clicking outside
-  saveModal.addEventListener("click", (event) => {
-    if (event.target === saveModal) {
-      hideSaveModal();
-    }
-  });
 
   /**
    * Loads all establishments from the shared list
