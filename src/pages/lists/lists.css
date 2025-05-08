@@ -12,6 +12,10 @@
     flex-direction: column;
     gap: 1.5rem;
     margin-top: 2rem;
+
+    .user-lists-container {
+      display: contents;
+    }
   }
 
   .list-item {
