@@ -215,6 +215,8 @@ document.addEventListener("DOMContentLoaded", () => {
 
   /**
    * Generates a shareable URL containing the list title and establishment IDs
+   *
+   * @returns {string|undefined} The generated shareable URL or undefined if no establishments exist
    */
   const generateShareUrl = () => {
     if (currentEstablishments.length === 0) return;
