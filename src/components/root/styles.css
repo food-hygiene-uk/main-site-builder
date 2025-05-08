@@ -18,6 +18,8 @@
   --header-rule-color: #e0e0e0;
   --background-highlight-color: #e5e8f1;
   --text-highlight-color: var(--text-color);
+  --input-bg: #fff;
+  --input-border: #ccc;
 }
 
 @media (not (scripting: none)) or (prefers-color-scheme: dark) {
@@ -29,7 +31,17 @@
     --header-rule-color: #383838;
     --background-highlight-color: var(--light-blue);
     --text-highlight-color: var(--text-color);
+    --input-bg: #333;
+    --input-border: #555;
   }
+}
+
+[inert],
+[inert] * {
+  opacity: 0.5;
+  pointer-events: none;
+  cursor: default;
+  user-select: none;
 }
 
 body {
@@ -78,4 +90,13 @@ a:hover {
       box-shadow: 0 4px 8px rgba(255, 255, 255, 0.25);
     }
   }
+}
+
+.input {
+  background-color: var(--input-bg);
+  border: 1px solid var(--input-border);
+  border-radius: 4px;
+  color: var(--text-color);
+  font-size: 1em;
+  padding: 10px;
 }

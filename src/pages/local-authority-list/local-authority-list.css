@@ -13,8 +13,7 @@
 }
 
 .region-group {
-  margin-top: 2rem;
-  margin-top: 2rem;
+  margin-top: 0;
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -22,6 +21,7 @@
 
 .region-group h3 {
   color: var(--teal);
+  margin-top: 0;
   margin-bottom: 1rem;
 }
 
@@ -44,4 +44,15 @@
 .authority-link:hover {
   transform: scale(1.01);
   text-decoration: none;
+}
+
+.filter-group {
+  display: flex;
+  flex-direction: row;
+  gap: 1rem;
+  align-items: center;
+
+  .input {
+    flex: 1;
+  }
 }

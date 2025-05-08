@@ -9,6 +9,7 @@ import { getLinkURL } from "../../lib/authority/authority.mts";
 import { getClassSuffix } from "../../lib/template/template.mts";
 import { cssAddSuffix, processCssFile } from "../../lib/css/css.mts";
 import { config } from "../../lib/config/config.mts";
+import { jsAddSuffix, processJsFile } from "../../lib/js/js.mts";
 
 const environment = vento();
 environment.use(autoTrim());
@@ -26,6 +27,10 @@ const FooterPromise = forgeFooter();
 const processedCssPromise = processCssFile({
   path: import.meta.resolve("./local-authority-list.css"),
   additionalCss: "",
+});
+
+const processedLocalAuthorityListPageJsPromise = processJsFile({
+  path: import.meta.resolve("./local-authority-list.mjs"),
 });
 
 // Map from api regions to ITL regions
@@ -76,11 +81,18 @@ const getRegionLocalAuthorities = (
   });
 };
 
-const [template, Header, Footer, processedCss] = await Promise.all([
+const [
+  template,
+  Header,
+  Footer,
+  processedCss,
+  processedLocalAuthorityListPageJs,
+] = await Promise.all([
   templatePromise,
   HeaderPromise,
   FooterPromise,
   processedCssPromise,
+  processedLocalAuthorityListPageJsPromise,
 ]);
 
 /**
@@ -95,6 +107,10 @@ export const outputLocalAuthorityListPage = async (
   const classSuffix = getClassSuffix();
 
   const pageCSS = cssAddSuffix(processedCss, classSuffix);
+  const processedLocalAuthorityListPageJsWithSuffix = jsAddSuffix(
+    processedLocalAuthorityListPageJs,
+    classSuffix,
+  );
 
   const html = await template({
     headHtml: await Root.renderHead({
@@ -109,6 +125,7 @@ export const outputLocalAuthorityListPage = async (
     footerHtml: Footer.html,
     regionLocalAuthorities: getRegionLocalAuthorities(localAuthorities),
     getLinkURL,
+    processedJs: processedLocalAuthorityListPageJsWithSuffix,
   });
 
   const filename = `index.html`;
