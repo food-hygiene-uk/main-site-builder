@@ -13,8 +13,7 @@
     font-size: 2.5em;
     border-bottom: 2px solid var(--hygiene-green);
     padding-bottom: 0.5rem;
-    margin-block-end: 1.5rem;
-    margin-block-start: 0;
+    margin-block: 0 1.5rem;
   }
 
   h2 {

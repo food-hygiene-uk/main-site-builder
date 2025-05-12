@@ -7,7 +7,7 @@
       <div class="container">
         <h1>Search Food Establishments</h1>
 
-        <form id="searchForm" class="search-form">
+        <form id="search-form" class="search-form">
           <div class="search-fields basic-search">
             <div class="search-field">
               <label for="name">Business Name:</label>
@@ -21,11 +21,11 @@
 
             <div class="search-actions">
               <button type="submit" class="styled-button">Search</button>
-              <button type="button" class="styled-button" id="advancedToggle">Advanced Options</button>
+              <button type="button" class="styled-button" id="advanced-toggle">Advanced Options</button>
             </div>
           </div>
 
-          <div class="search-fields advanced-search" id="advancedSearch">
+          <div class="search-fields advanced-search" id="advanced-search">
             <div class="search-field">
               <label for="businessTypeId">Business Type:</label>
               <select id="businessTypeId" name="businessTypeId">
@@ -55,7 +55,7 @@
         </form>
 
         <!-- Consent section (inline) -->
-        <div id="consentSection" class="consent-section">
+        <div id="consent-section" class="consent-section">
           <div class="consent-container">
             <h2>External Data Connection Required</h2>
             <div class="consent-details">
@@ -66,10 +66,10 @@
             </div>
 
             <div class="consent-toggle">
-              <label for="consentToggle" class="toggle-switch">
+              <label for="consent-toggle" class="toggle-switch">
                 <span class="toggle-label">I consent to connect to the external API:</span>
                 <div class="toggle-container">
-                  <input type="checkbox" id="consentToggle">
+                  <input type="checkbox" id="consent-toggle">
                   <span class="toggle-slider"></span>
                 </div>
               </label>
@@ -81,9 +81,9 @@
 
         <div id="results" class="results">
           <div class="results-info">
-            <p id="resultsCount"></p>
+            <p id="results-count"></p>
           </div>
-          <div id="resultsContainer" class="establishments-container">
+          <div id="results-container" class="establishments-container">
             <!-- Results will be populated via JS -->
           </div>
         </div>

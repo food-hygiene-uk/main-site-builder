@@ -11,6 +11,7 @@
   /* Call to action colors */
   --cta-default: #9e66ff;
 
+  /* compoent colors */
   --body-background: var(--light-blue);
   --text-color: #000;
   --header-background-color: #f8f9fa;
@@ -71,12 +72,12 @@ a:hover {
 .box-shadow,
 .box-shadow-hover {
   border: 1px solid #dedede;
-  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  box-shadow: 0 2px 4px rgb(0 0 0 / 10%);
   box-sizing: border-box;
 }
 
 .box-shadow-hover:hover {
-  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.15);
+  box-shadow: 0 4px 8px rgb(0 0 0 / 15%);
 }
 
 @media (not (scripting: none)) or (prefers-color-scheme: dark) {
@@ -84,10 +85,11 @@ a:hover {
     .box-shadow,
     .box-shadow-hover {
       border-color: #393939;
-      box-shadow: 0 2px 4px rgba(255, 255, 255, 0.2);
+      box-shadow: 0 2px 4px rgb(255 255 255 / 20%);
     }
+
     .box-shadow-hover:hover {
-      box-shadow: 0 4px 8px rgba(255, 255, 255, 0.25);
+      box-shadow: 0 4px 8px rgb(255 255 255 / 25%);
     }
   }
 }

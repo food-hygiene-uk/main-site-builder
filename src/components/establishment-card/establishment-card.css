@@ -25,16 +25,15 @@
 
   .establishment-details {
     display: grid;
-    grid-template-columns: 1fr;
+    grid-template-columns: 1fr 1fr;
     gap: 10px;
-
     color: #666;
     font-size: 0.9em;
     margin-bottom: 10px;
 
-    @media (min-width: 768px) {
+    @media (width <= 768px) {
       & {
-        grid-template-columns: 1fr 1fr;
+        grid-template-columns: 1fr;
       }
     }
   }
@@ -60,7 +59,7 @@
   }
 
   .rating-3 {
-    background-color: #ffcc00;
+    background-color: #fc0;
     color: black;
   }
 
@@ -88,10 +87,7 @@
   .details-link {
     display: block;
     position: absolute;
-    top: 0;
-    left: 0;
-    right: 0;
-    bottom: 0;
+    inset: 0;
     text-indent: -9999px; /* Hide the text */
   }
 

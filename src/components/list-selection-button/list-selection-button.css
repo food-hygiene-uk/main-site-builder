@@ -29,10 +29,10 @@
 @media (not (scripting: none)) or (prefers-color-scheme: dark) {
   html:not([data-color-scheme="light"]) {
     .list-selection-button {
-      background-color: hsl(0, 0%, 80%);
+      background-color: hsl(0deg 0% 80%);
 
       &:hover {
-        background-color: hsl(0, 0%, 90%);
+        background-color: hsl(0deg 0% 90%);
       }
 
       &.on-list {

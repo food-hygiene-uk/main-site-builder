@@ -74,7 +74,7 @@
   .share-button svg,
   .clear-list-button svg,
   .delete-list-button svg {
-    stroke: currentColor;
+    stroke: currentcolor;
   }
 
   .save-list-button {
@@ -177,7 +177,7 @@
   .share-url-container {
     display: flex;
 
-    #shareUrl {
+    #share-url {
       flex: 1;
       padding: 0.75rem;
       border: 1px solid #ccc;
@@ -185,7 +185,7 @@
       font-size: 0.9rem;
     }
 
-    #copyShareUrl {
+    #copy-share-url {
       padding: 0.75rem 1rem;
       background-color: var(--hygiene-green);
       color: white;
@@ -202,7 +202,7 @@
       background-color: #333;
       color: #fff;
 
-      #shareUrl {
+      #share-url {
         background-color: #444;
         color: #fff;
         border-color: #555;

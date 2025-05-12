@@ -5,30 +5,36 @@
     box-shadow: none;
     background-color: var(--hygiene-green);
   }
+
   16.666% {
     border-color: var(--hygiene-green);
     box-shadow: 0 0 15px var(--hygiene-green);
   }
+
   33.333% {
     border-color: #ddd;
     box-shadow: none;
   }
+
   49.999% {
     border-color: var(--hygiene-green);
     box-shadow: 0 0 15px var(--hygiene-green);
   }
+
   66.666% {
     border-color: #ddd;
     box-shadow: none;
   }
+
   83.333% {
     border-color: var(--hygiene-green);
     box-shadow: 0 0 15px var(--hygiene-green);
   }
+
   100% {
     border-color: #ddd;
     box-shadow: none;
-    background-color: rgb(var(--hygiene-green-rgb) / 0);
+    background-color: rgb(var(--hygiene-green-rgb) / 0%);
   }
 }
 
@@ -38,7 +44,7 @@
   /* Component-scoped variables */
   --card-bg: white;
   --card-border: #ddd;
-  --card-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  --card-shadow: 0 2px 4px rgb(0 0 0 / 10%);
   --input-bg: #fff;
   --input-border: #ccc;
   --text-muted: #666;
@@ -50,7 +56,7 @@
     html:not([data-color-scheme="light"]) & {
       --card-bg: #2a2a2a;
       --card-border: #444;
-      --card-shadow: 0 2px 4px rgba(0, 0, 0, 0.3);
+      --card-shadow: 0 2px 4px rgb(0 0 0 / 30%);
       --input-bg: #333;
       --input-border: #555;
       --text-muted: #aaa;
@@ -79,13 +85,13 @@
     gap: 15px;
   }
 
-  @media (min-width: 768px) {
+  @media (width >= 768px) {
     .search-fields {
       grid-template-columns: repeat(2, 1fr);
     }
   }
 
-  @media (min-width: 1024px) {
+  @media (width >= 1024px) {
     .search-fields.basic-search {
       grid-template-columns: 1fr 1fr auto;
       align-items: end;
@@ -134,12 +140,12 @@
     background-color: #005a30;
   }
 
-  #advancedToggle {
+  #advanced-toggle {
     background-color: #666;
-  }
 
-  #advancedToggle:hover {
-    background-color: #444;
+    &:hover {
+      background-color: #444;
+    }
   }
 
   .advanced-search {
@@ -279,16 +285,13 @@
 
   .toggle-slider {
     position: absolute;
-    top: 0;
-    left: 0;
-    right: 0;
-    bottom: 0;
+    inset: 0;
     background-color: #ccc;
     border-radius: 34px;
     transition: 0.4s;
   }
 
-  .toggle-slider:before {
+  .toggle-slider::before {
     position: absolute;
     content: "";
     height: 26px;
@@ -304,7 +307,7 @@
     background-color: var(--hygiene-green);
   }
 
-  input:checked + .toggle-slider:before {
+  input:checked + .toggle-slider::before {
     transform: translateX(26px);
   }
 
@@ -334,6 +337,7 @@
   .search-form.disabled * {
     pointer-events: none;
   }
+
   .search-form.disabled input,
   .search-form.disabled select,
   .search-form.disabled button {

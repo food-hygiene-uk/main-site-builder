@@ -131,12 +131,12 @@ document.addEventListener("DOMContentLoaded", () => {
 
       const shareUrlInput = document.createElement("input");
       shareUrlInput.type = "text";
-      shareUrlInput.id = "shareUrl";
+      shareUrlInput.id = "share-url";
       shareUrlInput.readOnly = true;
       shareUrlContainer.append(shareUrlInput);
 
       const copyShareUrlButton = document.createElement("button");
-      copyShareUrlButton.id = "copyShareUrl";
+      copyShareUrlButton.id = "copy-share-url";
       copyShareUrlButton.textContent = "Copy";
       shareUrlContainer.append(copyShareUrlButton);
 

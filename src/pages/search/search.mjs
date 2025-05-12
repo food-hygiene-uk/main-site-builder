@@ -8,15 +8,15 @@ const API_HEADERS = {
 };
 
 // DOM Elements
-const searchForm = document.querySelector("#searchForm");
-const advancedToggle = document.querySelector("#advancedToggle");
-const advancedSearch = document.querySelector("#advancedSearch");
+const searchForm = document.querySelector("#search-form");
+const advancedToggle = document.querySelector("#advanced-toggle");
+const advancedSearch = document.querySelector("#advanced-search");
 const loadingIndicator = document.querySelector("#loading");
-const resultsContainer = document.querySelector("#resultsContainer");
+const resultsContainer = document.querySelector("#results-container");
 const resultsSection = document.querySelector("#results");
-const resultsCount = document.querySelector("#resultsCount");
-const consentSection = document.querySelector("#consentSection");
-const consentToggle = document.querySelector("#consentToggle");
+const resultsCount = document.querySelector("#results-count");
+const consentSection = document.querySelector("#consent-section");
+const consentToggle = document.querySelector("#consent-toggle");
 
 // Establishment list component
 let establishmentList;
