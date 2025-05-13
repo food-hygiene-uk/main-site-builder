@@ -1,7 +1,7 @@
 /** @type {import('stylelint').Config} */
 
 export default {
-  extends: ["stylelint-config-standard", "stylelint-prettier/recommended"],
+  extends: ["stylelint-config-standard"],
   rules: {
     /* __CLASS_SUFFIX__ is replaced in build process */
     "keyframes-name-pattern": [
