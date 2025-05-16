@@ -12,7 +12,7 @@
   }
 
   .list-description {
-    color: #555;
+    color: light-dark(#555, #bbb);
     margin-bottom: 1rem;
   }
 
@@ -51,13 +51,13 @@
   }
 
   .clear-list-button {
-    background-color: #f0f0f0;
-    color: #333;
-    border: 1px solid #ddd;
-  }
+    background-color: light-dark(#f0f0f0, #444);
+    color: light-dark(#333, #ddd);
+    border: 1px solid light-dark(#ddd, #555);
 
-  .clear-list-button:hover {
-    background-color: #e0e0e0;
+    &:hover {
+      background-color: light-dark(#e0e0e0, #505050);
+    }
   }
 
   .delete-list-button {
@@ -101,19 +101,19 @@
   }
 
   .loading-indicator {
+    color: light-dark(#666, #aaa);
     text-align: center;
     padding: 40px;
-    color: #666;
     font-style: italic;
   }
 
   .empty-list-message,
   .error-message {
+    background-color: light-dark(#f9f9f9, #333);
+    color: light-dark(#666, #ccc);
     text-align: center;
     padding: 40px;
-    background-color: #f9f9f9;
     border-radius: 8px;
-    color: #666;
   }
 
   .error-message {
@@ -135,36 +135,6 @@
   /* __ADDITIONAL_CSS__ */
 }
 
-@media (not (scripting: none)) or (prefers-color-scheme: dark) {
-  html:not([data-color-scheme="light"]) {
-    .content-__CLASS_SUFFIX__ {
-      .list-description {
-        color: #bbb;
-      }
-
-      .loading-indicator {
-        color: #aaa;
-      }
-
-      .empty-list-message,
-      .error-message {
-        background-color: #333;
-        color: #ccc;
-      }
-
-      .clear-list-button {
-        background-color: #444;
-        color: #ddd;
-        border-color: #555;
-
-        &:hover {
-          background-color: #505050;
-        }
-      }
-    }
-  }
-}
-
 .modal-content {
   display: flex;
   flex-direction: column;
@@ -178,9 +148,9 @@
     display: flex;
 
     #share-url {
+      border: 1px solid light-dark(#ccc, #555);
       flex: 1;
       padding: 0.75rem;
-      border: 1px solid #ccc;
       border-radius: 4px 0 0 4px;
       font-size: 0.9rem;
     }
@@ -192,21 +162,6 @@
       border: none;
       border-radius: 0 4px 4px 0;
       cursor: pointer;
-    }
-  }
-}
-
-@media (not (scripting: none)) or (prefers-color-scheme: dark) {
-  html:not([data-color-scheme="light"]) {
-    .modal-content {
-      background-color: #333;
-      color: #fff;
-
-      #share-url {
-        background-color: #444;
-        color: #fff;
-        border-color: #555;
-      }
     }
   }
 }

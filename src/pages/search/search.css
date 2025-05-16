@@ -42,28 +42,14 @@
   display: contents;
 
   /* Component-scoped variables */
-  --card-bg: white;
-  --card-border: #ddd;
-  --card-shadow: 0 2px 4px rgb(0 0 0 / 10%);
-  --input-bg: #fff;
-  --input-border: #ccc;
-  --text-muted: #666;
-  --section-bg: #f8f8f8;
-  --highlight-hover: #f0f0f0;
-
-  /* Apply dark mode changes */
-  @media (not (scripting: none)) or (prefers-color-scheme: dark) {
-    html:not([data-color-scheme="light"]) & {
-      --card-bg: #2a2a2a;
-      --card-border: #444;
-      --card-shadow: 0 2px 4px rgb(0 0 0 / 30%);
-      --input-bg: #333;
-      --input-border: #555;
-      --text-muted: #aaa;
-      --section-bg: #222;
-      --highlight-hover: #333;
-    }
-  }
+  --card-bg: light-dark(white, #2a2a2a);
+  --card-border: light-dark(#ddd, #444);
+  --card-shadow: light-dark(0 2px 4px rgb(0 0 0 / 10%), 0 2px 4px rgb(0 0 0 / 30%));
+  --input-bg: light-dark(#fff, #333);
+  --input-border: light-dark(#ccc, #555);
+  --text-muted: light-dark(#666, #aaa);
+  --section-bg: light-dark(#f8f8f8, #222);
+  --highlight-hover: light-dark(#f0f0f0, #333);
 
   h1 {
     font-size: 2em;

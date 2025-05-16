@@ -1,3 +1,13 @@
+html {
+  color-scheme: only light;
+}
+
+@media (not (scripting: none)) or (prefers-color-scheme: dark) {
+  html:not([data-color-scheme="light"]) {
+    color-scheme: only dark;
+  }
+}
+
 :root {
   /* Information and background colors */
   --primary-blue: #2c4c6b;
@@ -12,29 +22,16 @@
   --cta-default: #9e66ff;
 
   /* compoent colors */
-  --body-background: var(--light-blue);
-  --text-color: #000;
-  --header-background-color: #f8f9fa;
-  --header-text-color: var(--text-color);
-  --header-rule-color: #e0e0e0;
-  --background-highlight-color: #e5e8f1;
+  --body-background: light-dark(var(--light-blue), #000);
+  --text-color: light-dark(#000, #ddd);
+  --header-background-color: light-dark(#f8f9fa, #0d0d0d);
+  --header-text-color: light-dark(var(--text-color), #757575);
+  --header-rule-color: light-dark(#e0e0e0, #383838);
+  --background-highlight-color: light-dark(#e5e8f1, var(--light-blue));
   --text-highlight-color: var(--text-color);
-  --input-bg: #fff;
-  --input-border: #ccc;
-}
-
-@media (not (scripting: none)) or (prefers-color-scheme: dark) {
-  html:not([data-color-scheme="light"]) {
-    --body-background: #000;
-    --text-color: #757575;
-    --header-background-color: #0d0d0d;
-    --header-text-color: #757575;
-    --header-rule-color: #383838;
-    --background-highlight-color: var(--light-blue);
-    --text-highlight-color: var(--text-color);
-    --input-bg: #333;
-    --input-border: #555;
-  }
+  --input-color: var(--text-color);
+  --input-bg: light-dark(#fff, #444);
+  --input-border: light-dark(#ccc, #555);
 }
 
 [inert],
@@ -71,34 +68,20 @@ a:hover {
 
 .box-shadow,
 .box-shadow-hover {
-  border: 1px solid #dedede;
-  box-shadow: 0 2px 4px rgb(0 0 0 / 10%);
+  border: 1px solid light-dark(#dedede, #393939);
+  box-shadow: 0 2px 4px light-dark(rgb(0 0 0 / 10%), rgb(0 0 0 / 15%));
   box-sizing: border-box;
 }
 
 .box-shadow-hover:hover {
-  box-shadow: 0 4px 8px rgb(0 0 0 / 15%);
-}
-
-@media (not (scripting: none)) or (prefers-color-scheme: dark) {
-  html:not([data-color-scheme="light"]) {
-    .box-shadow,
-    .box-shadow-hover {
-      border-color: #393939;
-      box-shadow: 0 2px 4px rgb(255 255 255 / 20%);
-    }
-
-    .box-shadow-hover:hover {
-      box-shadow: 0 4px 8px rgb(255 255 255 / 25%);
-    }
-  }
+  box-shadow: 0 4px 8px light-dark(rgb(0 0 0 / 15%), rgb(0 0 0 / 25%));
 }
 
 .input {
   background-color: var(--input-bg);
   border: 1px solid var(--input-border);
-  border-radius: 4px;
   color: var(--text-color);
+  border-radius: 4px;
   font-size: 1em;
   padding: 10px;
 }

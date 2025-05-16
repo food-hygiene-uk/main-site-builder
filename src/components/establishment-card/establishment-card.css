@@ -1,9 +1,9 @@
 .establishment-card {
   padding: 15px;
   position: relative;
-  border: 1px solid #ddd;
+  border: 1px solid light-dark(#ddd, #444);
   border-radius: 8px;
-  background-color: #fff;
+  background-color: light-dark(#fff, #2d2d2d);
   transition: transform 0.2s;
 
   &:hover {
@@ -20,14 +20,14 @@
   .business-type {
     font-style: italic;
     margin-bottom: 10px;
-    color: #555;
+    color: light-dark(#555, #bbb);
   }
 
   .establishment-details {
     display: grid;
     grid-template-columns: 1fr 1fr;
     gap: 10px;
-    color: #666;
+    color: light-dark(#666, #aaa);
     font-size: 0.9em;
     margin-bottom: 10px;
 
@@ -79,7 +79,7 @@
   }
 
   .viewed-time {
-    color: #666;
+    color: light-dark(#666, #aaa);
     font-size: 0.9em;
     margin-bottom: 10px;
   }
@@ -94,27 +94,5 @@
   .button-container {
     position: relative;
     z-index: 1;
-  }
-}
-
-/* Dark mode support */
-@media (not (scripting: none)) or (prefers-color-scheme: dark) {
-  html:not([data-color-scheme="light"]) {
-    .establishment-card {
-      background-color: #2d2d2d;
-      border-color: #444;
-
-      .business-type {
-        color: #bbb;
-      }
-
-      .establishment-details {
-        color: #aaa;
-      }
-
-      .viewed-time {
-        color: #aaa;
-      }
-    }
   }
 }

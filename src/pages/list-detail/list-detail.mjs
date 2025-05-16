@@ -132,6 +132,7 @@ document.addEventListener("DOMContentLoaded", () => {
       const shareUrlInput = document.createElement("input");
       shareUrlInput.type = "text";
       shareUrlInput.id = "share-url";
+      shareUrlInput.classList.add("input");
       shareUrlInput.readOnly = true;
       shareUrlContainer.append(shareUrlInput);
 

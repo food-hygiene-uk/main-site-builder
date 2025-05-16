@@ -19,7 +19,7 @@
   }
 
   .list-item {
-    background-color: #f8f8f8;
+    background-color: light-dark(#f8f8f8, #333);
     border-radius: 8px;
     padding: 1.5rem;
     transition: transform 0.2s;
@@ -36,7 +36,7 @@
 
     p {
       margin-bottom: 1.5rem;
-      color: #666;
+      color: light-dark(#666, #bbb);
     }
   }
 
@@ -78,16 +78,16 @@
   .clear-list-button {
     display: inline-block;
     padding: 0.6rem 1.2rem;
-    background-color: #f5f5f5;
-    color: #333;
-    border: 1px solid #ddd;
+    background-color: light-dark(#f5f5f5, #444);
+    color: light-dark(#333, #ddd);
+    border: 1px solid light-dark(#ddd, #555);
     border-radius: 4px;
     cursor: pointer;
     transition: background-color 0.2s;
   }
 
   .clear-list-button:hover {
-    background-color: #e5e5e5;
+    background-color: light-dark(#e5e5e5, #505050);
   }
 
   .recent-list {
@@ -101,38 +101,8 @@
   .no-lists-message {
     text-align: center;
     padding: 2rem;
-    background-color: #f8f8f8;
+    background-color: light-dark(#f8f8f8, #333);
     border-radius: 8px;
-    color: #666;
-  }
-}
-
-/* Dark mode styles */
-@media (not (scripting: none)) or (prefers-color-scheme: dark) {
-  html:not([data-color-scheme="light"]) {
-    .content-__CLASS_SUFFIX__ {
-      .list-item {
-        background-color: #333;
-
-        p {
-          color: #bbb;
-        }
-      }
-
-      .no-lists-message {
-        background-color: #333;
-        color: #bbb;
-      }
-
-      .clear-list-button {
-        background-color: #444;
-        color: #ddd;
-        border-color: #555;
-      }
-
-      .clear-list-button:hover {
-        background-color: #505050;
-      }
-    }
+    color: light-dark(#666, #bbb);
   }
 }

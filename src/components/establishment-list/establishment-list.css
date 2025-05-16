@@ -53,9 +53,9 @@
 
 .pagination button {
   padding: 5px 10px;
-  background-color: #f0f0f0;
-  color: #333;
-  border: 1px solid #ddd;
+  background-color: light-dark(#f0f0f0, #333);
+  color: light-dark(#333, #ddd);
+  border: 1px solid light-dark(#ddd, #444);
   border-radius: 4px;
   cursor: pointer;
   min-width: 40px;
@@ -69,20 +69,5 @@
 }
 
 .pagination button:hover:not(.active) {
-  background-color: #e0e0e0;
-}
-
-/* Dark mode support */
-@media (not (scripting: none)) or (prefers-color-scheme: dark) {
-  html:not([data-color-scheme="light"]) {
-    .pagination button {
-      background-color: #333;
-      border-color: #444;
-      color: #ddd;
-    }
-
-    .pagination button:hover:not(.active) {
-      background-color: #444;
-    }
-  }
+  background-color: light-dark(#e0e0e0, #444);
 }

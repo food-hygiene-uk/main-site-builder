@@ -3,7 +3,7 @@
   display: flex;
   align-items: center;
   gap: 3px;
-  background-color: #f2f2f2;
+  background-color: light-dark(#f2f2f2, hsl(0deg 0% 80%));
   color: #0f0f0f;
   border: none;
   padding: 3px 9px;
@@ -12,7 +12,7 @@
   font-size: 1.05em;
 
   &:hover {
-    background-color: #e5e5e5;
+    background-color: light-dark(#e5e5e5, hsl(0deg 0% 90%));
   }
 
   .bookmark-icon {
@@ -22,22 +22,5 @@
 
   &.on-list .bookmark-icon .interior {
     fill: var(--hygiene-green);
-  }
-}
-
-/* Dark mode support */
-@media (not (scripting: none)) or (prefers-color-scheme: dark) {
-  html:not([data-color-scheme="light"]) {
-    .list-selection-button {
-      background-color: hsl(0deg 0% 80%);
-
-      &:hover {
-        background-color: hsl(0deg 0% 90%);
-      }
-
-      &.on-list {
-        background-color: #005a30;
-      }
-    }
   }
 }

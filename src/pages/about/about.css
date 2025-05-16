@@ -28,7 +28,7 @@
   }
 
   .contribution-links {
-    background-color: var(--light-grey);
+    background-color: light-dark(var(--light-grey), #0d0d0d);
     padding: 1.5rem;
     border-radius: 6px;
     margin-top: 2rem;
@@ -48,32 +48,17 @@
   }
 
   .data-source {
+    background-color: light-dark(var(--light-blue), #0d0d0d);
+    border-left: 4px solid var(--hygiene-green);
     display: flex;
     align-items: center;
     gap: 1rem;
     margin: 1.5rem 0;
     padding: 1rem;
-    border-left: 4px solid var(--hygiene-green);
-    background-color: var(--light-blue);
   }
 
   .fsa-logo {
     max-width: 120px;
     height: auto;
-  }
-}
-
-/* Dark mode support */
-@media (not (scripting: none)) or (prefers-color-scheme: dark) {
-  html:not([data-color-scheme="light"]) {
-    .content-__CLASS_SUFFIX__ {
-      .contribution-links {
-        background-color: #0d0d0d;
-      }
-
-      .data-source {
-        background-color: #0d0d0d;
-      }
-    }
   }
 }

@@ -57,6 +57,7 @@
   }
 
   img.rating-image {
+    box-shadow: light-dark(transparent, rgb(255 255 255 / 20%)) 0 0 0 1px;
     max-width: 400px;
     height: auto;
     display: block;
@@ -103,9 +104,9 @@
 
   /* Recently Viewed Section */
   .recently-viewed-section {
+    border-top: 1px solid light-dark(#ddd, #444);
     margin-top: 3rem;
     padding-top: 2rem;
-    border-top: 1px solid #ddd;
   }
 
   .recently-viewed-section h2 {
@@ -122,7 +123,7 @@
   }
 
   .recent-establishment-item {
-    background-color: #f8f8f8;
+    background-color: light-dark(#f8f8f8, #333);
     border-radius: 8px;
     padding: 1rem;
     transition: transform 0.2s;
@@ -139,7 +140,7 @@
     }
 
     .business-type {
-      color: #666;
+      color: light-dark(#666, #bbb);
       font-size: 0.9em;
       font-style: italic;
       margin: 0.5rem 0;
@@ -147,7 +148,7 @@
   }
 
   .visited-time {
-    color: #666;
+    color: light-dark(#666, #bbb);
     font-size: 0.9em;
     margin: 0;
   }
@@ -177,31 +178,4 @@
   }
 
   /* __ADDITIONAL_CSS__ */
-}
-
-/* Dark mode support */
-@media (not (scripting: none)) or (prefers-color-scheme: dark) {
-  html:not([data-color-scheme="light"]) {
-    .content-__CLASS_SUFFIX__ {
-      img.rating-image {
-        box-shadow: rgb(255 255 255 / 20%) 0 0 0 1px;
-      }
-
-      .recently-viewed-section {
-        border-top-color: #444;
-      }
-
-      .recent-establishment-item {
-        background-color: #333;
-
-        .business-type {
-          color: #bbb;
-        }
-      }
-
-      .visited-time {
-        color: #bbb;
-      }
-    }
-  }
 }

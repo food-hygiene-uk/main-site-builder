@@ -12,7 +12,7 @@
   }
 
   .list-description {
-    color: #555;
+    color: light-dark(#555, #bbb);
     margin-bottom: 1rem;
   }
 
@@ -49,7 +49,7 @@
   .loading-indicator {
     text-align: center;
     padding: 40px;
-    color: #666;
+    color: light-dark(#666, #aaa);
     font-style: italic;
   }
 
@@ -57,9 +57,9 @@
   .error-message {
     text-align: center;
     padding: 40px;
-    background-color: #f9f9f9;
+    background-color: light-dark(#f9f9f9, #333);
     border-radius: 8px;
-    color: #666;
+    color: light-dark(#666, #ccc);
   }
 
   .error-message {
@@ -79,26 +79,6 @@
   }
 
   /* __ADDITIONAL_CSS__ */
-}
-
-@media (not (scripting: none)) or (prefers-color-scheme: dark) {
-  html:not([data-color-scheme="light"]) {
-    .content-__CLASS_SUFFIX__ {
-      .list-description {
-        color: #bbb;
-      }
-
-      .loading-indicator {
-        color: #aaa;
-      }
-
-      .empty-list-message,
-      .error-message {
-        background-color: #333;
-        color: #ccc;
-      }
-    }
-  }
 }
 
 .modal-content {
