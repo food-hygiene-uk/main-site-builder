@@ -39,7 +39,7 @@
     },
     "pre-commit": {
       "description": "Updates and validadates the code as done in CI",
-      "command": "deno install && deno test && deno lint && deno task eslint && deno task stylelint:check && deno task prettier:debug-check && deno task prettier:write && deno fmt && deno check src/generate-site.mts"
+      "command": "deno install && deno task lock-update && deno test && deno lint && deno task eslint && deno task stylelint:check && deno task prettier:debug-check && deno task prettier:write && deno fmt && deno check src/generate-site.mts"
     },
     "prettier:debug-check": {
       "description": "Runs prettier on the code through Deno - --debug-check",
