@@ -4,7 +4,7 @@ import * as api from "../ratings-api/rest.mts";
 import { EnrichedLocalAuthorities } from "./schema-app.mts";
 import { getBuildFileName } from "../lib/local-authority/local-authority.mts";
 
-const USE_CACHED_DATA = false;
+const USE_CACHED_DATA = Deno.env.get("CI") ? false : true;
 
 /**
  * Fetches and processes data for a list of local authorities.
@@ -48,12 +48,30 @@ export const fetchLocalAuthorityData = async (
         (await exists(filename, {
           isReadable: true,
           isFile: true,
-        }))
+        })) &&
+        (await (async () => {
+          const fileStat = await Deno.stat(filename);
+          const fileDate = fileStat.mtime
+            ? new Date(
+              fileStat.mtime.getFullYear(),
+              fileStat.mtime.getMonth(),
+              fileStat.mtime.getDate(),
+            )
+            : null;
+          const today = new Date();
+          const todayDate = new Date(
+            today.getFullYear(),
+            today.getMonth(),
+            today.getDate(),
+          );
+          return fileDate?.getTime() === todayDate.getTime();
+        })())
       ) {
         console.log(
           `Skipping ${localAuthority.Name} - ${filename} already exists.`,
         );
       } else {
+        console.log(`Fetching data for ${localAuthority.Name}...`);
         const jsonData = await api.localAuthorityData(jsonDataURL);
         await Deno.writeTextFile(filename, JSON.stringify(jsonData, null, 2));
       }

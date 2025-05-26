@@ -68,28 +68,33 @@ sitemapXmlContent = sitemapXmlContent.replaceAll("<loc>/", `<loc>${baseURL}/`);
 await Deno.writeTextFile(sitemapXmlPath, sitemapXmlContent);
 
 const authoritiesResponse = await api.authorities();
-// Use all authorities in CI, otherwise just use the first one
-const apiAuthorities = Deno.env.get("CI") ? authoritiesResponse.authorities : [
-  authoritiesResponse.authorities.find(
-    (authority) => authority.RegionName === "Northern Ireland",
-  )!,
-  authoritiesResponse.authorities.find(
-    (authority) => authority.RegionName === "Scotland",
-  )!,
-  authoritiesResponse.authorities.find(
-    (authority) => authority.RegionName === "Wales",
-  )!,
-  authoritiesResponse.authorities.find(
-    (authority) =>
-      ["Northern Ireland", "Scotland", "Wales"].includes(
-        authority.RegionName,
-      ) === false,
-  )!,
-];
 
 console.time("fetchLocalAuthorityData");
-const localAuthorities = await fetchLocalAuthorityData(apiAuthorities);
+const allLocalAuthorities = await fetchLocalAuthorityData(
+  authoritiesResponse.authorities,
+);
 console.timeEnd("fetchLocalAuthorityData");
+
+// Output all local authorities on the index page
+console.time("outputRegionIndex");
+await outputLocalAuthorityListPage(allLocalAuthorities);
+console.timeEnd("outputRegionIndex");
+
+// Use all authorities in CI, otherwise just use the first one
+const localAuthorities = Deno.env.get("CI") ? allLocalAuthorities : [
+  allLocalAuthorities.find(
+    (authority) => authority.RegionName === "Northern Ireland",
+  )!,
+  allLocalAuthorities.find(
+    (authority) => authority.Name === "Shetland Islands",
+  )!,
+  allLocalAuthorities.find(
+    (authority) => authority.RegionName === "Wales",
+  )!,
+  allLocalAuthorities.find(
+    (authority) => authority.Name === "Oadby and Wigston",
+  )!,
+];
 
 console.time("mapConcurrent");
 await mapConcurrent(localAuthorities, 10, async (localAuthority) => {
@@ -120,10 +125,6 @@ console.timeEnd("outputAbout");
 console.time("outputSearch");
 await outputSearchPage();
 console.timeEnd("outputSearch");
-
-console.time("outputRegionIndex");
-await outputLocalAuthorityListPage(localAuthorities);
-console.timeEnd("outputRegionIndex");
 
 console.time("outputListsPages");
 await outputListsPage();

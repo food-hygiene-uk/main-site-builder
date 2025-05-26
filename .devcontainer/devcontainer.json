@@ -19,6 +19,7 @@
         "esbenp.prettier-vscode",
         "github.vscode-github-actions",
         "ms-azuretools.vscode-docker",
+        "ms-playwright.playwright",
         "ms-vscode.live-server",
         "oscarotero.vento-syntax",
         "stylelint.vscode-stylelint",
