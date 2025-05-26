@@ -52,7 +52,7 @@ jobs:
         run: deno test .
 
       - name: Run ESLint
-        run: deno task eslint
+        run: deno task eslint:check
 
       - name: Run Deno lint
         run: deno lint .

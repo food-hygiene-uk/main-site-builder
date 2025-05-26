@@ -89,7 +89,7 @@ jobs:
 
       - name: Run ESLint
         working-directory: ./repos/source
-        run: deno task eslint
+        run: deno task eslint:check
 
       - name: Run Deno lint
         working-directory: ./repos/source
