@@ -46,7 +46,7 @@
     },
     "playwright:install": {
       "description": "Installs Playwright dependencies",
-      "command": "deno run --allow-env --allow-read=/proc/version,../node_modules,/node_modules,/etc/os-release,/home/node/.cache/ms-playwright,$(which deno),/tmp/,/ms-playwright/.docker-info --allow-write=/home/node/.cache/ms-playwright,/tmp/ --allow-run=$(which deno),/sbin/ldconfig,which,sudo --allow-sys=osRelease,homedir,uid npm:playwright install --with-deps"
+      "command": "deno run --allow-env --allow-read=/proc/version,../node_modules,/node_modules,/etc/os-release,/home/node/.cache/ms-playwright,/home/runner/.cache/ms-playwright,$(which deno),/tmp/,/ms-playwright/.docker-info --allow-write=/home/node/.cache/ms-playwright,/home/runner/.cache/ms-playwright,/tmp/ --allow-run=$(which deno),/sbin/ldconfig,which,sudo --allow-sys=osRelease,homedir,uid npm:playwright install --with-deps"
     },
     "playwright:show-report": {
       "description": "Shows the Playwright report",
