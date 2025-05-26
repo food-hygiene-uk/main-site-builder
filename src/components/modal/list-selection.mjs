@@ -27,7 +27,7 @@ const initializeListSelectionModal = (FHRSID, modalElement) => {
   const modalContent = document.createElement("div");
   modalContent.className = "modal-content";
 
-  const newListGroup = document.createElement("div");
+  const newListGroup = document.createElement("form");
   newListGroup.className = "new-list-group";
 
   const newListInput = document.createElement("input");
@@ -71,7 +71,7 @@ const initializeListSelectionModal = (FHRSID, modalElement) => {
     if (listName) {
       createNewList(listName, FHRSID);
       newListInput.value = "";
-      updateCheckboxStates(FHRSID);
+      updateCheckboxStates(FHRSID, modalElement);
     }
   });
 
