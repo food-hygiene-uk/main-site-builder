@@ -15,7 +15,7 @@ on:
 
 # Define minimum required permissions
 permissions:
-  contents: write # Required for pushing to repository
+  contents: read
 
 jobs:
   command-outputs:
@@ -45,6 +45,9 @@ jobs:
   build:
     runs-on: ubuntu-latest
     timeout-minutes: 60 # Prevent hanging jobs
+
+    permissions:
+      contents: write # Required to push changes to the GitHub Pages repository
 
     needs: [command-outputs]
     env:
