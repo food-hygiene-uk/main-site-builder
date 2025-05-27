@@ -54,7 +54,7 @@
     },
     "playwright:test": {
       "description": "Runs Playwright tests",
-      "command": "deno task playwright:install && deno run --allow-env --allow-net=\"localhost,[::1]:8080,127.0.0.1:8080,127.0.0.1:9323\" --allow-read=./,/node_modules/,../node_modules,/proc/version,/etc/os-release,/tmp/,../tsconfig.json,../../tsconfig.json,../../../tsconfig.json,../../../../tsconfig.json,../jsconfig.json,../../jsconfig.json,../../../jsconfig.json,../../../../jsconfig.json,$(which deno) --allow-write=./test-results/,./playwright-report,/tmp/ --allow-sys=cpus,homedir,osRelease,uid --allow-run npm:playwright test"
+      "command": "deno task playwright:install && deno run --allow-env --allow-net=\"localhost,[::1]:8080,127.0.0.1:8080,127.0.0.1:9323\" --allow-read=./,/node_modules/,../node_modules,/proc/version,/etc/os-release,/tmp/,../tsconfig.json,../../tsconfig.json,../../../tsconfig.json,../../../../tsconfig.json,../../../../../tsconfig.json,../../../../../../tsconfig.json,../jsconfig.json,../../jsconfig.json,../../../jsconfig.json,../../../../jsconfig.json,../../../../../tsconfig.json,../../../../../../tsconfig.json,$(which deno) --allow-write=./test-results/,./playwright-report,/tmp/ --allow-sys=cpus,homedir,osRelease,uid --allow-run npm:playwright test"
     },
     "prettier:debug-check": {
       "description": "Runs prettier on the code through Deno - --debug-check",
