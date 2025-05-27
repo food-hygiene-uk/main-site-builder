@@ -8,6 +8,7 @@
     "jsr:@std/internal@^1.0.6": "1.0.6",
     "jsr:@std/path@1.0.8": "1.0.8",
     "jsr:@std/path@1.0.9": "1.0.9",
+    "jsr:@std/path@1.1.0": "1.1.0",
     "jsr:@std/path@^1.0.8": "1.0.8",
     "jsr:@std/path@^1.0.9": "1.0.9",
     "jsr:@vento/vento@1.12.16": "1.12.16",
@@ -40,7 +41,7 @@
     "npm:stylelint@*": "16.19.1_@csstools+css-tokenizer@3.0.3_@csstools+css-parser-algorithms@3.0.4__@csstools+css-tokenizer@3.0.3_postcss-selector-parser@7.1.0_postcss@8.5.3",
     "npm:stylelint@16.19.1": "16.19.1_@csstools+css-tokenizer@3.0.3_@csstools+css-parser-algorithms@3.0.4__@csstools+css-tokenizer@3.0.3_postcss-selector-parser@7.1.0_postcss@8.5.3",
     "npm:uglify-js@3.19.3": "3.19.3",
-    "npm:zod@3.25.29": "3.25.29"
+    "npm:zod@3.25.30": "3.25.30"
   },
   "jsr": {
     "@davidbonnet/astring@1.8.6": {
@@ -69,6 +70,9 @@
     },
     "@std/path@1.0.9": {
       "integrity": "260a49f11edd3db93dd38350bf9cd1b4d1366afa98e81b86167b4e3dd750129e"
+    },
+    "@std/path@1.1.0": {
+      "integrity": "ddc94f8e3c275627281cbc23341df6b8bcc874d70374f75fec2533521e3d6886"
     },
     "@vento/vento@1.12.16": {
       "integrity": "84e1f99f7ef5f5dc4e3b000b90da52eb3f10011af5d5c9ebf901aef710f9c639",
@@ -2816,15 +2820,15 @@
     "yocto-queue@0.1.0": {
       "integrity": "sha512-rVksvsnNCdJ/ohGc6xgPwyN8eheCxsiLM8mxuE/t/mOVqJewPuO1miLpTHQiRgTKCLexL4MeAFVagts7HmNZ2Q=="
     },
-    "zod@3.25.29": {
-      "integrity": "sha512-xetH/muIYuAyN7YJGKh99jkBQq/XbGEyTkv7JC4YYsWppHmfoU1MDoQa441WD1QMDaeCaEBO0e0hl1iSmluNQQ=="
+    "zod@3.25.30": {
+      "integrity": "sha512-VolhdEtu6TJr/fzGuHA/SZ5ixvXqA6ADOG9VRcQ3rdOKmF5hkmcJbyaQjUH5BgmpA9gej++zYRX7zjSmdReIwA=="
     }
   },
   "workspace": {
     "dependencies": [
       "jsr:@std/assert@1.0.13",
       "jsr:@std/fs@1.0.17",
-      "jsr:@std/path@1.0.9",
+      "jsr:@std/path@1.1.0",
       "jsr:@vento/vento@1.12.16",
       "npm:@playwright/test@1.52.0",
       "npm:@typescript-eslint/eslint-plugin@8.32.1",
@@ -2845,7 +2849,7 @@
       "npm:stylelint-config-standard@38.0.0",
       "npm:stylelint@16.19.1",
       "npm:uglify-js@3.19.3",
-      "npm:zod@3.25.29"
+      "npm:zod@3.25.30"
     ]
   }
 }

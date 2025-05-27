@@ -3,7 +3,7 @@
     "@playwright/test": "npm:@playwright/test@1.52.0",
     "@std/assert": "jsr:@std/assert@1.0.13",
     "@std/fs": "jsr:@std/fs@1.0.17",
-    "@std/path": "jsr:@std/path@1.0.9",
+    "@std/path": "jsr:@std/path@1.1.0",
     "@typescript-eslint/eslint-plugin": "npm:@typescript-eslint/eslint-plugin@8.32.1",
     "@typescript-eslint/parser": "npm:@typescript-eslint/parser@8.32.1",
     "@vento/vento": "jsr:@vento/vento@1.12.16",
@@ -25,7 +25,7 @@
     "stylelint-config-standard": "npm:stylelint-config-standard@38.0.0",
     "stylelint": "npm:stylelint@16.19.1",
     "uglify-js": "npm:uglify-js@3.19.3",
-    "zod": "npm:zod@3.25.29"
+    "zod": "npm:zod@3.25.30"
   },
   "tasks": {
     "build": {
@@ -35,6 +35,10 @@
     "deno:lock-update": {
       "description": "Updates the lock file",
       "command": "deno cache --frozen=false src/generate-site.mts && deno install"
+    },
+    "deno:update-dependencies": {
+      "description": "Updates Deno dependencies",
+      "command": "deno outdated && deno outdated --update --latest"
     },
     "eslint:check": {
       "description": "Runs ESLint on the codebase",
