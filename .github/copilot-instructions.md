@@ -62,6 +62,17 @@ This project is a static website generator that creates HTML, CSS, and JavaScrip
 - Used for HTML generation
 - Can include components and page-specific content
 
+## Testing
+
+- Ensure that all generated HTML, CSS, and JavaScript files are tested for correctness
+- For '.mts' and '.mjs' files, all tests should include example based, and property based tests
+  - Use Deno's built-in testing framework for `.mts` files
+  - Use browser testing tools for `.mjs` files to ensure compatibility and functionality
+  - Tests should use Behavior-Driven Development (BDD) style
+- Ensure that CSS files are tested for both light and dark themes
+- Use Vento's testing capabilities to ensure templates render correctly with dynamic content
+- Ensure that all components and pages are tested for correct integration and functionality
+
 ## Checklist for Compliance
 
 ### TypeScript (`.mts` files)
@@ -74,6 +85,7 @@ This project is a static website generator that creates HTML, CSS, and JavaScrip
 - [ ] Use modules instead of classes
 - [ ] Utilize Deno API for file operations and server-side functionality
 - [ ] Comments should only be used to aid future readers in understanding the current state of the code. Avoid using comments to track work or highlight changes.
+- [ ] Ensure there is a test file that uses both example and property based tests for all functions
 
 ### JavaScript (`.mjs` files)
 

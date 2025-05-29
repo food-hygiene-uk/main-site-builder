@@ -3,14 +3,21 @@
   "specifiers": {
     "jsr:@davidbonnet/astring@1.8.6": "1.8.6",
     "jsr:@std/assert@1.0.13": "1.0.13",
+    "jsr:@std/assert@^1.0.13": "1.0.13",
+    "jsr:@std/async@^1.0.13": "1.0.13",
+    "jsr:@std/data-structures@^1.0.8": "1.0.8",
     "jsr:@std/fs@1.0.17": "1.0.17",
+    "jsr:@std/fs@^1.0.17": "1.0.17",
     "jsr:@std/html@1.0.3": "1.0.3",
     "jsr:@std/internal@^1.0.6": "1.0.6",
+    "jsr:@std/internal@^1.0.8": "1.0.8",
     "jsr:@std/path@1.0.8": "1.0.8",
     "jsr:@std/path@1.0.9": "1.0.9",
     "jsr:@std/path@1.1.0": "1.1.0",
     "jsr:@std/path@^1.0.8": "1.0.8",
     "jsr:@std/path@^1.0.9": "1.0.9",
+    "jsr:@std/path@^1.1.0": "1.1.0",
+    "jsr:@std/testing@1.0.13": "1.0.13",
     "jsr:@vento/vento@1.12.16": "1.12.16",
     "npm:@playwright/test@1.52.0": "1.52.0",
     "npm:@types/estree@1.0.6": "1.0.6",
@@ -27,13 +34,11 @@
     "npm:eslint@*": "9.27.0_jiti@2.4.2",
     "npm:eslint@9.27.0": "9.27.0_jiti@2.4.2",
     "npm:estree-walker@3.0.3": "3.0.3",
-    "npm:http-server@*": "14.1.1",
+    "npm:fast-check@4.1.1": "4.1.1",
     "npm:http-server@14.1.1": "14.1.1",
     "npm:jiti@2.4.2": "2.4.2",
     "npm:meriyah@6.0.5": "6.0.5",
-    "npm:playwright@*": "1.52.0",
     "npm:playwright@1.52.0": "1.52.0",
-    "npm:postcss@*": "8.5.3",
     "npm:postcss@8.5.3": "8.5.3",
     "npm:prettier@*": "3.5.3",
     "npm:prettier@3.5.3": "3.5.3",
@@ -50,8 +55,14 @@
     "@std/assert@1.0.13": {
       "integrity": "ae0d31e41919b12c656c742b22522c32fb26ed0cba32975cb0de2a273cb68b29",
       "dependencies": [
-        "jsr:@std/internal"
+        "jsr:@std/internal@^1.0.6"
       ]
+    },
+    "@std/async@1.0.13": {
+      "integrity": "1d76ca5d324aef249908f7f7fe0d39aaf53198e5420604a59ab5c035adc97c96"
+    },
+    "@std/data-structures@1.0.8": {
+      "integrity": "2fb7219247e044c8fcd51341788547575653c82ae2c759ff209e0263ba7d9b66"
     },
     "@std/fs@1.0.17": {
       "integrity": "1c00c632677c1158988ef7a004cb16137f870aafdb8163b9dce86ec652f3952b",
@@ -65,6 +76,9 @@
     "@std/internal@1.0.6": {
       "integrity": "9533b128f230f73bd209408bb07a4b12f8d4255ab2a4d22a1fd6d87304aca9a4"
     },
+    "@std/internal@1.0.8": {
+      "integrity": "fc66e846d8d38a47cffd274d80d2ca3f0de71040f855783724bb6b87f60891f5"
+    },
     "@std/path@1.0.8": {
       "integrity": "548fa456bb6a04d3c1a1e7477986b6cffbce95102d0bb447c67c4ee70e0364be"
     },
@@ -73,6 +87,17 @@
     },
     "@std/path@1.1.0": {
       "integrity": "ddc94f8e3c275627281cbc23341df6b8bcc874d70374f75fec2533521e3d6886"
+    },
+    "@std/testing@1.0.13": {
+      "integrity": "74418be16f627dfe996937ab0ffbdbda9c1f35534b78724658d981492f121e71",
+      "dependencies": [
+        "jsr:@std/assert@^1.0.13",
+        "jsr:@std/async",
+        "jsr:@std/data-structures",
+        "jsr:@std/fs@^1.0.17",
+        "jsr:@std/internal@^1.0.8",
+        "jsr:@std/path@^1.1.0"
+      ]
     },
     "@vento/vento@1.12.16": {
       "integrity": "84e1f99f7ef5f5dc4e3b000b90da52eb3f10011af5d5c9ebf901aef710f9c639",
@@ -1170,6 +1195,12 @@
     "eventemitter3@4.0.7": {
       "integrity": "sha512-8guHBZCwKnFhYdHr2ysuRWErTwhoN2X8XELRlrRwpmfeY2jjuUN4taQMsULKUVo1K4DvZl+0pgfyoysHxvmvEw=="
     },
+    "fast-check@4.1.1": {
+      "integrity": "sha512-8+yQYeNYqBfWem0Nmm7BUnh27wm+qwGvI0xln60c8RPM5rVekxZf/Ildng2GNBfjaG6utIebFmVBPlNtZlBLxg==",
+      "dependencies": [
+        "pure-rand"
+      ]
+    },
     "fast-deep-equal@3.1.3": {
       "integrity": "sha512-f3qQ9oQy9j2AhBe/H9VC91wLmKBCCU/gDOnKNAYG5hswO7BLKj09Hc5HYNz9cGI++xlpDCIgDaitVs03ATR84Q=="
     },
@@ -2242,6 +2273,9 @@
     "punycode@2.3.1": {
       "integrity": "sha512-vYt7UD1U9Wg6138shLtLOvdAu+8DsC/ilFtEVHcH+wydcSpNE20AfSOduf6MkRFahL5FY7X1oU7nKVZFtfq8Fg=="
     },
+    "pure-rand@7.0.1": {
+      "integrity": "sha512-oTUZM/NAZS8p7ANR3SHh30kXB+zK2r2BPcEn/awJIbOvq82WoMN4p62AWWp3Hhw50G0xMsw1mhIBLqHw64EcNQ=="
+    },
     "qs@6.14.0": {
       "integrity": "sha512-YWWTjgABSKcvs/nWBi9PycY/JiPJqOD4JA6o9Sej2AtvSGarXxKC3OQSk4pAarbdQlKAh5D4FCQkJNkW+GAn3w==",
       "dependencies": [
@@ -2829,6 +2863,7 @@
       "jsr:@std/assert@1.0.13",
       "jsr:@std/fs@1.0.17",
       "jsr:@std/path@1.1.0",
+      "jsr:@std/testing@1.0.13",
       "jsr:@vento/vento@1.12.16",
       "npm:@playwright/test@1.52.0",
       "npm:@typescript-eslint/eslint-plugin@8.32.1",
@@ -2841,6 +2876,7 @@
       "npm:eslint-plugin-promise@7.2.1",
       "npm:eslint-plugin-unicorn@59.0.1",
       "npm:eslint@9.27.0",
+      "npm:fast-check@4.1.1",
       "npm:http-server@14.1.1",
       "npm:jiti@2.4.2",
       "npm:playwright@1.52.0",

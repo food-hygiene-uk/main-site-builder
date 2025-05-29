@@ -48,3 +48,7 @@ export const encodeName = (string: string): string => {
 
   return filename;
 };
+
+export const forTestingOnly = {
+  reservedNames,
+};
