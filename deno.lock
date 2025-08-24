@@ -44,7 +44,7 @@
     "npm:stylelint@*": "16.23.1_@csstools+css-tokenizer@3.0.4_@csstools+css-parser-algorithms@3.0.5__@csstools+css-tokenizer@3.0.4_postcss-selector-parser@7.1.0_postcss@8.5.6",
     "npm:stylelint@16.23.1": "16.23.1_@csstools+css-tokenizer@3.0.4_@csstools+css-parser-algorithms@3.0.5__@csstools+css-tokenizer@3.0.4_postcss-selector-parser@7.1.0_postcss@8.5.6",
     "npm:uglify-js@3.19.3": "3.19.3",
-    "npm:zod@3.25.30": "3.25.30"
+    "npm:zod@4.1.1": "4.1.1"
   },
   "jsr": {
     "@davidbonnet/astring@1.8.6": {
@@ -2851,8 +2851,8 @@
     "yocto-queue@0.1.0": {
       "integrity": "sha512-rVksvsnNCdJ/ohGc6xgPwyN8eheCxsiLM8mxuE/t/mOVqJewPuO1miLpTHQiRgTKCLexL4MeAFVagts7HmNZ2Q=="
     },
-    "zod@3.25.30": {
-      "integrity": "sha512-VolhdEtu6TJr/fzGuHA/SZ5ixvXqA6ADOG9VRcQ3rdOKmF5hkmcJbyaQjUH5BgmpA9gej++zYRX7zjSmdReIwA=="
+    "zod@4.1.1": {
+      "integrity": "sha512-SgMZK/h8Tigt9nnKkfJMvB/mKjiJXaX26xegP4sa+0wHIFVFWVlsQGdhklDmuargBD3Hsi3rsQRIzwJIhTPJHA=="
     }
   },
   "workspace": {
@@ -2882,7 +2882,7 @@
       "npm:stylelint-config-standard@39.0.0",
       "npm:stylelint@16.23.1",
       "npm:uglify-js@3.19.3",
-      "npm:zod@3.25.30"
+      "npm:zod@4.1.1"
     ]
   }
 }

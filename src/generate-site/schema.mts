@@ -254,7 +254,7 @@ export const dataSchema = z.object({
       // If ItemCount > 0, EstablishmentCollection must NOT be null
       if (ItemCount > 0 && object.EstablishmentCollection === null) {
         context.addIssue({
-          code: z.ZodIssueCode.custom,
+          code: "custom",
           path: ["EstablishmentCollection"],
           message:
             "EstablishmentCollection cannot be null when Header.ItemCount is greater than 0.",
@@ -263,7 +263,7 @@ export const dataSchema = z.object({
       // If EstablishmentCollection is null, Header.ItemCount must be 0
       if (object.EstablishmentCollection === null && ItemCount !== 0) {
         context.addIssue({
-          code: z.ZodIssueCode.custom,
+          code: "custom",
           path: ["EstablishmentCollection"],
           message:
             "EstablishmentCollection may be null only when Header.ItemCount is 0.",

@@ -1,14 +1,11 @@
 import { z } from "zod";
 import { authoritiesResponseSchema } from "../ratings-api/types.mts";
 
-export type EnrichedLocalAuthority = z.infer<
-  z.ZodObject<
-    {
-      [
-        K
-          in keyof typeof authoritiesResponseSchema.shape.authorities.element.shape
-      ]: (typeof authoritiesResponseSchema.shape.authorities.element.shape)[K];
-    } & { buildFileName: z.ZodString }
-  >
->;
+type AuthorityFromSchema = z.infer<
+  typeof authoritiesResponseSchema
+>["authorities"][number];
+
+export type EnrichedLocalAuthority = AuthorityFromSchema & {
+  buildFileName: string;
+};
 export type EnrichedLocalAuthorities = EnrichedLocalAuthority[];
