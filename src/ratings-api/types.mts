@@ -15,9 +15,9 @@ const apiRegions = [
   "Wales",
 ] as const;
 
-export const authoritiesResponseSchema = z.object({
+export const authoritiesResponseSchema = z.strictObject({
   authorities: z.array(
-    z.object({
+    z.strictObject({
       LocalAuthorityId: z.number(),
       LocalAuthorityIdCode: z.string(),
       Name: z.string(),
@@ -33,14 +33,14 @@ export const authoritiesResponseSchema = z.object({
       LastPublishedDate: z.string().datetime({ local: true }),
       SchemeType: z.number(),
       links: z.array(
-        z.object({
+        z.strictObject({
           rel: z.string(),
           href: z.string(),
         }),
       ),
     }),
   ),
-  meta: z.object({
+  meta: z.strictObject({
     dataSource: z.string(),
     extractDate: z.string(),
     itemCount: z.number(),
@@ -51,7 +51,7 @@ export const authoritiesResponseSchema = z.object({
     pageNumber: z.number(),
   }),
   links: z.array(
-    z.object({
+    z.strictObject({
       rel: z.string(),
       href: z.string(),
     }),
