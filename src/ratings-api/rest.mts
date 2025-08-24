@@ -64,7 +64,11 @@ export const localAuthorityData = async (
   } catch (error) {
     throw new TypeError(
       `Invalid data format: ${redirectedURL}:\n${
-        JSON.stringify(jsonData, null, 2)
+        JSON.stringify(
+          jsonData,
+          null,
+          2,
+        )
       }\n${error}`,
     );
   }
