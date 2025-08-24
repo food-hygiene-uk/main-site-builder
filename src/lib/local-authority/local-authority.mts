@@ -1,6 +1,6 @@
 import { join } from "@std/path";
 import { type EnrichedLocalAuthority } from "../../generate-site/schema-app.mts";
-import { dataSchema } from "../../generate-site/schema.mts";
+import { dataSchema, type Establishment } from "../../generate-site/schema.mts";
 import { type Authority } from "../../ratings-api/types.mts";
 
 export const getBuildFileName = (localAuthority: Authority) => {
@@ -16,7 +16,7 @@ export const getBuildFileName = (localAuthority: Authority) => {
 
 export const readLocalAuthorityData = async (
   localAuthority: EnrichedLocalAuthority,
-) => {
+): Promise<Establishment[]> => {
   const filename = localAuthority.buildFileName;
   console.log(`Processing ${filename}...`);
 
@@ -31,5 +31,5 @@ export const readLocalAuthorityData = async (
     throw new Error(`Failed to parse data from ${filename}`);
   }
 
-  return jsonData.FHRSEstablishment.EstablishmentCollection;
+  return (jsonData.FHRSEstablishment.EstablishmentCollection ?? []) as Establishment[];
 };

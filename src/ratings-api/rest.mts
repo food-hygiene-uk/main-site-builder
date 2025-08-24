@@ -51,5 +51,15 @@ export const localAuthorityData = async (
 
   const response = await fetch(redirectedURL, fetchInit);
 
-  return dataSchema.parse(await response.json());
+  if (!response.ok) {
+    throw new Error(`Failed to fetch local authority data: ${response.statusText}: ${redirectedURL}`);
+  }
+
+  const jsonData = await response.json();
+
+  try {
+    return dataSchema.parse(jsonData);
+  } catch (error) {
+    throw new TypeError(`Invalid data format: ${redirectedURL}:\n${JSON.stringify(jsonData, null, 2)}\n${error}`);
+  }
 };

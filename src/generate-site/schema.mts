@@ -203,45 +203,75 @@ const ratingValueFHIS = z
     ]),
   );
 
+// Reusable Establishment schema
+const establishmentSchema = z
+  .object({
+    FHRSID: z.number(),
+    BusinessName: z.string(),
+    BusinessType: z.string(),
+  })
+  .and(
+    z.union([
+      z.object({
+        Geocode: z.object({
+          Latitude: z.string(),
+          Longitude: z.string(),
+        }),
+        // FHRSID 1714030 is missing AddressLine1, but has AddressLine2. So AddressLine1 needs to be optional. (last checked 2024-11-23)
+        AddressLine1: z.string().optional(),
+        // FHRSID 1385728 is missing the real first line of the address, so the second line is in AddressLine1.
+        // So AddressLine2, AddressLine3, and AddressLine4 need to be optional. (last checed 2024-11-20)
+        AddressLine2: z.string().optional(),
+        AddressLine3: z.string().optional(),
+        AddressLine4: z.string().optional(),
+        // FHRSID 1496369 is a mobile caterer, it has an address, but no postcode.
+        // So PostCode needs to be optional. (last checked 2024-11-20)
+        PostCode: z.string().optional(),
+      }),
+      z.object({
+        Geocode: z.literal(null),
+      }),
+    ]),
+  )
+  .and(z.union([ratingValueFHRS, ratingValueFHIS]));
+
+// Header schema (required in all responses)
+const headerSchema = z.object({
+  ExtractDate: z.string(),
+  ItemCount: z.number().int().nonnegative(),
+  ReturnCode: z.string(),
+});
+
 export const dataSchema = z.object({
-  FHRSEstablishment: z.object({
-    EstablishmentCollection: z.array(
-      z
-        .object({
-          FHRSID: z.number(),
-          BusinessName: z.string(),
-          BusinessType: z.string(),
-        })
-        .and(
-          z.union([
-            z.object({
-              Geocode: z.object({
-                Latitude: z.string(),
-                Longitude: z.string(),
-              }),
-              // FHRSID 1714030 is missing AddressLine1, but has AddressLine2. So AddressLine1 needs to be optional. (last checked 2024-11-23)
-              AddressLine1: z.string().optional(),
-              // FHRSID 1385728 is missing the real first line of the address, so the second line is in AddressLine1.
-              // So AddressLine2, AddressLine3, and AddressLine4 need to be optional. (last checed 2024-11-20)
-              AddressLine2: z.string().optional(),
-              AddressLine3: z.string().optional(),
-              AddressLine4: z.string().optional(),
-              // FHRSID 1496369 is a mobile caterer, it has an address, but no postcode.
-              // So PostCode needs to be optional. (last checked 2024-11-20)
-              PostCode: z.string().optional(),
-            }),
-            z.object({
-              Geocode: z.literal(null),
-            }),
-          ]),
-        )
-        .and(z.union([ratingValueFHRS, ratingValueFHIS])),
-    ),
-  }),
+  FHRSEstablishment: z
+    .object({
+      Header: headerSchema,
+      // EstablishmentCollection can be null only when Header.ItemCount === 0
+      EstablishmentCollection: z.array(establishmentSchema).nullable(),
+    })
+    .superRefine((object, context) => {
+      const { ItemCount } = object.Header;
+      // If ItemCount > 0, EstablishmentCollection must NOT be null
+      if (ItemCount > 0 && object.EstablishmentCollection === null) {
+        context.addIssue({
+          code: z.ZodIssueCode.custom,
+          path: ["EstablishmentCollection"],
+          message:
+            "EstablishmentCollection cannot be null when Header.ItemCount is greater than 0.",
+        });
+      }
+      // If EstablishmentCollection is null, Header.ItemCount must be 0
+      if (object.EstablishmentCollection === null && ItemCount !== 0) {
+        context.addIssue({
+          code: z.ZodIssueCode.custom,
+          path: ["EstablishmentCollection"],
+          message:
+            "EstablishmentCollection may be null only when Header.ItemCount is 0.",
+        });
+      }
+    }),
 });
 
 export type LocalAuthorityData = z.infer<typeof dataSchema>;
 
-export type Establishment = z.infer<
-  typeof dataSchema
->["FHRSEstablishment"]["EstablishmentCollection"][number];
+export type Establishment = z.infer<typeof establishmentSchema>;
