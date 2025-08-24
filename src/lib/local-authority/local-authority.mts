@@ -31,5 +31,6 @@ export const readLocalAuthorityData = async (
     throw new Error(`Failed to parse data from ${filename}`);
   }
 
-  return (jsonData.FHRSEstablishment.EstablishmentCollection ?? []) as Establishment[];
+  return (jsonData.FHRSEstablishment.EstablishmentCollection ??
+    []) as Establishment[];
 };

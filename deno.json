@@ -89,10 +89,6 @@
     "test:e2e": {
       "description": "Runs end-to-end tests",
       "command": "deno task playwright:test"
-    },
-    "update-deno": {
-      "description": "Fetches the latest Deno version and updates .deno-version and devcontainer.json",
-      "command": "deno run --allow-net=api.github.com --allow-read=.deno-version,./.devcontainer/devcontainer.json --allow-write=.deno-version,./.devcontainer/devcontainer.json scripts/update-deno.mts"
     }
   },
   "fmt": {
