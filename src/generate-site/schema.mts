@@ -121,6 +121,22 @@ export const schemeNoRatingScoreFHRS: (keyof typeof ratingValue.FHRS)[] = [
   "Exempt",
 ];
 
+// Shared address fields used across establishment address variants
+const addressFields = z.strictObject({
+  // FHRSID 1714030 is missing AddressLine1, but has AddressLine2. So AddressLine1 needs to be optional. (last checked 2024-11-23)
+  AddressLine1: z.string().optional(),
+  // FHRSID 1385728 is missing the real first line of the address, so the second line is in AddressLine1.
+  // So AddressLine2, AddressLine3, and AddressLine4 need to be optional. (last checked 2024-11-20)
+  AddressLine2: z.string().optional(),
+  AddressLine3: z.string().optional(),
+  AddressLine4: z.string().optional(),
+  // FHRSID 1496369 is a mobile caterer, it has an address, but no postcode.
+  // So PostCode needs to be optional. (last checked 2024-11-20)
+  PostCode: z.string().optional(),
+});
+
+// addressFields is used internally to compose strict address variants; no exported type needed.
+
 const fhrsValidRatingKeys = (key: keyof typeof ratingValue.FHRS) => {
   return z
     .literal(ratingValue.FHRS[key].ratingKey_en)
@@ -198,25 +214,19 @@ const ratingValueFHISObjects = [
 
 // Strict address variants
 const establishmentAddressVariants = [
-  z.strictObject({
-    Geocode: z.strictObject({
-      Latitude: z.string(),
-      Longitude: z.string(),
-    }),
-    // FHRSID 1714030 is missing AddressLine1, but has AddressLine2. So AddressLine1 needs to be optional. (last checked 2024-11-23)
-    AddressLine1: z.string().optional(),
-    // FHRSID 1385728 is missing the real first line of the address, so the second line is in AddressLine1.
-    // So AddressLine2, AddressLine3, and AddressLine4 need to be optional. (last checed 2024-11-20)
-    AddressLine2: z.string().optional(),
-    AddressLine3: z.string().optional(),
-    AddressLine4: z.string().optional(),
-    // FHRSID 1496369 is a mobile caterer, it has an address, but no postcode.
-    // So PostCode needs to be optional. (last checked 2024-11-20)
-    PostCode: z.string().optional(),
-  }),
-  z.strictObject({
-    Geocode: z.literal(null),
-  }),
+  z
+    .strictObject({
+      Geocode: z.strictObject({
+        Latitude: z.string(),
+        Longitude: z.string(),
+      }),
+    })
+    .merge(addressFields),
+  z
+    .strictObject({
+      Geocode: z.literal(null),
+    })
+    .merge(addressFields),
 ];
 
 // Base fields for an Establishment
