@@ -32,9 +32,7 @@
     margin-bottom: 10px;
 
     @media (width <= 768px) {
-      & {
-        grid-template-columns: 1fr;
-      }
+      grid-template-columns: 1fr;
     }
   }
 

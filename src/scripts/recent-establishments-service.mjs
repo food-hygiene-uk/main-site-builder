@@ -13,10 +13,8 @@ class RecentEstablishmentsService {
   /**
    * Initialize the service with default storage key and maximum items
    */
-  constructor() {
-    this.STORAGE_KEY = "recent-establishments";
-    this.MAX_ITEMS = 30;
-  }
+  STORAGE_KEY = "recent-establishments";
+  MAX_ITEMS = 30;
 
   /**
    * Add an establishment to the recent list

@@ -29,9 +29,7 @@
     }
 
     @media screen and (width <= 768px) {
-      & {
-        flex-direction: column;
-      }
+      flex-direction: column;
 
       .list-selection-button {
         margin-top: 0;
@@ -96,9 +94,7 @@
     white-space: nowrap;
 
     @media screen and (width <= 820px) {
-      & {
-        white-space: normal;
-      }
+      white-space: normal;
     }
   }
 

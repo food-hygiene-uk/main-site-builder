@@ -27,10 +27,8 @@
     max-width: 100%;
 
     @media screen and (width <= 768px) {
-      & {
-        flex-direction: column-reverse;
-        align-items: center;
-      }
+      flex-direction: column-reverse;
+      align-items: center;
     }
   }
 
@@ -46,9 +44,7 @@
     border-radius: 8px;
 
     @media screen and (width <= 768px) {
-      & {
-        padding: 1rem 0;
-      }
+      padding: 1rem 0;
     }
   }
 
