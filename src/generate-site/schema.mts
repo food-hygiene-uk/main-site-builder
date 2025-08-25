@@ -230,11 +230,25 @@ const establishmentAddressVariants = [
 ];
 
 // Base fields for an Establishment
-const establishmentBase = z.strictObject({
-  FHRSID: z.number(),
-  BusinessName: z.string(),
-  BusinessType: z.string(),
+// Some authorities include additional metadata fields per establishment; keep them optional but explicit
+const establishmentOptionalAuthorityFields = z.strictObject({
+  LocalAuthorityEmailAddress: z.string().optional(),
+  RightToReply: z.string().optional(),
 });
+
+const establishmentBase = z
+  .strictObject({
+    FHRSID: z.number(),
+    BusinessName: z.string(),
+    BusinessType: z.string(),
+    LocalAuthorityBusinessID: z.union([z.string(), z.number()]),
+    BusinessTypeID: z.number().int().nonnegative(),
+    LocalAuthorityCode: z.string(),
+    LocalAuthorityName: z.string(),
+    LocalAuthorityWebSite: z.string(),
+    NewRatingPending: z.boolean(),
+  })
+  .merge(establishmentOptionalAuthorityFields);
 
 // Reusable Establishment schema as a union of fully strict merged variants
 const establishmentSchema = z.union([
