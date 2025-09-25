@@ -36,6 +36,7 @@ jobs:
           sparse-checkout: |
             .deno-version
           sparse-checkout-cone-mode: false
+          fetch-depth: 1
 
       - name: Commands
         id: commands
@@ -160,6 +161,13 @@ jobs:
           path: ./repos/source/playwright-report/
           retention-days: 7
 
+      - name: Cleanup disk space
+        run: |
+          df -h
+          mv ./repos/source/dist/ ./dist-temp/
+          sudo rm -rf ./repos/source/
+          df -h
+
       - name: Checkout GitHub Pages repository
         uses: actions/checkout@08c6903cd8c0fde910a37f88322edcfb5dd907a8 # v5.0.0
         with:
@@ -172,7 +180,7 @@ jobs:
         run: find ./repos/gh-pages/public -depth -delete
 
       - name: Move and rename generated site
-        run: mv ./repos/source/dist ./repos/gh-pages/public
+        run: mv ./dist-temp ./repos/gh-pages/public
 
       - name: Configure Git
         working-directory: ./repos/gh-pages
