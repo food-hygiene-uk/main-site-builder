@@ -17,7 +17,7 @@
  *
  * @param {string} title - The title of the modal.
  * @param {HTMLElement} content - The content to display inside the modal.
- * @param {Function} [onCloseCallback] - Optional callback invoked when the modal is closed.
+ * @param {() => void} [onCloseCallback] - Optional callback invoked when the modal is closed.
  * @returns {HTMLDialogElement} The created modal dialog element.
  */
 export const openModal = (title, content, onCloseCallback) => {

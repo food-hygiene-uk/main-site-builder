@@ -4,9 +4,15 @@ import { getListCreationDate } from "scripts/list-service.mjs";
 const SAVED_LISTS_STORAGE_KEY = "saved-establishment-lists";
 
 /**
+ * @typedef {object} Establishment
+ * @property {string} id - The unique identifier for the establishment.
+ * @property {string} name - The name of the establishment.
+ */
+
+/**
  * Gets all saved lists from localStorage
  *
- * @returns {{ [key: string]: { name: string; establishments: any[] } }} Object containing all saved lists
+ * @returns {{ [key: string]: { name: string; establishments: Establishment[] } }} Object containing all saved lists
  */
 const getSavedLists = () => {
   if (globalThis.localStorage === "undefined") return {};

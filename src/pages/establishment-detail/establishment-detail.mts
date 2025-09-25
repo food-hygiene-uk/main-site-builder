@@ -80,18 +80,21 @@ const cachedScoreMaps: Record<ScoreType, Map<number, number>> = {
   Hygiene: new Map(
     Object.keys(scoreDescriptors.scoreDescriptors.Hygiene)
       .map(Number)
+      // eslint-disable-next-line unicorn/no-array-sort
       .sort((a, b) => b - a)
       .map((score, index) => [score, index + 1]),
   ),
   Structural: new Map(
     Object.keys(scoreDescriptors.scoreDescriptors.Structural)
       .map(Number)
+      // eslint-disable-next-line unicorn/no-array-sort
       .sort((a, b) => b - a)
       .map((score, index) => [score, index + 1]),
   ),
   Confidence: new Map(
     Object.keys(scoreDescriptors.scoreDescriptors.Confidence)
       .map(Number)
+      // eslint-disable-next-line unicorn/no-array-sort
       .sort((a, b) => b - a)
       .map((score, index) => [score, index + 1]),
   ),

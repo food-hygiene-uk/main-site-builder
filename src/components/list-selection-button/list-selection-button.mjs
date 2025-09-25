@@ -47,11 +47,7 @@ export const renderListSelectionButton = (FHRSID) => {
     openListSelectionModal(FHRSID, () => {
       // Reevaluate if the establishment is on the list after the modal is closed
       const updatedIsOnList = isEstablishmentOnList(FHRSID);
-      if (updatedIsOnList) {
-        listSelectionButton.classList.add("on-list");
-      } else {
-        listSelectionButton.classList.remove("on-list");
-      }
+      listSelectionButton.classList.toggle("on-list", updatedIsOnList);
     });
   });
 

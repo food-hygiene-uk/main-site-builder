@@ -98,7 +98,7 @@ export class EstablishmentList {
   /**
    * Render the pagination controls
    *
-   * @param {Function} [onPageChange] - Callback to execute when page changes
+   * @param {(page: number) => void} [onPageChange] - Callback to execute when page changes
    * @private
    */
   _renderPagination(onPageChange) {
@@ -144,7 +144,7 @@ export class EstablishmentList {
    *
    * @param {string|number} text - The text to display on the button
    * @param {number} page - The page number this button should navigate to
-   * @param {Function} [onPageChange] - Callback to execute when page changes
+   * @param {(page: number) => void} [onPageChange] - Callback to execute when page changes
    * @returns {HTMLButtonElement} The created button element
    * @private
    */
@@ -237,7 +237,7 @@ export class EstablishmentList {
    * @param {number} [data.currentPage] - Current page number
    * @param {number} [data.pageSize] - Page size
    * @param {boolean} [isLoading] - Whether the data is still loading
-   * @param {Function} [onPageChange] - Callback to execute when page changes
+   * @param {(page: number) => void} [onPageChange] - Callback to execute when page changes
    * @returns {Promise<void>} Promise that resolves when establishments are loaded and rendered
    */
   async loadEstablishments(data, isLoading = false, onPageChange = null) {

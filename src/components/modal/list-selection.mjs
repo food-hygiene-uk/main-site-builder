@@ -124,7 +124,7 @@ const updateCheckboxStates = (FHRSID, modalElement) => {
  * Opens a list selection modal for managing an establishment's lists.
  *
  * @param {string} FHRSID - The unique identifier of the establishment.
- * @param {Function} onClose - Callback function invoked when the modal is closed.
+ * @param {() => void} onClose - Callback function invoked when the modal is closed.
  */
 export const openListSelectionModal = (FHRSID, onClose) => {
   // Create a placeholder div. openModal will place this inside its own .modal-body.

@@ -22,9 +22,10 @@ const establishmentData = establishments.map((establishment) => ({
  * Debounces a function, delaying its execution until after a certain amount of time has passed
  * since the last invocation.
  *
- * @param {(args: any[]) => void} function_ - The function to debounce.
+ * @template {unknown[]} T
+ * @param {(...args: T) => void} function_ - The function to debounce.
  * @param {number} wait - The number of milliseconds to wait before executing the function.
- * @returns {(args: any[]) => void} A debounced version of the function.
+ * @returns {(...args: T) => void} A debounced version of the function.
  */
 const debounce = (function_, wait) => {
   let timeout;
@@ -90,7 +91,7 @@ const updates = new Set(); // Store visibility updates
  * @param {number} startIndex - The starting index of the batch.
  * @param {number} batchSize - The size of the batch.
  * @param {string[]} searchTerms - The array of search terms.
- * @param {Function} resolve - The resolve function of the promise.
+ * @param {() => void} resolve - The resolve function of the promise.
  * @returns {void}
  */
 const processBatch = (startIndex, batchSize, searchTerms, resolve) => {

@@ -72,11 +72,15 @@ const getRegionLocalAuthorities = (
   }
 
   return Object.values(regionMap).map((region) => {
-    const authorities = groupedByRegion[region] || [];
+    // groupedByRegion is created in this function, no need to clone it
+    // eslint-disable-next-line unicorn/no-array-sort
+    const authorities = (groupedByRegion[region] || []).sort((a, b) =>
+      a.Name.localeCompare(b.Name)
+    );
 
     return {
       region,
-      authorities: authorities.sort((a, b) => a.Name.localeCompare(b.Name)),
+      authorities,
     };
   });
 };
