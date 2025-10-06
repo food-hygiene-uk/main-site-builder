@@ -111,11 +111,16 @@ const updateCheckboxStates = (FHRSID, modalElement) => {
     const checkbox = document.createElement("input");
     checkbox.type = "checkbox";
     checkbox.className = "styled-checkbox";
-    checkbox.dataset.listId = listId; // Store the list ID for reference
+    checkbox.id = `list-${listId}`;
+    checkbox.dataset.listId = listId;
     checkbox.checked = list.establishments.some((est) => est.FHRSID === FHRSID);
 
+    const label = document.createElement("label");
+    label.htmlFor = `list-${listId}`;
+    label.textContent = list.name;
+
     listItem.append(checkbox);
-    listItem.append(document.createTextNode(list.name));
+    listItem.append(label);
     savedListContainer.append(listItem);
   }
 };
