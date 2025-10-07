@@ -357,9 +357,11 @@ document.addEventListener("DOMContentLoaded", () => {
       };
 
       // Get recent establishments from service
-      establishments = await Promise.all(recentEstablishmentsService.getRecentEstablishments().map((item) =>
-        fetchEstablishmentDetails(item.FHRSID)
-      ));
+      establishments = await Promise.all(
+        recentEstablishmentsService
+          .getRecentEstablishments()
+          .map((item) => fetchEstablishmentDetails(item.FHRSID)),
+      );
 
       // Show the clear button for recent list
       if (clearButton) {
@@ -382,7 +384,7 @@ document.addEventListener("DOMContentLoaded", () => {
         establishments = await Promise.all(
           savedList.establishments.map((item) =>
             fetchEstablishmentDetails(item.FHRSID)
-          )
+          ),
         );
 
         // Show delete button for saved lists
@@ -476,5 +478,4 @@ document.addEventListener("DOMContentLoaded", () => {
 
     loadEstablishments();
   };
-
 });

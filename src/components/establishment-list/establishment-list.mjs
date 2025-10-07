@@ -97,8 +97,12 @@ export class EstablishmentList {
         defaultSortOption: this.defaultSortOption,
         defaultSortDirection: this.defaultSortDirection,
         enableFiltering: this.enableFiltering,
-        onFilterChange: (filterText) => { this._onFilterChangeCallback(filterText); },
-        onSortChange: (sortOption, sortDirection) => { this._onSortChangeCallback(sortOption, sortDirection); },
+        onFilterChange: (filterText) => {
+          this._onFilterChangeCallback(filterText);
+        },
+        onSortChange: (sortOption, sortDirection) => {
+          this._onSortChangeCallback(sortOption, sortDirection);
+        },
       });
     }
 

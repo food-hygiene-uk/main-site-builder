@@ -113,8 +113,6 @@ const decodeEstablishmentIds = (encoded) => {
   }
 };
 
-
-
 document.addEventListener("DOMContentLoaded", () => {
   // Get DOM elements
   const listTitle = document.querySelector("#listTitle");
