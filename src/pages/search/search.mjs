@@ -35,6 +35,8 @@ const state = {
 // Initialize page
 document.addEventListener("DOMContentLoaded", () => {
   // Initialize the establishment list component
+  // Note: Search results come from the API with server-side pagination,
+  // so we don't need client-side filtering/sorting
   establishmentList = new EstablishmentList({
     container: resultsContainer,
     loadingElement: loadingIndicator,
@@ -42,6 +44,7 @@ document.addEventListener("DOMContentLoaded", () => {
     errorElement: document.createElement("div"), // We'll handle errors manually
     countElement: resultsCount,
     pageSize: state.pageSize,
+    enableDisplay: false, // Disable display component - API handles filtering/sorting
   });
 
   setupConsentHandling();
@@ -418,6 +421,7 @@ export const displayResults = async ({ establishments, totalResults }) => {
   resultsContainer.style.display = "block";
 
   // Load the establishments into the list component
+  // Server-side pagination: pass data as-is to the component
   await establishmentList.loadEstablishments(
     {
       establishments,
@@ -427,6 +431,8 @@ export const displayResults = async ({ establishments, totalResults }) => {
     },
     false,
     handlePageChange,
+    null, // No filter callback - API handles filtering
+    null, // No sort callback - API handles sorting
   );
 };
 

@@ -16,13 +16,6 @@ import { renderListSelectionButton } from "components/list-selection-button/list
   document.head.append(link);
 }
 
-// FHRS API Configuration
-const API_BASE = "https://api.ratings.food.gov.uk";
-const API_HEADERS = {
-  accept: "application/json",
-  "x-api-version": "2",
-};
-
 /**
  * Formats a date as a relative time (e.g., "2 days ago")
  *
@@ -85,57 +78,6 @@ export function slugify(text) {
 }
 
 /**
- * Fetches establishment details from the FHRS API
- *
- * @param {string|number} FHRSID - The FHRSID of the establishment
- * @returns {Promise<Establishment|null>} The establishment data or null if not found
- */
-const fetchEstablishmentDetails = async (FHRSID) => {
-  try {
-    const response = await fetch(`${API_BASE}/Establishments/${FHRSID}`, {
-      headers: API_HEADERS,
-    });
-
-    if (!response.ok) {
-      console.error(
-        `Failed to fetch establishment ${FHRSID}: ${response.status}`,
-      );
-      return null;
-    }
-
-    return await response.json();
-  } catch (error) {
-    console.error(`Error fetching establishment ${FHRSID}:`, error);
-    return null;
-  }
-};
-
-/**
- * Hydrates an establishment
- *
- * @param {Establishment|MinimalEstablishment} establishment - The establishment to hydrate
- * @returns {Promise<Establishment|null>} Promise resolving to the hydrated establishment details
- */
-const getHydratedEstablishment = async (establishment) => {
-  // Extract the FHRSID
-  const FHRSID = establishment.FHRSID;
-
-  // Check if we need to fetch additional data
-  if (!establishment.RatingKey) {
-    try {
-      // Simply fetch and return the API data without modifications
-      return await fetchEstablishmentDetails(FHRSID);
-    } catch (error) {
-      console.error("Error fetching establishment details:", error);
-      return null;
-    }
-  }
-
-  // Already have complete data
-  return establishment;
-};
-
-/**
  * Renders an establishment card
  *
  * @param {Establishment|MinimalEstablishment} establishment - The establishment to render
@@ -155,9 +97,7 @@ export async function renderEstablishmentCard(establishment) {
     String(FHRSID),
   );
 
-  const hydratedEstablishment = await getHydratedEstablishment(establishment);
-
-  if (!hydratedEstablishment) {
+  if (!establishment) {
     console.error("Failed to get establishment details:", FHRSID);
     return document.createElement("div");
   }
@@ -169,7 +109,7 @@ export async function renderEstablishmentCard(establishment) {
 
   // Create content
   const nameElement = document.createElement("h3");
-  nameElement.textContent = hydratedEstablishment.BusinessName;
+  nameElement.textContent = establishment.BusinessName;
   item.append(nameElement);
 
   const details = document.createElement("div");
@@ -178,37 +118,37 @@ export async function renderEstablishmentCard(establishment) {
   // Left column
   const leftCol = document.createElement("div");
 
-  if (hydratedEstablishment.BusinessType) {
+  if (establishment.BusinessType) {
     const typeElement = document.createElement("p");
     typeElement.className = "business-type";
-    typeElement.textContent = hydratedEstablishment.BusinessType;
+    typeElement.textContent = establishment.BusinessType;
     leftCol.append(typeElement);
   }
 
   // Address if available
   if (
-    hydratedEstablishment.AddressLine1 ||
-    hydratedEstablishment.AddressLine2 ||
-    hydratedEstablishment.AddressLine3 ||
-    hydratedEstablishment.AddressLine4 ||
-    hydratedEstablishment.PostCode
+    establishment.AddressLine1 ||
+    establishment.AddressLine2 ||
+    establishment.AddressLine3 ||
+    establishment.AddressLine4 ||
+    establishment.PostCode
   ) {
     // Create address from address lines
     const addressParts = [];
-    if (hydratedEstablishment.AddressLine1) {
-      addressParts.push(hydratedEstablishment.AddressLine1);
+    if (establishment.AddressLine1) {
+      addressParts.push(establishment.AddressLine1);
     }
-    if (hydratedEstablishment.AddressLine2) {
-      addressParts.push(hydratedEstablishment.AddressLine2);
+    if (establishment.AddressLine2) {
+      addressParts.push(establishment.AddressLine2);
     }
-    if (hydratedEstablishment.AddressLine3) {
-      addressParts.push(hydratedEstablishment.AddressLine3);
+    if (establishment.AddressLine3) {
+      addressParts.push(establishment.AddressLine3);
     }
-    if (hydratedEstablishment.AddressLine4) {
-      addressParts.push(hydratedEstablishment.AddressLine4);
+    if (establishment.AddressLine4) {
+      addressParts.push(establishment.AddressLine4);
     }
-    if (hydratedEstablishment.PostCode) {
-      addressParts.push(hydratedEstablishment.PostCode);
+    if (establishment.PostCode) {
+      addressParts.push(establishment.PostCode);
     }
 
     if (addressParts.length > 0) {
@@ -222,7 +162,7 @@ export async function renderEstablishmentCard(establishment) {
   const rightCol = document.createElement("div");
 
   // Rating information
-  const rating = hydratedEstablishment.RatingValue;
+  const rating = establishment.RatingValue;
   if (rating) {
     const ratingClass = `rating-${rating}`;
     const ratingText = `Rating: ${rating}`;
@@ -235,7 +175,7 @@ export async function renderEstablishmentCard(establishment) {
     rightCol.append(ratingP);
 
     // Rating date if available
-    const ratingDate = hydratedEstablishment.RatingDate;
+    const ratingDate = establishment.RatingDate;
     if (ratingDate) {
       const dateP = document.createElement("p");
       dateP.textContent = `Last inspection: ${formatDate(ratingDate)}`;
@@ -259,9 +199,9 @@ export async function renderEstablishmentCard(establishment) {
   const link = document.createElement("a");
   link.href = `/e/${
     slugify(
-      hydratedEstablishment.BusinessName,
+      establishment.BusinessName,
     )
-  }-${hydratedEstablishment.FHRSID}`;
+  }-${establishment.FHRSID}`;
   link.className = "details-link";
   link.textContent = "View details";
   item.append(link);
@@ -270,7 +210,7 @@ export async function renderEstablishmentCard(establishment) {
   const buttonContainer = document.createElement("div");
   buttonContainer.className = "button-container";
   const listSelectionButton = renderListSelectionButton(
-    hydratedEstablishment.FHRSID,
+    establishment.FHRSID,
   );
   buttonContainer.append(listSelectionButton);
   item.append(buttonContainer);

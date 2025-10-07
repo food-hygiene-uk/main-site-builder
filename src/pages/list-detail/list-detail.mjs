@@ -1,9 +1,23 @@
 import { EstablishmentList } from "components/establishment-list/establishment-list.mjs";
 import recentEstablishmentsService from "scripts/recent-establishments-service.mjs";
 import { openModal } from "components/modal/modal.mjs";
+import { fetchEstablishmentDetails } from "scripts/establishment.mjs";
+
+/*
+ * @typedef {import("components/establishment-card/establishment-card.mjs").Establishment} Establishment
+ */
 
 // Storage key for saved lists
 const SAVED_LISTS_STORAGE_KEY = "saved-establishment-lists";
+const PAGE_SIZE = 10;
+
+// module scope variables
+const establishmentView = {
+  page: 1,
+  filterText: "",
+  sortOption: "",
+  sortDirection: true, // true = ascending, false = descending
+};
 
 /**
  * Encodes an array of establishment IDs into a compact string representation
@@ -25,6 +39,83 @@ const encodeEstablishmentIds = (ids) => {
   return btoa(jsonString);
 };
 
+/**
+ * Filter establishments by name
+ *
+ * @param {Array<Establishment>} establishments - Establishments to filter
+ * @param {string} filterText - Text to filter by
+ * @returns {Array<Establishment>} Filtered establishments
+ */
+const filterEstablishments = (establishments, filterText) => {
+  if (!filterText) return establishments;
+
+  const filterTextLower = filterText.toLowerCase();
+  return establishments.filter((establishment) =>
+    establishment.BusinessName.toLowerCase().includes(filterTextLower)
+  );
+};
+
+/**
+ * Sort establishments by the given option and direction
+ *
+ * @param {Array<Establishment>} establishments - Establishments to sort
+ * @param {string} sortOption - Sort option to use
+ * @param {boolean} sortDirection - Sort direction (true for ascending, false for descending)
+ * @returns {Array<Establishment>} Sorted establishments
+ */
+const sortEstablishments = (establishments, sortOption, sortDirection) => {
+  if (!sortOption) return establishments;
+
+  const sortedEstablishments = [...establishments]; // Create a copy to avoid mutating original
+
+  switch (sortOption) {
+    case "name": {
+      sortedEstablishments.sort((a, b) => {
+        const result = a.BusinessName.localeCompare(b.BusinessName);
+        return sortDirection ? result : -result;
+      });
+      break;
+    }
+    case "rating": {
+      sortedEstablishments.sort((a, b) => {
+        const ratingA = a.RatingValue ? Number(a.RatingValue) : -1;
+        const ratingB = b.RatingValue ? Number(b.RatingValue) : -1;
+        const result = ratingA - ratingB;
+        return sortDirection ? result : -result;
+      });
+      break;
+    }
+    case "date": {
+      sortedEstablishments.sort((a, b) => {
+        if (!a.RatingDate) return sortDirection ? 1 : -1;
+        if (!b.RatingDate) return sortDirection ? -1 : 1;
+        const result = new Date(a.RatingDate) - new Date(b.RatingDate);
+        return sortDirection ? result : -result;
+      });
+      break;
+    }
+    default: {
+      // No sorting
+      break;
+    }
+  }
+
+  return sortedEstablishments;
+};
+
+/**
+ * Slices an array of establishments to get the items for a specific page.
+ *
+ * @param {Array<Establishment>} establishments - The full array of establishments to paginate.
+ * @param {number} page - The current page number (1-based).
+ * @returns {Array<Establishment>} A new array containing the establishments for the specified page.
+ */
+const sliceEstablishments = (establishments, page) => {
+  const startIndex = (page - 1) * PAGE_SIZE;
+  const endIndex = startIndex + PAGE_SIZE;
+  return establishments.slice(startIndex, endIndex);
+};
+
 document.addEventListener("DOMContentLoaded", () => {
   // Get DOM elements
   const listTitle = document.querySelector("#listTitle");
@@ -41,14 +132,18 @@ document.addEventListener("DOMContentLoaded", () => {
   const urlParameters = new URLSearchParams(globalThis.location.search);
   const listId = urlParameters.get("id") || "recent";
 
-  // Initialize the establishment list component with explicit defaultView
+  // Initialize the establishment list component with display component for filtering and sorting
   const establishmentList = new EstablishmentList({
     container: establishmentsContainer,
     loadingElement: loadingIndicator,
     emptyElement: emptyListMessage,
     errorElement: errorMessage,
-    pageSize: 10,
+    pageSize: PAGE_SIZE,
     enableViewToggle: true,
+    enableDisplay: true, // Enable the filter and sort functionality
+    enableFiltering: true,
+    defaultSortOption: "name", // Default sort by name
+    defaultSortDirection: true, // Default ascending (A-Z)
   });
 
   // Stores the current list of establishments for sharing
@@ -262,7 +357,9 @@ document.addEventListener("DOMContentLoaded", () => {
       };
 
       // Get recent establishments from service
-      establishments = recentEstablishmentsService.getRecentEstablishments();
+      establishments = await Promise.all(recentEstablishmentsService.getRecentEstablishments().map((item) =>
+        fetchEstablishmentDetails(item.FHRSID)
+      ));
 
       // Show the clear button for recent list
       if (clearButton) {
@@ -282,7 +379,11 @@ document.addEventListener("DOMContentLoaded", () => {
           }`,
         };
 
-        establishments = savedList.establishments;
+        establishments = await Promise.all(
+          savedList.establishments.map((item) =>
+            fetchEstablishmentDetails(item.FHRSID)
+          )
+        );
 
         // Show delete button for saved lists
         if (deleteButton) {
@@ -315,36 +416,38 @@ document.addEventListener("DOMContentLoaded", () => {
     // Make sure the container is visible before loading establishments
     establishmentsContainer.style.display = "block";
 
-    // For client-side pagination, we need a page change handler that updates the view
-    // without loading new data from the server
-    const handleClientPageChange = async (page) => {
-      // Make sure container stays visible
-      establishmentsContainer.style.display = "block";
+    {
+      const filteredEstablishments = filterEstablishments(
+        establishments,
+        establishmentView.filterText,
+      );
+      const establishmentsLength = filteredEstablishments.length;
+      const sortedEstablishments = sortEstablishments(
+        filteredEstablishments,
+        establishmentView.sortOption,
+        establishmentView.sortDirection,
+      );
 
-      // Just re-render the current page with the existing establishments
+      const pageEstablishments = sliceEstablishments(
+        sortedEstablishments,
+        establishmentView.page,
+      );
       await establishmentList.loadEstablishments(
         {
-          establishments: establishments,
-          totalResults: establishments.length,
-          currentPage: page,
-          pageSize: 10,
+          establishments: pageEstablishments,
+          totalResults: establishmentsLength,
+          currentPage: establishmentView.page,
+          pageSize: PAGE_SIZE,
+          filterText: establishmentView.filterText,
+          sortOption: establishmentView.sortOption,
+          sortDirection: establishmentView.sortDirection,
         },
         false,
         handleClientPageChange,
+        handleFilterChange,
+        handleSortChange,
       );
-    };
-
-    // Load all establishments at once for client-side pagination
-    await establishmentList.loadEstablishments(
-      {
-        establishments: establishments,
-        totalResults: establishments.length,
-        currentPage: 1,
-        pageSize: 10,
-      },
-      false,
-      handleClientPageChange,
-    );
+    }
 
     // Double-check visibility after loading
     establishmentsContainer.style.display = "block";
@@ -352,4 +455,26 @@ document.addEventListener("DOMContentLoaded", () => {
 
   // Load establishments when the page loads
   loadEstablishments();
+
+  const handleClientPageChange = async (page) => {
+    establishmentView.page = page;
+
+    loadEstablishments();
+  };
+
+  const handleFilterChange = async (filterText) => {
+    establishmentView.filterText = filterText;
+    establishmentView.page = 1; // Reset to first page on filter change
+
+    loadEstablishments();
+  };
+
+  const handleSortChange = async (sortOption, sortDirection) => {
+    establishmentView.sortOption = sortOption;
+    establishmentView.sortDirection = sortDirection;
+    establishmentView.page = 1; // Reset to first page on sort change
+
+    loadEstablishments();
+  };
+
 });

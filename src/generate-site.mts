@@ -32,6 +32,7 @@ await ensureDir("dist/sitemap");
 await ensureDir("dist/components");
 await ensureDir("dist/components/establishment-card");
 await ensureDir("dist/components/establishment-list");
+await ensureDir("dist/components/establishment-display");
 
 // Copy needed files to dist directory
 await copy("assets", "dist", { overwrite: true });
@@ -39,6 +40,7 @@ await copy("src/scripts", "dist/scripts", { overwrite: true });
 
 const components = [
   "establishment-card",
+  "establishment-display",
   "establishment-list",
   "list-selection-button",
   "modal",

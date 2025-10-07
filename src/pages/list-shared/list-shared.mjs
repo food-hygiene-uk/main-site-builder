@@ -1,15 +1,95 @@
 import { EstablishmentList } from "components/establishment-list/establishment-list.mjs";
 import { openModal } from "components/modal/modal.mjs";
-
-// FHRS API Configuration
-const API_BASE = "https://api.ratings.food.gov.uk";
-const API_HEADERS = {
-  accept: "application/json",
-  "x-api-version": "2",
-};
+import { fetchEstablishmentDetails } from "scripts/establishment.mjs";
 
 // Storage key for saved lists
 const SAVED_LISTS_STORAGE_KEY = "saved-establishment-lists";
+const PAGE_SIZE = 10;
+
+// module scope variables
+const establishmentView = {
+  page: 1,
+  filterText: "",
+  sortOption: "name",
+  sortDirection: true, // true = ascending, false = descending
+};
+
+/**
+ * Filter establishments by name
+ *
+ * @param {Array<import("components/establishment-card/establishment-card.mjs").Establishment>} establishments - Establishments to filter
+ * @param {string} filterText - Text to filter by
+ * @returns {Array<import("components/establishment-card/establishment-card.mjs").Establishment>} Filtered establishments
+ */
+const filterEstablishments = (establishments, filterText) => {
+  if (!filterText) return establishments;
+
+  const filterTextLower = filterText.toLowerCase();
+  return establishments.filter((establishment) =>
+    establishment.BusinessName.toLowerCase().includes(filterTextLower)
+  );
+};
+
+/**
+ * Sort establishments by the given option and direction
+ *
+ * @param {Array<import("components/establishment-card/establishment-card.mjs").Establishment>} establishments - Establishments to sort
+ * @param {string} sortOption - Sort option to use
+ * @param {boolean} sortDirection - Sort direction (true for ascending, false for descending)
+ * @returns {Array<import("components/establishment-card/establishment-card.mjs").Establishment>} Sorted establishments
+ */
+const sortEstablishments = (establishments, sortOption, sortDirection) => {
+  if (!sortOption) return establishments;
+
+  const sortedEstablishments = [...establishments]; // Create a copy to avoid mutating original
+
+  switch (sortOption) {
+    case "name": {
+      sortedEstablishments.sort((a, b) => {
+        const result = a.BusinessName.localeCompare(b.BusinessName);
+        return sortDirection ? result : -result;
+      });
+      break;
+    }
+    case "rating": {
+      sortedEstablishments.sort((a, b) => {
+        const ratingA = a.RatingValue ? Number(a.RatingValue) : -1;
+        const ratingB = b.RatingValue ? Number(b.RatingValue) : -1;
+        const result = ratingA - ratingB;
+        return sortDirection ? result : -result;
+      });
+      break;
+    }
+    case "date": {
+      sortedEstablishments.sort((a, b) => {
+        if (!a.RatingDate) return sortDirection ? 1 : -1;
+        if (!b.RatingDate) return sortDirection ? -1 : 1;
+        const result = new Date(a.RatingDate) - new Date(b.RatingDate);
+        return sortDirection ? result : -result;
+      });
+      break;
+    }
+    default: {
+      // No sorting
+      break;
+    }
+  }
+
+  return sortedEstablishments;
+};
+
+/**
+ * Slices an array of establishments to get the items for a specific page.
+ *
+ * @param {Array<import("components/establishment-card/establishment-card.mjs").Establishment>} establishments - The full array of establishments to paginate.
+ * @param {number} page - The current page number (1-based).
+ * @returns {Array<import("components/establishment-card/establishment-card.mjs").Establishment>} A new array containing the establishments for the specified page.
+ */
+const sliceEstablishments = (establishments, page) => {
+  const startIndex = (page - 1) * PAGE_SIZE;
+  const endIndex = startIndex + PAGE_SIZE;
+  return establishments.slice(startIndex, endIndex);
+};
 
 /**
  * Decodes a compact string representation back into an array of establishment IDs
@@ -33,29 +113,7 @@ const decodeEstablishmentIds = (encoded) => {
   }
 };
 
-/**
- * Loads establishment details for a single establishment by ID
- *
- * @param {string} id - The FHRSID of the establishment to load
- * @returns {Promise<object|null>} The establishment data or null if not found
- */
-const loadEstablishmentById = async (id) => {
-  try {
-    const response = await fetch(`${API_BASE}/Establishments/${id}`, {
-      headers: API_HEADERS,
-    });
 
-    if (!response.ok) {
-      console.error(`Failed to fetch establishment ${id}: ${response.status}`);
-      return null;
-    }
-
-    return await response.json();
-  } catch (error) {
-    console.error(`Error fetching establishment ${id}:`, error);
-    return null;
-  }
-};
 
 document.addEventListener("DOMContentLoaded", () => {
   // Get DOM elements
@@ -81,14 +139,75 @@ document.addEventListener("DOMContentLoaded", () => {
     establishmentIds = decodeEstablishmentIds(encodedData);
   }
 
-  // Initialize the establishment list component
+  // Store loaded establishments for filtering/sorting/pagination
+  let allEstablishments = [];
+
+  const handleClientPageChange = async (page) => {
+    establishmentView.page = page;
+    renderEstablishments();
+  };
+
+  const handleFilterChange = async (filterText) => {
+    establishmentView.filterText = filterText;
+    establishmentView.page = 1; // Reset to first page on filter change
+    renderEstablishments();
+  };
+
+  const handleSortChange = async (sortOption, sortDirection) => {
+    establishmentView.sortOption = sortOption;
+    establishmentView.sortDirection = sortDirection;
+    establishmentView.page = 1; // Reset to first page on sort change
+    renderEstablishments();
+  };
+
+  /**
+   * Renders establishments based on current state (filter, sort, page)
+   */
+  const renderEstablishments = async () => {
+    const filteredEstablishments = filterEstablishments(
+      allEstablishments,
+      establishmentView.filterText,
+    );
+    const establishmentsLength = filteredEstablishments.length;
+    const sortedEstablishments = sortEstablishments(
+      filteredEstablishments,
+      establishmentView.sortOption,
+      establishmentView.sortDirection,
+    );
+
+    const pageEstablishments = sliceEstablishments(
+      sortedEstablishments,
+      establishmentView.page,
+    );
+    await establishmentList.loadEstablishments(
+      {
+        establishments: pageEstablishments,
+        totalResults: establishmentsLength,
+        currentPage: establishmentView.page,
+        pageSize: PAGE_SIZE,
+        filterText: establishmentView.filterText,
+        sortOption: establishmentView.sortOption,
+        sortDirection: establishmentView.sortDirection,
+      },
+      false,
+      handleClientPageChange,
+      handleFilterChange,
+      handleSortChange,
+    );
+  };
+
+  // Initialize the establishment list component with display component for filtering and sorting
   const establishmentList = new EstablishmentList({
     container: establishmentsContainer,
     loadingElement: loadingIndicator,
     emptyElement: emptyListMessage,
     errorElement: errorMessage,
-    pageSize: 10,
+    pageSize: PAGE_SIZE,
     enableViewToggle: true,
+    enableDisplay: true, // Enable the filter and sort functionality
+    enableFiltering: true,
+    defaultSortOption: "name", // Default sort by name
+    defaultSortDirection: true, // Default ascending (A-Z)
   });
 
   /**
@@ -268,7 +387,7 @@ document.addEventListener("DOMContentLoaded", () => {
     try {
       // Load all establishments in parallel
       const establishmentPromises = establishmentIds.map((id) =>
-        loadEstablishmentById(id)
+        fetchEstablishmentDetails(id)
       );
       const establishments = await Promise.all(establishmentPromises);
 
@@ -279,6 +398,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
       // Store the loaded establishments for saving later
       loadedEstablishments = validEstablishments;
+      allEstablishments = validEstablishments;
 
       // Update description
       listDescription.textContent =
@@ -300,33 +420,14 @@ document.addEventListener("DOMContentLoaded", () => {
         return;
       }
 
-      // For client-side pagination
-      const handleClientPageChange = async (page) => {
-        establishmentsContainer.style.display = "block";
+      // Reset view state
+      establishmentView.page = 1;
+      establishmentView.filterText = "";
+      establishmentView.sortOption = "name";
+      establishmentView.sortDirection = true;
 
-        await establishmentList.loadEstablishments(
-          {
-            establishments: validEstablishments,
-            totalResults: validEstablishments.length,
-            currentPage: page,
-            pageSize: 10,
-          },
-          false,
-          handleClientPageChange,
-        );
-      };
-
-      // Load all establishments for client-side pagination
-      await establishmentList.loadEstablishments(
-        {
-          establishments: validEstablishments,
-          totalResults: validEstablishments.length,
-          currentPage: 1,
-          pageSize: 10,
-        },
-        false,
-        handleClientPageChange,
-      );
+      // Render establishments using the new pattern
+      await renderEstablishments();
 
       // Ensure visibility
       establishmentsContainer.style.display = "block";
