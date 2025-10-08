@@ -73,6 +73,31 @@ export class EstablishmentList {
   }
 
   /**
+   * Shows only the specified section and hides all others
+   *
+   * @param {string} section - The section to show
+   * @private
+   */
+  showSection(section) {
+    const sections = {
+      loading: this.loadingElement,
+      empty: this.emptyElement,
+      error: this.errorElement,
+      list: this.wrapper,
+    };
+
+    for (const [key, sec] of Object.entries(sections)) {
+      if (sec) {
+        if (key === section) {
+          sec.removeAttribute("hidden");
+        } else {
+          sec.setAttribute("hidden", "hidden");
+        }
+      }
+    }
+  }
+
+  /**
    * Create the necessary DOM elements
    *
    * @private
@@ -217,9 +242,7 @@ export class EstablishmentList {
     this.listElement.innerHTML = "";
 
     // Show loading state while rendering
-    if (this.loadingElement) {
-      this.loadingElement.style.display = "block";
-    }
+    this.showSection("loading");
 
     try {
       // Render items in list view
@@ -236,20 +259,7 @@ export class EstablishmentList {
         }
       }
     } finally {
-      // Hide loading indicator when done
-      if (this.loadingElement) {
-        this.loadingElement.style.display = "none";
-      }
-
-      // Ensure our wrapper is visible
-      if (this.wrapper) {
-        this.wrapper.style.display = "block";
-      }
-
-      // Ensure our list element is visible
-      if (this.listElement) {
-        this.listElement.style.display = "flex";
-      }
+      this.showSection("list");
     }
   }
 
@@ -278,11 +288,8 @@ export class EstablishmentList {
     onSortChange = null,
   ) {
     if (isLoading) {
-      // Only show loading and hide results when explicitly in loading state
-      if (this.loadingElement) this.loadingElement.style.display = "block";
-      if (this.emptyElement) this.emptyElement.style.display = "none";
-      if (this.errorElement) this.errorElement.style.display = "none";
-      if (this.wrapper) this.wrapper.style.display = "none";
+      this.showSection("loading");
+
       return;
     }
 
@@ -301,22 +308,13 @@ export class EstablishmentList {
     this._onFilterChangeCallback = onFilterChange;
     this._onSortChangeCallback = onSortChange;
 
-    // Hide loading indicator now that we have data
-    if (this.loadingElement) this.loadingElement.style.display = "none";
-
     if (this.establishments.length === 0) {
-      if (this.emptyElement) this.emptyElement.style.display = "block";
-      if (this.wrapper) this.wrapper.style.display = "none";
+      this.showSection("empty");
       if (this.countElement) {
         this.countElement.textContent = "0 results found";
       }
     } else {
-      if (this.emptyElement) this.emptyElement.style.display = "none";
-
-      // Make sure wrapper is visible when we have results
-      if (this.wrapper) {
-        this.wrapper.style.display = "block";
-      }
+      this.showSection("list");
 
       // Update count element if it exists
       if (this.countElement) {
@@ -351,18 +349,14 @@ export class EstablishmentList {
    * @param {string} message - The error message to display
    */
   showError(message) {
-    if (this.loadingElement) this.loadingElement.style.display = "none";
-    if (this.emptyElement) this.emptyElement.style.display = "none";
-
     if (this.errorElement) {
-      this.errorElement.style.display = "block";
+      this.showSection("error");
+
       this.errorElement.innerHTML = `
         <div class="error-message">
           <p>${message || "An error occurred"}</p>
         </div>
       `;
     }
-
-    this.wrapper.style.display = "none";
   }
 }
