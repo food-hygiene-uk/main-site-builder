@@ -5,6 +5,7 @@ import {
   fetchEstablishmentDetails,
   sortEstablishments,
 } from "scripts/establishment.mjs";
+import { getListCreationDate } from "scripts/list-service.mjs";
 
 /*
  * @typedef {import("components/establishment-card/establishment-card.mjs").Establishment} Establishment
@@ -345,8 +346,8 @@ document.addEventListener("DOMContentLoaded", () => {
         listInfo = {
           title: savedList.name,
           description: `Saved on ${
-            new Date(
-              savedList.created,
+            getListCreationDate(
+              listId,
             ).toLocaleDateString()
           }`,
         };
