@@ -1,22 +1,40 @@
 import { EstablishmentList } from "components/establishment-list/establishment-list.mjs";
 import recentEstablishmentsService from "scripts/recent-establishments-service.mjs";
 import { openModal } from "components/modal/modal.mjs";
-import { fetchEstablishmentDetails } from "scripts/establishment.mjs";
+import {
+  fetchEstablishmentDetails,
+  sortEstablishments,
+} from "scripts/establishment.mjs";
 
 /*
  * @typedef {import("components/establishment-card/establishment-card.mjs").Establishment} Establishment
+ * @typedef {import("components/establishment-display/establishment-display.mjs").DefaultSortOptionValue} DefaultSortOptionValue
  */
 
 // Storage key for saved lists
 const SAVED_LISTS_STORAGE_KEY = "saved-establishment-lists";
 const PAGE_SIZE = 10;
 
+/**
+ * Default sort option for list detail page
+ *
+ * @type {DefaultSortOptionValue}
+ */
+const DEFAULT_SORT_OPTION = "order";
+
+/**
+ * Default sort direction for list detail page
+ *
+ * @type {boolean}
+ */
+const DEFAULT_SORT_DIRECTION = false; // Descending (most recent first)
+
 // module scope variables
 const establishmentView = {
   page: 1,
   filterText: "",
-  sortOption: "",
-  sortDirection: true, // true = ascending, false = descending
+  sortOption: DEFAULT_SORT_OPTION,
+  sortDirection: DEFAULT_SORT_DIRECTION,
 };
 
 /**
@@ -53,54 +71,6 @@ const filterEstablishments = (establishments, filterText) => {
   return establishments.filter((establishment) =>
     establishment.BusinessName.toLowerCase().includes(filterTextLower)
   );
-};
-
-/**
- * Sort establishments by the given option and direction
- *
- * @param {Array<Establishment>} establishments - Establishments to sort
- * @param {string} sortOption - Sort option to use
- * @param {boolean} sortDirection - Sort direction (true for ascending, false for descending)
- * @returns {Array<Establishment>} Sorted establishments
- */
-const sortEstablishments = (establishments, sortOption, sortDirection) => {
-  if (!sortOption) return establishments;
-
-  const sortedEstablishments = [...establishments]; // Create a copy to avoid mutating original
-
-  switch (sortOption) {
-    case "name": {
-      sortedEstablishments.sort((a, b) => {
-        const result = a.BusinessName.localeCompare(b.BusinessName);
-        return sortDirection ? result : -result;
-      });
-      break;
-    }
-    case "rating": {
-      sortedEstablishments.sort((a, b) => {
-        const ratingA = a.RatingValue ? Number(a.RatingValue) : -1;
-        const ratingB = b.RatingValue ? Number(b.RatingValue) : -1;
-        const result = ratingA - ratingB;
-        return sortDirection ? result : -result;
-      });
-      break;
-    }
-    case "date": {
-      sortedEstablishments.sort((a, b) => {
-        if (!a.RatingDate) return sortDirection ? 1 : -1;
-        if (!b.RatingDate) return sortDirection ? -1 : 1;
-        const result = new Date(a.RatingDate) - new Date(b.RatingDate);
-        return sortDirection ? result : -result;
-      });
-      break;
-    }
-    default: {
-      // No sorting
-      break;
-    }
-  }
-
-  return sortedEstablishments;
 };
 
 /**
@@ -142,8 +112,8 @@ document.addEventListener("DOMContentLoaded", () => {
     enableViewToggle: true,
     enableDisplay: true, // Enable the filter and sort functionality
     enableFiltering: true,
-    defaultSortOption: "name", // Default sort by name
-    defaultSortDirection: true, // Default ascending (A-Z)
+    defaultSortOption: establishmentView.sortOption,
+    defaultSortDirection: establishmentView.sortDirection,
   });
 
   // Stores the current list of establishments for sharing

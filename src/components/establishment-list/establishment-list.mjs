@@ -330,7 +330,7 @@ export class EstablishmentList {
       // Update the display component if it exists
       if (this.displayComponent) {
         this.displayComponent.setEstablishments(
-          this.originalEstablishments,
+          this.establishments,
           data.filterText,
           data.sortOption,
           data.sortDirection,

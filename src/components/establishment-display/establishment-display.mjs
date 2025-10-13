@@ -1,9 +1,9 @@
 /**
  * @typedef {import("components/establishment-card/establishment-card.mjs").Establishment} Establishment
+ * @typedef { "order" | "name" | "rating" | "date" } DefaultSortOptionValue
  * @typedef {object} SortOption
- * @property {string} value - The value to identify this sort option
+ * @property {DefaultSortOptionValue} value - The value to identify this sort option
  * @property {string} label - The display label for this sort option
- * @property {(a: Establishment, b: Establishment) => number} comparator - Function to compare establishments for sorting
  */
 
 /**
@@ -15,6 +15,40 @@
   link.href = "/components/establishment-display/establishment-display.css";
   document.head.append(link);
 }
+
+/**
+ * @typedef {object} SortConfig
+ * @property {string} defaultSortOption - The default sort option to use
+ * @property {boolean} defaultSortDirection - The default sort direction (true for ascending, false for descending)
+ * @property {Array<SortOption>} sortOptions - Available sort options
+ * @property {object} sortDirections - Default directions for each sort option
+ */
+
+const defaultSortOption = "order";
+
+const sortDirections = {
+  order: false, // Descending
+  name: true, // Ascending
+  rating: false, // Descending
+  date: false, // Descending
+};
+
+/**
+ * Default sort configuration for establishment lists
+ *
+ * @type {SortConfig}
+ */
+export const DEFAULT_SORT_CONFIG = {
+  defaultSortOption,
+  defaultSortDirection: sortDirections[defaultSortOption],
+  sortOptions: [
+    { value: "order", label: "Order Added" },
+    { value: "name", label: "Name" },
+    { value: "rating", label: "Rating" },
+    { value: "date", label: "Last Inspection" },
+  ],
+  sortDirections,
+};
 
 /**
  * A component for filtering and sorting establishment lists
@@ -36,9 +70,11 @@ export class EstablishmentDisplay {
   constructor(options) {
     this.container = options.container;
     this.establishmentList = options.establishmentList;
-    this.sortOptions = options.sortOptions || this._getDefaultSortOptions();
-    this.defaultSortOption = options.defaultSortOption || "name";
-    this.defaultSortDirection = options.defaultSortDirection !== false; // Default to ascending if not specified
+    this.sortOptions = options.sortOptions || DEFAULT_SORT_CONFIG.sortOptions;
+    this.defaultSortOption = options.defaultSortOption ??
+      DEFAULT_SORT_CONFIG.defaultSortOption;
+    this.defaultSortDirection = options.defaultSortDirection ??
+      DEFAULT_SORT_CONFIG.defaultSortDirection;
     this.enableFiltering = options.enableFiltering !== false; // Default to true if not specified
 
     // Callbacks
@@ -119,6 +155,9 @@ export class EstablishmentDisplay {
     this.sortSelect.value = this.defaultSortOption;
     this.sortSelect.addEventListener("change", () => {
       this.currentSortOption = this.sortSelect.value;
+      this.currentSortDirection =
+        DEFAULT_SORT_CONFIG.sortDirections[this.currentSortOption] ??
+          this.defaultSortDirection;
       this.onSortChange(this.currentSortOption, this.currentSortDirection);
     });
 
@@ -154,42 +193,6 @@ export class EstablishmentDisplay {
     this.directionButton.innerHTML = this.currentSortDirection
       ? "&#8595;" // Down arrow for ascending (A->Z means values go down)
       : "&#8593;"; // Up arrow for descending (Z->A means values go up)
-  }
-
-  /**
-   * Get default sort options
-   *
-   * @private
-   * @returns {Array<SortOption>} Default sort options
-   */
-  _getDefaultSortOptions() {
-    return [
-      {
-        value: "name",
-        label: "Name",
-        comparator: (a, b) => a.BusinessName.localeCompare(b.BusinessName),
-      },
-      {
-        value: "rating",
-        label: "Rating",
-        comparator: (a, b) => {
-          // Handle potential missing ratings
-          const ratingA = a.RatingValue ? Number(a.RatingValue) : -1;
-          const ratingB = b.RatingValue ? Number(b.RatingValue) : -1;
-          return ratingA - ratingB;
-        },
-      },
-      {
-        value: "date",
-        label: "Last Inspection",
-        comparator: (a, b) => {
-          // Handle potential missing dates
-          if (!a.RatingDate) return 1;
-          if (!b.RatingDate) return -1;
-          return new Date(a.RatingDate) - new Date(b.RatingDate);
-        },
-      },
-    ];
   }
 
   /**
