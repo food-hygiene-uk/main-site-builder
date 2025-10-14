@@ -620,10 +620,18 @@ describe("sortEstablishments", () => {
       );
     });
 
-    it("should reverse the order when toggling sortDirection for name sort", () => {
+    it("should reverse the order when toggling sortDirection for name sort with unique names", () => {
       fc.assert(
         fc.property(
-          fc.array(establishmentArbitrary, { minLength: 2, maxLength: 10 }),
+          fc
+            .array(establishmentArbitrary, { minLength: 2, maxLength: 10 })
+            .filter((establishments) => {
+              // Only test with unique business names for proper reversal test
+              const names = establishments.map(
+                (establishment) => establishment.BusinessName,
+              );
+              return new Set(names).size === names.length;
+            }),
           (establishments) => {
             const ascResult = sortEstablishments(establishments, "name", true);
             const descResult = sortEstablishments(

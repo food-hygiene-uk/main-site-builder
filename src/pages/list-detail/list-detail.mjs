@@ -5,6 +5,10 @@ import {
   fetchEstablishmentDetails,
   sortEstablishments,
 } from "scripts/establishment.mjs";
+import {
+  filterEstablishments,
+  sliceEstablishments,
+} from "scripts/list-utilities.mjs";
 import { getListCreationDate } from "scripts/list-service.mjs";
 
 /*
@@ -56,35 +60,6 @@ const encodeEstablishmentIds = (ids) => {
 
   // Use built-in btoa for base64 encoding (browser-compatible)
   return btoa(jsonString);
-};
-
-/**
- * Filter establishments by name
- *
- * @param {Array<Establishment>} establishments - Establishments to filter
- * @param {string} filterText - Text to filter by
- * @returns {Array<Establishment>} Filtered establishments
- */
-const filterEstablishments = (establishments, filterText) => {
-  if (!filterText) return establishments;
-
-  const filterTextLower = filterText.toLowerCase();
-  return establishments.filter((establishment) =>
-    establishment.BusinessName.toLowerCase().includes(filterTextLower)
-  );
-};
-
-/**
- * Slices an array of establishments to get the items for a specific page.
- *
- * @param {Array<Establishment>} establishments - The full array of establishments to paginate.
- * @param {number} page - The current page number (1-based).
- * @returns {Array<Establishment>} A new array containing the establishments for the specified page.
- */
-const sliceEstablishments = (establishments, page) => {
-  const startIndex = (page - 1) * PAGE_SIZE;
-  const endIndex = startIndex + PAGE_SIZE;
-  return establishments.slice(startIndex, endIndex);
 };
 
 document.addEventListener("DOMContentLoaded", () => {
@@ -404,6 +379,7 @@ document.addEventListener("DOMContentLoaded", () => {
       const pageEstablishments = sliceEstablishments(
         sortedEstablishments,
         establishmentView.page,
+        PAGE_SIZE,
       );
       await establishmentList.loadEstablishments(
         {

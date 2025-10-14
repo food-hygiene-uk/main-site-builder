@@ -1,6 +1,14 @@
 import { EstablishmentList } from "components/establishment-list/establishment-list.mjs";
+import { DEFAULT_SORT_CONFIG } from "components/establishment-display/establishment-display.mjs";
 import { openModal } from "components/modal/modal.mjs";
-import { fetchEstablishmentDetails } from "scripts/establishment.mjs";
+import {
+  fetchEstablishmentDetails,
+  sortEstablishments,
+} from "scripts/establishment.mjs";
+import {
+  filterEstablishments,
+  sliceEstablishments,
+} from "scripts/list-utilities.mjs";
 
 // Storage key for saved lists
 const SAVED_LISTS_STORAGE_KEY = "saved-establishment-lists";
@@ -10,85 +18,8 @@ const PAGE_SIZE = 10;
 const establishmentView = {
   page: 1,
   filterText: "",
-  sortOption: "name",
-  sortDirection: true, // true = ascending, false = descending
-};
-
-/**
- * Filter establishments by name
- *
- * @param {Array<import("components/establishment-card/establishment-card.mjs").Establishment>} establishments - Establishments to filter
- * @param {string} filterText - Text to filter by
- * @returns {Array<import("components/establishment-card/establishment-card.mjs").Establishment>} Filtered establishments
- */
-const filterEstablishments = (establishments, filterText) => {
-  if (!filterText) return establishments;
-
-  const filterTextLower = filterText.toLowerCase();
-  return establishments.filter((establishment) =>
-    establishment.BusinessName.toLowerCase().includes(filterTextLower)
-  );
-};
-
-/**
- * Sort establishments by the given option and direction
- *
- * @param {Array<import("components/establishment-card/establishment-card.mjs").Establishment>} establishments - Establishments to sort
- * @param {string} sortOption - Sort option to use
- * @param {boolean} sortDirection - Sort direction (true for ascending, false for descending)
- * @returns {Array<import("components/establishment-card/establishment-card.mjs").Establishment>} Sorted establishments
- */
-const sortEstablishments = (establishments, sortOption, sortDirection) => {
-  if (!sortOption) return establishments;
-
-  const sortedEstablishments = [...establishments]; // Create a copy to avoid mutating original
-
-  switch (sortOption) {
-    case "name": {
-      sortedEstablishments.sort((a, b) => {
-        const result = a.BusinessName.localeCompare(b.BusinessName);
-        return sortDirection ? result : -result;
-      });
-      break;
-    }
-    case "rating": {
-      sortedEstablishments.sort((a, b) => {
-        const ratingA = a.RatingValue ? Number(a.RatingValue) : -1;
-        const ratingB = b.RatingValue ? Number(b.RatingValue) : -1;
-        const result = ratingA - ratingB;
-        return sortDirection ? result : -result;
-      });
-      break;
-    }
-    case "date": {
-      sortedEstablishments.sort((a, b) => {
-        if (!a.RatingDate) return sortDirection ? 1 : -1;
-        if (!b.RatingDate) return sortDirection ? -1 : 1;
-        const result = new Date(a.RatingDate) - new Date(b.RatingDate);
-        return sortDirection ? result : -result;
-      });
-      break;
-    }
-    default: {
-      // No sorting
-      break;
-    }
-  }
-
-  return sortedEstablishments;
-};
-
-/**
- * Slices an array of establishments to get the items for a specific page.
- *
- * @param {Array<import("components/establishment-card/establishment-card.mjs").Establishment>} establishments - The full array of establishments to paginate.
- * @param {number} page - The current page number (1-based).
- * @returns {Array<import("components/establishment-card/establishment-card.mjs").Establishment>} A new array containing the establishments for the specified page.
- */
-const sliceEstablishments = (establishments, page) => {
-  const startIndex = (page - 1) * PAGE_SIZE;
-  const endIndex = startIndex + PAGE_SIZE;
-  return establishments.slice(startIndex, endIndex);
+  sortOption: DEFAULT_SORT_CONFIG.defaultSortOption,
+  sortDirection: DEFAULT_SORT_CONFIG.defaultSortDirection,
 };
 
 /**
@@ -176,6 +107,7 @@ document.addEventListener("DOMContentLoaded", () => {
     const pageEstablishments = sliceEstablishments(
       sortedEstablishments,
       establishmentView.page,
+      PAGE_SIZE,
     );
     await establishmentList.loadEstablishments(
       {
@@ -204,8 +136,8 @@ document.addEventListener("DOMContentLoaded", () => {
     enableViewToggle: true,
     enableDisplay: true, // Enable the filter and sort functionality
     enableFiltering: true,
-    defaultSortOption: "name", // Default sort by name
-    defaultSortDirection: true, // Default ascending (A-Z)
+    defaultSortOption: establishmentView.sortOption,
+    defaultSortDirection: establishmentView.sortDirection,
   });
 
   /**
@@ -421,8 +353,9 @@ document.addEventListener("DOMContentLoaded", () => {
       // Reset view state
       establishmentView.page = 1;
       establishmentView.filterText = "";
-      establishmentView.sortOption = "name";
-      establishmentView.sortDirection = true;
+      establishmentView.sortOption = DEFAULT_SORT_CONFIG.defaultSortOption;
+      establishmentView.sortDirection =
+        DEFAULT_SORT_CONFIG.defaultSortDirection;
 
       // Render establishments using the new pattern
       await renderEstablishments();
