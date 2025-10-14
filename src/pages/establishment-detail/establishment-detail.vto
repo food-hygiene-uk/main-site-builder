@@ -20,7 +20,25 @@
           <h2>Address</h2>
           {{ addressHtml }}
 
-          {{/* renderMap(establishment) */ "" }}
+          {{ if geocode }}
+          <h2>Location</h2>
+          <div class="map-section">
+            <div id="map" class="map-container">
+              <div class="map-consent-box">
+                <p class="map-consent-text">
+                  Map uses <a href="https://osmfoundation.org/wiki/Privacy_Policy" target="_blank" rel="noopener noreferrer">OpenStreetMap</a> and <a href="https://www.cloudflare.com/privacypolicy/" target="_blank" rel="noopener noreferrer">Cloudflare</a>. Refer to their privacy policies for more information on data collection.
+                </p>
+                <button id="loadMapBtn" class="load-map-button" data-lat="{{ geocode.latitude }}" data-lon="{{ geocode.longitude }}">
+                  Show Map
+                </button>
+                <div class="map-consent-checkbox">
+                  <input type="checkbox" id="alwaysLoadMaps" name="alwaysLoadMaps">
+                  <label for="alwaysLoadMaps">Always load maps automatically</label>
+                </div>
+              </div>
+            </div>
+          </div>
+          {{ /if }}
 
           {{ if ratingDate !== null }}
           <h2>Date Last Inspected</h2>
@@ -57,7 +75,7 @@
         </article>
 
         <!-- Recently Viewed Section -->
-        <section id="recentlyViewed" class="recently-viewed-section" style="display: none;">
+        <section id="recentlyViewed" class="recently-viewed-section" hidden>
           <h2>Recently Viewed</h2>
           <div id="recentEstablishments" class="recent-establishments-grid"></div>
           <div class="view-all-link">

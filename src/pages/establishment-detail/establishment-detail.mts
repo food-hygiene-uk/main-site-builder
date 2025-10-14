@@ -112,45 +112,6 @@ const calculateSubscore = (rawScore: number, scoreType: ScoreType): number => {
 };
 
 /**
- * Generates an HTML string containing an embedded OpenStreetMap iframe and a link to view a larger map.
- *
- * @param establishment - The establishment object containing details about the location.
- * @returns A string representing the HTML for the embedded map and link.
- */
-const _renderMap = (establishment: Establishment): string => {
-  const latitudeString = establishment.Geocode?.Latitude;
-  const longitudeString = establishment.Geocode?.Longitude;
-  if (latitudeString === undefined || longitudeString === undefined) {
-    return "";
-  }
-
-  const latitude = Number(latitudeString);
-  const longitude = Number(longitudeString);
-  if (Number.isNaN(latitude) || Number.isNaN(longitude)) {
-    return "";
-  }
-
-  const bbox = {
-    minLon: longitude - 0.0016,
-    minLat: latitude - 0.0005,
-    maxLon: longitude + 0.0005,
-    maxLat: latitude + 0.0005,
-  };
-  const bboxString =
-    `${bbox.minLon},${bbox.minLat},${bbox.maxLon},${bbox.maxLat}`;
-  const mapUrl =
-    `https://www.openstreetmap.org/export/embed.html?bbox=${bboxString}&layer=mapnik`;
-  const viewUrl =
-    `https://www.openstreetmap.org/#map=19/${latitude}/${longitude}`;
-  const mapHtml = `<iframe
-    src="${mapUrl}"
-    style="border: 1px solid black">
-  </iframe><br/><small><a href="${viewUrl}">View Larger Map</a></small>`;
-
-  return mapHtml;
-};
-
-/**
  * Formats a rating date into ISO and human-readable formats
  *
  * @param ratingDate - The rating date string
@@ -304,6 +265,15 @@ export const outputEstablishmentDetailPage = async (
       const scoreData = getScoreDataWithSubscores(establishment.Scores);
       const addressHtml = await address.render(establishment);
 
+      // Extract geocode data for map rendering
+      const geocode =
+        establishment.Geocode?.Latitude && establishment.Geocode?.Longitude
+          ? {
+            latitude: Number(establishment.Geocode.Latitude),
+            longitude: Number(establishment.Geocode.Longitude),
+          }
+          : null;
+
       const html = await template({
         headHtml: await Root.renderHead({
           canonical: getCanonicalLinkURL(establishment),
@@ -322,6 +292,7 @@ export const outputEstablishmentDetailPage = async (
         addressHtml: addressHtml.content,
         ratingDate,
         scoreData,
+        geocode,
         processedJs: pageJs,
       });
 

@@ -155,22 +155,124 @@
     display: block;
   }
 
+  /* Map Section */
+  .map-section {
+    margin: 1rem 0;
+  }
+
+  .map-consent-box {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    background-color: light-dark(rgb(255 255 255 / 95%), rgb(40 40 40 / 95%));
+    padding: 1.5rem;
+    border-radius: 8px;
+    box-shadow: 0 4px 12px rgb(0 0 0 / 20%);
+    max-width: 400px;
+    width: 90%;
+    z-index: 1000;
+    transition: opacity 0.3s;
+  }
+
+  .map-consent-text {
+    margin: 0 0 1rem;
+    font-size: 0.9rem;
+    line-height: 1.5;
+    color: light-dark(#333, #ddd);
+    text-align: center;
+  }
+
+  .load-map-button {
+    background-color: var(--hygiene-green);
+    color: light-dark(#fff, #fff);
+    border: none;
+    padding: 0.75rem 1.5rem;
+    font-size: 1rem;
+    border-radius: 4px;
+    cursor: pointer;
+    transition: background-color 0.2s;
+    font-weight: 500;
+    width: 100%;
+    margin-bottom: 1rem;
+  }
+
+  .load-map-button:disabled {
+    background-color: light-dark(#ccc, #666);
+    cursor: not-allowed;
+  }
+
+  .load-map-button:hover:not(:disabled) {
+    background-color: light-dark(#005a30, #00a654);
+  }
+
   .view-all-link {
     display: flex;
     justify-content: flex-end;
     margin-top: 1rem;
   }
 
+  .map-consent-text a,
   .view-all-link a {
     color: var(--hygiene-green);
+    text-decoration: underline;
+  }
+
+  .view-all-link a {
     text-decoration: none;
     font-weight: 500;
     transition: color 0.2s;
   }
 
+  .map-consent-text a:hover,
+  .view-all-link a:hover {
+    color: light-dark(#005a30, #00a654);
+  }
+
   .view-all-link a:hover {
     color: #005a30;
     text-decoration: underline;
+  }
+
+  .map-consent-checkbox {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    font-size: 0.9rem;
+    color: light-dark(#333, #ddd);
+  }
+
+  .map-consent-checkbox input[type="checkbox"] {
+    width: 1.1rem;
+    height: 1.1rem;
+    cursor: pointer;
+    accent-color: var(--hygiene-green);
+  }
+
+  .map-consent-checkbox label {
+    cursor: pointer;
+    user-select: none;
+  }
+
+  .map-container {
+    height: 400px;
+    width: 100%;
+    margin-top: 1rem;
+    border-radius: 8px;
+    overflow: hidden;
+    box-shadow: 0 2px 8px rgb(0 0 0 / 20%);
+    position: relative;
+    background-color: light-dark(#f5f5f5, #2a2a2a);
+    background-image: url("/images/map-placeholder.jpg");
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+  }
+
+  @media screen and (width <= 768px) {
+    .map-container {
+      height: 300px;
+    }
   }
 
   /* __ADDITIONAL_CSS__ */

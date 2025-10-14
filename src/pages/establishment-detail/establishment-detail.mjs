@@ -1,6 +1,95 @@
 import recentEstablishmentsService from "scripts/recent-establishments-service.mjs";
 import { renderListSelectionButton } from "components/list-selection-button/list-selection-button.mjs";
 
+/**
+ * Dynamically loads a CSS file into the document
+ *
+ * @param {string} href - URL of the CSS file to load
+ * @returns {Promise<void>} Promise that resolves when the CSS is loaded
+ */
+const loadCSS = (href) => {
+  return new Promise((resolve, reject) => {
+    const link = document.createElement("link");
+    link.rel = "stylesheet";
+    link.href = href;
+    link.addEventListener("load", () => resolve());
+    link.addEventListener(
+      "error",
+      () => reject(new Error(`Failed to load CSS: ${href}`)),
+    );
+    document.head.append(link);
+  });
+};
+
+/**
+ * Dynamically loads a JavaScript file
+ *
+ * @param {string} source - URL of the JavaScript file to load
+ * @returns {Promise<void>} Promise that resolves when the script is loaded
+ */
+const loadScript = (source) => {
+  return new Promise((resolve, reject) => {
+    const script = document.createElement("script");
+    script.src = source;
+    script.addEventListener("load", () => resolve());
+    script.addEventListener(
+      "error",
+      () => reject(new Error(`Failed to load script: ${source}`)),
+    );
+    document.head.append(script);
+  });
+};
+
+/**
+ * Initializes and displays a Leaflet map with OpenStreetMap tiles
+ *
+ * @param {number} latitude - Latitude coordinate
+ * @param {number} longitude - Longitude coordinate
+ */
+const initializeMap = async (latitude, longitude) => {
+  const mapContainer = document.querySelector("#map");
+
+  if (!mapContainer) return;
+
+  // Initialize the map centered on the establishment
+  const map = globalThis.L.map("map").setView([latitude, longitude], 17);
+
+  // Add OpenStreetMap tiles
+  globalThis.L.tileLayer("https://tile.openstreetmap.org/{z}/{x}/{y}.png", {
+    maxZoom: 19,
+    attribution:
+      '&copy; <a href="https://openstreetmap.org/copyright">OpenStreetMap contributors</a>',
+  }).addTo(map);
+
+  // Show scale bar
+  globalThis.L.control.scale({ imperial: true, metric: true }).addTo(map);
+
+  // Add a marker at the establishment location
+  globalThis.L.marker([latitude, longitude])
+    .bindPopup("Establishment Location")
+    .addTo(map);
+};
+
+/**
+ * Loads Leaflet library and initializes the map
+ *
+ * @param {number} latitude - Latitude coordinate
+ * @param {number} longitude - Longitude coordinate
+ */
+const loadAndInitializeMap = async (latitude, longitude) => {
+  try {
+    // Load Leaflet CSS and JS
+    await loadCSS("https://unpkg.com/leaflet@1.9.4/dist/leaflet.css");
+    await loadScript("https://unpkg.com/leaflet@1.9.4/dist/leaflet.js");
+
+    // Initialize the map once Leaflet is loaded
+    await initializeMap(latitude, longitude);
+  } catch (error) {
+    console.error("Error loading map:", error);
+    alert("Failed to load map. Please try again later.");
+  }
+};
+
 document.addEventListener("DOMContentLoaded", () => {
   // Find the establishment element and extract data
   const establishmentElement = document.querySelector(".establishment");
@@ -40,6 +129,60 @@ document.addEventListener("DOMContentLoaded", () => {
     const listSelectionButton = renderListSelectionButton(establishmentId);
 
     wrapper.append(listSelectionButton);
+  }
+
+  // Set up map loading
+  const loadMapButton = document.querySelector("#loadMapBtn");
+  const alwaysLoadCheckbox = document.querySelector("#alwaysLoadMaps");
+  const mapConsentBox = document.querySelector(".map-consent-box");
+
+  if (loadMapButton && alwaysLoadCheckbox) {
+    // Check if user has set preference to always load maps
+    const alwaysLoadMaps = localStorage.getItem("alwaysLoadMaps") === "true";
+    alwaysLoadCheckbox.checked = alwaysLoadMaps;
+
+    // Handle checkbox change
+    alwaysLoadCheckbox.addEventListener("change", () => {
+      localStorage.setItem(
+        "alwaysLoadMaps",
+        alwaysLoadCheckbox.checked.toString(),
+      );
+    });
+
+    /**
+     * Loads the map and handles UI cleanup
+     */
+    const loadMap = async () => {
+      const latitude = Number(loadMapButton.dataset.lat);
+      const longitude = Number(loadMapButton.dataset.lon);
+
+      if (Number.isNaN(latitude) || Number.isNaN(longitude)) {
+        console.error("Invalid coordinates");
+        return;
+      }
+
+      // Show loading state
+      if (mapConsentBox) {
+        mapConsentBox.style.opacity = "0.6";
+        loadMapButton.disabled = true;
+        loadMapButton.textContent = "Loading Map...";
+      }
+
+      await loadAndInitializeMap(latitude, longitude);
+
+      // Remove consent box after map loads (Leaflet replaces the container content)
+      if (mapConsentBox) {
+        mapConsentBox.remove();
+      }
+    };
+
+    // Auto-load if preference is set
+    if (alwaysLoadMaps) {
+      loadMap();
+    } else {
+      // Set up manual load button
+      loadMapButton.addEventListener("click", loadMap);
+    }
   }
 });
 
@@ -119,7 +262,7 @@ const displayRecentlyViewed = (currentId) => {
   }
 
   // Show the recently viewed section
-  recentSection.style.display = "block";
+  recentSection.hidden = false;
 };
 
 /**
