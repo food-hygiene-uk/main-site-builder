@@ -3,7 +3,7 @@
  * Minifies all HTML files in the dist directory using htmlnano.
  */
 import { walk } from "@std/fs";
-import htmlnano from "npm:htmlnano";
+import htmlnano from "htmlnano";
 
 const DIST_DIR = "./dist";
 
