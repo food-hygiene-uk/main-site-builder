@@ -135,6 +135,7 @@ jobs:
         run: deno task build
 
       - name: Minify HTML files
+        timeout-minutes: 360
         working-directory: ./repos/source
         run: |
           deno run --allow-read --allow-write --allow-net --allow-sys --allow-env ./scripts/htmlnano.mts
