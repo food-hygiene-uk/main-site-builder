@@ -1,4 +1,3 @@
-
 /**
  * Minifies all HTML files in the dist directory using htmlnano.
  */
@@ -20,11 +19,22 @@ const minifyHtmlFiles = async () => {
     quoteAllAttributes: false,
   };
   // Preset can be undefined or omitted
-  for await (const entry of walk(DIST_DIR, { exts: [".html"], includeFiles: true, followSymlinks: false })) {
+  for await (
+    const entry of walk(DIST_DIR, {
+      exts: [".html"],
+      includeFiles: true,
+      followSymlinks: false,
+    })
+  ) {
     const filePath = entry.path;
     try {
       const input = await Deno.readTextFile(filePath);
-      const result = await htmlnano.process(input, options, undefined, postHtmlOptions);
+      const result = await htmlnano.process(
+        input,
+        options,
+        undefined,
+        postHtmlOptions,
+      );
       await Deno.writeTextFile(filePath, result.html);
       console.log(`Minified: ${filePath}`);
     } catch (error) {
