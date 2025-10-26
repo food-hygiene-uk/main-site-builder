@@ -45,7 +45,7 @@ jobs:
 
   build:
     runs-on: ubuntu-latest
-    timeout-minutes: 60 # Prevent hanging jobs
+    timeout-minutes: 360
 
     permissions:
       contents: write # Required to push changes to the GitHub Pages repository
