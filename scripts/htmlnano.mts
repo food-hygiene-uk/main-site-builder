@@ -8,19 +8,33 @@ const DIST_DIR = "./dist";
 
 /**
  * Minifies all HTML files in the dist directory using htmlnano with custom options.
+ *
+ * @returns Resolves when all HTML files have been minified.
  */
-const minifyHtmlFiles = async () => {
+const minifyHtmlFiles = async (): Promise<void> => {
+  // No custom options required for htmlnano; using defaults
   const options = {};
   const postHtmlOptions = {};
   // When preset is undefined, "safe" is used as default
   const preset = undefined;
-  for await (
-    const entry of walk(DIST_DIR, {
-      exts: [".html"],
-      includeFiles: true,
-      followSymlinks: false,
-    })
-  ) {
+  const concurrency = 10;
+  const iterator = walk(DIST_DIR, {
+    exts: [".html"],
+    includeFiles: true,
+    followSymlinks: false,
+  })[Symbol.asyncIterator]();
+
+  const workers: Promise<void>[] = [];
+  let done = false;
+
+  const processNext = async (): Promise<void> => {
+    if (done) return;
+
+    const { value: entry, done: iterDone } = await iterator.next();
+    if (iterDone || !entry) {
+      done = true;
+      return;
+    }
     const filePath = entry.path;
     try {
       const input = await Deno.readTextFile(filePath);
@@ -31,11 +45,17 @@ const minifyHtmlFiles = async () => {
         postHtmlOptions,
       );
       await Deno.writeTextFile(filePath, result.html);
-      console.log(`Minified: ${filePath}`);
+      globalThis.console.log(`Minified: ${filePath}`);
     } catch (error) {
-      console.error(`Error minifying ${filePath}:`, error);
+      globalThis.console.error(`Error minifying ${filePath}:`, error);
     }
+    await processNext();
+  };
+
+  for (let index = 0; index < concurrency; index++) {
+    workers.push(processNext());
   }
+  await Promise.all(workers);
 };
 
 if (import.meta.main) {
