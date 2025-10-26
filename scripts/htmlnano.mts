@@ -22,34 +22,33 @@ const minifyHtmlFiles = async (): Promise<void> => {
     exts: [".html"],
     includeFiles: true,
     followSymlinks: false,
-  })[Symbol.asyncIterator]();
+  });
 
   const workers: Promise<void>[] = [];
   let done = false;
 
   const processNext = async (): Promise<void> => {
-    if (done) return;
-
-    const { value: entry, done: iterDone } = await iterator.next();
-    if (iterDone || !entry) {
-      done = true;
-      return;
+    while (!done) {
+      const { value: entry, done: iterDone } = await iterator.next();
+      if (iterDone || !entry) {
+        done = true;
+        break;
+      }
+      const filePath = entry.path;
+      try {
+        const input = await Deno.readTextFile(filePath);
+        const result = await htmlnano.process(
+          input,
+          options,
+          preset,
+          postHtmlOptions,
+        );
+        await Deno.writeTextFile(filePath, result.html);
+        globalThis.console.log(`Minified: ${filePath}`);
+      } catch (error) {
+        globalThis.console.error(`Error minifying ${filePath}:`, error);
+      }
     }
-    const filePath = entry.path;
-    try {
-      const input = await Deno.readTextFile(filePath);
-      const result = await htmlnano.process(
-        input,
-        options,
-        preset,
-        postHtmlOptions,
-      );
-      await Deno.writeTextFile(filePath, result.html);
-      globalThis.console.log(`Minified: ${filePath}`);
-    } catch (error) {
-      globalThis.console.error(`Error minifying ${filePath}:`, error);
-    }
-    await processNext();
   };
 
   for (let index = 0; index < concurrency; index++) {
