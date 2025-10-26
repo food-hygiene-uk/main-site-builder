@@ -17,7 +17,7 @@ const minifyHtmlFiles = async (): Promise<void> => {
   const postHtmlOptions = {};
   // When preset is undefined, "safe" is used as default
   const preset = undefined;
-  const concurrency = 10;
+  const concurrency = 4;
   const iterator = walk(DIST_DIR, {
     exts: [".html"],
     includeFiles: true,
