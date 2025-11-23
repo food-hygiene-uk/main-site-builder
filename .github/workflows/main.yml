@@ -1,4 +1,4 @@
-name: Generate Ratings Site
+name: Verify the integrity of main branch
 
 # Control concurrent executions
 concurrency:
