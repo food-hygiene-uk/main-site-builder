@@ -6,9 +6,10 @@ concurrency:
 
 # Define trigger events
 on:
+  push:
+    branches:
+      - main
   workflow_dispatch: # Manual trigger
-  schedule:
-    - cron: "0 4 * * *" # Run at 4 AM UTC daily
 
 # Define minimum required permissions
 permissions:
@@ -131,79 +132,14 @@ jobs:
         working-directory: ./repos/source
         run: deno task build
 
-      - name: Minify JavaScript files
-        run: |
-          find ./repos/source/dist -name "*.mjs" -type f -exec npx terser {} -c -m -o {} \;
-
-      - name: Optimize SVG files
-        run: |
-          find ./repos/source/dist -name "*.svg" -type f -exec npx svgo {} -o {} \;
-
-      - name: Optimize images
-        run: |
-          sudo apt-get update && sudo apt-get install -y optipng jpegoptim
-          find ./repos/source/dist -name "*.png" -exec optipng -o5 {} \;
-          find ./repos/source/dist -name "*.jpg" -name "*.jpeg" -exec jpegoptim --max=85 {} \;
-
       - name: Run Playwright tests
         working-directory: ./repos/source
         run: deno task test:e2e
 
       - name: Upload Playwright report
         if: always() # Upload report even if tests fail
-        uses: actions/upload-artifact@330a01c490aca151604b8cf639adc76d48f6c5d4 # v5.0.0
+        uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02 # v4.6.2
         with:
           name: playwright-report
           path: ./repos/source/playwright-report/
           retention-days: 7
-
-      - name: Cleanup disk space
-        run: |
-          df -h
-          mv ./repos/source/dist/ ./dist-temp/
-          sudo rm -rf ./repos/source/
-          df -h
-
-      # Create another GitHub App token to avoid token timeout issues
-      - name: Create GitHub App token
-        id: app-token-2
-        uses: actions/create-github-app-token@67018539274d69449ef7c02e8e71183d1719ab42 # v2.1.4
-        with:
-          app-id: ${{ secrets.APP_ID }}
-          private-key: ${{ secrets.APP_PRIVATE_KEY }}
-          owner: ${{ github.repository_owner }}
-
-      - name: Checkout GitHub Pages repository
-        uses: actions/checkout@08c6903cd8c0fde910a37f88322edcfb5dd907a8 # v5.0.0
-        with:
-          repository: food-hygiene-uk/food-hygiene-uk.github.io
-          path: ./repos/gh-pages
-          token: ${{ steps.app-token-2.outputs.token }}
-          fetch-depth: 1
-
-      - name: Prepare public directory
-        run: find ./repos/gh-pages/public -depth -delete
-
-      - name: Move and rename generated site
-        run: mv ./dist-temp ./repos/gh-pages/public
-
-      - name: Configure Git
-        working-directory: ./repos/gh-pages
-        run: |
-          git config --local user.name "${{ steps.app-token-2.outputs.app_slug }}[bot]"
-          git config --local user.email "${{ steps.get-user-id.outputs.user-id }}+${{ steps.app-token-2.outputs.app_slug }}[bot]@users.noreply.github.com"
-
-      - name: Commit and push changes
-        working-directory: ./repos/gh-pages
-        env:
-          GITHUB_TOKEN: ${{ steps.app-token-2.outputs.token }}
-        run: |
-          git remote set-url origin https://x-access-token:${GITHUB_TOKEN}@github.com/food-hygiene-uk/food-hygiene-uk.github.io.git
-
-          if ! git diff --quiet || ! git ls-files --others --exclude-standard --quiet; then
-            git add .
-            git commit -m "Update site"
-            git push origin HEAD:${{ github.ref_name }} || { echo "Failed to push changes"; exit 1; }
-          else
-            echo "No changes detected"
-          fi
