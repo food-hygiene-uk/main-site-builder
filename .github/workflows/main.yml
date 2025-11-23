@@ -46,16 +46,13 @@ jobs:
     timeout-minutes: 1200
 
     permissions:
-      contents: write # Required to push changes to the GitHub Pages repository
+      contents: write
 
     needs: [command-outputs]
     env:
       DENO_VERSION: ${{ needs.command-outputs.outputs.DENO_VERSION }}
 
     steps:
-      - name: Free Disk Space (Ubuntu)
-        uses: jlumbroso/free-disk-space@54081f138730dfa15788a46383842cd2f914a1be # v1.3.1
-
       - name: Harden the runner (Audit all outbound calls)
         uses: step-security/harden-runner@f4a75cfd619ee5ce8d5b864b0d183aff3c69b55a # v2.13.1
         with:
