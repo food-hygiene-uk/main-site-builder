@@ -6,9 +6,8 @@ FROM mcr.microsoft.com/devcontainers/typescript-node:24-bookworm@sha256:2baba848
 RUN apt-get update && apt-get install -y \
   git \
   git-lfs \
+  gnupg2 \
   && rm -rf /var/lib/apt/lists/*
-
-RUN sudo apt-get update && sudo apt-get install gnupg2 -y
 
 # Copy Deno binary
 COPY --from=deno /deno /usr/local/bin/deno
