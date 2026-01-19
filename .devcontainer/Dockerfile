@@ -1,14 +1,13 @@
 ARG DENO_VERSION
 FROM denoland/deno:bin-${DENO_VERSION} AS deno
-FROM mcr.microsoft.com/devcontainers/typescript-node:24-bookworm@sha256:2baba848f88e02278bcf59e072752f7371534ccfc67afcd8e0ee6b293865c6f9
+FROM mcr.microsoft.com/devcontainers/typescript-node:24-bookworm@sha256:634d3ffc8c37508259a23462b838fd85a9e5bb80dcdd0b31d673aa33dc4c8592
 
 # Install Git and related tools
 RUN apt-get update && apt-get install -y \
   git \
   git-lfs \
+  gnupg2 \
   && rm -rf /var/lib/apt/lists/*
-
-RUN sudo apt-get update && sudo apt-get install gnupg2 -y
 
 # Copy Deno binary
 COPY --from=deno /deno /usr/local/bin/deno
