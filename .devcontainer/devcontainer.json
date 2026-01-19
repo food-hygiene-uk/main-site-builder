@@ -24,7 +24,17 @@
         "oscarotero.vento-syntax",
         "stylelint.vscode-stylelint",
         "yuyinws.vscode-array-index"
-      ]
+      ],
+      "mcp": {
+        "servers": {
+          "playwright": {
+            "command": "npx",
+            "args": [
+              "@playwright/mcp@latest"
+            ]
+          }
+        }
+      }
     }
   }
 }
