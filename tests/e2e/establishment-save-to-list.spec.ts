@@ -2,7 +2,7 @@ import { expect, test } from "@playwright/test";
 
 test.describe("Establishment Page - Save to List Functionality", () => {
   // URL for the establishment page
-  const detailPageUrl = "/e/masala-mix-1694348";
+  const detailPageUrl = "/region-east-midlands/masala-mix-1694348";
 
   test('should allow saving to a new list named "Oadby"', async ({ page }) => {
     await page.goto(detailPageUrl);

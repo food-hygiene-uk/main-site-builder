@@ -1,5 +1,6 @@
 import recentEstablishmentsService from "scripts/recent-establishments-service.mjs";
 import { renderListSelectionButton } from "components/list-selection-button/list-selection-button.mjs";
+import { lacToRegionSlug } from "scripts/region.mjs";
 
 /**
  * Dynamically loads a CSS file into the document
@@ -211,7 +212,7 @@ const displayRecentlyViewed = (currentId) => {
   for (const establishment of recentLimit) {
     // Create link that will wrap the entire item
     const link = document.createElement("a");
-    link.href = `/e/${
+    link.href = `/region-${lacToRegionSlug[establishment.LocalAuthorityCode]}/${
       slugify(
         establishment.BusinessName,
       )
