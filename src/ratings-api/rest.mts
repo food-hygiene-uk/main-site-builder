@@ -7,6 +7,9 @@ import {
   authoritiesResponseSchema,
 } from "./types.mts";
 
+/**
+ * Default fetch initialization options for API requests.
+ */
 const fetchInit = {
   headers: {
     accept: "application/json",
@@ -29,6 +32,11 @@ const fetchInit = {
   credentials: "omit",
 } satisfies RequestInit;
 
+/**
+ * Fetches the list of local authorities from the Food Standards Agency API.
+ *
+ * @returns A promise resolving to the authorities response.
+ */
 export const authorities = async (): Promise<AuthoritiesResponse> => {
   const response = await fetch(
     "https://api.ratings.food.gov.uk/authorities",
@@ -38,12 +46,17 @@ export const authorities = async (): Promise<AuthoritiesResponse> => {
   return authoritiesResponseSchema.parse(await response.json());
 };
 
-export const localAuthorityData = async (
+/**
+ * Fetches local authority data from the specified URL.
+ *
+ * @param url - The URL to fetch data from.
+ * @returns A promise resolving to the local authority data.
+ * @throws {Error} If the fetch response is not ok.
+ * @throws {TypeError} If the data format is invalid.
+ */
+const fetchLocalAuthorityData = async (
   url: string,
 ): Promise<LocalAuthorityData> => {
-  // It appears the redirect handler is rate limited, but the data files are not.
-  // This skips the redirect handler and fetches the data directly.
-  // This may break if the redirect handler is repointed elsewhere.
   const redirectedURL = url.replace(
     /^https:\/\/ratings\.food\.gov\.uk\/OpenDataFiles\//,
     "https://ratings.food.gov.uk/api/open-data-files/",
@@ -64,12 +77,52 @@ export const localAuthorityData = async (
   } catch (error) {
     throw new TypeError(
       `Invalid data format: ${redirectedURL}:\n${
-        JSON.stringify(
-          jsonData,
-          null,
-          2,
-        )
+        JSON.stringify(jsonData, null, 2)
       }\n${error}`,
     );
   }
 };
+
+/**
+ * Creates a throttled function for fetching local authority data with a specified interval between requests.
+ *
+ * @param intervalMs - The interval in milliseconds between requests.
+ * @returns A function that takes a URL and returns a promise of LocalAuthorityData.
+ */
+export const createThrottledLocalAuthorityData = (intervalMs = 200) => {
+  type QueueItem = {
+    url: string;
+    resolve: (v: LocalAuthorityData) => void;
+    reject: (error: unknown) => void;
+  };
+
+  const queue: QueueItem[] = [];
+  let running = false;
+
+  const processNext = () => {
+    if (queue.length === 0) {
+      running = false;
+      return;
+    }
+
+    running = true;
+    const item = queue.shift()!;
+    void fetchLocalAuthorityData(item.url)
+      .then(item.resolve)
+      .catch(item.reject)
+      .finally(() => {
+        setTimeout(processNext, intervalMs);
+      });
+  };
+
+  return (url: string): Promise<LocalAuthorityData> =>
+    new Promise((resolve, reject) => {
+      queue.push({ url, resolve, reject });
+      if (!running) processNext();
+    });
+};
+
+/**
+ * A throttled function instance for fetching local authority data with a 250ms interval between requests.
+ */
+export const localAuthorityData = createThrottledLocalAuthorityData(250);
