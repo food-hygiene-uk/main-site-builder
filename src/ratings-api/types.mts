@@ -61,3 +61,5 @@ export const authoritiesResponseSchema = z.strictObject({
 export type AuthoritiesResponse = z.infer<typeof authoritiesResponseSchema>;
 export type Authorities = AuthoritiesResponse["authorities"];
 export type Authority = Authorities[number];
+
+export type APIRegion = (typeof apiRegions)[number];

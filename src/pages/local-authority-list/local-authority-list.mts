@@ -6,6 +6,11 @@ import { forgeRoot } from "../../components/root/forge.mts";
 import { forgeHeader } from "../../components/header/forge.mts";
 import { forgeFooter } from "../../components/footer/forge.mts";
 import { getLinkURL } from "../../lib/authority/authority.mts";
+import {
+  getITLRegionName,
+  ITLRegion,
+  regions,
+} from "../../lib/region/region.mts";
 import { getClassSuffix } from "../../lib/template/template.mts";
 import { cssAddSuffix, processCssFile } from "../../lib/css/css.mts";
 import { config } from "../../lib/config/config.mts";
@@ -33,22 +38,6 @@ const processedLocalAuthorityListPageJsPromise = processJsFile({
   path: import.meta.resolve("./local-authority-list.mjs"),
 });
 
-// Map from api regions to ITL regions
-const regionMap = {
-  "East Counties": "East of England",
-  "East Midlands": "East Midlands",
-  London: "London",
-  "North East": "North East",
-  "North West": "North West",
-  "South East": "South East",
-  "South West": "South West",
-  "West Midlands": "West Midlands",
-  "Yorkshire and Humberside": "Yorkshire and the Humber",
-  "Northern Ireland": "Northern Ireland",
-  Scotland: "Scotland",
-  Wales: "Wales",
-} as const;
-
 /**
  * Maps local authorities to their respective regions.
  *
@@ -58,20 +47,17 @@ const regionMap = {
 const getRegionLocalAuthorities = (
   localAuthorities: Authorities,
 ): Array<{
-  region: (typeof regionMap)[keyof typeof regionMap];
+  region: ITLRegion;
   authorities: Authorities;
 }> => {
-  const groupedByRegion = {} as Record<
-    (typeof regionMap)[keyof typeof regionMap],
-    typeof localAuthorities
-  >;
+  const groupedByRegion = {} as Record<ITLRegion, typeof localAuthorities>;
   for (const authority of localAuthorities) {
-    const region = regionMap[authority.RegionName] || "Unknown Region";
+    const region = getITLRegionName(authority.RegionName);
     groupedByRegion[region] ??= [];
     groupedByRegion[region].push(authority);
   }
 
-  return Object.values(regionMap).map((region) => {
+  return regions.map((region) => {
     // groupedByRegion is created in this function, no need to clone it
     // eslint-disable-next-line unicorn/no-array-sort
     const authorities = (groupedByRegion[region] || []).sort((a, b) =>

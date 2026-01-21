@@ -2,6 +2,7 @@ import { type Establishment } from "../../generate-site/schema.mts";
 import { config } from "../config/config.mts";
 import { encodeName } from "../file/file.mts";
 import { slugify } from "../../generate-site/slugify.mts";
+import { getAuthorityITLRegionSlug } from "../region/region.mts";
 
 /**
  * Gets the HTML filename for an establishment
@@ -30,7 +31,13 @@ export const getCanonicalLinkURL = (establishment: Establishment): string => {
  * @returns The relative URL path for the establishment
  */
 export const getLinkURL = (establishment: Establishment): string => {
-  return `/e/${getLinkName(establishment)}`;
+  return `/region-${
+    getAuthorityITLRegionSlug(establishment.LocalAuthorityCode)
+  }/${
+    getLinkName(
+      establishment,
+    )
+  }`;
 };
 
 /**

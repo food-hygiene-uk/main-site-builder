@@ -14,6 +14,7 @@ updates:
       interval: "cron"
       cronjob: "0 9 * * *"
       timezone: "Europe/London"
+    open-pull-requests-limit: 500
 
   - package-ecosystem: "github-actions"
     directory: "/"
@@ -23,6 +24,7 @@ updates:
       interval: "cron"
       cronjob: "0 9 * * *"
       timezone: "Europe/London"
+    open-pull-requests-limit: 500
 
   - package-ecosystem: docker
     directory: /.devcontainer
@@ -32,6 +34,7 @@ updates:
       interval: "cron"
       cronjob: "0 9 * * *"
       timezone: "Europe/London"
+    open-pull-requests-limit: 500
 
   - package-ecosystem: npm
     directory: /
@@ -42,3 +45,4 @@ updates:
       interval: "cron"
       cronjob: "0 9 * * *"
       timezone: "Europe/London"
+    open-pull-requests-limit: 500

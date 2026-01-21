@@ -15,6 +15,8 @@ import { outputSearchPage } from "./pages/search/search.mts";
 import { outputListsPage } from "./pages/lists/lists.mts";
 import { outputListDetailPage } from "./pages/list-detail/list-detail.mts";
 import { outputListSharedPage } from "./pages/list-shared/list-shared.mts";
+import { outputRegionMapJS } from "./generate-site/output-region-map-js.mts";
+import { itlRegionSlugs } from "./lib/region/region.mts";
 
 // Ensure build/dist directories exist
 await ensureDir("build");
@@ -22,7 +24,6 @@ await ensureDir("build");
 await emptyDir("dist");
 await ensureDir("dist/about");
 await ensureDir("dist/search");
-await ensureDir("dist/e");
 await ensureDir("dist/l");
 await ensureDir("dist/lists");
 await ensureDir("dist/lists/detail");
@@ -33,6 +34,10 @@ await ensureDir("dist/components");
 await ensureDir("dist/components/establishment-card");
 await ensureDir("dist/components/establishment-list");
 await ensureDir("dist/components/establishment-display");
+
+for (const regionSlug of itlRegionSlugs) {
+  await ensureDir(`dist/region-${regionSlug}`);
+}
 
 // Copy needed files to dist directory
 await copy("assets", "dist", { overwrite: true });
@@ -80,6 +85,7 @@ console.timeEnd("fetchLocalAuthorityData");
 // Output all local authorities on the index page
 console.time("outputRegionIndex");
 await outputLocalAuthorityListPage(allLocalAuthorities);
+await outputRegionMapJS(allLocalAuthorities);
 console.timeEnd("outputRegionIndex");
 
 // Use all authorities in CI, otherwise just use the first one

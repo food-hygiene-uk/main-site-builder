@@ -1,5 +1,6 @@
 import recentEstablishmentsService from "scripts/recent-establishments-service.mjs";
 import { renderListSelectionButton } from "components/list-selection-button/list-selection-button.mjs";
+import { lacToRegionSlug } from "scripts/region.mjs";
 
 /**
  * @typedef {import("scripts/recent-establishments-service.mjs").MinimalEstablishment} MinimalEstablishment
@@ -197,7 +198,7 @@ export async function renderEstablishmentCard(establishment) {
 
   // Create the link that covers the entire establishment
   const link = document.createElement("a");
-  link.href = `/e/${
+  link.href = `/region-${lacToRegionSlug[establishment.LocalAuthorityCode]}/${
     slugify(
       establishment.BusinessName,
     )
