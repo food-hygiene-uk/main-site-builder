@@ -71,9 +71,10 @@ jobs:
       - name: Get GitHub App User ID
         id: get-user-id
         env:
+          APP_SLUG: ${{ steps.app-token.outputs.app_slug }}
           GH_TOKEN: ${{ steps.app-token.outputs.token }}
         run: |
-          echo "user-id=$(gh api "/users/${{ steps.app-token.outputs.app_slug }}[bot]" --jq .id)" >> "$GITHUB_OUTPUT"
+          echo "user-id=$(gh api "/users/${{ env.APP_SLUG }}%5Bbot%5D" --jq .id)" >> "$GITHUB_OUTPUT"
 
       - name: Create workspace directory
         run: mkdir ./repos/
@@ -293,14 +294,12 @@ jobs:
 
       - name: Loop over and commit each region's repository
         env:
+          APP_SLUG: ${{ steps.app-token-2.outputs.app_slug }}
+          GITHUB_REF_NAME: ${{ github.ref_name }}
           GITHUB_TOKEN: ${{ steps.app-token-2.outputs.token }}
           REGIONS: east-midlands east-of-england london north-east north-west northern-ireland scotland south-east south-west wales west-midlands yorkshire-and-the-humber
+          USER_ID: ${{ steps.get-user-id.outputs.user-id }}
         run: |
-          # output debugging info
-          set -x
-          set -o errexit -o nounset -o pipefail
-          trap 'echo "ERROR: command failed on line $LINENO: $BASH_COMMAND (exit $?)"' ERR
-
           for REGION in ${REGIONS:-}; do
             echo "Processing region: ${REGION}"
 
@@ -314,15 +313,15 @@ jobs:
 
             cd ${REPO_DIR}
 
-            git config --local user.name "${{ steps.app-token-2.outputs.app_slug }}[bot]"
-            git config --local user.email "${{ steps.get-user-id.outputs.user-id }}+${{ steps.app-token-2.outputs.app_slug }}[bot]@users.noreply.github.com"
+            git config --local user.name "${{ env.APP_SLUG }}[bot]"
+            git config --local user.email "${{ env.USER_ID }}+${{ env.APP_SLUG }}[bot]@users.noreply.github.com"
 
             git remote set-url origin https://x-access-token:${GITHUB_TOKEN}@github.com/food-hygiene-uk/region-${REGION}
 
             if ! git diff --quiet || ! git ls-files --others --exclude-standard --quiet; then
               git add .
               git commit -m "Content update from main-site-builder deploy.yml"
-              git push origin HEAD:${{ github.ref_name }} || { echo "Failed to push changes"; exit 1; }
+              git push origin HEAD:${{ env.GITHUB_REF_NAME }} || { echo "Failed to push changes"; exit 1; }
             else
               echo "No changes detected for region: ${REGION}"
             fi
@@ -355,13 +354,17 @@ jobs:
 
       - name: Configure Git
         working-directory: ./repos/food-hygiene-uk.github.io
+        env:
+          APP_SLUG: ${{ steps.app-token-2.outputs.app_slug }}
+          USER_ID: ${{ steps.get-user-id.outputs.user-id }}
         run: |
-          git config --local user.name "${{ steps.app-token-3.outputs.app_slug }}[bot]"
-          git config --local user.email "${{ steps.get-user-id.outputs.user-id }}+${{ steps.app-token-3.outputs.app_slug }}[bot]@users.noreply.github.com"
+          git config --local user.name "${{ env.APP_SLUG }}[bot]"
+          git config --local user.email "${{ env.USER_ID }}+${{ env.APP_SLUG }}[bot]@users.noreply.github.com"
 
       - name: Commit and push changes
         working-directory: ./repos/food-hygiene-uk.github.io
         env:
+          GITHUB_REF_NAME: ${{ github.ref_name }}
           GITHUB_TOKEN: ${{ steps.app-token-3.outputs.token }}
         run: |
           git remote set-url origin https://x-access-token:${GITHUB_TOKEN}@github.com/food-hygiene-uk/food-hygiene-uk.github.io.git
@@ -369,7 +372,7 @@ jobs:
           if ! git diff --quiet || ! git ls-files --others --exclude-standard --quiet; then
             git add .
             git commit -m "Content update from main-site-builder deploy.yml"
-            git push origin HEAD:${{ github.ref_name }} || { echo "Failed to push changes"; exit 1; }
+            git push origin HEAD:${{ env.GITHUB_REF_NAME }} || { echo "Failed to push changes"; exit 1; }
           else
             echo "No changes detected"
           fi
