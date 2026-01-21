@@ -5,6 +5,9 @@
     "options": ["--build-arg=DENO_VERSION=2.6.5"]
   },
   "postCreateCommand": "deno cache src/generate-site.mts",
+  "features": {
+    "ghcr.io/devcontainers/features/github-cli:1": {}
+  },
   "customizations": {
     "vscode": {
       "settings": {

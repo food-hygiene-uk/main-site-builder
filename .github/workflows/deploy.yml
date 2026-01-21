@@ -69,12 +69,28 @@ jobs:
           owner: ${{ github.repository_owner }}
 
       - name: Get GitHub App User ID
-        id: get-user-id
+        id: commit-credentials
         env:
-          APP_SLUG: ${{ steps.app-token.outputs.app_slug }}
+          APP_SLUG: ${{ steps.app-token.outputs.app-slug }}
           GH_TOKEN: ${{ steps.app-token.outputs.token }}
         run: |
-          echo "user-id=$(gh api "/users/${{ env.APP_SLUG }}%5Bbot%5D" --jq .id)" >> "$GITHUB_OUTPUT"
+          set -euo pipefail
+
+          BOT_USER="${APP_SLUG}%5Bbot%5D"
+
+          # Query id and login, capture stderr for diagnostics
+          USER_ID="$(gh api "users/${BOT_USER}" --jq .id 2>/tmp/gh-api.err || true)"
+          USER_LOGIN="$(gh api "users/${BOT_USER}" --jq .login 2>/tmp/gh-api.err || true)"
+
+          if [ -z "${USER_ID:-}" ] || [ -z "${USER_LOGIN:-}" ]; then
+            echo "ERROR: failed to get bot user info for ${APP_SLUG}[bot]"
+            echo "gh api stderr (first 200 lines):"
+            sed -n '1,200p' /tmp/gh-api.err
+            exit 1
+          fi
+
+          echo "user-name=${USER_LOGIN}" >> "$GITHUB_OUTPUT"
+          echo "user-email=${USER_ID}+${USER_LOGIN}@users.noreply.github.com" >> "$GITHUB_OUTPUT"
 
       - name: Create workspace directory
         run: mkdir ./repos/
@@ -294,11 +310,11 @@ jobs:
 
       - name: Loop over and commit each region's repository
         env:
-          APP_SLUG: ${{ steps.app-token-2.outputs.app_slug }}
           GITHUB_REF_NAME: ${{ github.ref_name }}
           GITHUB_TOKEN: ${{ steps.app-token-2.outputs.token }}
           REGIONS: east-midlands east-of-england london north-east north-west northern-ireland scotland south-east south-west wales west-midlands yorkshire-and-the-humber
-          USER_ID: ${{ steps.get-user-id.outputs.user-id }}
+          USER_NAME: ${{ steps.commit-credentials.outputs.user-name }}
+          USER_EMAIL: ${{ steps.commit-credentials.outputs.user-email }}
         run: |
           for REGION in ${REGIONS:-}; do
             echo "Processing region: ${REGION}"
@@ -313,12 +329,12 @@ jobs:
 
             cd ${REPO_DIR}
 
-            git config --local user.name "${{ env.APP_SLUG }}[bot]"
-            git config --local user.email "${{ env.USER_ID }}+${{ env.APP_SLUG }}[bot]@users.noreply.github.com"
+            git config --local user.name "${{ env.USER_NAME }}"
+            git config --local user.email "${{ env.USER_EMAIL }}"
 
             git remote set-url origin https://x-access-token:${GITHUB_TOKEN}@github.com/food-hygiene-uk/region-${REGION}
 
-            if ! git diff --quiet || ! git ls-files --others --exclude-standard --quiet; then
+            if [ -n "$(git status --porcelain --untracked-files=all)" ]; then
               git add .
               git commit -m "Content update from main-site-builder deploy.yml"
               git push origin HEAD:${{ env.GITHUB_REF_NAME }} || { echo "Failed to push changes"; exit 1; }
@@ -355,11 +371,11 @@ jobs:
       - name: Configure Git
         working-directory: ./repos/food-hygiene-uk.github.io
         env:
-          APP_SLUG: ${{ steps.app-token-2.outputs.app_slug }}
-          USER_ID: ${{ steps.get-user-id.outputs.user-id }}
+          USER_NAME: ${{ steps.commit-credentials.outputs.user-name }}
+          USER_EMAIL: ${{ steps.commit-credentials.outputs.user-email }}
         run: |
-          git config --local user.name "${{ env.APP_SLUG }}[bot]"
-          git config --local user.email "${{ env.USER_ID }}+${{ env.APP_SLUG }}[bot]@users.noreply.github.com"
+          git config --local user.name "${{ env.USER_NAME }}"
+          git config --local user.email "${{ env.USER_EMAIL }}"
 
       - name: Commit and push changes
         working-directory: ./repos/food-hygiene-uk.github.io
