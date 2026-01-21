@@ -32,12 +32,10 @@ export const getCanonicalLinkURL = (establishment: Establishment): string => {
  */
 export const getLinkURL = (establishment: Establishment): string => {
   return `/region-${
-    getAuthorityITLRegionSlug(establishment.LocalAuthorityCode)
-  }/${
-    getLinkName(
-      establishment,
+    getAuthorityITLRegionSlug(
+      establishment.LocalAuthorityCode,
     )
-  }`;
+  }/${getLinkName(establishment)}`;
 };
 
 /**
