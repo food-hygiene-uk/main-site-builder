@@ -70,10 +70,6 @@ deno check src/generate-site.mts
 deno fmt
 ```
 
-## License
-
-MIT License - see LICENSE for details.
-
 ## Data Source
 
 Data is sourced from the
