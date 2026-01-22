@@ -68,7 +68,7 @@ jobs:
           private-key: ${{ secrets.APP_PRIVATE_KEY }}
           owner: ${{ github.repository_owner }}
 
-      - name: Get GitHub App User ID
+      - name: Get GitHub Commit Credentials
         id: commit-credentials
         env:
           APP_SLUG: ${{ steps.app-token.outputs.app-slug }}
@@ -385,7 +385,7 @@ jobs:
         run: |
           git remote set-url origin https://x-access-token:${GITHUB_TOKEN}@github.com/food-hygiene-uk/food-hygiene-uk.github.io.git
 
-          if ! git diff --quiet || ! git ls-files --others --exclude-standard --quiet; then
+          if [ -n "$(git status --porcelain --untracked-files=all)" ]; then
             git add .
             git commit -m "Content update from main-site-builder deploy.yml"
             git push origin HEAD:${{ env.GITHUB_REF_NAME }} || { echo "Failed to push changes"; exit 1; }
