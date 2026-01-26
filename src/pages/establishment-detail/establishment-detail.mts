@@ -275,8 +275,8 @@ export const outputEstablishmentDetailPage = async (
           : null;
 
       const businessName = encodeURIComponent(establishment.BusinessName);
-      const locationLink = geocode ?
-        `https://geohack.toolforge.org/geohack.php?title=${businessName}&params=${geocode.latitude}_N_${geocode.longitude}_E_type:landmark_dim:20`
+      const locationLink = geocode
+        ? `https://geohack.toolforge.org/geohack.php?title=${businessName}&params=${geocode.latitude}_N_${geocode.longitude}_E_type:landmark_dim:20`
         : null;
 
       const html = await template({
