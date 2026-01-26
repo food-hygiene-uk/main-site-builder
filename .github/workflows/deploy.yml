@@ -28,7 +28,7 @@ jobs:
           egress-policy: audit
 
       - name: Checkout
-        uses: actions/checkout@8e8c483db84b4bee98b60c0593521ed34d9990e8 # v6.0.1
+        uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd # v6.0.2
         with:
           sparse-checkout: |
             .deno-version
@@ -96,7 +96,7 @@ jobs:
         run: mkdir ./repos/
 
       - name: Checkout source repository
-        uses: actions/checkout@8e8c483db84b4bee98b60c0593521ed34d9990e8 # v6.0.1
+        uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd # v6.0.2
         with:
           path: ./repos/source
           token: ${{ steps.app-token.outputs.token }}
@@ -202,7 +202,7 @@ jobs:
 
       # region-east-midlands
       - name: Checkout region-east-midlands repository
-        uses: actions/checkout@8e8c483db84b4bee98b60c0593521ed34d9990e8 # v6.0.1
+        uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd # v6.0.2
         with:
           repository: food-hygiene-uk/region-east-midlands
           path: ./repos/region-east-midlands
@@ -211,7 +211,7 @@ jobs:
 
       # region-east-of-england
       - name: Checkout region-east-of-england repository
-        uses: actions/checkout@8e8c483db84b4bee98b60c0593521ed34d9990e8 # v6.0.1
+        uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd # v6.0.2
         with:
           repository: food-hygiene-uk/region-east-of-england
           path: ./repos/region-east-of-england
@@ -220,7 +220,7 @@ jobs:
 
       # region-london
       - name: Checkout region-london repository
-        uses: actions/checkout@8e8c483db84b4bee98b60c0593521ed34d9990e8 # v6.0.1
+        uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd # v6.0.2
         with:
           repository: food-hygiene-uk/region-london
           path: ./repos/region-london
@@ -229,7 +229,7 @@ jobs:
 
       # region-north-east
       - name: Checkout region-north-east repository
-        uses: actions/checkout@8e8c483db84b4bee98b60c0593521ed34d9990e8 # v6.0.1
+        uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd # v6.0.2
         with:
           repository: food-hygiene-uk/region-north-east
           path: ./repos/region-north-east
@@ -238,7 +238,7 @@ jobs:
 
       # region-north-west
       - name: Checkout region-north-west repository
-        uses: actions/checkout@8e8c483db84b4bee98b60c0593521ed34d9990e8 # v6.0.1
+        uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd # v6.0.2
         with:
           repository: food-hygiene-uk/region-north-west
           path: ./repos/region-north-west
@@ -247,7 +247,7 @@ jobs:
 
       # region-northern-ireland
       - name: Checkout region-northern-ireland repository
-        uses: actions/checkout@8e8c483db84b4bee98b60c0593521ed34d9990e8 # v6.0.1
+        uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd # v6.0.2
         with:
           repository: food-hygiene-uk/region-northern-ireland
           path: ./repos/region-northern-ireland
@@ -256,7 +256,7 @@ jobs:
 
       # region-scotland
       - name: Checkout region-scotland repository
-        uses: actions/checkout@8e8c483db84b4bee98b60c0593521ed34d9990e8 # v6.0.1
+        uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd # v6.0.2
         with:
           repository: food-hygiene-uk/region-scotland
           path: ./repos/region-scotland
@@ -265,7 +265,7 @@ jobs:
 
       # region-south-east
       - name: Checkout region-south-east repository
-        uses: actions/checkout@8e8c483db84b4bee98b60c0593521ed34d9990e8 # v6.0.1
+        uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd # v6.0.2
         with:
           repository: food-hygiene-uk/region-south-east
           path: ./repos/region-south-east
@@ -274,7 +274,7 @@ jobs:
 
       # region-south-west
       - name: Checkout region-south-west repository
-        uses: actions/checkout@8e8c483db84b4bee98b60c0593521ed34d9990e8 # v6.0.1
+        uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd # v6.0.2
         with:
           repository: food-hygiene-uk/region-south-west
           path: ./repos/region-south-west
@@ -283,7 +283,7 @@ jobs:
 
       # region-wales
       - name: Checkout region-wales repository
-        uses: actions/checkout@8e8c483db84b4bee98b60c0593521ed34d9990e8 # v6.0.1
+        uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd # v6.0.2
         with:
           repository: food-hygiene-uk/region-wales
           path: ./repos/region-wales
@@ -292,7 +292,7 @@ jobs:
 
       # region-west-midlands
       - name: Checkout region-west-midlands repository
-        uses: actions/checkout@8e8c483db84b4bee98b60c0593521ed34d9990e8 # v6.0.1
+        uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd # v6.0.2
         with:
           repository: food-hygiene-uk/region-west-midlands
           path: ./repos/region-west-midlands
@@ -301,7 +301,7 @@ jobs:
 
       # region-yorkshire-and-the-humber
       - name: Checkout region-yorkshire-and-the-humber repository
-        uses: actions/checkout@8e8c483db84b4bee98b60c0593521ed34d9990e8 # v6.0.1
+        uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd # v6.0.2
         with:
           repository: food-hygiene-uk/region-yorkshire-and-the-humber
           path: ./repos/region-yorkshire-and-the-humber
@@ -355,7 +355,7 @@ jobs:
 
       # food-hygiene-uk.github.io -- Root Site
       - name: Checkout GitHub Pages repository
-        uses: actions/checkout@8e8c483db84b4bee98b60c0593521ed34d9990e8 # v6.0.1
+        uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd # v6.0.2
         with:
           repository: food-hygiene-uk/food-hygiene-uk.github.io
           path: ./repos/food-hygiene-uk.github.io
