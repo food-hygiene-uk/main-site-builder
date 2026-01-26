@@ -69,6 +69,8 @@ const initializeMap = async (latitude, longitude) => {
   globalThis.L.marker([latitude, longitude])
     .bindPopup("Establishment Location")
     .addTo(map);
+
+  mapContainer.classList.add("loaded");
 };
 
 /**

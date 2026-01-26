@@ -267,6 +267,10 @@
     background-size: cover;
     background-position: center;
     background-repeat: no-repeat;
+
+    &.loaded {
+      background-image: none;
+    }
   }
 
   @media screen and (width <= 768px) {

@@ -31,15 +31,8 @@ const getAddress = (
 ): {
   lines: string[];
   postcode: string | null;
-  locationLink: string | null;
 } => {
   if (establishment.Geocode !== null) {
-    const businessName = encodeURIComponent(establishment.BusinessName);
-    const latitude = establishment.Geocode?.Latitude;
-    const longitude = establishment.Geocode?.Longitude;
-    const locationLink =
-      `https://geohack.toolforge.org/geohack.php?title=${businessName}&params=${latitude}_N_${longitude}_E_type:landmark_dim:20`;
-
     const lines = [
       establishment.AddressLine1 ?? null,
       establishment.AddressLine2 ?? null,
@@ -52,14 +45,12 @@ const getAddress = (
     return {
       lines,
       postcode,
-      locationLink,
     };
   }
 
   return {
     lines: [],
     postcode: null,
-    locationLink: null,
   };
 };
 
