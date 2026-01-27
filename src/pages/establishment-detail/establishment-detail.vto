@@ -5,7 +5,7 @@
     {{ headerHtml }}
     <div class="content-{{ classSuffix }}">
       <div class="container">
-        <article class="establishment box-shadow" itemscope itemtype="https://schema.org/FoodEstablishment" data-establishment-id="{{ establishment.FHRSID }}">
+        <article class="establishment box-shadow" itemscope itemtype="https://schema.org/FoodEstablishment" data-establishment-id="{{ establishment.FHRSID }}" data-local-authority-code="{{ establishment.LocalAuthorityCode }}">
           <div class="establishment-header">
             <h1 class="name" itemprop="name">{{ establishment.BusinessName |> escape}}</h1>
           </div>

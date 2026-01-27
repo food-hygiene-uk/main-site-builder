@@ -37,6 +37,7 @@ class RecentEstablishmentsService {
       FHRSID: establishment.FHRSID,
       BusinessName: establishment.BusinessName || "Unknown Establishment",
       BusinessType: establishment.BusinessType,
+      LocalAuthorityCode: establishment.LocalAuthorityCode,
       lastVisited: new Date().toISOString(),
     };
 

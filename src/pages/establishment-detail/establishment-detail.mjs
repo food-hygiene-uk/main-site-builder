@@ -116,11 +116,14 @@ document.addEventListener("DOMContentLoaded", () => {
     ? businessTypeElement.textContent.trim()
     : "";
 
+  const localAuthorityCode = establishmentElement.dataset.localAuthorityCode;
+
   // Add this establishment to the recently viewed list with name and type
   recentEstablishmentsService.addEstablishment({
     FHRSID: establishmentId,
     BusinessName: businessName,
     BusinessType: businessType,
+    LocalAuthorityCode: localAuthorityCode,
   });
 
   // Load and display recently viewed establishments (excluding current one)
