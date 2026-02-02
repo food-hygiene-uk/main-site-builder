@@ -55,7 +55,7 @@ const [
  * @returns Resolves when the page is written to the output directory.
  */
 export const outputListDetailPage = async (): Promise<void> => {
-  const classSuffix = getClassSuffix();
+  const classSuffix = getClassSuffix(true);
 
   // Process JS for detail page
   const detailPageJs = jsAddSuffix(processedDetailPageJs, classSuffix);

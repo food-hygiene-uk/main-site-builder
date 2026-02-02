@@ -37,7 +37,7 @@ const [template, Header, Footer, processedCss] = await Promise.all([
  * @returns Resolves when the homepage has been generated.
  */
 export const outputHomepagePage = async (): Promise<void> => {
-  const classSuffix = getClassSuffix();
+  const classSuffix = getClassSuffix(true);
 
   const pageCSS = cssAddSuffix(processedCss, classSuffix);
 

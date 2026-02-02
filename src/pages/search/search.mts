@@ -47,7 +47,7 @@ const [template, Header, Footer, processedCss, processedJs] = await Promise.all(
  * @returns Resolves when the search page has been written to the output directory.
  */
 export const outputSearchPage = async (): Promise<void> => {
-  const classSuffix = getClassSuffix();
+  const classSuffix = getClassSuffix(true);
 
   const pageCSS = cssAddSuffix(processedCss, classSuffix);
   const pageJs = jsAddSuffix(processedJs, classSuffix);

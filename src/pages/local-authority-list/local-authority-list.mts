@@ -94,7 +94,7 @@ const [
 export const outputLocalAuthorityListPage = async (
   localAuthorities: Authorities,
 ) => {
-  const classSuffix = getClassSuffix();
+  const classSuffix = getClassSuffix(true);
 
   const pageCSS = cssAddSuffix(processedCss, classSuffix);
   const processedLocalAuthorityListPageJsWithSuffix = jsAddSuffix(

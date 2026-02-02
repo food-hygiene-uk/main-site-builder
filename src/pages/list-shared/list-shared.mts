@@ -58,7 +58,7 @@ const [
  * @returns Resolves when the page is written to the output directory.
  */
 export const outputListSharedPage = async (): Promise<void> => {
-  const classSuffix = getClassSuffix();
+  const classSuffix = getClassSuffix(true);
 
   const sharedPageJs = jsAddSuffix(processedListSharedPageJs, classSuffix);
   const listSharedPageCss = cssAddSuffix(

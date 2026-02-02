@@ -43,7 +43,7 @@ export const forgeRoot = (): {
     footerCSS: string;
   }) => Promise<string>;
 } => {
-  const classSuffix = getClassSuffix();
+  const classSuffix = getClassSuffix(true);
   const css = cssAddSuffix(processedCss, classSuffix);
   const js = jsAddSuffix(processedJs, classSuffix);
 

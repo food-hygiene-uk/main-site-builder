@@ -37,7 +37,7 @@ const [template, Header, Footer, processedCss] = await Promise.all([
  * @returns Resolves when the page has been successfully written.
  */
 export const outputAboutPage = async (): Promise<void> => {
-  const classSuffix = getClassSuffix();
+  const classSuffix = getClassSuffix(true);
 
   const pageCSS = cssAddSuffix(processedCss, classSuffix);
 

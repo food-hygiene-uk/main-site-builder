@@ -65,7 +65,7 @@ export const Address = (): {
     establishment: Establishment,
   ) => Promise<ReturnType<typeof template>>;
 } => {
-  const classSuffix = getClassSuffix();
+  const classSuffix = getClassSuffix(false);
   const css = cssAddSuffix(processedCss, classSuffix);
 
   /**

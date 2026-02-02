@@ -11,7 +11,7 @@ const getCallerFilenameHash = (): string => {
   const callerLine = stack[3]; // 0: Error, 1: getCallerFilenameHash, 2: getClassSuffix, 3: caller
 
   // Extract filename from the caller line (format may vary)
-  const filenameMatch = callerLine.match(/\/([^/]+)\.mts/);
+  const filenameMatch = callerLine.match(/^.*(\/src\/(.*?)\.mts)/);
   if (filenameMatch && filenameMatch[1]) {
     const filename = filenameMatch[1];
 
@@ -23,7 +23,9 @@ const getCallerFilenameHash = (): string => {
     }
 
     // Convert the hash to a 7 character string
-    return Math.abs(hash).toString(36).slice(0, 7);
+    const stringHash = Math.abs(hash).toString(36).slice(0, 7);
+
+    return stringHash;
   } else {
     console.warn("Could not extract filename from stack trace.");
 
@@ -86,7 +88,7 @@ const suffixPool = [
   "8imvf",
   "lyog4",
   "rqk37f",
-  "16642",
+  "h3ad34",
   "zkad4m",
   "nbon9e",
   "4ajue9",
@@ -145,17 +147,26 @@ const suffixPool = [
  *
  * There is a pool of suffixes that will be rotated between.
  *
+ * If the class is for a single instance component, then the classSuffix does not need to be distinct.
+ *
+ * @param singleInstance - Whether the component is a single instance component.
  * @returns A random string of characters.
  */
-export const getClassSuffix = (): string => {
+export const getClassSuffix = (singleInstance: boolean): string => {
+  const singleInstanceComponent = Boolean(singleInstance);
+
   const callerHash = getCallerFilenameHash();
 
   const seedFromHash = Number.parseInt(callerHash.slice(0, 8), 36);
-  const index = (suffixPoolIndexes.get(callerHash) || seedFromHash) %
-    suffixPool.length;
+  const index =
+    (singleInstanceComponent
+      ? seedFromHash
+      : suffixPoolIndexes.get(callerHash) || seedFromHash) % suffixPool.length;
   const suffix = suffixPool[index];
 
-  suffixPoolIndexes.set(callerHash, index + 1);
+  if (singleInstanceComponent == false) {
+    suffixPoolIndexes.set(callerHash, index + 1);
+  }
 
   return suffix;
 };

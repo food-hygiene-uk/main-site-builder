@@ -30,7 +30,7 @@ export const forgeFooter = async (): Promise<{
   css: string;
   html: string;
 }> => {
-  const classSuffix = getClassSuffix();
+  const classSuffix = getClassSuffix(true);
   const css = cssAddSuffix(processedCss, classSuffix);
 
   const result = await template({

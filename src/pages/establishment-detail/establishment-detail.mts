@@ -238,7 +238,7 @@ export const outputEstablishmentDetailPage = async (
   localAuthority: EnrichedLocalAuthority,
   establishments: Establishment[],
 ): Promise<void> => {
-  const classSuffix = getClassSuffix();
+  const classSuffix = getClassSuffix(true);
 
   const pageCSS = cssAddSuffix(processedCss, classSuffix);
   const pageJs = jsAddSuffix(processedJs, classSuffix);
