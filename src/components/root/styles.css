@@ -85,3 +85,7 @@ a:hover {
   font-size: 1em;
   padding: 10px;
 }
+
+[hidden]:not([hidden="until-found"]) {
+  display: none !important;
+}
