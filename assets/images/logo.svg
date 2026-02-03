@@ -1,6 +1,6 @@
 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 300 60">
   <!-- Icon -->
-  <g transform="translate(0, 14)">
+  <g transform="translate(0.5, 14)">
     <rect width="32" height="32" fill="#84be00" stroke="#000" rx="6" />
     <circle cx="16" cy="16" r="12" />
     <text
@@ -16,19 +16,18 @@
   </g>
 
   <!-- Main text -->
-  <text
-    x="174"
-    y="33"
-    text-anchor="middle"
-    dominant-baseline="middle"
-    font-family="system-ui, sans-serif"
-    font-size="30"
-    font-weight="600"
-    fill="black"
-    letter-spacing="1.2px"
-    style="text-rendering: geometricPrecision"
-    text-transform="uppercase"
-  >
-    Food Hygiene UK
-  </text>
+  <g transform="translate(174, 33)" class="text">
+    <text
+      text-anchor="middle"
+      dominant-baseline="middle"
+      font-family="system-ui, sans-serif"
+      font-size="30"
+      font-weight="600"
+      letter-spacing="1.2px"
+      style="text-rendering: geometricPrecision;"
+      text-transform="uppercase"
+    >
+      Food Hygiene UK
+    </text>
+  </g>
 </svg>

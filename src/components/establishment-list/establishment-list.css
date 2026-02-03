@@ -55,7 +55,7 @@
   padding: 5px 10px;
   background-color: light-dark(#f0f0f0, #333);
   color: light-dark(#333, #ddd);
-  border: 1px solid light-dark(#ddd, #444);
+  border: var(--card-border);
   border-radius: 4px;
   cursor: pointer;
   min-width: 40px;

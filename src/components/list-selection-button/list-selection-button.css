@@ -3,21 +3,28 @@
   display: flex;
   align-items: center;
   gap: 3px;
-  background-color: light-dark(#f2f2f2, hsl(0deg 0% 80%));
-  color: #0f0f0f;
+  background-color: light-dark(var(--card-background-lowlight), var(--card-background-highlight));
+  color: var(--card-color);
   border: none;
   padding: 3px 9px;
   border-radius: 18px;
   cursor: pointer;
   font-size: 1.05em;
 
-  &:hover {
-    background-color: light-dark(#e5e5e5, hsl(0deg 0% 90%));
-  }
-
   .bookmark-icon {
     width: 24px;
     height: 24px;
+    fill: var(--card-color);
+  }
+
+  &:hover,
+  &:focus {
+    color: light-dark(var(--card-color), #000);
+    background-color: light-dark(var(--hygiene-green-highlight), var(--hygiene-green-lowlight));
+
+    .bookmark-icon {
+      fill: light-dark(var(--card-color), #000);
+    }
   }
 
   &.on-list .bookmark-icon .interior {

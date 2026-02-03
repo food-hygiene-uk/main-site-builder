@@ -4,7 +4,7 @@ import { outputEstablishmentDetailPage } from "./pages/establishment-detail/esta
 import { fetchLocalAuthorityData } from "./generate-site/fetch-data.mts";
 import { generateSitemap } from "./generate-site/output-sitemap.mts";
 import { outputHomepagePage } from "./pages/homepage/homepage.mts";
-import * as api from "./ratings-api/rest.mts";
+import * as api from "./ratings-data/rest.mts";
 import { outputLocalAuthorityListPage } from "./pages/local-authority-list/local-authority-list.mts";
 import { outputLocalAuthoritySitemap } from "./generate-site/output-local-authority-sitemap.mts";
 import { outputLocalAuthorityDetailPage } from "./pages/local-authority-detail/local-authority-detail.mts";
@@ -19,6 +19,7 @@ import { outputRegionMapJS } from "./generate-site/output-region-map-js.mts";
 import { itlRegionSlugs } from "./lib/region/region.mts";
 
 // Ensure build/dist directories exist
+console.log("Setting up directories...");
 await ensureDir("build");
 
 await emptyDir("dist");
@@ -74,6 +75,7 @@ let sitemapXmlContent = await Deno.readTextFile(sitemapXmlPath);
 sitemapXmlContent = sitemapXmlContent.replaceAll("<loc>/", `<loc>${baseURL}/`);
 await Deno.writeTextFile(sitemapXmlPath, sitemapXmlContent);
 
+console.log("Fetching authority data...");
 const authoritiesResponse = await api.authorities();
 
 console.time("fetchLocalAuthorityData");

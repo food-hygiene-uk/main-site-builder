@@ -17,6 +17,8 @@ html {
   --light-grey: #eef2f6;
   --hygiene-green-rgb: 132, 190, 0;
   --hygiene-green: rgb(var(--hygiene-green-rgb));
+  --hygiene-green-highlight: color-mix(in oklab, var(--hygiene-green) 50%, white 50%);
+  --hygiene-green-lowlight: color-mix(in oklab, var(--hygiene-green) 75%, black 25%);
 
   /* Call to action colors */
   --cta-default: #9e66ff;
@@ -32,6 +34,19 @@ html {
   --input-color: var(--text-color);
   --input-bg: light-dark(#fff, #444);
   --input-border: light-dark(#ccc, #555);
+
+  /* Cards */
+  --card-background: light-dark(#fff, #2d2d2d);
+  --card-background-highlight: color-mix(in oklab, var(--card-background) 80%, white 20%);
+  --card-background-lowlight: color-mix(in oklab, var(--card-background) 95%, black 5%);;
+  --card-color: light-dark(#666, #aaa);
+  --card-border: 1px solid light-dark(#ddd, #444);
+
+
+  /* Shadows */
+  --box-shadow: 0 2px 4px light-dark(rgb(0 0 0 / 10%), rgb(0 0 0 / 15%));
+  --box-shadow-hover: 0 4px 8px light-dark(rgb(0 0 0 / 15%), rgb(0 0 0 / 25%));
+  --box-shadow-border: 1px solid light-dark(#dedede, #393939);
 }
 
 [inert],
@@ -68,13 +83,13 @@ a:hover {
 
 .box-shadow,
 .box-shadow-hover {
-  border: 1px solid light-dark(#dedede, #393939);
-  box-shadow: 0 2px 4px light-dark(rgb(0 0 0 / 10%), rgb(0 0 0 / 15%));
+  border: var(--box-shadow-border);
+  box-shadow: var(--box-shadow);
   box-sizing: border-box;
 }
 
 .box-shadow-hover:hover {
-  box-shadow: 0 4px 8px light-dark(rgb(0 0 0 / 15%), rgb(0 0 0 / 25%));
+  box-shadow: var(--box-shadow-hover);
 }
 
 .input {

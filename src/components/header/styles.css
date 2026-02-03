@@ -22,8 +22,15 @@
     align-items: center;
   }
 
-  .logo-__CLASS_SUFFIX__ img {
+  .logo-__CLASS_SUFFIX__ {
     height: 50px;
+    width: 250px;
+
+    svg {
+      .text {
+        fill: var(--header-text-color);
+      }
+    }
   }
 
   .nav-links-__CLASS_SUFFIX__ {

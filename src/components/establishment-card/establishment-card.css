@@ -1,12 +1,14 @@
 .establishment-card {
   padding: 15px;
   position: relative;
-  border: 1px solid light-dark(#ddd, #444);
+  border: var(--card-border);
   border-radius: 8px;
-  background-color: light-dark(#fff, #2d2d2d);
+  background-color: var(--card-background);
   transition: transform 0.2s;
 
-  &:hover {
+  &:hover,
+  &:focus,
+  &:focus-within {
     transform: scale(1.01);
   }
 
@@ -27,7 +29,7 @@
     display: grid;
     grid-template-columns: 1fr 1fr;
     gap: 10px;
-    color: light-dark(#666, #aaa);
+    color: var(--card-color);
     font-size: 0.9em;
     margin-bottom: 10px;
 
@@ -77,7 +79,7 @@
   }
 
   .viewed-time {
-    color: light-dark(#666, #aaa);
+    color: var(--card-color);
     font-size: 0.9em;
     margin-bottom: 10px;
   }

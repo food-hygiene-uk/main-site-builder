@@ -50,7 +50,7 @@
   );
   --input-bg: light-dark(#fff, #333);
   --input-border: light-dark(#ccc, #555);
-  --text-muted: light-dark(#666, #aaa);
+  --text-muted: var(--card-color);
   --section-bg: light-dark(#f8f8f8, #222);
   --highlight-hover: light-dark(#f0f0f0, #333);
 

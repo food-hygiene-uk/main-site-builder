@@ -49,7 +49,7 @@
   .loading-indicator {
     text-align: center;
     padding: 40px;
-    color: light-dark(#666, #aaa);
+    color: var(--card-color);
     font-style: italic;
   }
 

@@ -101,7 +101,7 @@
   }
 
   .loading-indicator {
-    color: light-dark(#666, #aaa);
+    color: var(--card-color);
     text-align: center;
     padding: 40px;
     font-style: italic;

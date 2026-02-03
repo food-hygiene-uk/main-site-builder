@@ -43,7 +43,22 @@ export const authorities = async (): Promise<AuthoritiesResponse> => {
     fetchInit,
   );
 
-  return authoritiesResponseSchema.parse(await response.json());
+  const responseJson = await response.json();
+
+  try {
+    if (!response.ok) {
+      throw new Error(
+        `Failed to fetch authorities: ${response.statusText}:\n${
+          JSON.stringify(responseJson, null, 2)
+        }`,
+      );
+    }
+
+    return authoritiesResponseSchema.parse(responseJson);
+  } catch (error) {
+    console.error({responseJson});
+    throw error;
+  }
 };
 
 /**
