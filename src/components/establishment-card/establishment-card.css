@@ -92,5 +92,7 @@
   .button-container {
     position: relative;
     z-index: 1;
+    height: fit-content;
+    width: fit-content;
   }
 }
