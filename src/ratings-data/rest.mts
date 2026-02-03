@@ -8,9 +8,7 @@ export const authorities = async (): Promise<AuthoritiesResponse> => {
     "https://food-hygiene-uk.github.io/data/files/api/authorities-en-GB.json",
   );
   if (!response.ok) {
-    throw new Error(
-      `Fetch failed for authorities: ${response.status}`,
-    );
+    throw new Error(`Fetch failed for authorities: ${response.status}`);
   }
 
   const responseJson = await response.json();

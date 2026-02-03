@@ -49,14 +49,18 @@ export const authorities = async (): Promise<AuthoritiesResponse> => {
     if (!response.ok) {
       throw new Error(
         `Failed to fetch authorities: ${response.statusText}:\n${
-          JSON.stringify(responseJson, null, 2)
+          JSON.stringify(
+            responseJson,
+            null,
+            2,
+          )
         }`,
       );
     }
 
     return authoritiesResponseSchema.parse(responseJson);
   } catch (error) {
-    console.error({responseJson});
+    console.error({ responseJson });
     throw error;
   }
 };
