@@ -1,10 +1,10 @@
 /**
- * @import { Establishment } from "../components/establishment-card/establishment-card.mjs"
+ * @import { Establishment } from "components/establishment-card/establishment-card.mjs"
  */
 
-import { describe, it } from "jsr:@std/testing@1.0.15/bdd";
-import { assertEquals } from "jsr:@std/assert@1.0.14";
-import fc from "npm:fast-check@4.3.0";
+import { describe, it } from "@std/testing/bdd";
+import { assertEquals } from "@std/assert";
+import fc from "fast-check";
 import {
   filterEstablishments,
   sliceEstablishments,

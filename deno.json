@@ -106,7 +106,7 @@
   },
   "lint": {
     "rules": {
-      "tags": ["recommended"],
+      "tags": ["recommended", "workspace"],
       "exclude": ["require-await"]
     }
   },
