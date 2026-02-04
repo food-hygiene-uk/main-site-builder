@@ -186,7 +186,7 @@
     },
     "playwright:test": {
       "env": {
-        "ignore": true
+        "allow": true
       },
       "read": {
         "allow": [
