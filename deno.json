@@ -65,7 +65,7 @@
     "playwright:test": {
       "description": "Runs Playwright tests",
       "dependencies": ["playwright:install"],
-      "command": "deno run --permission-set=playwright:install npm:playwright test"
+      "command": "deno run --permission-set=playwright:test npm:playwright test"
     },
     "prettier:debug-check": {
       "description": "Runs prettier on the code through Deno - --debug-check",
@@ -151,8 +151,6 @@
       "read": {
         "allow": [
           "/proc/version",
-          "../node_modules",
-          "/node_modules",
           "/etc/os-release",
           "/home/node/.cache/ms-playwright",
           "/home/runner/.cache/ms-playwright",
@@ -191,7 +189,16 @@
         "ignore": true
       },
       "read": {
-        "allow": ["./", "/proc/version", "/etc/os-release", "/tmp/"],
+        "allow": [
+          "./",
+          "/proc/version",
+          "/etc/os-release",
+          "/tmp/",
+          "../tsconfig.json",
+          "../../tsconfig.json",
+          "../jsconfig.json",
+          "../../jsconfig.json"
+        ],
         "ignore": true
       },
       "write": ["./test-results/", "./playwright-report", "/tmp/"],
