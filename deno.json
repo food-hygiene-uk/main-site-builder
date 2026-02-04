@@ -139,12 +139,7 @@
         "ignore": true
       },
       "read": {
-        "allow": [
-          "./",
-          "/WORKSPACES/MAIN-SITE-BUILDER/",
-          "/workspaces/main-site-builder/"
-        ],
-        "ignore": true
+        "allow": true
       },
       "write": ["./.eslintcache"],
       "sys": ["cpus", "homedir"]
