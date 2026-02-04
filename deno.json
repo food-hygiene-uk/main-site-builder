@@ -139,7 +139,11 @@
         "ignore": true
       },
       "read": {
-        "allow": ["./", "/WORKSPACES/MAIN-SITE-BUILDER/"],
+        "allow": [
+          "./",
+          "/WORKSPACES/MAIN-SITE-BUILDER/",
+          "/workspaces/main-site-builder/"
+        ],
         "ignore": true
       },
       "write": ["./.eslintcache"],
