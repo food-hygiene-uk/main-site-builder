@@ -159,7 +159,6 @@
         "/etc/os-release",
         "/home/node/.cache/ms-playwright",
         "/home/runner/.cache/ms-playwright",
-        "$(which deno)",
         "/tmp/",
         "/ms-playwright/.docker-info"
       ],
@@ -169,7 +168,7 @@
         "/tmp/"
       ],
       "sys": ["osRelease", "homedir", "uid"],
-      "run": ["$(which deno)", "/sbin/ldconfig", "which", "sudo"]
+      "run": ["/usr/local/bin/deno", "/sbin/ldconfig", "which", "sudo"]
     },
     "playwright:show-report": {
       "env": true,
@@ -178,8 +177,7 @@
         "/etc/os-release",
         "../node_modules",
         "/node_modules",
-        "./",
-        "$(which deno)"
+        "./"
       ],
       "net": ["127.0.0.1:9323"],
       "run": [
@@ -210,8 +208,7 @@
         "../../../../jsconfig.json",
         "../../../../../jsconfig.json",
         "../../../../../../jsconfig.json",
-        "../../../../../../../jsconfig.json",
-        "$(which deno)"
+        "../../../../../../../jsconfig.json"
       ],
       "write": ["./test-results/", "./playwright-report", "/tmp/"],
       "sys": ["cpus", "homedir", "osRelease", "uid"],
