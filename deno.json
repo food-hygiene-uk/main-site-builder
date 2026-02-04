@@ -147,7 +147,7 @@
     },
     "playwright:install": {
       "env": {
-        "ignore": true
+        "allow": true
       },
       "read": {
         "allow": [
