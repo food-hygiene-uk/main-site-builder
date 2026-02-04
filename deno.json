@@ -151,6 +151,8 @@
       "read": {
         "allow": [
           "/proc/version",
+          "../node_modules",
+          "/node_modules",
           "/etc/os-release",
           "/home/node/.cache/ms-playwright",
           "/home/runner/.cache/ms-playwright",
