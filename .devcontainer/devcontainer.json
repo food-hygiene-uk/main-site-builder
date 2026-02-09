@@ -26,6 +26,8 @@
         "ms-vscode.live-server",
         "oscarotero.vento-syntax",
         "stylelint.vscode-stylelint",
+        "webben.browserslist",
+        "webhint.vscode-webhint",
         "yuyinws.vscode-array-index"
       ],
       "mcp": {

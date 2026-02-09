@@ -227,7 +227,7 @@ document.addEventListener("DOMContentLoaded", () => {
   /**
    * Shows the save list modal
    */
-  const showSaveModal = () => {
+  const showSaveModal = async () => {
     const modalContent = document.createElement("div");
     modalContent.className = "modal-content";
 
@@ -271,7 +271,7 @@ document.addEventListener("DOMContentLoaded", () => {
       dialogElement = null; // Clear the reference
     };
 
-    dialogElement = openModal("Save This List", modalContent, onModalClosed);
+    dialogElement = await openModal("Save This List", modalContent, onModalClosed);
 
     confirmSaveButton.addEventListener("click", () => {
       const listName = listNameInput.value.trim() || sharedTitle;

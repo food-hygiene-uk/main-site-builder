@@ -5,12 +5,16 @@
 /**
  * Adds the CSS link for the component to the document head.
  */
-{
+const cssReady = new Promise((resolve, reject) => {
   const link = document.createElement("link");
   link.rel = "stylesheet";
   link.href = "/components/modal/modal.css";
+
+  link.addEventListener('load', () => resolve("donkey"));
+  link.addEventListener('error', () => reject(new Error("Failed to load CSS")));
+
   document.head.append(link);
-}
+});
 
 /**
  * Opens a modal with the specified content.
@@ -20,7 +24,7 @@
  * @param {() => void} [onCloseCallback] - Optional callback invoked when the modal is closed.
  * @returns {HTMLDialogElement} The created modal dialog element.
  */
-export const openModal = (title, content, onCloseCallback) => {
+export const openModal = async (title, content, onCloseCallback) => {
   // Create the dialog element
   const dialog = document.createElement("dialog");
   dialog.className = "modal-dialog box-shadow";
@@ -59,5 +63,5 @@ export const openModal = (title, content, onCloseCallback) => {
   document.body.append(dialog);
   dialog.showModal();
 
-  return dialog; // Return the created dialog element
+  return cssReady.then(() => dialog);
 };

@@ -159,7 +159,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
   // Share modal event handlers
   if (shareButton) {
-    shareButton.addEventListener("click", () => {
+    shareButton.addEventListener("click", async () => {
       const modalContent = document.createElement("div");
       modalContent.className = "modal-content";
 
@@ -194,7 +194,7 @@ document.addEventListener("DOMContentLoaded", () => {
       buttonsContainer.append(closeModalButton);
       modalContent.append(buttonsContainer);
 
-      const dialogElement = openModal("Share This List", modalContent, () => {
+      const dialogElement = await openModal("Share This List", modalContent, () => {
         // Optional cleanup logic when modal is closed
       });
 

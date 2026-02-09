@@ -4,12 +4,16 @@ import { openListSelectionModal } from "components/modal/list-selection.mjs";
 /**
  * Adds the CSS link for the component to the document head.
  */
-{
+const cssReady = new Promise((resolve, reject) => {
   const link = document.createElement("link");
   link.rel = "stylesheet";
   link.href = "/components/list-selection-button/list-selection-button.css";
+
+  link.addEventListener('load', () => resolve("donkey"));
+  link.addEventListener('error', () => reject(new Error("Failed to load CSS")));
+
   document.head.append(link);
-}
+});
 
 /**
  * Renders an "Add to List" button with a bookmark icon and "Save" text.
@@ -18,13 +22,13 @@ import { openListSelectionModal } from "components/modal/list-selection.mjs";
  * @param {string} FHRSID - The unique identifier of the establishment.
  * @returns {HTMLElement} The rendered "Add to List" button element.
  */
-export const renderListSelectionButton = (FHRSID) => {
+export const renderListSelectionButton = async (FHRSID) => {
   const listSelectionButton = document.createElement("button");
   listSelectionButton.className = "list-selection-button";
 
   // Add the bookmark icon and text
   listSelectionButton.innerHTML = `
-    <svg xmlns="http://www.w3.org/2000/svg" aria-hidden="true" class="bookmark-icon">
+    <svg xmlns="http://www.w3.org/2000/svg" aria-hidden="true" class="bookmark-icon" viewBox="0 0 24 24">
       <g>
         <path d="M18 4v15.06l-5.42-3.87-.58-.42-.58.42L6 19.06V4h12m1-1H5v18l7-5 7 5V3z"></path>
         <path class="interior" d="M18 4v15.06l-5.42-3.87-.58-.42-.58.42L6 19.06V4h12z" fill="transparent"></path>
@@ -43,13 +47,13 @@ export const renderListSelectionButton = (FHRSID) => {
   }
 
   // Add event listener to open the modal
-  listSelectionButton.addEventListener("click", () => {
-    openListSelectionModal(FHRSID, () => {
+  listSelectionButton.addEventListener("click", async () => {
+    await openListSelectionModal(FHRSID, () => {
       // Reevaluate if the establishment is on the list after the modal is closed
       const updatedIsOnList = isEstablishmentOnList(FHRSID);
       listSelectionButton.classList.toggle("on-list", updatedIsOnList);
     });
   });
 
-  return listSelectionButton;
+  return cssReady.then(() => listSelectionButton);
 };

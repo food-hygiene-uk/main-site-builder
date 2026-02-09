@@ -131,12 +131,12 @@ const updateCheckboxStates = (FHRSID, modalElement) => {
  * @param {string} FHRSID - The unique identifier of the establishment.
  * @param {() => void} onClose - Callback function invoked when the modal is closed.
  */
-export const openListSelectionModal = (FHRSID, onClose) => {
+export const openListSelectionModal = async (FHRSID, onClose) => {
   // Create a placeholder div. openModal will place this inside its own .modal-body.
   // initializeListSelectionModal will then populate that .modal-body.
   const contentPlaceholder = document.createElement("div");
 
-  const dialogElement = openModal("Manage Lists", contentPlaceholder, onClose);
+  const dialogElement = await openModal("Manage Lists", contentPlaceholder, onClose);
 
   // Initialize the modal content and attach event listeners, scoped to the dialog
   initializeListSelectionModal(FHRSID, dialogElement);

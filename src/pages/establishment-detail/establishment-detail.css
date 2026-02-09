@@ -6,6 +6,10 @@
     margin: 20px 0;
     border-radius: 8px;
     background-color: var(--card-background);
+
+    a {
+      color: var(--card-link-color);
+    }
   }
 
   .establishment-header {
@@ -123,6 +127,10 @@
     background-color: light-dark(#f8f8f8, #333);
     border-radius: 8px;
     padding: 1rem;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    height: 100%;
     transition: transform 0.2s;
 
     &:hover {
@@ -141,6 +149,10 @@
       font-size: 0.9em;
       font-style: italic;
       margin: 0.5rem 0;
+    }
+
+    .card-footer {
+      flex: 0 0 auto;
     }
   }
 

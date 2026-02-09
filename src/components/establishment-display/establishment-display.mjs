@@ -9,12 +9,16 @@
 /**
  * Adds the CSS link for the component to the document head.
  */
-{
+const cssReady = new Promise((resolve, reject) => {
   const link = document.createElement("link");
   link.rel = "stylesheet";
   link.href = "/components/establishment-display/establishment-display.css";
+
+  link.addEventListener('load', () => resolve("donkey"));
+  link.addEventListener('error', () => reject(new Error("Failed to load CSS")));
+
   document.head.append(link);
-}
+});
 
 /**
  * @typedef {object} SortConfig
@@ -314,6 +318,8 @@ export class EstablishmentDisplay {
  * @param {(sortOption: string, sortDirection: boolean) => void} options.onSortChange - Callback when sort changes
  * @returns {EstablishmentDisplay} A new EstablishmentDisplay instance
  */
-export function createEstablishmentDisplay(options) {
-  return new EstablishmentDisplay(options);
+export async function createEstablishmentDisplay(options) {
+  const establishmentDisplay = new EstablishmentDisplay(options);
+
+  return cssReady.then(() => establishmentDisplay);
 }

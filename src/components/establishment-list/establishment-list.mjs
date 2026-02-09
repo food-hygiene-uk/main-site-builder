@@ -8,12 +8,16 @@ import { createEstablishmentDisplay } from "components/establishment-display/est
 /**
  * Adds the CSS link for the component to the document head.
  */
-{
+const cssReady = new Promise((resolve, reject) => {
   const link = document.createElement("link");
   link.rel = "stylesheet";
   link.href = "/components/establishment-list/establishment-list.css";
+
+  link.addEventListener('load', () => resolve("donkey"));
+  link.addEventListener('error', () => reject(new Error("Failed to load CSS")));
+
   document.head.append(link);
-}
+});
 
 /**
  * A reusable component for rendering lists of establishments with pagination
@@ -102,7 +106,7 @@ export class EstablishmentList {
    *
    * @private
    */
-  _createElements() {
+  async _createElements() {
     // Wrapper for the entire component
     this.wrapper = document.createElement("div");
     this.wrapper.className = "establishment-list-component";
@@ -115,7 +119,7 @@ export class EstablishmentList {
       this.wrapper.append(displayContainer);
 
       // Initialize the display component with appropriate callbacks
-      this.displayComponent = createEstablishmentDisplay({
+      this.displayComponent = await createEstablishmentDisplay({
         container: displayContainer,
         establishmentList: this,
         sortOptions: this.sortOptions,
@@ -338,7 +342,7 @@ export class EstablishmentList {
       }
 
       // Render establishments and pagination
-      await this._renderCurrentPage();
+      await cssReady.then(() => this._renderCurrentPage());
       this._renderPagination(onPageChange);
     }
   }

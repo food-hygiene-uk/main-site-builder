@@ -10,12 +10,16 @@ import { lacToRegionSlug } from "scripts/region.mjs";
 /**
  * Adds the CSS link for the component to the document head.
  */
-{
+const cssReady = new Promise((resolve, reject) => {
   const link = document.createElement("link");
   link.rel = "stylesheet";
   link.href = "/components/establishment-card/establishment-card.css";
+
+  link.addEventListener('load', () => resolve("donkey"));
+  link.addEventListener('error', () => reject(new Error("Failed to load CSS")));
+
   document.head.append(link);
-}
+});
 
 /**
  * Formats a date as a relative time (e.g., "2 days ago")
@@ -210,9 +214,9 @@ export async function renderEstablishmentCard(establishment) {
   // Add an "Add to List" button to the establishment card using the reusable component
   const buttonContainer = document.createElement("div");
   buttonContainer.className = "button-container";
-  const listSelectionButton = renderListSelectionButton(establishment.FHRSID);
+  const listSelectionButton = await renderListSelectionButton(establishment.FHRSID);
   buttonContainer.append(listSelectionButton);
   item.append(buttonContainer);
 
-  return item;
+  return cssReady.then(() => item);
 }

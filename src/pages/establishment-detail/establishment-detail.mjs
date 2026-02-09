@@ -93,7 +93,7 @@ const loadAndInitializeMap = async (latitude, longitude) => {
   }
 };
 
-document.addEventListener("DOMContentLoaded", () => {
+document.addEventListener("DOMContentLoaded", async () => {
   // Find the establishment element and extract data
   const establishmentElement = document.querySelector(".establishment");
   if (!establishmentElement) return;
@@ -132,7 +132,7 @@ document.addEventListener("DOMContentLoaded", () => {
   // Update the "Add to List" button to match the new design with a bookmark icon and "Save" text
   if (businessNameElement) {
     const wrapper = document.querySelector(".establishment-header");
-    const listSelectionButton = renderListSelectionButton(establishmentId);
+    const listSelectionButton = await renderListSelectionButton(establishmentId);
 
     wrapper.append(listSelectionButton);
   }

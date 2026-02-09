@@ -35,7 +35,7 @@ html {
   --body-background: light-dark(var(--light-blue), #000);
   --text-color: light-dark(#000, #ddd);
   --header-background-color: light-dark(#f8f9fa, #0d0d0d);
-  --header-text-color: light-dark(var(--text-color), #757575);
+  --header-text-color: light-dark(#000, #9c9c9c);
   --header-rule-color: light-dark(#e0e0e0, #383838);
   --background-highlight-color: light-dark(#e5e8f1, var(--light-blue));
   --text-highlight-color: var(--text-color);
@@ -57,6 +57,7 @@ html {
   );
   --card-color: light-dark(#666, #aaa);
   --card-border: 1px solid light-dark(#ddd, #444);
+  --card-link-color: light-dark(#00e, #9e9eff);
 
   /* Shadows */
   --box-shadow: 0 2px 4px light-dark(rgb(0 0 0 / 10%), rgb(0 0 0 / 15%));
