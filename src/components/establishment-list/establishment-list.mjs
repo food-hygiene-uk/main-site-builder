@@ -13,8 +13,8 @@ const cssReady = new Promise((resolve, reject) => {
   link.rel = "stylesheet";
   link.href = "/components/establishment-list/establishment-list.css";
 
-  link.addEventListener('load', () => resolve("donkey"));
-  link.addEventListener('error', () => reject(new Error("Failed to load CSS")));
+  link.addEventListener("load", () => resolve());
+  link.addEventListener("error", () => reject(new Error("Failed to load CSS")));
 
   document.head.append(link);
 });

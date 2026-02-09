@@ -194,9 +194,13 @@ document.addEventListener("DOMContentLoaded", () => {
       buttonsContainer.append(closeModalButton);
       modalContent.append(buttonsContainer);
 
-      const dialogElement = await openModal("Share This List", modalContent, () => {
-        // Optional cleanup logic when modal is closed
-      });
+      const dialogElement = await openModal(
+        "Share This List",
+        modalContent,
+        () => {
+          // Optional cleanup logic when modal is closed
+        },
+      );
 
       // Generate the share URL and set it in the input field
       const shareUrl = generateShareUrl();

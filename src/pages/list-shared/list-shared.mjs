@@ -271,7 +271,11 @@ document.addEventListener("DOMContentLoaded", () => {
       dialogElement = null; // Clear the reference
     };
 
-    dialogElement = await openModal("Save This List", modalContent, onModalClosed);
+    dialogElement = await openModal(
+      "Save This List",
+      modalContent,
+      onModalClosed,
+    );
 
     confirmSaveButton.addEventListener("click", () => {
       const listName = listNameInput.value.trim() || sharedTitle;

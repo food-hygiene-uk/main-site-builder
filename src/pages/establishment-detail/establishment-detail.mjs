@@ -132,7 +132,9 @@ document.addEventListener("DOMContentLoaded", async () => {
   // Update the "Add to List" button to match the new design with a bookmark icon and "Save" text
   if (businessNameElement) {
     const wrapper = document.querySelector(".establishment-header");
-    const listSelectionButton = await renderListSelectionButton(establishmentId);
+    const listSelectionButton = await renderListSelectionButton(
+      establishmentId,
+    );
 
     wrapper.append(listSelectionButton);
   }

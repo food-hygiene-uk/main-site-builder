@@ -15,8 +15,8 @@ const cssReady = new Promise((resolve, reject) => {
   link.rel = "stylesheet";
   link.href = "/components/establishment-card/establishment-card.css";
 
-  link.addEventListener('load', () => resolve("donkey"));
-  link.addEventListener('error', () => reject(new Error("Failed to load CSS")));
+  link.addEventListener("load", () => resolve());
+  link.addEventListener("error", () => reject(new Error("Failed to load CSS")));
 
   document.head.append(link);
 });
@@ -214,7 +214,9 @@ export async function renderEstablishmentCard(establishment) {
   // Add an "Add to List" button to the establishment card using the reusable component
   const buttonContainer = document.createElement("div");
   buttonContainer.className = "button-container";
-  const listSelectionButton = await renderListSelectionButton(establishment.FHRSID);
+  const listSelectionButton = await renderListSelectionButton(
+    establishment.FHRSID,
+  );
   buttonContainer.append(listSelectionButton);
   item.append(buttonContainer);
 

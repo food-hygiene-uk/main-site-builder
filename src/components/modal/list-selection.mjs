@@ -136,7 +136,11 @@ export const openListSelectionModal = async (FHRSID, onClose) => {
   // initializeListSelectionModal will then populate that .modal-body.
   const contentPlaceholder = document.createElement("div");
 
-  const dialogElement = await openModal("Manage Lists", contentPlaceholder, onClose);
+  const dialogElement = await openModal(
+    "Manage Lists",
+    contentPlaceholder,
+    onClose,
+  );
 
   // Initialize the modal content and attach event listeners, scoped to the dialog
   initializeListSelectionModal(FHRSID, dialogElement);
