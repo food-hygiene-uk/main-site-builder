@@ -44,18 +44,20 @@ html {
   --input-border: light-dark(#ccc, #555);
 
   /* Cards */
+  --card-color: light-dark(#000, #fff);
   --card-background: light-dark(#fff, #2d2d2d);
+  --card-color-highlight: #000;
   --card-background-highlight: color-mix(
     in oklab,
     var(--card-background) 80%,
     white 20%
   );
+  --card-color-lowlight: #fff;
   --card-background-lowlight: color-mix(
     in oklab,
     var(--card-background) 95%,
     black 5%
   );
-  --card-color: light-dark(#666, #aaa);
   --card-border: 1px solid light-dark(#ddd, #444);
   --card-link-color: light-dark(#00e, #9e9eff);
 
@@ -63,6 +65,18 @@ html {
   --box-shadow: 0 2px 4px light-dark(rgb(0 0 0 / 10%), rgb(0 0 0 / 15%));
   --box-shadow-hover: 0 4px 8px light-dark(rgb(0 0 0 / 15%), rgb(0 0 0 / 25%));
   --box-shadow-border: 1px solid light-dark(#dedede, #393939);
+
+  /* Buttons */
+  --button-cta-bg: light-dark(
+    var(--hygiene-green),
+    var(--hygiene-green-lowlight)
+  );
+  --button-cta-color: light-dark(#000, #000);
+  --button-cta-bg-hover: light-dark(
+    var(--hygiene-green-highlight),
+    var(--hygiene-green)
+  );
+  --button-cta-color-hover: light-dark(#000, #000);
 }
 
 [inert],
