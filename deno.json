@@ -12,7 +12,7 @@
     "baseline-browser-mapping": "npm:baseline-browser-mapping@2.9.18",
     "components/": "./src/components/",
     "cssnano-preset-advanced": "npm:cssnano-preset-advanced@7.0.16",
-    "cssnano": "npm:cssnano@7.1.2",
+    "cssnano": "npm:cssnano@7.1.8",
     "eslint-config-prettier": "npm:eslint-config-prettier@10.1.8",
     "eslint-plugin-import": "npm:eslint-plugin-import@2.32.0",
     "eslint-plugin-jsdoc": "npm:eslint-plugin-jsdoc@62.4.1",
