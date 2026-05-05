@@ -20,7 +20,7 @@
     "eslint-plugin-unicorn": "npm:eslint-plugin-unicorn@62.0.0",
     "eslint": "npm:eslint@9.39.2",
     "fast-check": "npm:fast-check@4.5.3",
-    "htmlnano": "npm:htmlnano@3.0.0",
+    "htmlnano": "npm:htmlnano@3.2.1",
     "http-server": "npm:http-server@14.1.1",
     "jiti": "npm:jiti@2.6.1",
     "playwright": "npm:playwright@1.58.0",
