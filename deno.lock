@@ -33,7 +33,7 @@
     "npm:eslint@9.39.2": "9.39.2_jiti@2.6.1",
     "npm:estree-walker@3.0.3": "3.0.3",
     "npm:fast-check@4.3.0": "4.3.0",
-    "npm:fast-check@4.5.3": "4.5.3",
+    "npm:fast-check@4.7.0": "4.7.0",
     "npm:htmlnano@3.2.1": "3.2.1_cssnano@7.1.9__postcss@8.5.14_postcss@8.5.14_terser@5.46.0",
     "npm:http-server@*": "14.1.1",
     "npm:http-server@14.1.1": "14.1.1",
@@ -1321,13 +1321,13 @@
     "fast-check@4.3.0": {
       "integrity": "sha512-JVw/DJSxVKl8uhCb7GrwanT9VWsCIdBkK3WpP37B/Au4pyaspriSjtrY2ApbSFwTg3ViPfniT13n75PhzE7VEQ==",
       "dependencies": [
-        "pure-rand"
+        "pure-rand@7.0.1"
       ]
     },
-    "fast-check@4.5.3": {
-      "integrity": "sha512-IE9csY7lnhxBnA8g/WI5eg/hygA6MGWJMSNfFRrBlXUciADEhS1EDB0SIsMSvzubzIlOBbVITSsypCsW717poA==",
+    "fast-check@4.7.0": {
+      "integrity": "sha512-NsZRtqvSSoCP0HbNjUD+r1JH8zqZalyp6gLY9e7OYs7NK9b6AHOs2baBFeBG7bVNsuoukh89x2Yg3rPsul8ziQ==",
       "dependencies": [
-        "pure-rand"
+        "pure-rand@8.4.0"
       ]
     },
     "fast-deep-equal@3.1.3": {
@@ -2471,6 +2471,9 @@
     "pure-rand@7.0.1": {
       "integrity": "sha512-oTUZM/NAZS8p7ANR3SHh30kXB+zK2r2BPcEn/awJIbOvq82WoMN4p62AWWp3Hhw50G0xMsw1mhIBLqHw64EcNQ=="
     },
+    "pure-rand@8.4.0": {
+      "integrity": "sha512-IoM8YF/jY0hiugFo/wOWqfmarlE6J0wc6fDK1PhftMk7MGhVZl88sZimmqBBFomLOCSmcCCpsfj7wXASCpvK9A=="
+    },
     "qified@0.6.0": {
       "integrity": "sha512-tsSGN1x3h569ZSU1u6diwhltLyfUWDp3YbFHedapTmpBl0B3P6U3+Qptg7xu+v+1io1EwhdPyyRHYbEw0KN2FA==",
       "dependencies": [
@@ -3139,7 +3142,7 @@
       "npm:eslint-plugin-promise@7.2.1",
       "npm:eslint-plugin-unicorn@62.0.0",
       "npm:eslint@9.39.2",
-      "npm:fast-check@4.5.3",
+      "npm:fast-check@4.7.0",
       "npm:htmlnano@3.2.1",
       "npm:http-server@14.1.1",
       "npm:jiti@2.6.1",
