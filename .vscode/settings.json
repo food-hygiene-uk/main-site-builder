@@ -2,6 +2,7 @@
   "livePreview.serverRoot": "/dist/",
   "eslint.format.enable": true,
   "json.schemaDownload.trustedDomains": {
-    "https://docs.renovatebot.com/renovate-schema.json": true
+    "https://docs.renovatebot.com/renovate-schema.json": true,
+    "https://raw.githubusercontent.com/denoland/deno/main/cli/schemas/lint-rules.v1.json": true
   }
 }
