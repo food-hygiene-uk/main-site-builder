@@ -11,8 +11,9 @@
   style="enable-background: new 0 0 479.56 99.19"
   xml:space="preserve"
 >
-  <style type="text/css">
-  .st0 {
+  <style
+    type="text/css"
+  >.st0 {
     fill: #84bd00;
   }
   .st1 {
@@ -38,8 +39,7 @@
   }
   .st8 {
     clip-path: url(#SVGID_00000094607597925383623890000011397767966595891629_);
-  }
-  </style>
+  }</style>
   <g>
     <path
       class="st0"
