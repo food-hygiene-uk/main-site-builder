@@ -116,8 +116,9 @@
   },
   "exclude": [
     "build/",
-    "coverage",
+    "coverage/",
     "dist/",
+    "node-modules/",
     "playwright-report/",
     "test-results/",
     "./assets/google3decab8acc23e179.html"
