@@ -72,8 +72,10 @@ export const fetchLocalAuthorityData = async (
         );
       } else {
         console.log(`Fetching data for ${localAuthority.Name}...`);
-        const jsonData = await api.localAuthorityData(jsonDataURL);
+        console.time(`Fetched data for ${localAuthority.Name} in`);
+        const jsonData = await api.fetchLocalAuthorityData(jsonDataURL);
         await Deno.writeTextFile(filename, JSON.stringify(jsonData, null, 2));
+        console.timeEnd(`Fetched data for ${localAuthority.Name} in`);
       }
 
       return { ...localAuthority, buildFileName: filename };
