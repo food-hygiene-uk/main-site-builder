@@ -73,12 +73,12 @@ export const authorities = async (): Promise<AuthoritiesResponse> => {
  * @throws {Error} If the fetch response is not ok.
  * @throws {TypeError} If the data format is invalid.
  */
-const fetchLocalAuthorityData = async (
+export const fetchLocalAuthorityData = async (
   url: string,
 ): Promise<LocalAuthorityData> => {
   const redirectedURL = url.replace(
     /^https:\/\/ratings\.food\.gov\.uk\/OpenDataFiles\//,
-    "https://ratings.food.gov.uk/api/open-data-files/",
+    "https://food-hygiene-uk.github.io/data/files/open-data-files/",
   );
 
   const response = await fetch(redirectedURL, fetchInit);
@@ -105,47 +105,3 @@ const fetchLocalAuthorityData = async (
     );
   }
 };
-
-/**
- * Creates a throttled function for fetching local authority data with a specified interval between requests.
- *
- * @param intervalMs - The interval in milliseconds between requests.
- * @returns A function that takes a URL and returns a promise of LocalAuthorityData.
- */
-export const createThrottledLocalAuthorityData = (intervalMs = 200) => {
-  type QueueItem = {
-    url: string;
-    resolve: (v: LocalAuthorityData) => void;
-    reject: (error: unknown) => void;
-  };
-
-  const queue: QueueItem[] = [];
-  let running = false;
-
-  const processNext = () => {
-    if (queue.length === 0) {
-      running = false;
-      return;
-    }
-
-    running = true;
-    const item = queue.shift()!;
-    void fetchLocalAuthorityData(item.url)
-      .then(item.resolve)
-      .catch(item.reject)
-      .finally(() => {
-        setTimeout(processNext, intervalMs);
-      });
-  };
-
-  return (url: string): Promise<LocalAuthorityData> =>
-    new Promise((resolve, reject) => {
-      queue.push({ url, resolve, reject });
-      if (!running) processNext();
-    });
-};
-
-/**
- * A throttled function instance for fetching local authority data with a 250ms interval between requests.
- */
-export const localAuthorityData = createThrottledLocalAuthorityData(250);
