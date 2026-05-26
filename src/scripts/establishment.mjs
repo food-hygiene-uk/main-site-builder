@@ -38,8 +38,6 @@ export const fetchEstablishmentDetails = async (FHRSID) => {
     const data = await response.json();
     establishmentCache.set(FHRSID, data);
 
-    console.log(`Fetched establishment ${FHRSID} from API:`, data);
-
     return data;
   } catch (error) {
     console.error(`Error fetching establishment ${FHRSID}:`, error);
