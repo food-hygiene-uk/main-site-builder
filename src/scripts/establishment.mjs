@@ -1,5 +1,4 @@
 // FHRS API Configuration
-const API_BASE = "https://api.ratings.food.gov.uk";
 const API_HEADERS = {
   accept: "application/json",
   "x-api-version": "2",
@@ -22,9 +21,12 @@ export const fetchEstablishmentDetails = async (FHRSID) => {
 
   // Fetch from API
   try {
-    const response = await fetch(`${API_BASE}/Establishments/${FHRSID}`, {
-      headers: API_HEADERS,
-    });
+    const response = await fetch(
+      `/data/files/establishments/${FHRSID}-en-GB.json`,
+      {
+        headers: API_HEADERS,
+      },
+    );
 
     if (!response.ok) {
       console.error(
