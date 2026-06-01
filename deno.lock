@@ -34,7 +34,7 @@
     "npm:estree-walker@3.0.3": "3.0.3",
     "npm:fast-check@4.3.0": "4.3.0",
     "npm:fast-check@4.8.0": "4.8.0",
-    "npm:htmlnano@3.3.1": "3.3.1_cssnano@8.0.1__postcss@8.5.15_postcss@8.5.15_terser@5.47.1",
+    "npm:htmlnano@3.3.2": "3.3.2_cssnano@8.0.1__postcss@8.5.15_postcss@8.5.15_terser@5.47.1",
     "npm:http-server@*": "14.1.1",
     "npm:http-server@14.1.1": "14.1.1",
     "npm:jiti@2.7.0": "2.7.0",
@@ -1617,8 +1617,8 @@
     "html-tags@5.1.0": {
       "integrity": "sha512-n6l5uca7/y5joxZ3LUePhzmBFUJ+U2YWzhMa8XUTecSeSlQiZdF5XAd/Q3/WUl0VsXgUwWi8I7CNIwdI5WN1SQ=="
     },
-    "htmlnano@3.3.1_cssnano@8.0.1__postcss@8.5.15_postcss@8.5.15_terser@5.47.1": {
-      "integrity": "sha512-UXOwkDA1WUFSamPXpCzJz131mqbuaenm4Agra3VTpP6lpbuCytILqXEAG5kwzkeksDnFQ+JG3EhVVqpBPsh51w==",
+    "htmlnano@3.3.2_cssnano@8.0.1__postcss@8.5.15_postcss@8.5.15_terser@5.47.1": {
+      "integrity": "sha512-VtiwPbplKD8Xp/6mCJxbiTnJaqQvwIp+IovfFmgNL42Ltksl94zxP4YbVdR5qQ5shtEBhYzx+vpGc8v4QnjoyQ==",
       "dependencies": [
         "@types/relateurl",
         "commander@14.0.3",
@@ -3150,7 +3150,7 @@
       "npm:eslint-plugin-unicorn@64.0.0",
       "npm:eslint@9.39.4",
       "npm:fast-check@4.8.0",
-      "npm:htmlnano@3.3.1",
+      "npm:htmlnano@3.3.2",
       "npm:http-server@14.1.1",
       "npm:jiti@2.7.0",
       "npm:playwright@1.60.0",
