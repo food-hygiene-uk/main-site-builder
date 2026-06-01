@@ -10,7 +10,7 @@
           <p id="listDescription" class="list-description"></p>
           <div class="list-actions">
             <a href="/lists/" class="back-button">← Back to Lists</a>
-            <button id="shareButton" class="share-button" style="display: none;">
+            <button id="shareButton" class="share-button" hidden="hidden">
               <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
                 <path d="M4 12v8a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2v-8"></path>
                 <polyline points="16 6 12 2 8 6"></polyline>
@@ -18,14 +18,14 @@
               </svg>
               Share List
             </button>
-            <button id="clearButton" class="clear-list-button" style="display: none;">
+            <button id="clearButton" class="clear-list-button" hidden="hidden">
               <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
                 <polyline points="3 6 5 6 21 6"></polyline>
                 <path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1-2-2h4a2 2 0 0 1-2 2v2"></path>
               </svg>
               Clear List
             </button>
-            <button id="deleteButton" class="delete-list-button" style="display: none;">
+            <button id="deleteButton" class="delete-list-button" hidden="hidden">
               <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
                 <polyline points="3 6 5 6 21 6"></polyline>
                 <path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1-2-2h4a2 2 0 0 1-2 2v2"></path>
@@ -39,16 +39,16 @@
 
         <div id="loading" class="loading-indicator">Loading establishments...</div>
 
-        <div id="establishmentsList" class="establishments-container" style="display: none;">
+        <div id="establishmentsList" class="establishments-container" hidden="hidden">
           <!-- This will be populated via JavaScript -->
         </div>
 
-        <div id="emptyList" class="empty-list-message" style="display: none;">
+        <div id="emptyList" class="empty-list-message" hidden="hidden">
           <p>This list doesn't have any establishments yet.</p>
           <p>When you view establishment details, they'll automatically be added to your "Recent" list.</p>
         </div>
 
-        <div id="errorMessage" class="error-message" style="display: none;">
+        <div id="errorMessage" class="error-message" hidden="hidden">
           <p>Sorry, we couldn't find the requested list.</p>
           <p>Please return to the <a href="/lists/">Lists page</a> and try again.</p>
         </div>

@@ -11,7 +11,7 @@ const establishmentCache = new Map();
  * Fetches establishment details from the FHRS API
  *
  * @param {string|number} FHRSID - The FHRSID of the establishment
- * @returns {Promise<Establishment|null>} The establishment data or null if not found
+ * @returns {Promise<Establishment>} The establishment data or stub if not found
  */
 export const fetchEstablishmentDetails = async (FHRSID) => {
   // Check cache first
@@ -32,7 +32,12 @@ export const fetchEstablishmentDetails = async (FHRSID) => {
       console.error(
         `Failed to fetch establishment ${FHRSID}: ${response.status}`,
       );
-      return null;
+      return {
+        FHRSID,
+        BusinessName: "Unknown Establishment",
+        RatingValue: null,
+        RatingDate: null,
+      };
     }
 
     const data = await response.json();
@@ -42,7 +47,12 @@ export const fetchEstablishmentDetails = async (FHRSID) => {
   } catch (error) {
     console.error(`Error fetching establishment ${FHRSID}:`, error);
 
-    return null;
+    return {
+      FHRSID,
+      BusinessName: "Unknown Establishment",
+      RatingValue: null,
+      RatingDate: null,
+    };
   }
 };
 

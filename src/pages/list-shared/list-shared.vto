@@ -9,7 +9,7 @@
           <h1 id="listTitle">Shared List</h1>
           <p id="listDescription" class="list-description">Loading shared establishments...</p>
           <div class="list-actions">
-            <button id="saveListButton" class="save-list-button" style="display: none;">
+            <button id="saveListButton" class="save-list-button" hidden="hidden">
               <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
                 <path d="M19 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11l5 5v11a2 2 0 0 1-2 2z"></path>
                 <polyline points="17 21 17 13 7 13 7 21"></polyline>
@@ -22,16 +22,16 @@
 
         <div id="loading" class="loading-indicator">Loading establishments...</div>
 
-        <div id="establishmentsList" class="establishments-container" style="display: none;">
+        <div id="establishmentsList" class="establishments-container" hidden="hidden">
           <!-- This will be populated via JavaScript -->
         </div>
 
-        <div id="emptyList" class="empty-list-message" style="display: none;">
+        <div id="emptyList" class="empty-list-message" hidden="hidden">
           <p>This shared list doesn't have any establishments.</p>
           <p>The link may be invalid or the establishments no longer exist.</p>
         </div>
 
-        <div id="errorMessage" class="error-message" style="display: none;">
+        <div id="errorMessage" class="error-message" hidden="hidden">
           <p>Sorry, we couldn't load the shared list.</p>
           <p>Please check the URL and try again.</p>
         </div>
