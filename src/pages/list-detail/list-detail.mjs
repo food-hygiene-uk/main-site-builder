@@ -371,7 +371,7 @@ document.addEventListener("DOMContentLoaded", () => {
    * Handles recent establishments, saved lists, and updates the UI accordingly.
    */
   async function loadEstablishments() {
-    let establishments = currentEstablishments;;
+    let establishments = currentEstablishments;
 
     if (currentEstablishments.length === 0) {
       // Set list details based on ID
@@ -396,7 +396,6 @@ document.addEventListener("DOMContentLoaded", () => {
 
     // Store current establishments for sharing
     currentEstablishments = establishments;
-
 
     {
       const filteredEstablishments = filterEstablishments(
