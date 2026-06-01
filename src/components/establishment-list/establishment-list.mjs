@@ -279,6 +279,7 @@ export class EstablishmentList {
    * @param {string} [data.sortOption] - Sort option to use (if sort callback is provided)
    * @param {boolean} [data.sortDirection] - Sort direction to use (if sort callback is provided)
    * @param {boolean} [isLoading] - Whether the data is still loading
+   * @param {number} [totalEstablishments] - Total number of unfiltered establishments
    * @param {(page: number) => void} [onPageChange] - Callback to execute when page changes
    * @param {(filterText: string) => void} [onFilterChange] - Callback to execute when filter changes
    * @param {(sortOption: string, sortDirection: boolean) => void} [onSortChange] - Callback to execute when sort changes
@@ -287,6 +288,7 @@ export class EstablishmentList {
   async loadEstablishments(
     data,
     isLoading = false,
+    totalEstablishments = 0,
     onPageChange = null,
     onFilterChange = null,
     onSortChange = null,
@@ -313,6 +315,10 @@ export class EstablishmentList {
     this._onSortChangeCallback = onSortChange;
 
     if (this.establishments.length === 0) {
+      console.log("No establishments to display");
+    }
+
+    if (totalEstablishments === 0) {
       this.showSection("empty");
       if (this.countElement) {
         this.countElement.textContent = "0 results found";

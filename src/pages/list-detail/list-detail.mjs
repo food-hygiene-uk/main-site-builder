@@ -282,40 +282,43 @@ document.addEventListener("DOMContentLoaded", () => {
     return shareUrl;
   };
 
-  /**
-   * Loads and displays establishments from the specified list.
-   * Handles recent establishments, saved lists, and updates the UI accordingly.
-   */
-  async function loadEstablishments() {
+  const loadEstablishmentList = async () => {
     // Show loading state
-    await establishmentList.loadEstablishments({ establishments: [] }, true);
+    await establishmentList.loadEstablishments(
+      {
+        establishments: [],
+        totalResults: 0,
+        currentPage: 1,
+        pageSize: 0,
+        filterText: "",
+        sortOption: DEFAULT_SORT_OPTION,
+        sortDirection: DEFAULT_SORT_DIRECTION,
+      },
+      true,
+      0,
+      handleClientPageChange,
+      handleFilterChange,
+      handleSortChange,
+    );
 
     // Initialize list info
     let listInfo = { title: "", description: "" };
-    let establishments = [];
+    currentEstablishments = []; // Reset current establishments
 
     // Hide all action buttons by default
-    if (shareButton) shareButton.style.display = "none";
-    if (clearButton) clearButton.style.display = "none";
-    if (deleteButton) deleteButton.style.display = "none";
+    if (shareButton) shareButton.setAttribute("hidden", "hidden");
+    if (clearButton) clearButton.setAttribute("hidden", "hidden");
+    if (deleteButton) deleteButton.setAttribute("hidden", "hidden");
 
-    // Set list details based on ID
     if (listId === "recent") {
       listInfo = {
         title: "Recent Establishments",
         description: "Establishments you've recently viewed",
       };
 
-      // Get recent establishments from service
-      establishments = await Promise.all(
-        recentEstablishmentsService
-          .getRecentEstablishments()
-          .map((item) => fetchEstablishmentDetails(item.FHRSID)),
-      );
-
       // Show the clear button for recent list
       if (clearButton) {
-        clearButton.style.display = "inline-flex";
+        clearButton.removeAttribute("hidden");
       }
     } else if (listId.startsWith("list_")) {
       // This is a saved list
@@ -331,33 +334,25 @@ document.addEventListener("DOMContentLoaded", () => {
           }`,
         };
 
-        establishments = await Promise.all(
-          savedList.establishments.map((item) =>
-            fetchEstablishmentDetails(item.FHRSID)
-          ),
-        );
-
         // Show delete button for saved lists
         if (deleteButton) {
-          deleteButton.style.display = "inline-flex";
+          deleteButton.removeAttribute("hidden");
         }
       } else {
         establishmentList.showError("The requested list could not be found");
         return;
       }
     } else {
-      // In the future, this would handle other list types
       establishmentList.showError("The requested list could not be found");
       return;
     }
 
-    // Store current establishments and title for sharing
-    currentEstablishments = establishments;
+    // Store title for sharing
     currentListTitle = listInfo.title;
 
     // Show share button if we have establishments
-    if (establishments.length > 0 && shareButton) {
-      shareButton.style.display = "inline-flex";
+    if (shareButton) {
+      shareButton.removeAttribute("hidden");
     }
 
     // Update page title and description
@@ -366,7 +361,42 @@ document.addEventListener("DOMContentLoaded", () => {
     document.title = `${listInfo.title} - Food Hygiene Ratings`;
 
     // Make sure the container is visible before loading establishments
-    establishmentsContainer.style.display = "block";
+    establishmentsContainer.removeAttribute("hidden");
+
+    loadEstablishments();
+  };
+
+  /**
+   * Loads and displays establishments from the specified list.
+   * Handles recent establishments, saved lists, and updates the UI accordingly.
+   */
+  async function loadEstablishments() {
+    let establishments = currentEstablishments;;
+
+    if (currentEstablishments.length === 0) {
+      // Set list details based on ID
+      if (listId === "recent") {
+        // Get recent establishments from service
+        establishments = await Promise.all(
+          recentEstablishmentsService
+            .getRecentEstablishments()
+            .map((item) => fetchEstablishmentDetails(item.FHRSID)),
+        );
+      } else {
+        // This is a saved list
+        const savedList = getSavedList(listId);
+
+        establishments = await Promise.all(
+          savedList.establishments.map((item) =>
+            fetchEstablishmentDetails(item.FHRSID)
+          ),
+        );
+      }
+    }
+
+    // Store current establishments for sharing
+    currentEstablishments = establishments;
+
 
     {
       const filteredEstablishments = filterEstablishments(
@@ -396,18 +426,13 @@ document.addEventListener("DOMContentLoaded", () => {
           sortDirection: establishmentView.sortDirection,
         },
         false,
+        currentEstablishments.length,
         handleClientPageChange,
         handleFilterChange,
         handleSortChange,
       );
     }
-
-    // Double-check visibility after loading
-    establishmentsContainer.style.display = "block";
   }
-
-  // Load establishments when the page loads
-  loadEstablishments();
 
   const handleClientPageChange = async (page) => {
     establishmentView.page = page;
@@ -429,4 +454,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
     loadEstablishments();
   };
+
+  // Load establishments when the page loads
+  loadEstablishmentList();
 });

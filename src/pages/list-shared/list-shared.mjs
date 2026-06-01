@@ -120,6 +120,7 @@ document.addEventListener("DOMContentLoaded", () => {
         sortDirection: establishmentView.sortDirection,
       },
       false,
+      establishmentsLength,
       handleClientPageChange,
       handleFilterChange,
       handleSortChange,
@@ -305,7 +306,13 @@ document.addEventListener("DOMContentLoaded", () => {
    */
   const loadSharedList = async () => {
     // Show loading state
-    await establishmentList.loadEstablishments({ establishments: [] }, true);
+    await establishmentList.loadEstablishments(
+      {
+        establishments: [],
+      },
+      true,
+      0,
+    );
 
     // Update page title and description
     listTitle.textContent = sharedTitle;
@@ -321,7 +328,7 @@ document.addEventListener("DOMContentLoaded", () => {
     try {
       // Load all establishments in parallel
       const establishmentPromises = establishmentIds.map((id) =>
-        fetchEstablishmentDetails(id)
+        fetchEstablishmentDetails(id),
       );
       const establishments = await Promise.all(establishmentPromises);
 
@@ -335,21 +342,20 @@ document.addEventListener("DOMContentLoaded", () => {
       allEstablishments = validEstablishments;
 
       // Update description
-      listDescription.textContent =
-        `${validEstablishments.length} establishments shared with you`;
+      listDescription.textContent = `${validEstablishments.length} establishments shared with you`;
 
       // Show save button if we have establishments
       if (validEstablishments.length > 0 && saveListButton) {
-        saveListButton.style.display = "inline-flex";
+        saveListButton.removeAttribute("hidden");
       }
 
       // Handle empty result
       if (validEstablishments.length === 0) {
         if (emptyListMessage) {
-          emptyListMessage.style.display = "block";
+          emptyListMessage.removeAttribute("hidden");
         }
         if (establishmentsContainer) {
-          establishmentsContainer.style.display = "none";
+          establishmentsContainer.setAttribute("hidden", "hidden");
         }
         return;
       }
@@ -365,7 +371,7 @@ document.addEventListener("DOMContentLoaded", () => {
       await renderEstablishments();
 
       // Ensure visibility
-      establishmentsContainer.style.display = "block";
+      establishmentsContainer.removeAttribute("hidden");
     } catch (error) {
       console.error("Error loading shared list:", error);
       establishmentList.showError("Failed to load the shared establishments");

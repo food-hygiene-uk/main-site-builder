@@ -366,11 +366,9 @@ async function performSearch() {
   await establishmentList.loadEstablishments(
     {
       establishments: [],
-      totalResults: 0,
-      currentPage: state.currentPage,
-      pageSize: state.pageSize,
     },
     true,
+    0,
   );
 
   try {
@@ -430,6 +428,7 @@ export const displayResults = async ({ establishments, totalResults }) => {
       pageSize: state.pageSize,
     },
     false,
+    establishments.length,
     handlePageChange,
     null, // No filter callback - API handles filtering
     null, // No sort callback - API handles sorting
