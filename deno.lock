@@ -43,9 +43,8 @@
     "npm:postcss@8.5.15": "8.5.15",
     "npm:prettier@*": "3.8.3",
     "npm:prettier@3.8.3": "3.8.3",
-    "npm:stylelint-config-standard@40.0.0": "40.0.0_stylelint@17.12.0",
-    "npm:stylelint@*": "17.12.0",
-    "npm:stylelint@17.12.0": "17.12.0",
+    "npm:stylelint-config-standard@40.0.0": "40.0.0_stylelint@17.13.0",
+    "npm:stylelint@17.13.0": "17.13.0",
     "npm:terser@5.48.0": "5.48.0",
     "npm:uglify-js@3.19.3": "3.19.3",
     "npm:zod@4.4.3": "4.4.3"
@@ -142,8 +141,8 @@
     "@colordx/core@5.4.3": {
       "integrity": "sha512-kIxYSfA5T8HXjav55UaaH/o/cKivF6jCCGIb8eqtcsfI46wsvlSiT8jMDyrl779qLec3c2c2oHBZo4oAhvbjrQ=="
     },
-    "@csstools/css-calc@3.2.0_@csstools+css-parser-algorithms@4.0.0__@csstools+css-tokenizer@4.0.0_@csstools+css-tokenizer@4.0.0": {
-      "integrity": "sha512-bR9e6o2BDB12jzN/gIbjHa5wLJ4UjD1CB9pM7ehlc0ddk6EBz+yYS1EV2MF55/HUxrHcB/hehAyt5vhsA3hx7w==",
+    "@csstools/css-calc@3.2.1_@csstools+css-parser-algorithms@4.0.0__@csstools+css-tokenizer@4.0.0_@csstools+css-tokenizer@4.0.0": {
+      "integrity": "sha512-DtdHlgXh5ZkA43cwBcAm+huzgJiwx3ZTWVjBs94kwz2xKqSimDA3lBgCjphYgwgVUMWatSM0pDd8TILB1yrVVg==",
       "dependencies": [
         "@csstools/css-parser-algorithms",
         "@csstools/css-tokenizer"
@@ -155,8 +154,8 @@
         "@csstools/css-tokenizer"
       ]
     },
-    "@csstools/css-syntax-patches-for-csstree@1.1.3_css-tree@3.2.1": {
-      "integrity": "sha512-SH60bMfrRCJF3morcdk57WklujF4Jr/EsQUzqkarfHXEFcAR1gg7fS/chAE922Sehgzc1/+Tz5H3Ypa1HiEKrg==",
+    "@csstools/css-syntax-patches-for-csstree@1.1.5_css-tree@3.2.1": {
+      "integrity": "sha512-oNjBvzLq2GPZtJphCjLqXow/cHySHSgtxvKZb7OqSZ/xHgw6NWNhfad+6AB9cLeVm6eA9d/qMll3JdEHjy6M+A==",
       "dependencies": [
         "css-tree@3.2.1"
       ],
@@ -2795,21 +2794,21 @@
         "postcss-selector-parser"
       ]
     },
-    "stylelint-config-recommended@18.0.0_stylelint@17.12.0": {
+    "stylelint-config-recommended@18.0.0_stylelint@17.13.0": {
       "integrity": "sha512-mxgT2XY6YZ3HWWe3Di8umG6aBmWmHTblTgu/f10rqFXnyWxjKWwNdjSWkgkwCtxIKnqjSJzvFmPT5yabVIRxZg==",
       "dependencies": [
         "stylelint"
       ]
     },
-    "stylelint-config-standard@40.0.0_stylelint@17.12.0": {
+    "stylelint-config-standard@40.0.0_stylelint@17.13.0": {
       "integrity": "sha512-EznGJxOUhtWck2r6dJpbgAdPATIzvpLdK9+i5qPd4Lx70es66TkBPljSg4wN3Qnc6c4h2n+WbUrUynQ3fanjHw==",
       "dependencies": [
         "stylelint",
         "stylelint-config-recommended"
       ]
     },
-    "stylelint@17.12.0": {
-      "integrity": "sha512-KIlzWXMHUvgfPUR0R7TK3H80yCIi0uoivUwf+6Az4yrHJD1Q3c1qIkh/H5Z0i/K3QXgtq/UMEkWyBUSUwnpnOg==",
+    "stylelint@17.13.0": {
+      "integrity": "sha512-G1WYzMerp7ihOaIe9VJCHLt12MoAD2QLf1AFerYP37+BCRBUK5UCpq8e/mN+zCIaJPKQcaxhE4WlPmqdiOx/gw==",
       "dependencies": [
         "@csstools/css-calc",
         "@csstools/css-parser-algorithms",
@@ -3149,7 +3148,7 @@
       "npm:postcss@8.5.15",
       "npm:prettier@3.8.3",
       "npm:stylelint-config-standard@40.0.0",
-      "npm:stylelint@17.12.0",
+      "npm:stylelint@17.13.0",
       "npm:terser@5.48.0",
       "npm:uglify-js@3.19.3",
       "npm:zod@4.4.3"
