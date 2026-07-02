@@ -43,9 +43,8 @@
     "npm:postcss@8.5.15": "8.5.15",
     "npm:prettier@*": "3.8.4",
     "npm:prettier@3.8.4": "3.8.4",
-    "npm:stylelint-config-standard@40.0.0": "40.0.0_stylelint@17.13.0",
-    "npm:stylelint@*": "17.13.0",
-    "npm:stylelint@17.13.0": "17.13.0",
+    "npm:stylelint-config-standard@40.0.0": "40.0.0_stylelint@17.14.0",
+    "npm:stylelint@17.14.0": "17.14.0",
     "npm:terser@5.48.0": "5.48.0",
     "npm:uglify-js@3.19.3": "3.19.3",
     "npm:zod@4.4.3": "4.4.3"
@@ -756,17 +755,13 @@
     "corser@2.0.1": {
       "integrity": "sha512-utCYNzRSQIZNPIcGZdQc92UVJYAhtGAteCFg0yRaFm8f0P+CPtyGyHXJcGXnffjCybUCEx3FQ2G7U3/o9eIkVQ=="
     },
-    "cosmiconfig@9.0.1_typescript@6.0.3": {
-      "integrity": "sha512-hr4ihw+DBqcvrsEDioRO31Z17x71pUYoNe/4h6Z0wB72p7MU7/9gH8Q3s12NFhHPfYBBOV3qyfUxmr/Yn3shnQ==",
+    "cosmiconfig@9.0.2": {
+      "integrity": "sha512-gtTZxTDau1wL7Y7zifc2dd8jHSK/k6BTx/2Xp/BpdlAdnlYWFVt7qhJqgwi7637yRwRQ3qL4ZidbB4I8tA5VOg==",
       "dependencies": [
         "env-paths",
         "import-fresh",
         "js-yaml",
-        "parse-json",
-        "typescript"
-      ],
-      "optionalPeers": [
-        "typescript"
+        "parse-json"
       ]
     },
     "cross-spawn@7.0.6": {
@@ -2795,21 +2790,21 @@
         "postcss-selector-parser"
       ]
     },
-    "stylelint-config-recommended@18.0.0_stylelint@17.13.0": {
+    "stylelint-config-recommended@18.0.0_stylelint@17.14.0": {
       "integrity": "sha512-mxgT2XY6YZ3HWWe3Di8umG6aBmWmHTblTgu/f10rqFXnyWxjKWwNdjSWkgkwCtxIKnqjSJzvFmPT5yabVIRxZg==",
       "dependencies": [
         "stylelint"
       ]
     },
-    "stylelint-config-standard@40.0.0_stylelint@17.13.0": {
+    "stylelint-config-standard@40.0.0_stylelint@17.14.0": {
       "integrity": "sha512-EznGJxOUhtWck2r6dJpbgAdPATIzvpLdK9+i5qPd4Lx70es66TkBPljSg4wN3Qnc6c4h2n+WbUrUynQ3fanjHw==",
       "dependencies": [
         "stylelint",
         "stylelint-config-recommended"
       ]
     },
-    "stylelint@17.13.0": {
-      "integrity": "sha512-G1WYzMerp7ihOaIe9VJCHLt12MoAD2QLf1AFerYP37+BCRBUK5UCpq8e/mN+zCIaJPKQcaxhE4WlPmqdiOx/gw==",
+    "stylelint@17.14.0": {
+      "integrity": "sha512-8xkHPpdqYryeIsOgfsYTmr6cIeC4nLYWk5S8BPxpodq8mIuepggkMljsHewWfuAjj/+qpRKou2QerhjMH3iasg==",
       "dependencies": [
         "@csstools/css-calc",
         "@csstools/css-parser-algorithms",
@@ -3149,7 +3144,7 @@
       "npm:postcss@8.5.15",
       "npm:prettier@3.8.4",
       "npm:stylelint-config-standard@40.0.0",
-      "npm:stylelint@17.13.0",
+      "npm:stylelint@17.14.0",
       "npm:terser@5.48.0",
       "npm:uglify-js@3.19.3",
       "npm:zod@4.4.3"
