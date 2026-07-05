@@ -26,7 +26,7 @@
     "npm:cssnano@8.0.2": "8.0.2_postcss@8.5.15",
     "npm:eslint-config-prettier@10.1.8": "10.1.8_eslint@9.39.4__jiti@2.7.0_jiti@2.7.0",
     "npm:eslint-plugin-import@2.32.0": "2.32.0_eslint@9.39.4__jiti@2.7.0_jiti@2.7.0",
-    "npm:eslint-plugin-jsdoc@63.0.5": "63.0.5_eslint@9.39.4__jiti@2.7.0",
+    "npm:eslint-plugin-jsdoc@63.0.10": "63.0.10_eslint@9.39.4__jiti@2.7.0",
     "npm:eslint-plugin-promise@7.3.0": "7.3.0_eslint@9.39.4__jiti@2.7.0_jiti@2.7.0",
     "npm:eslint-plugin-unicorn@64.0.0": "64.0.0_eslint@9.39.4__jiti@2.7.0_jiti@2.7.0",
     "npm:eslint@*": "9.39.4_jiti@2.7.0",
@@ -1175,8 +1175,8 @@
         "tsconfig-paths"
       ]
     },
-    "eslint-plugin-jsdoc@63.0.5_eslint@9.39.4__jiti@2.7.0": {
-      "integrity": "sha512-AzI9bgKhV9li049/mIblX0c41DeWMMfH9qNsRasc+fAxwURRKChIp03Pk57M7UTf+Y6hifTJ89kQyCOoOLtEDw==",
+    "eslint-plugin-jsdoc@63.0.10_eslint@9.39.4__jiti@2.7.0": {
+      "integrity": "sha512-A9UIWsCquaKnit7rasXxYf12hhGIdDRjv65/RUE3AxbT6rdKBvr3MjH37g3gP+g4ipQMXuMn9slFKjO+vqNfkg==",
       "dependencies": [
         "@es-joy/jsdoccomment",
         "@es-joy/resolve.exports",
@@ -3137,7 +3137,7 @@
       "npm:cssnano@8.0.2",
       "npm:eslint-config-prettier@10.1.8",
       "npm:eslint-plugin-import@2.32.0",
-      "npm:eslint-plugin-jsdoc@63.0.5",
+      "npm:eslint-plugin-jsdoc@63.0.10",
       "npm:eslint-plugin-promise@7.3.0",
       "npm:eslint-plugin-unicorn@64.0.0",
       "npm:eslint@9.39.4",
