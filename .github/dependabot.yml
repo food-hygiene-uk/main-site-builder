@@ -25,6 +25,10 @@ updates:
       cronjob: "0 9 * * *"
       timezone: "Europe/London"
     open-pull-requests-limit: 500
+    groups:
+      codeql-actions:
+        patterns:
+          - "^github/codeql-action(/.*)?$"
 
   - package-ecosystem: npm
     directory: /
