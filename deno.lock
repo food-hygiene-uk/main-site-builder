@@ -19,7 +19,7 @@
     "npm:@playwright/test@1.61.1": "1.61.1",
     "npm:@types/estree@1.0.6": "1.0.6",
     "npm:@types/node@*": "22.15.15",
-    "npm:@typescript-eslint/eslint-plugin@8.63.0": "8.63.0_@typescript-eslint+parser@8.63.0__eslint@9.39.4___jiti@2.7.0__typescript@6.0.3_eslint@9.39.4__jiti@2.7.0_typescript@6.0.3",
+    "npm:@typescript-eslint/eslint-plugin@8.63.0": "8.63.0_@typescript-eslint+parser@8.63.0__eslint@9.39.4___jiti@2.7.0__typescript@6.0.3_eslint@9.39.4__jiti@2.7.0_jiti@2.7.0",
     "npm:@typescript-eslint/parser@8.63.0": "8.63.0_eslint@9.39.4__jiti@2.7.0_typescript@6.0.3",
     "npm:baseline-browser-mapping@2.10.42": "2.10.42",
     "npm:cssnano-preset-advanced@8.0.2": "8.0.2_postcss@8.5.16",
@@ -34,7 +34,7 @@
     "npm:estree-walker@3.0.3": "3.0.3",
     "npm:fast-check@4.3.0": "4.3.0",
     "npm:fast-check@4.8.0": "4.8.0",
-    "npm:htmlnano@3.3.2": "3.3.2_cssnano@8.0.2__postcss@8.5.16_postcss@8.5.16_terser@5.48.0_typescript@6.0.3",
+    "npm:htmlnano@3.3.2": "3.3.2_cssnano@8.0.2__postcss@8.5.16_postcss@8.5.16_terser@5.49.0",
     "npm:http-server@*": "14.1.1",
     "npm:http-server@14.1.1": "14.1.1",
     "npm:jiti@2.7.0": "2.7.0",
@@ -45,7 +45,7 @@
     "npm:prettier@3.8.4": "3.8.4",
     "npm:stylelint-config-standard@40.0.0": "40.0.0_stylelint@17.14.0__typescript@6.0.3_typescript@6.0.3",
     "npm:stylelint@17.14.0": "17.14.0_typescript@6.0.3",
-    "npm:terser@5.48.0": "5.48.0",
+    "npm:terser@5.49.0": "5.49.0",
     "npm:uglify-js@3.19.3": "3.19.3",
     "npm:zod@4.4.3": "4.4.3"
   },
@@ -363,7 +363,7 @@
     "@types/relateurl@0.2.33": {
       "integrity": "sha512-bTQCKsVbIdzLqZhLkF5fcJQreE4y1ro4DIyVrlDNSCJRRwHhB8Z+4zXXa8jN6eDvc2HbRsEYgbvrnGvi54EpSw=="
     },
-    "@typescript-eslint/eslint-plugin@8.63.0_@typescript-eslint+parser@8.63.0__eslint@9.39.4___jiti@2.7.0__typescript@6.0.3_eslint@9.39.4__jiti@2.7.0_typescript@6.0.3": {
+    "@typescript-eslint/eslint-plugin@8.63.0_@typescript-eslint+parser@8.63.0__eslint@9.39.4___jiti@2.7.0__typescript@6.0.3_eslint@9.39.4__jiti@2.7.0_jiti@2.7.0": {
       "integrity": "sha512-rvwSgqT+DHpWdzfSzPatRLm02a0GlESt++9iy3hLCDY4BgkaLcl8LBi9Yh7XGFBpwcBE/K3024QuXWTpbz4FfQ==",
       "dependencies": [
         "@eslint-community/regexpp",
@@ -413,7 +413,7 @@
         "typescript"
       ]
     },
-    "@typescript-eslint/type-utils@8.63.0_eslint@9.39.4__jiti@2.7.0_typescript@6.0.3": {
+    "@typescript-eslint/type-utils@8.63.0_eslint@9.39.4__jiti@2.7.0_typescript@6.0.3_jiti@2.7.0": {
       "integrity": "sha512-Nzzh/OGxVCOjObjaj1CQF2RUasyYy2Jfuh+zZ3PjLzG2fYRriAiZLib9UKtO+CpQAS3YHiAS+ckZDclwqI1TPA==",
       "dependencies": [
         "@typescript-eslint/types",
@@ -443,7 +443,7 @@
         "typescript"
       ]
     },
-    "@typescript-eslint/utils@8.63.0_eslint@9.39.4__jiti@2.7.0_typescript@6.0.3": {
+    "@typescript-eslint/utils@8.63.0_eslint@9.39.4__jiti@2.7.0_typescript@6.0.3_jiti@2.7.0": {
       "integrity": "sha512-fUKaeAvrTuQg/Tgt3nliAUSZHJM6DlCcfyEmxCvlX8kieWSStBX+5O5Fnidtc3i2JrH+9c/GL4RY2iasd/GPTA==",
       "dependencies": [
         "@eslint-community/eslint-utils",
@@ -1614,7 +1614,7 @@
     "html-tags@5.1.0": {
       "integrity": "sha512-n6l5uca7/y5joxZ3LUePhzmBFUJ+U2YWzhMa8XUTecSeSlQiZdF5XAd/Q3/WUl0VsXgUwWi8I7CNIwdI5WN1SQ=="
     },
-    "htmlnano@3.3.2_cssnano@8.0.2__postcss@8.5.16_postcss@8.5.16_terser@5.48.0_typescript@6.0.3": {
+    "htmlnano@3.3.2_cssnano@8.0.2__postcss@8.5.16_postcss@8.5.16_terser@5.49.0": {
       "integrity": "sha512-VtiwPbplKD8Xp/6mCJxbiTnJaqQvwIp+IovfFmgNL42Ltksl94zxP4YbVdR5qQ5shtEBhYzx+vpGc8v4QnjoyQ==",
       "dependencies": [
         "@types/relateurl",
@@ -2893,8 +2893,8 @@
         "strip-ansi@6.0.1"
       ]
     },
-    "terser@5.48.0": {
-      "integrity": "sha512-J/9An6vs9Us6wKRriSFXBWdRZapREHqFzdNUKk0pmu804EMR6dr6winwo7e5JDxN4xahxQsuysyYFwlwj4XN/Q==",
+    "terser@5.49.0": {
+      "integrity": "sha512-SNiDnXyHSrxVcIOtVbULzcTmniUiwcV7Nwdyj1twVubeTmbjoa8p69KKDpfkdoOavuM4/GRm1+ykI8qqnavHoA==",
       "dependencies": [
         "@jridgewell/source-map",
         "acorn",
@@ -3149,7 +3149,7 @@
       "npm:prettier@3.8.4",
       "npm:stylelint-config-standard@40.0.0",
       "npm:stylelint@17.14.0",
-      "npm:terser@5.48.0",
+      "npm:terser@5.49.0",
       "npm:uglify-js@3.19.3",
       "npm:zod@4.4.3"
     ]
