@@ -41,9 +41,10 @@
     "npm:meriyah@6.0.5": "6.0.5",
     "npm:playwright@1.61.1": "1.61.1",
     "npm:postcss@8.5.16": "8.5.16",
-    "npm:prettier@*": "3.8.4",
-    "npm:prettier@3.8.4": "3.8.4",
+    "npm:prettier@*": "3.9.5",
+    "npm:prettier@3.9.5": "3.9.5",
     "npm:stylelint-config-standard@40.0.0": "40.0.0_stylelint@17.14.0__typescript@6.0.3_typescript@6.0.3",
+    "npm:stylelint@*": "17.14.0_typescript@6.0.3",
     "npm:stylelint@17.14.0": "17.14.0_typescript@6.0.3",
     "npm:terser@5.49.0": "5.49.0",
     "npm:uglify-js@3.19.3": "3.19.3",
@@ -2463,8 +2464,8 @@
     "prelude-ls@1.2.1": {
       "integrity": "sha512-vkcDPrRZo1QZLbn5RLGPpg/WmIQ65qoWWhcGKf/b5eplkkarX0m9z8ppCat4mlOqUsWpyNuYgO3VRyrYHSzX5g=="
     },
-    "prettier@3.8.4": {
-      "integrity": "sha512-N2MylSdi48+5N/6S5j+maeHbUSIzzZ5uOcX5Hm4QpV8Dkb1HFjfAKTKX6yNPJQD9AhcT3ifHNB66tWTTJDi11Q==",
+    "prettier@3.9.5": {
+      "integrity": "sha512-/FVl766LpUfB5vXgCYOYa0MeV/441Ia99AeICQIQFTY/Nw0roZwULcXpku5i1/m5kt/baz+s4Zogspd839HSMg==",
       "bin": true
     },
     "punycode@2.3.1": {
@@ -3146,7 +3147,7 @@
       "npm:jiti@2.7.0",
       "npm:playwright@1.61.1",
       "npm:postcss@8.5.16",
-      "npm:prettier@3.8.4",
+      "npm:prettier@3.9.5",
       "npm:stylelint-config-standard@40.0.0",
       "npm:stylelint@17.14.0",
       "npm:terser@5.49.0",
