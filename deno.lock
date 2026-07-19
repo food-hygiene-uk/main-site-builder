@@ -34,7 +34,7 @@
     "npm:estree-walker@3.0.3": "3.0.3",
     "npm:fast-check@4.3.0": "4.3.0",
     "npm:fast-check@4.8.0": "4.8.0",
-    "npm:htmlnano@3.3.2": "3.3.2_cssnano@8.0.2__postcss@8.5.16_postcss@8.5.16_terser@5.49.0",
+    "npm:htmlnano@3.4.0": "3.4.0_cssnano@8.0.2__postcss@8.5.16_postcss@8.5.16_terser@5.49.0",
     "npm:http-server@*": "14.1.1",
     "npm:http-server@14.1.1": "14.1.1",
     "npm:jiti@2.7.0": "2.7.0",
@@ -735,8 +735,8 @@
     "commander@11.1.0": {
       "integrity": "sha512-yPVavfyCcRhmorC7rWlkHn15b4wDVgVmBA7kV4QVBsF7kv/9TKJAbAXVTxvTnwP8HHKjRCJDClKbciiYS7p0DQ=="
     },
-    "commander@14.0.3": {
-      "integrity": "sha512-H+y0Jo/T1RZ9qPP4Eh1pkcQcLRglraJaSLoyOtHxu6AapkjWVCy2Sit1QQ4x3Dng8qDlSsZEet7g5Pq06MvTgw=="
+    "commander@15.0.0": {
+      "integrity": "sha512-z67u4ZhzCL/Tydu1lJARtEZYWbWaN7oYLHbsuzocr6y4N6WZAagG3RQ4FW61V1/0+jImpj293XfrcYnd1qxtPg=="
     },
     "commander@2.20.3": {
       "integrity": "sha512-GpVkmM8vF2vQUkj2LvZmD35JxeJOLCwJ9cUkugyk2nuhbv3+mJvpLYYt+0+USMxE+oj+ey/lJEnhZw75x/OMcQ=="
@@ -1615,16 +1615,17 @@
     "html-tags@5.1.0": {
       "integrity": "sha512-n6l5uca7/y5joxZ3LUePhzmBFUJ+U2YWzhMa8XUTecSeSlQiZdF5XAd/Q3/WUl0VsXgUwWi8I7CNIwdI5WN1SQ=="
     },
-    "htmlnano@3.3.2_cssnano@8.0.2__postcss@8.5.16_postcss@8.5.16_terser@5.49.0": {
-      "integrity": "sha512-VtiwPbplKD8Xp/6mCJxbiTnJaqQvwIp+IovfFmgNL42Ltksl94zxP4YbVdR5qQ5shtEBhYzx+vpGc8v4QnjoyQ==",
+    "htmlnano@3.4.0_cssnano@8.0.2__postcss@8.5.16_postcss@8.5.16_terser@5.49.0": {
+      "integrity": "sha512-5rgW9c/830dlDiWLlsT3ZLBs52UAupymGwkwr4rn2yyuzrNY0RZwgr6F4q2AkUqrRuuHb3kPelqYsUgtzQDtQw==",
       "dependencies": [
         "@types/relateurl",
-        "commander@14.0.3",
+        "commander@15.0.0",
         "cosmiconfig",
         "cssnano",
         "postcss",
         "posthtml",
-        "terser"
+        "terser",
+        "tinyglobby"
       ],
       "optionalPeers": [
         "cssnano",
@@ -3142,7 +3143,7 @@
       "npm:eslint-plugin-unicorn@64.0.0",
       "npm:eslint@9.39.4",
       "npm:fast-check@4.8.0",
-      "npm:htmlnano@3.3.2",
+      "npm:htmlnano@3.4.0",
       "npm:http-server@14.1.1",
       "npm:jiti@2.7.0",
       "npm:playwright@1.61.1",
