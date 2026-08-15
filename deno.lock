@@ -17,7 +17,7 @@
     "jsr:@std/path@^1.1.6": "1.1.6",
     "jsr:@std/testing@1.0.20": "1.0.20",
     "jsr:@vento/vento@1.14.0": "1.14.0",
-    "npm:@playwright/test@1.61.1": "1.61.1",
+    "npm:@playwright/test@1.62.1": "1.62.1",
     "npm:@types/estree@1.0.6": "1.0.6",
     "npm:@types/node@*": "22.15.15",
     "npm:@typescript-eslint/eslint-plugin@8.65.0": "8.65.0_@typescript-eslint+parser@8.65.0__eslint@9.39.4___jiti@2.7.0__typescript@6.0.3_eslint@9.39.4__jiti@2.7.0_jiti@2.7.0",
@@ -40,7 +40,7 @@
     "npm:http-server@14.1.1": "14.1.1",
     "npm:jiti@2.7.0": "2.7.0",
     "npm:meriyah@6.0.5": "6.0.5",
-    "npm:playwright@1.61.1": "1.61.1",
+    "npm:playwright@1.62.1": "1.62.1",
     "npm:postcss@8.5.26": "8.5.26",
     "npm:prettier@*": "3.9.5",
     "npm:prettier@3.9.5": "3.9.5",
@@ -327,8 +327,8 @@
         "fastq"
       ]
     },
-    "@playwright/test@1.61.1": {
-      "integrity": "sha512-8nKv6+0RJSL9FE4jYOEGXnPeM/Hg12qZpmqzZjRh3qM0Y7c3z1mrOTfFLids72RDQYVh9WpLEfR5WdpNX4fkig==",
+    "@playwright/test@1.62.1": {
+      "integrity": "sha512-DTcUc8qii+cpHvtOwggMtBRMjKZHXYWdw8syRYu2vtzuq4Wxphqq4NfCs5Zt44L6mA8rfDfj+PHnxFc/FeK6mQ==",
       "dependencies": [
         "playwright"
       ],
@@ -2159,12 +2159,12 @@
     "picomatch@4.0.5": {
       "integrity": "sha512-RvwwcruNjI1ncT5xRakeyS9Lf8lcItv34KD+aif+VH9kduAyfYBipGh12274xtenIPZ119/R9BdTBa8gAwSh0A=="
     },
-    "playwright-core@1.61.1": {
-      "integrity": "sha512-h7Qlt6m4REp25qvIdvbDtVmD4LqVXfpRxhORv9L0jzETM05p4fuPJ3dKyuSXQxDSbXnmS79HAgi9589lGSpLkg==",
+    "playwright-core@1.62.1": {
+      "integrity": "sha512-wPYSwEBJY9GHraISXqyqtx0na0LpO3XEX7jNDhntbex7tzUS7kLnZsOlFruFJB4Hi/rhDMjXGqHewDZ68nYZVw==",
       "bin": true
     },
-    "playwright@1.61.1": {
-      "integrity": "sha512-DWnY5o3YbLWK4GovuAVwpqL+1VwGNdUGrRr++8j8PtQQzvAVZUIMjKQ90fY689sEJZJBbZVw1rXaOKSTitkzPQ==",
+    "playwright@1.62.1": {
+      "integrity": "sha512-0M+L3LAD8/nm554LOla9Ayx0j0tmFZ0FBcoQ7F1VuVHpM/XpiC8RcDzBQB8W5+hA8L22THxELzeF+2WcUzvcLg==",
       "dependencies": [
         "playwright-core"
       ],
@@ -3130,7 +3130,7 @@
       "jsr:@std/path@1.1.6",
       "jsr:@std/testing@1.0.20",
       "jsr:@vento/vento@1.14.0",
-      "npm:@playwright/test@1.61.1",
+      "npm:@playwright/test@1.62.1",
       "npm:@typescript-eslint/eslint-plugin@8.65.0",
       "npm:@typescript-eslint/parser@8.65.0",
       "npm:baseline-browser-mapping@2.11.10",
@@ -3146,7 +3146,7 @@
       "npm:htmlnano@3.4.0",
       "npm:http-server@14.1.1",
       "npm:jiti@2.7.0",
-      "npm:playwright@1.61.1",
+      "npm:playwright@1.62.1",
       "npm:postcss@8.5.26",
       "npm:prettier@3.9.5",
       "npm:stylelint-config-standard@40.0.0",
