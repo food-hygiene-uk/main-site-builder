@@ -2,16 +2,18 @@ import { expect, test } from "@playwright/test";
 
 test.describe("Establishment Page - Save to List Functionality", () => {
   // URL for the establishment page
-  const detailPageUrl = "/region-east-midlands/masala-mix-1694348";
+  const detailPageUrl = "/region-east-midlands/aldi-foodstore-ltd-4587";
 
   test('should allow saving to a new list named "Oadby"', async ({ page }) => {
     await page.goto(detailPageUrl);
 
     // Wait for the main establishment article to be visible
     await expect(
-      page.locator('article.establishment[data-establishment-id="1694348"]'),
+      page.locator('article.establishment[data-establishment-id="4587"]'),
     ).toBeVisible();
-    await expect(page.locator('h1.name:has-text("Masala Mix")')).toBeVisible();
+    await expect(
+      page.locator('h1.name:has-text("Aldi Foodstore Ltd")'),
+    ).toBeVisible();
 
     // 1. Click the "Save" button.
     const saveToListButton = page.locator(
