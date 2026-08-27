@@ -9,7 +9,7 @@ test.describe("Establishment Page - Save to List Functionality", () => {
 
     // Wait for the main establishment article to be visible
     await expect(
-      page.locator('article.establishment[data-establishment-id="1694348"]'),
+      page.locator('article.establishment[data-establishment-id="4587"]'),
     ).toBeVisible();
     await expect(page.locator('h1.name:has-text("Masala Mix")')).toBeVisible();
 
