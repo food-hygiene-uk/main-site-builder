@@ -11,7 +11,7 @@ test.describe("Establishment Page - Save to List Functionality", () => {
     await expect(
       page.locator('article.establishment[data-establishment-id="4587"]'),
     ).toBeVisible();
-    await expect(page.locator('h1.name:has-text("Masala Mix")')).toBeVisible();
+    await expect(page.locator('h1.name:has-text("Aldi Foodstore Ltd")')).toBeVisible();
 
     // 1. Click the "Save" button.
     const saveToListButton = page.locator(
