@@ -20,7 +20,7 @@
     "npm:@playwright/test@1.61.1": "1.61.1",
     "npm:@types/estree@1.0.6": "1.0.6",
     "npm:@types/node@*": "22.15.15",
-    "npm:@typescript-eslint/eslint-plugin@8.66.0": "8.66.0_@typescript-eslint+parser@8.66.0__eslint@9.39.4___jiti@2.7.0__typescript@6.0.3_eslint@9.39.4__jiti@2.7.0_typescript@6.0.3",
+    "npm:@typescript-eslint/eslint-plugin@8.66.0": "8.66.0_@typescript-eslint+parser@8.66.0__eslint@9.39.4___jiti@2.7.0__typescript@6.0.3_eslint@9.39.4__jiti@2.7.0_jiti@2.7.0",
     "npm:@typescript-eslint/parser@8.66.0": "8.66.0_eslint@9.39.4__jiti@2.7.0_typescript@6.0.3",
     "npm:baseline-browser-mapping@2.11.10": "2.11.10",
     "npm:cssnano-preset-advanced@8.0.2": "8.0.2_postcss@8.5.26",
@@ -35,7 +35,7 @@
     "npm:estree-walker@3.0.3": "3.0.3",
     "npm:fast-check@4.3.0": "4.3.0",
     "npm:fast-check@4.9.0": "4.9.0",
-    "npm:htmlnano@3.4.0": "3.4.0_cssnano@8.0.2__postcss@8.5.26_postcss@8.5.26_terser@5.49.0",
+    "npm:htmlnano@3.4.0": "3.4.0_cssnano@8.0.2__postcss@8.5.26_postcss@8.5.26_terser@5.50.0",
     "npm:http-server@*": "14.1.1",
     "npm:http-server@14.1.1": "14.1.1",
     "npm:jiti@2.7.0": "2.7.0",
@@ -46,7 +46,7 @@
     "npm:prettier@3.9.5": "3.9.5",
     "npm:stylelint-config-standard@40.0.0": "40.0.0_stylelint@17.14.1",
     "npm:stylelint@17.14.1": "17.14.1",
-    "npm:terser@5.49.0": "5.49.0",
+    "npm:terser@5.50.0": "5.50.0",
     "npm:uglify-js@3.19.3": "3.19.3",
     "npm:zod@4.4.3": "4.4.3"
   },
@@ -364,7 +364,7 @@
     "@types/relateurl@0.2.33": {
       "integrity": "sha512-bTQCKsVbIdzLqZhLkF5fcJQreE4y1ro4DIyVrlDNSCJRRwHhB8Z+4zXXa8jN6eDvc2HbRsEYgbvrnGvi54EpSw=="
     },
-    "@typescript-eslint/eslint-plugin@8.66.0_@typescript-eslint+parser@8.66.0__eslint@9.39.4___jiti@2.7.0__typescript@6.0.3_eslint@9.39.4__jiti@2.7.0_typescript@6.0.3": {
+    "@typescript-eslint/eslint-plugin@8.66.0_@typescript-eslint+parser@8.66.0__eslint@9.39.4___jiti@2.7.0__typescript@6.0.3_eslint@9.39.4__jiti@2.7.0_jiti@2.7.0": {
       "integrity": "sha512-p088eaGrzYz1s+7cov0aMOCkNGTJlVxF4jgubf28c8L0Cv9Rloj8YBHnv4hXLq6IIEE1AsjNWavO+k+8kP2Y0A==",
       "dependencies": [
         "@eslint-community/regexpp",
@@ -414,7 +414,7 @@
         "typescript"
       ]
     },
-    "@typescript-eslint/type-utils@8.66.0_eslint@9.39.4__jiti@2.7.0_typescript@6.0.3": {
+    "@typescript-eslint/type-utils@8.66.0_eslint@9.39.4__jiti@2.7.0_typescript@6.0.3_jiti@2.7.0": {
       "integrity": "sha512-LG2dWfjZQQp0ADtAu/EWJVayefGL2UEZ3CDeI44D9v3rXB/WYUqE/jpO28KrEKul5AySrmI+Zh1v6v+xW2U9+g==",
       "dependencies": [
         "@typescript-eslint/types",
@@ -444,7 +444,7 @@
         "typescript"
       ]
     },
-    "@typescript-eslint/utils@8.66.0_eslint@9.39.4__jiti@2.7.0_typescript@6.0.3": {
+    "@typescript-eslint/utils@8.66.0_eslint@9.39.4__jiti@2.7.0_typescript@6.0.3_jiti@2.7.0": {
       "integrity": "sha512-jasearZPolBw5NJNYGMwxzHMF83niVWmMU1VdHzG1CyfI2VS7f7nZltnKtHcg20hW+7Uo5GfK4MeDPoU3qI8EA==",
       "dependencies": [
         "@eslint-community/eslint-utils",
@@ -1282,6 +1282,7 @@
       "optionalPeers": [
         "jiti"
       ],
+      "deprecated": true,
       "bin": true
     },
     "espree@10.4.0_acorn@8.15.0": {
@@ -1615,7 +1616,7 @@
     "html-tags@5.1.0": {
       "integrity": "sha512-n6l5uca7/y5joxZ3LUePhzmBFUJ+U2YWzhMa8XUTecSeSlQiZdF5XAd/Q3/WUl0VsXgUwWi8I7CNIwdI5WN1SQ=="
     },
-    "htmlnano@3.4.0_cssnano@8.0.2__postcss@8.5.26_postcss@8.5.26_terser@5.49.0": {
+    "htmlnano@3.4.0_cssnano@8.0.2__postcss@8.5.26_postcss@8.5.26_terser@5.50.0": {
       "integrity": "sha512-5rgW9c/830dlDiWLlsT3ZLBs52UAupymGwkwr4rn2yyuzrNY0RZwgr6F4q2AkUqrRuuHb3kPelqYsUgtzQDtQw==",
       "dependencies": [
         "@types/relateurl",
@@ -2895,8 +2896,8 @@
         "strip-ansi@6.0.1"
       ]
     },
-    "terser@5.49.0": {
-      "integrity": "sha512-SNiDnXyHSrxVcIOtVbULzcTmniUiwcV7Nwdyj1twVubeTmbjoa8p69KKDpfkdoOavuM4/GRm1+ykI8qqnavHoA==",
+    "terser@5.50.0": {
+      "integrity": "sha512-CN9BVxWhgS/hRxtUMjtC2uRWSTcSfQFHMDWma6sKKfIivCD91sM+FOPfvwoaRMqCSrUpe1nv3jDamd9eEQ4y+w==",
       "dependencies": [
         "@jridgewell/source-map",
         "acorn",
@@ -3151,7 +3152,7 @@
       "npm:prettier@3.9.5",
       "npm:stylelint-config-standard@40.0.0",
       "npm:stylelint@17.14.1",
-      "npm:terser@5.49.0",
+      "npm:terser@5.50.0",
       "npm:uglify-js@3.19.3",
       "npm:zod@4.4.3"
     ]
