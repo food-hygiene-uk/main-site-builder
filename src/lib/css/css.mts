@@ -24,7 +24,7 @@ export const processCssFile = async ({
     additionalCss,
   );
 
-  const processedCss = await postcss([cssnano]).process(cssContent, {
+  const processedCss = await postcss([cssnano()]).process(cssContent, {
     from: undefined,
   });
 
