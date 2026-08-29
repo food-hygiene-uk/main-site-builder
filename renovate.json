@@ -25,7 +25,7 @@
     },
     {
       "description": "Explictly enable updates for desired managers.",
-      "matchManagers": ["deno"],
+      "matchManagers": ["deno", "custom.regex"],
       "enabled": true
     }
   ],
