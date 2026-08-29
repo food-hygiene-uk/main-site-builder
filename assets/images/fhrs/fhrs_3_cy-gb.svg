@@ -13,7 +13,8 @@
 >
   <style
     type="text/css"
-  >.st0 {
+  >
+  .st0 {
     fill: #84bd00;
   }
   .st1 {
@@ -21,7 +22,8 @@
   }
   .st2 {
     fill: #ffffff;
-  }</style>
+  }
+  </style>
   <g>
     <path
       class="st0"
