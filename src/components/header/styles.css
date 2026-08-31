@@ -112,21 +112,15 @@
     }
 
     /* Hamburger animation */
-    .menu-toggle-__CLASS_SUFFIX__:checked
-      ~ .hamburger-__CLASS_SUFFIX__
-      span:nth-child(1) {
+    .menu-toggle-__CLASS_SUFFIX__:checked ~ .hamburger-__CLASS_SUFFIX__ span:nth-child(1) {
       transform: translateY(9px) rotate(45deg);
     }
 
-    .menu-toggle-__CLASS_SUFFIX__:checked
-      ~ .hamburger-__CLASS_SUFFIX__
-      span:nth-child(2) {
+    .menu-toggle-__CLASS_SUFFIX__:checked ~ .hamburger-__CLASS_SUFFIX__ span:nth-child(2) {
       opacity: 0;
     }
 
-    .menu-toggle-__CLASS_SUFFIX__:checked
-      ~ .hamburger-__CLASS_SUFFIX__
-      span:nth-child(3) {
+    .menu-toggle-__CLASS_SUFFIX__:checked ~ .hamburger-__CLASS_SUFFIX__ span:nth-child(3) {
       transform: translateY(-9px) rotate(-45deg);
     }
   }
