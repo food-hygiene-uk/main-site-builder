@@ -110,9 +110,9 @@ jobs:
         with:
           deno-version: ${{ env.DENO_VERSION }}
 
-      - name: Deno install
+      - name: Deno ci
         working-directory: ./repos/source
-        run: deno install
+        run: deno ci
 
       - name: Run Deno test
         working-directory: ./repos/source
