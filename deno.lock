@@ -42,8 +42,8 @@
     "npm:meriyah@6.0.5": "6.0.5",
     "npm:playwright@1.62.1": "1.62.1",
     "npm:postcss@8.5.26": "8.5.26",
-    "npm:prettier@*": "3.9.5",
-    "npm:prettier@3.9.5": "3.9.5",
+    "npm:prettier@*": "3.9.6",
+    "npm:prettier@3.9.6": "3.9.6",
     "npm:stylelint-config-standard@40.0.0": "40.0.0_stylelint@17.14.1",
     "npm:stylelint@*": "17.14.1",
     "npm:stylelint@17.14.1": "17.14.1",
@@ -2472,8 +2472,8 @@
     "prelude-ls@1.2.1": {
       "integrity": "sha512-vkcDPrRZo1QZLbn5RLGPpg/WmIQ65qoWWhcGKf/b5eplkkarX0m9z8ppCat4mlOqUsWpyNuYgO3VRyrYHSzX5g=="
     },
-    "prettier@3.9.5": {
-      "integrity": "sha512-/FVl766LpUfB5vXgCYOYa0MeV/441Ia99AeICQIQFTY/Nw0roZwULcXpku5i1/m5kt/baz+s4Zogspd839HSMg==",
+    "prettier@3.9.6": {
+      "integrity": "sha512-OpN0zzVdiaiAhxpuuj5efpIS4sY9j7bY6uR5mnj5yPzGkdkjNKSJeUThPb60Jw29QuAZgA4o+/iB49kFiaBX6g==",
       "bin": true
     },
     "punycode@2.3.1": {
@@ -3155,7 +3155,7 @@
       "npm:jiti@2.7.0",
       "npm:playwright@1.62.1",
       "npm:postcss@8.5.26",
-      "npm:prettier@3.9.5",
+      "npm:prettier@3.9.6",
       "npm:stylelint-config-standard@40.0.0",
       "npm:stylelint@17.14.1",
       "npm:terser@5.50.0",
