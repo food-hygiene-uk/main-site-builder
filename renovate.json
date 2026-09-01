@@ -27,6 +27,14 @@
       "description": "Explictly enable updates for desired managers.",
       "matchManagers": ["deno", "custom.regex"],
       "enabled": true
+    },
+    {
+      "description": "Automerge PRs that pass all required checks.",
+      "matchManagers": ["/.*/"],
+      "automerge": true,
+      "automergeType": "pr",
+      "automergeStrategy": "squash",
+      "platformAutomerge": true
     }
   ],
   "customManagers": [
