@@ -67,7 +67,7 @@ const parseSearchTerms = (searchTerm) => {
  */
 const appendEstablishments = (container, establishments) => {
   // Remove all current establishments
-  container.innerHTML = "";
+  container.replaceChildren();
 
   // Add visible establishments from fragment
   const visibleFragment = document.createDocumentFragment();

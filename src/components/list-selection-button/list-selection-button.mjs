@@ -55,5 +55,6 @@ export const renderListSelectionButton = async (FHRSID) => {
     });
   });
 
+  // eslint-disable-next-line unicorn/prefer-await
   return cssReady.then(() => listSelectionButton);
 };

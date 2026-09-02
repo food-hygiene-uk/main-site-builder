@@ -146,8 +146,9 @@ document.addEventListener("DOMContentLoaded", async () => {
 
   if (loadMapButton && alwaysLoadCheckbox) {
     // Check if user has set preference to always load maps
-    const alwaysLoadMaps = localStorage.getItem("alwaysLoadMaps") === "true";
-    alwaysLoadCheckbox.checked = alwaysLoadMaps;
+    const shouldAlwaysLoadMaps =
+      localStorage.getItem("alwaysLoadMaps") === "true";
+    alwaysLoadCheckbox.checked = shouldAlwaysLoadMaps;
 
     // Handle checkbox change
     alwaysLoadCheckbox.addEventListener("change", () => {
@@ -185,7 +186,7 @@ document.addEventListener("DOMContentLoaded", async () => {
     };
 
     // Auto-load if preference is set
-    if (alwaysLoadMaps) {
+    if (shouldAlwaysLoadMaps) {
       loadMap();
     } else {
       // Set up manual load button
@@ -289,15 +290,16 @@ const formatRelativeTime = (date) => {
 
   if (diffDay > 30) {
     return `${Math.floor(diffDay / 30)} months ago`;
-  } else if (diffDay > 0) {
-    return `${diffDay} day${diffDay === 1 ? "" : "s"} ago`;
-  } else if (diffHour > 0) {
-    return `${diffHour} hour${diffHour === 1 ? "" : "s"} ago`;
-  } else if (diffMin > 0) {
-    return `${diffMin} minute${diffMin === 1 ? "" : "s"} ago`;
-  } else {
-    return "just now";
   }
+  if (diffDay > 0) {
+    return `${diffDay} day${diffDay === 1 ? "" : "s"} ago`;
+  }
+  if (diffHour > 0) {
+    return `${diffHour} hour${diffHour === 1 ? "" : "s"} ago`;
+  }
+  return diffMin > 0
+    ? `${diffMin} minute${diffMin === 1 ? "" : "s"} ago`
+    : "just now";
 };
 
 /**

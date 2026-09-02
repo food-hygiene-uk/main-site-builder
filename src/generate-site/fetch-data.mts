@@ -4,7 +4,7 @@ import * as api from "../ratings-api/rest.mts";
 import { EnrichedLocalAuthorities } from "./schema-app.mts";
 import { getBuildFileName } from "../lib/local-authority/local-authority.mts";
 
-const USE_CACHED_DATA = Deno.env.get("CI") ? false : true;
+const SHOULD_USE_CACHED_DATA = Deno.env.get("CI") ? false : true;
 
 /**
  * Fetches and processes data for a list of local authorities.
@@ -44,7 +44,7 @@ export const fetchLocalAuthorityData = async (
       const filename = getBuildFileName(localAuthority);
 
       if (
-        USE_CACHED_DATA &&
+        SHOULD_USE_CACHED_DATA &&
         (await exists(filename, {
           isReadable: true,
           isFile: true,

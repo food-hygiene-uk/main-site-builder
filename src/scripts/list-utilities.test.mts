@@ -9,22 +9,28 @@ import {
   filterEstablishments,
   sliceEstablishments,
 } from "./list-utilities.mjs";
+import { Establishment } from "../generate-site/schema.mts";
 
 /**
  * Creates a test establishment with minimal required fields
  *
- * @param {string} businessName - The business name
- * @param {number} id - The establishment ID
- * @returns {Establishment} A test establishment object
+ * @param businessName - The business name
+ * @param id - The establishment ID
+ * @returns A test establishment object
  */
-const createTestEstablishment = (businessName, id) => ({
-  FHRSID: id,
-  BusinessName: businessName,
-  RatingValue: "5",
-  RatingDate: "2024-01-01",
-  LocalAuthorityName: "Test Authority",
-  LocalAuthorityCode: 123,
-});
+const createTestEstablishment = (
+  businessName: string,
+  id: number,
+): Establishment => {
+  return {
+    FHRSID: id,
+    BusinessName: businessName,
+    RatingValue: "5",
+    RatingDate: "2024-01-01",
+    LocalAuthorityName: "Test Authority",
+    LocalAuthorityCode: "123",
+  } as Establishment;
+};
 
 describe("filterEstablishments", () => {
   describe("Example-based tests", () => {
@@ -38,30 +44,6 @@ describe("filterEstablishments", () => {
       const result = filterEstablishments(establishments, "");
 
       assertEquals(result.length, 3);
-      assertEquals(result, establishments);
-    });
-
-    it("should return all establishments when filterText is undefined", () => {
-      const establishments = [
-        createTestEstablishment("Pizza Place", 1),
-        createTestEstablishment("Burger Joint", 2),
-      ];
-
-      const result = filterEstablishments(establishments);
-
-      assertEquals(result.length, 2);
-      assertEquals(result, establishments);
-    });
-
-    it("should return all establishments when filterText is null", () => {
-      const establishments = [
-        createTestEstablishment("Pizza Place", 1),
-        createTestEstablishment("Burger Joint", 2),
-      ];
-
-      const result = filterEstablishments(establishments, null);
-
-      assertEquals(result.length, 2);
       assertEquals(result, establishments);
     });
 

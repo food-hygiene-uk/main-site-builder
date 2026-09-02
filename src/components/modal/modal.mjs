@@ -63,5 +63,6 @@ export const openModal = async (title, content, onCloseCallback) => {
   document.body.append(dialog);
   dialog.showModal();
 
+  // eslint-disable-next-line unicorn/prefer-await
   return cssReady.then(() => dialog);
 };

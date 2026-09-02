@@ -26,11 +26,10 @@ const getCallerFilenameHash = (): string => {
     const stringHash = Math.abs(hash).toString(36).slice(0, 7);
 
     return stringHash;
-  } else {
-    console.warn("Could not extract filename from stack trace.");
-
-    return "";
   }
+  console.warn("Could not extract filename from stack trace.");
+
+  return "";
 };
 
 const suffixPool = [
@@ -149,22 +148,22 @@ const suffixPool = [
  *
  * If the class is for a single instance component, then the classSuffix does not need to be distinct.
  *
- * @param singleInstance - Whether the component is a single instance component.
+ * @param isSingleInstance - Whether the component is a single instance component.
  * @returns A random string of characters.
  */
-export const getClassSuffix = (singleInstance: boolean): string => {
-  const singleInstanceComponent = Boolean(singleInstance);
+export const getClassSuffix = (isSingleInstance: boolean): string => {
+  const isSingleInstanceComponent = isSingleInstance;
 
   const callerHash = getCallerFilenameHash();
 
   const seedFromHash = Number.parseInt(callerHash.slice(0, 8), 36);
   const index =
-    (singleInstanceComponent
+    (isSingleInstanceComponent
       ? seedFromHash
       : suffixPoolIndexes.get(callerHash) || seedFromHash) % suffixPool.length;
   const suffix = suffixPool[index];
 
-  if (singleInstanceComponent == false) {
+  if (isSingleInstanceComponent == false) {
     suffixPoolIndexes.set(callerHash, index + 1);
   }
 

@@ -28,20 +28,20 @@ document.addEventListener("DOMContentLoaded", () => {
       }
 
       // Hide the region if all its authorities are hidden
-      const allLocalAuthoritiesHidden =
+      const areAllLocalAuthoritiesHidden =
         region.querySelectorAll(".authority-link:not([style*='display: none'])")
           .length === 0;
-      region.style.display = allLocalAuthoritiesHidden ? "none" : "block";
+      region.style.display = areAllLocalAuthoritiesHidden ? "none" : "block";
     }
 
     // Check if all regions are hidden
-    const allRegionsHidden =
+    const areAllRegionsHidden =
       document.querySelectorAll(".authorities:not([style*='display: none'])")
         .length === 0;
 
     const noMatchesMessage = document.querySelector("#noMatchesMessage");
 
-    if (allRegionsHidden) {
+    if (areAllRegionsHidden) {
       if (!noMatchesMessage) {
         const message = document.createElement("p");
         message.id = "noMatchesMessage";

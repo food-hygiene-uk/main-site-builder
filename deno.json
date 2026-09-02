@@ -6,6 +6,7 @@
     "@std/fs": "jsr:@std/fs@1.0.24",
     "@std/path": "jsr:@std/path@1.1.6",
     "@std/testing": "jsr:@std/testing@1.0.20",
+    "@std/html": "jsr:@std/html@1.0.7",
     "@typescript-eslint/eslint-plugin": "npm:@typescript-eslint/eslint-plugin@8.68.0",
     "@typescript-eslint/parser": "npm:@typescript-eslint/parser@8.68.0",
     "@vento/vento": "jsr:@vento/vento@1.14.0",
@@ -53,6 +54,10 @@
     "eslint:check": {
       "description": "Runs ESLint on the codebase",
       "command": "deno run --allow-env --allow-read --allow-write=./.eslintcache --allow-sys=cpus,homedir npm:eslint --concurrency=1 ."
+    },
+    "eslint:fix": {
+      "description": "Fixes ESLint issues in the codebase",
+      "command": "deno run --allow-env --allow-read --allow-write=./ --allow-sys=cpus,homedir npm:eslint --concurrency=1 --fix ."
     },
     "git:pre-commit": {
       "description": "Updates and validadates the code as done in CI",

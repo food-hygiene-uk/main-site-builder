@@ -41,7 +41,7 @@ const deleteList = (listId) => {
     const savedLists = getSavedLists();
 
     // Check if the list exists
-    if (!savedLists[listId]) {
+    if (Object.hasOwn(savedLists, listId) == false) {
       return false;
     }
 
@@ -99,7 +99,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
     // Clear existing content
     if (userListsContainer) {
-      userListsContainer.innerHTML = "";
+      userListsContainer.replaceChildren();
     }
 
     // Show message if no lists

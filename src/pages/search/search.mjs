@@ -1,3 +1,4 @@
+/* eslint-disable unicorn/no-top-level-side-effects */
 import { EstablishmentList } from "components/establishment-list/establishment-list.mjs";
 
 // FHRS API Configuration
@@ -18,18 +19,17 @@ const resultsCount = document.querySelector("#results-count");
 const consentSection = document.querySelector("#consent-section");
 const consentToggle = document.querySelector("#consent-toggle");
 
-// Establishment list component
-let establishmentList;
-
 // Consent state
 const CONSENT_STORAGE_KEY = "fhrs_api_consent";
-let userConsent = false;
 
 // Search state
 const state = {
+  attentionEffectTimeout: null,
+  establishmentList: null,
   currentPage: 1,
+  hasUserConsent: false,
   pageSize: 10,
-  searchParams: new URLSearchParams(globalThis.location.search),
+  searchParams: new URLSearchParams(location.search),
 };
 
 // Initialize page
@@ -37,7 +37,7 @@ document.addEventListener("DOMContentLoaded", () => {
   // Initialize the establishment list component
   // Note: Search results come from the API with server-side pagination,
   // so we don't need client-side filtering/sorting
-  establishmentList = new EstablishmentList({
+  state.establishmentList = new EstablishmentList({
     container: resultsContainer,
     loadingElement: loadingIndicator,
     emptyElement: document.createElement("div"), // We'll handle empty state manually
@@ -56,7 +56,7 @@ document.addEventListener("DOMContentLoaded", () => {
   }
 
   // Only proceed with API calls if consent is already given
-  if (userConsent) {
+  if (hasUserConsent) {
     loadReferenceData();
 
     // Only perform search if consent is given
@@ -73,10 +73,10 @@ document.addEventListener("DOMContentLoaded", () => {
 function setupConsentHandling() {
   // Check for existing consent
   const storedConsent = localStorage.getItem(CONSENT_STORAGE_KEY);
-  userConsent = storedConsent === "true";
+  state.hasUserConsent = storedConsent === "true";
 
   // Update UI based on existing consent
-  if (userConsent) {
+  if (state.hasUserConsent) {
     consentToggle.checked = true;
     updateUIForConsent(true);
   } else {
@@ -85,14 +85,14 @@ function setupConsentHandling() {
 
   // Add event listener for consent toggle
   consentToggle.addEventListener("change", () => {
-    userConsent = consentToggle.checked;
+    state.hasUserConsent = consentToggle.checked;
 
     // Store user's choice
-    localStorage.setItem(CONSENT_STORAGE_KEY, userConsent);
+    localStorage.setItem(CONSENT_STORAGE_KEY, state.hasUserConsent);
 
-    updateUIForConsent(userConsent);
+    updateUIForConsent(state.hasUserConsent);
 
-    if (userConsent) {
+    if (state.hasUserConsent) {
       loadReferenceData();
 
       // If search params exist in URL, perform search
@@ -163,12 +163,12 @@ function highlightConsentSection() {
   consentSection.classList.add("attention-effect");
 
   // Clear any existing timeout
-  if (globalThis.attentionEffectTimeout) {
-    clearTimeout(globalThis.attentionEffectTimeout);
+  if (state.attentionEffectTimeout) {
+    clearTimeout(state.attentionEffectTimeout);
   }
 
   // Remove class after animation completes
-  globalThis.attentionEffectTimeout = setTimeout(() => {
+  state.attentionEffectTimeout = setTimeout(() => {
     consentSection.classList.remove("attention-effect");
   }, 6000); // Match the animation duration
 }
@@ -179,7 +179,7 @@ function highlightConsentSection() {
 function setupEventListeners() {
   // Toggle advanced search options
   advancedToggle.addEventListener("click", () => {
-    if (!userConsent) {
+    if (!state.hasUserConsent) {
       highlightConsentSection();
       return;
     }
@@ -197,7 +197,7 @@ function setupEventListeners() {
     event.preventDefault();
 
     // Only proceed if user has given consent
-    if (userConsent) {
+    if (state.hasUserConsent) {
       state.currentPage = 1;
       updateURLFromForm();
       performSearch();
@@ -208,18 +208,16 @@ function setupEventListeners() {
 
   // Add a click event for the entire form
   searchForm.addEventListener("click", (event) => {
-    if (!userConsent) {
-      // Call highlight animation when clicking anywhere on the disabled form
-      highlightConsentSection();
+    if (state.hasUserConsent) {
+      return;
+    }
 
-      // Prevent default actions only for interactive elements (but still allow the click)
-      if (
-        event.target.tagName === "INPUT" ||
-        event.target.tagName === "SELECT" ||
-        event.target.tagName === "BUTTON"
-      ) {
-        event.preventDefault();
-      }
+    // Call highlight animation when clicking anywhere on the disabled form
+    highlightConsentSection();
+
+    // Prevent default actions only for interactive elements (but still allow the click)
+    if (["INPUT", "SELECT", "BUTTON"].includes(event.target.tagName)) {
+      event.preventDefault();
     }
   });
 
@@ -228,7 +226,7 @@ function setupEventListeners() {
 
   // Add focus handler for the form
   searchForm.addEventListener("focus", () => {
-    if (!userConsent) {
+    if (!state.hasUserConsent) {
       highlightConsentSection();
     }
   });
@@ -241,7 +239,7 @@ function setupEventListeners() {
  */
 async function loadReferenceData() {
   // Only proceed if user has given consent
-  if (!userConsent) return;
+  if (!state.hasUserConsent) return;
 
   try {
     // Load business types
@@ -297,7 +295,7 @@ function updateURLFromForm() {
   const parameters = new URLSearchParams();
 
   // Only add non-empty values
-  for (const [key, value] of formData.entries()) {
+  for (const [key, value] of formData) {
     if (value.trim()) {
       parameters.append(key, value.trim());
     }
@@ -309,8 +307,7 @@ function updateURLFromForm() {
   }
 
   // Update browser URL without reloading
-  const newRelativePathQuery = globalThis.location.pathname + "?" +
-    parameters.toString();
+  const newRelativePathQuery = location.pathname + "?" + parameters.toString();
   history.pushState(null, "", newRelativePathQuery);
 
   // Update state
@@ -345,7 +342,7 @@ function populateFormFromURL() {
   // Set current page
   const pageParameter = state.searchParams.get("pageNumber");
   if (pageParameter) {
-    state.currentPage = Number.parseInt(pageParameter, 10);
+    state.currentPage = Number(pageParameter);
   }
 }
 
@@ -356,14 +353,14 @@ function populateFormFromURL() {
  */
 async function performSearch() {
   // Only proceed if user has given consent
-  if (!userConsent) {
+  if (!state.hasUserConsent) {
     highlightConsentSection();
     return;
   }
 
   // Show loading state
   resultsSection.style.display = "block";
-  await establishmentList.loadEstablishments(
+  await state.establishmentList.loadEstablishments(
     {
       establishments: [],
     },
@@ -395,7 +392,7 @@ async function performSearch() {
     resultsSection.scrollIntoView({ behavior: "smooth" });
   } catch (error) {
     console.error("Search failed:", error);
-    establishmentList.showError(
+    await state.establishmentList.showError(
       "Sorry, there was an error performing your search. Please try again.",
     );
   }
@@ -420,7 +417,7 @@ export const displayResults = async ({ establishments, totalResults }) => {
 
   // Load the establishments into the list component
   // Server-side pagination: pass data as-is to the component
-  await establishmentList.loadEstablishments(
+  await state.establishmentList.loadEstablishments(
     {
       establishments,
       totalResults,
@@ -445,7 +442,7 @@ export const handlePageChange = async (page) => {
 
   // Update URL to reflect new page
   state.searchParams.set("pageNumber", page.toString());
-  const newRelativePathQuery = globalThis.location.pathname + "?" +
+  const newRelativePathQuery = location.pathname + "?" +
     state.searchParams.toString();
   history.pushState(null, "", newRelativePathQuery);
 
@@ -467,7 +464,7 @@ export const handlePageChange = async (page) => {
  */
 export const fetchAPI = async (endpoint) => {
   // Safety check - don't fetch if no consent
-  if (!userConsent) {
+  if (!state.hasUserConsent) {
     throw new Error("Cannot fetch API without user consent");
   }
 

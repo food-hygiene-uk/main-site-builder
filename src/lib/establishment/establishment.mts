@@ -45,7 +45,7 @@ export const getLinkURL = (establishment: Establishment): string => {
  * @returns The URL-friendly name segment for the establishment
  */
 export const getLinkName = (establishment: Establishment): string => {
-  const safeName = globalThis.encodeURI(
+  const safeName = encodeURI(
     encodeName(
       `${slugify(establishment.BusinessName)}-${establishment.FHRSID}`,
     ),

@@ -37,15 +37,16 @@ export function formatRelativeTime(date) {
 
   if (diffDay > 30) {
     return `${Math.floor(diffDay / 30)} months ago`;
-  } else if (diffDay > 0) {
-    return `${diffDay} day${diffDay === 1 ? "" : "s"} ago`;
-  } else if (diffHour > 0) {
-    return `${diffHour} hour${diffHour === 1 ? "" : "s"} ago`;
-  } else if (diffMin > 0) {
-    return `${diffMin} minute${diffMin === 1 ? "" : "s"} ago`;
-  } else {
-    return "just now";
   }
+  if (diffDay > 0) {
+    return `${diffDay} day${diffDay === 1 ? "" : "s"} ago`;
+  }
+  if (diffHour > 0) {
+    return `${diffHour} hour${diffHour === 1 ? "" : "s"} ago`;
+  }
+  return diffMin > 0
+    ? `${diffMin} minute${diffMin === 1 ? "" : "s"} ago`
+    : "just now";
 }
 
 /**
@@ -220,5 +221,6 @@ export async function renderEstablishmentCard(establishment) {
   buttonContainer.append(listSelectionButton);
   item.append(buttonContainer);
 
+  // eslint-disable-next-line unicorn/prefer-await
   return cssReady.then(() => item);
 }
