@@ -24,7 +24,7 @@
     "npm:@typescript-eslint/parser@8.68.0": "8.68.0_eslint@9.39.5_typescript@6.0.3_jiti@2.7.0",
     "npm:baseline-browser-mapping@2.11.19": "2.11.19",
     "npm:cssnano-preset-advanced@8.0.9": "8.0.9_postcss@8.5.26",
-    "npm:cssnano@8.0.8": "8.0.8_postcss@8.5.26",
+    "npm:cssnano@8.0.9": "8.0.9_postcss@8.5.26",
     "npm:eslint-config-prettier@10.1.8": "10.1.8_eslint@9.39.5_jiti@2.7.0",
     "npm:eslint-plugin-import@2.32.0": "2.32.0_eslint@9.39.5_jiti@2.7.0",
     "npm:eslint-plugin-jsdoc@64.2.1": "64.2.1_eslint@9.39.5_jiti@2.7.0",
@@ -35,7 +35,7 @@
     "npm:estree-walker@3.0.3": "3.0.3",
     "npm:fast-check@4.3.0": "4.3.0",
     "npm:fast-check@4.9.0": "4.9.0",
-    "npm:htmlnano@3.4.0": "3.4.0_cssnano@8.0.8_postcss@8.5.26_terser@5.50.0",
+    "npm:htmlnano@3.4.0": "3.4.0_cssnano@8.0.9_postcss@8.5.26_terser@5.50.0",
     "npm:http-server@*": "14.1.1",
     "npm:http-server@14.1.1": "14.1.1",
     "npm:jiti@2.7.0": "2.7.0",
@@ -872,8 +872,8 @@
         "postcss"
       ]
     },
-    "cssnano@8.0.8_postcss@8.5.26": {
-      "integrity": "sha512-lN79/SZ2L0bGBBxGnChGKkbodkXAQUR5Em4LBW3rijpdrvUY8jxKhp2uQ8LgI8sKKbjCnI8peqPSoSZJDuchKw==",
+    "cssnano@8.0.9_postcss@8.5.26": {
+      "integrity": "sha512-mHuKiZK6Hhr7Q4A4iirpfMDHXJTtFpavuT2LfIzeWi56W3B87zyvOD8wrsBqJargh+F76jS1/jwEUCmtiUBe3g==",
       "dependencies": [
         "cssnano-preset-default",
         "lilconfig",
@@ -1619,7 +1619,7 @@
     "html-tags@5.1.0": {
       "integrity": "sha512-n6l5uca7/y5joxZ3LUePhzmBFUJ+U2YWzhMa8XUTecSeSlQiZdF5XAd/Q3/WUl0VsXgUwWi8I7CNIwdI5WN1SQ=="
     },
-    "htmlnano@3.4.0_cssnano@8.0.8_postcss@8.5.26_terser@5.50.0": {
+    "htmlnano@3.4.0_cssnano@8.0.9_postcss@8.5.26_terser@5.50.0": {
       "integrity": "sha512-5rgW9c/830dlDiWLlsT3ZLBs52UAupymGwkwr4rn2yyuzrNY0RZwgr6F4q2AkUqrRuuHb3kPelqYsUgtzQDtQw==",
       "dependencies": [
         "@types/relateurl",
@@ -3142,7 +3142,7 @@
       "npm:@typescript-eslint/parser@8.68.0",
       "npm:baseline-browser-mapping@2.11.19",
       "npm:cssnano-preset-advanced@8.0.9",
-      "npm:cssnano@8.0.8",
+      "npm:cssnano@8.0.9",
       "npm:eslint-config-prettier@10.1.8",
       "npm:eslint-plugin-import@2.32.0",
       "npm:eslint-plugin-jsdoc@64.2.1",
