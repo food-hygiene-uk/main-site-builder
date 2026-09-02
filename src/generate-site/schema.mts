@@ -115,11 +115,11 @@ export const ratingValue = {
   },
 };
 
-export const schemeNoRatingScoreFHRS: (keyof typeof ratingValue.FHRS)[] = [
+export const schemeNoRatingScoreFHRS = [
   "AwaitingInspection",
   "AwaitingPublication",
   "Exempt",
-];
+] as const;
 
 // Shared address fields used across establishment address variants
 const addressFields = z.strictObject({
@@ -164,9 +164,9 @@ const ratingValueFHRSObjects = [
   ...Object.keys(ratingValue.FHRS)
     .filter(
       (key) =>
-        schemeNoRatingScoreFHRS.includes(
-          key as keyof typeof ratingValue.FHRS,
-        ) === false,
+        !schemeNoRatingScoreFHRS.includes(
+          key as (typeof schemeNoRatingScoreFHRS)[number],
+        ),
     )
     .map((key) =>
       z.strictObject({
@@ -289,8 +289,8 @@ export const dataSchema = z.strictObject({
             "EstablishmentCollection cannot be null when Header.ItemCount is greater than 0.",
         });
       }
-      // If EstablishmentCollection is null, Header.ItemCount must be 0
-      if (object.EstablishmentCollection === null && ItemCount !== 0) {
+      // if Header.ItemCount is not 0, EstablishmentCollection cannot be null
+      if (ItemCount !== 0 && object.EstablishmentCollection === null) {
         context.addIssue({
           code: "custom",
           path: ["EstablishmentCollection"],

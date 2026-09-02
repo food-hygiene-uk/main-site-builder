@@ -10,10 +10,14 @@ import { cssAddSuffix, processCssFile } from "../../lib/css/css.mts";
 import { jsAddSuffix, processJsFile } from "../../lib/js/js.mts";
 import { config } from "../../lib/config/config.mts";
 
-const environment = vento();
-environment.use(autoTrim());
-environment.cache.clear();
+const createEnvironment = () => {
+  const ventoEnvironment = vento();
+  ventoEnvironment.use(autoTrim());
+  ventoEnvironment.cache.clear();
+  return ventoEnvironment;
+};
 
+const environment = createEnvironment();
 const pageTemplatePath = fromFileUrl(import.meta.resolve("./search.vto"));
 const templatePromise = environment.load(pageTemplatePath);
 

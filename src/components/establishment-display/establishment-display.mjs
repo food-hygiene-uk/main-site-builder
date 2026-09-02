@@ -98,7 +98,7 @@ export class EstablishmentDisplay {
     this.directionButton = null;
 
     // Initialize
-    this._createElements();
+    this.#createElements();
   }
 
   /**
@@ -106,7 +106,7 @@ export class EstablishmentDisplay {
    *
    * @private
    */
-  _createElements() {
+  #createElements() {
     // Wrapper for the entire component
     this.wrapper = document.createElement("div");
     this.wrapper.className = "establishment-display-component";
@@ -168,10 +168,10 @@ export class EstablishmentDisplay {
     // Direction button
     this.directionButton = document.createElement("button");
     this.directionButton.className = "direction-button";
-    this._updateDirectionButton();
+    this.#updateDirectionButton();
     this.directionButton.addEventListener("click", () => {
       this.currentSortDirection = !this.currentSortDirection;
-      this._updateDirectionButton();
+      this.#updateDirectionButton();
       this.onSortChange(this.currentSortOption, this.currentSortDirection);
     });
 
@@ -190,7 +190,7 @@ export class EstablishmentDisplay {
    *
    * @private
    */
-  _updateDirectionButton() {
+  #updateDirectionButton() {
     this.directionButton.title = this.currentSortDirection
       ? "Sort Descending"
       : "Sort Ascending";
@@ -229,7 +229,7 @@ export class EstablishmentDisplay {
 
     if (sortDirection !== null && sortDirection !== undefined) {
       this.currentSortDirection = sortDirection;
-      this._updateDirectionButton();
+      this.#updateDirectionButton();
     }
   }
 
@@ -267,8 +267,8 @@ export class EstablishmentDisplay {
    */
   reset() {
     // Track which callbacks need to be called
-    let filterChanged = false;
-    let sortChanged = false;
+    let isFilterChanged = false;
+    let isSortChanged = false;
 
     // Reset sort option and direction
     if (
@@ -282,23 +282,23 @@ export class EstablishmentDisplay {
         this.sortSelect.value = this.defaultSortOption;
       }
 
-      this._updateDirectionButton();
-      sortChanged = true;
+      this.#updateDirectionButton();
+      isSortChanged = true;
     }
 
     // Clear filter if enabled
     if (this.enableFiltering && this.filterInput && this.filterInput.value) {
       this.filterInput.value = "";
       this.filterText = "";
-      filterChanged = true;
+      isFilterChanged = true;
     }
 
     // Call only the necessary callbacks
-    if (filterChanged) {
+    if (isFilterChanged) {
       this.onFilterChange(this.filterText);
     }
 
-    if (sortChanged) {
+    if (isSortChanged) {
       this.onSortChange(this.currentSortOption, this.currentSortDirection);
     }
   }
@@ -321,5 +321,6 @@ export class EstablishmentDisplay {
 export async function createEstablishmentDisplay(options) {
   const establishmentDisplay = new EstablishmentDisplay(options);
 
+  // eslint-disable-next-line unicorn/prefer-await
   return cssReady.then(() => establishmentDisplay);
 }

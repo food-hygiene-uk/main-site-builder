@@ -32,6 +32,7 @@ const DEFAULT_SORT_OPTION = "order";
  *
  * @type {boolean}
  */
+// eslint-disable-next-line unicorn/consistent-boolean-name
 const DEFAULT_SORT_DIRECTION = false; // Descending (most recent first)
 
 // module scope variables
@@ -62,6 +63,67 @@ const encodeEstablishmentIds = (ids) => {
   return btoa(jsonString);
 };
 
+/**
+ * Gets a saved list by ID
+ *
+ * @param {string} id - The ID of the saved list to retrieve
+ * @returns {object|null} The saved list or null if not found
+ */
+const getSavedList = (id) => {
+  if (globalThis.localStorage === undefined) return null;
+
+  try {
+    const savedListsJson = globalThis.localStorage.getItem(
+      SAVED_LISTS_STORAGE_KEY,
+    );
+    if (!savedListsJson) return null;
+
+    const savedLists = JSON.parse(savedListsJson);
+    return savedLists[id] || null;
+  } catch (error) {
+    console.error("Error retrieving saved list:", error);
+    return null;
+  }
+};
+
+/**
+ * Deletes a saved list by ID
+ *
+ * @param {string} id - The ID of the list to delete
+ * @returns {boolean} True if deletion was successful
+ */
+const deleteList = (id) => {
+  if (globalThis.localStorage === undefined) return false;
+
+  try {
+    const savedListsJson = globalThis.localStorage.getItem(
+      SAVED_LISTS_STORAGE_KEY,
+    );
+    if (!savedListsJson) return false;
+
+    const savedLists = JSON.parse(savedListsJson);
+
+    // Check if the list exists
+    if (!Object.hasOwn(savedLists, id)) {
+      return false;
+    }
+
+    // Delete the list
+    delete savedLists[id];
+
+    // Save back to localStorage
+    globalThis.localStorage.setItem(
+      SAVED_LISTS_STORAGE_KEY,
+      JSON.stringify(savedLists),
+    );
+
+    return true;
+  } catch (error) {
+    console.error("Error deleting list:", error);
+    return false;
+  }
+};
+
 document.addEventListener("DOMContentLoaded", () => {
   // Get DOM elements
   const listTitle = document.querySelector("#listTitle");
@@ -75,7 +137,7 @@ document.addEventListener("DOMContentLoaded", () => {
   const deleteButton = document.querySelector("#deleteButton");
 
   // Get list ID from URL
-  const urlParameters = new URLSearchParams(globalThis.location.search);
+  const urlParameters = new URLSearchParams(location.search);
   const listId = urlParameters.get("id") || "recent";
 
   // Initialize the establishment list component with display component for filtering and sorting
@@ -95,67 +157,6 @@ document.addEventListener("DOMContentLoaded", () => {
   // Stores the current list of establishments for sharing
   let currentEstablishments = [];
   let currentListTitle = "";
-
-  /**
-   * Gets a saved list by ID
-   *
-   * @param {string} id - The ID of the saved list to retrieve
-   * @returns {object|null} The saved list or null if not found
-   */
-  const getSavedList = (id) => {
-    if (globalThis.localStorage === undefined) return null;
-
-    try {
-      const savedListsJson = globalThis.localStorage.getItem(
-        SAVED_LISTS_STORAGE_KEY,
-      );
-      if (!savedListsJson) return null;
-
-      const savedLists = JSON.parse(savedListsJson);
-      return savedLists[id] || null;
-    } catch (error) {
-      console.error("Error retrieving saved list:", error);
-      return null;
-    }
-  };
-
-  /**
-   * Deletes a saved list by ID
-   *
-   * @param {string} id - The ID of the list to delete
-   * @returns {boolean} True if deletion was successful
-   */
-  const deleteList = (id) => {
-    if (globalThis.localStorage === undefined) return false;
-
-    try {
-      const savedListsJson = globalThis.localStorage.getItem(
-        SAVED_LISTS_STORAGE_KEY,
-      );
-      if (!savedListsJson) return false;
-
-      const savedLists = JSON.parse(savedListsJson);
-
-      // Check if the list exists
-      if (!savedLists[id]) {
-        return false;
-      }
-
-      // Delete the list
-      delete savedLists[id];
-
-      // Save back to localStorage
-      globalThis.localStorage.setItem(
-        SAVED_LISTS_STORAGE_KEY,
-        JSON.stringify(savedLists),
-      );
-
-      return true;
-    } catch (error) {
-      console.error("Error deleting list:", error);
-      return false;
-    }
-  };
 
   // Share modal event handlers
   if (shareButton) {
@@ -228,16 +229,18 @@ document.addEventListener("DOMContentLoaded", () => {
   if (clearButton) {
     clearButton.addEventListener("click", () => {
       if (
-        confirm(
+        !confirm(
           "Are you sure you want to clear your recent establishments list? This action cannot be undone.",
         )
       ) {
-        // Clear the recent establishments
-        recentEstablishmentsService.clearRecentEstablishments();
-
-        // Reload the list to show empty state
-        loadEstablishments();
+        return;
       }
+
+      // Clear the recent establishments
+      recentEstablishmentsService.clearRecentEstablishments();
+
+      // Reload the list to show empty state
+      loadEstablishments();
     });
   }
 
@@ -251,7 +254,7 @@ document.addEventListener("DOMContentLoaded", () => {
       ) {
         if (deleteList(listId)) {
           // Redirect back to the lists page
-          globalThis.location.href = "/lists/";
+          location.assign("/lists/");
         } else {
           alert("There was a problem deleting the list. Please try again.");
         }
@@ -277,7 +280,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
     // Generate the complete share URL
     const shareUrl =
-      `${globalThis.location.origin}/lists/shared/?${parameters.toString()}`;
+      `${location.origin}/lists/shared/?${parameters.toString()}`;
 
     return shareUrl;
   };

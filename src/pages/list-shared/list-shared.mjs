@@ -14,6 +14,10 @@ import {
 const SAVED_LISTS_STORAGE_KEY = "saved-establishment-lists";
 const PAGE_SIZE = 10;
 
+const state = {
+  loadedEstablishments: [],
+};
+
 // module scope variables
 const establishmentView = {
   page: 1,
@@ -44,6 +48,163 @@ const decodeEstablishmentIds = (encoded) => {
   }
 };
 
+/**
+ * Saves a list of establishments to localStorage
+ *
+ * @param {string} listName - The name of the list to save
+ * @param {Array<object>} establishments - Array of establishment objects to save
+ * @returns {string | null} The ID of the saved list or null on error
+ */
+const saveList = (listName, establishments) => {
+  // Don't run in server-side code
+  if (globalThis.localStorage === undefined) return null;
+
+  try {
+    // Get existing saved lists
+    let savedLists = {};
+    const savedListsJson = globalThis.localStorage.getItem(
+      SAVED_LISTS_STORAGE_KEY,
+    );
+
+    if (savedListsJson) {
+      savedLists = JSON.parse(savedListsJson);
+    }
+
+    // Create a unique ID for the list
+    const listId = `list_${Date.now()}`;
+
+    // Create minimal establishment objects (just essential data)
+    const minimalEstablishments = establishments.map((est) => ({
+      FHRSID: est.FHRSID,
+      BusinessName: est.BusinessName,
+      BusinessType: est.BusinessType,
+      AddressLine1: est.AddressLine1,
+      PostCode: est.PostCode,
+      RatingValue: est.RatingValue,
+      RatingDate: est.RatingDate,
+    }));
+
+    // Save the list
+    savedLists[listId] = {
+      name: listName,
+      created: new Date().toISOString(),
+      establishments: minimalEstablishments,
+    };
+
+    // Store back to localStorage
+    globalThis.localStorage.setItem(
+      SAVED_LISTS_STORAGE_KEY,
+      JSON.stringify(savedLists),
+    );
+
+    console.log(
+      `Saved list "${listName}" with ${establishments.length} establishments`,
+    );
+    return listId;
+  } catch (error) {
+    console.error("Error saving list:", error);
+    return null;
+  }
+};
+
+/**
+ * Handles saving the list and redirecting to the saved list page
+ *
+ * @param {string} listName - The name for the new list.
+ * @param {() => void} closeModalCallback - Callback to close the modal.
+ */
+const handleSaveList = (listName, closeModalCallback) => {
+  if (state.loadedEstablishments.length === 0) {
+    alert("Cannot save an empty list.");
+    return;
+  }
+
+  const listId = saveList(listName, state.loadedEstablishments);
+
+  if (listId) {
+    // Redirect to the saved list
+    location.assign(`/lists/detail/?id=${listId}`);
+  } else {
+    alert("Sorry, there was an error saving your list. Please try again.");
+  }
+  if (closeModalCallback) {
+    closeModalCallback();
+  }
+};
+
+/**
+ * Shows the save list modal
+ */
+const showSaveModal = async () => {
+  const modalContent = document.createElement("div");
+  modalContent.className = "modal-content";
+
+  const instruction = document.createElement("p");
+  instruction.textContent = "Give this list a name to save it to your lists:";
+  modalContent.append(instruction);
+
+  const listNameInput = document.createElement("input");
+  listNameInput.type = "text";
+  listNameInput.placeholder = "Enter a name for this list";
+  listNameInput.value = sharedTitle; // Pre-populate
+  listNameInput.className = "styled-input";
+  modalContent.append(listNameInput);
+
+  const buttonsContainer = document.createElement("div");
+  buttonsContainer.className = "button-group";
+
+  const confirmSaveButton = document.createElement("button");
+  confirmSaveButton.textContent = "Save";
+  confirmSaveButton.className = "primary-button";
+
+  const cancelSaveButton = document.createElement("button");
+  cancelSaveButton.textContent = "Cancel";
+  cancelSaveButton.className = "secondary-button";
+
+  buttonsContainer.append(confirmSaveButton);
+  buttonsContainer.append(cancelSaveButton);
+  modalContent.append(buttonsContainer);
+
+  let dialogElement; // To store the reference to the modal dialog element
+
+  const closeDialog = () => {
+    if (dialogElement) {
+      dialogElement.close(); // This will trigger the 'close' event on the dialog
+      // The dialog removes itself on the 'close' event (handled in openModal)
+    }
+  };
+
+  // The onCloseCallback for openModal, called when the dialog is closed.
+  const onModalClosed = () => {
+    dialogElement = null; // Clear the reference
+  };
+
+  dialogElement = await openModal(
+    "Save This List",
+    modalContent,
+    onModalClosed,
+  );
+
+  confirmSaveButton.addEventListener("click", () => {
+    const listName = listNameInput.value.trim() || sharedTitle;
+    handleSaveList(listName, closeDialog); // handleSaveList will call closeDialog
+  });
+
+  cancelSaveButton.addEventListener("click", closeDialog);
+
+  listNameInput.addEventListener("keydown", (event) => {
+    if (event.key !== "Enter") {
+      return;
+    }
+
+    event.preventDefault(); // Prevent form submission if it were in a form
+    const listName = listNameInput.value.trim() || sharedTitle;
+    handleSaveList(listName, closeDialog); // handleSaveList will call closeDialog
+  });
+  listNameInput.focus();
+  listNameInput.select();
+};
+
 document.addEventListener("DOMContentLoaded", () => {
   // Get DOM elements
   const listTitle = document.querySelector("#listTitle");
@@ -54,11 +215,8 @@ document.addEventListener("DOMContentLoaded", () => {
   const loadingIndicator = document.querySelector("#loading");
   const saveListButton = document.querySelector("#saveListButton");
 
-  // Store loaded establishments for saving
-  let loadedEstablishments = [];
-
   // Get shared list parameters from URL
-  const urlParameters = new URLSearchParams(globalThis.location.search);
+  const urlParameters = new URLSearchParams(location.search);
   const sharedTitle = urlParameters.get("title") || "Shared List";
 
   // Get the encoded data and decode it
@@ -141,161 +299,6 @@ document.addEventListener("DOMContentLoaded", () => {
     defaultSortDirection: establishmentView.sortDirection,
   });
 
-  /**
-   * Saves a list of establishments to localStorage
-   *
-   * @param {string} listName - The name of the list to save
-   * @param {Array<object>} establishments - Array of establishment objects to save
-   * @returns {string | null} The ID of the saved list or null on error
-   */
-  const saveList = (listName, establishments) => {
-    // Don't run in server-side code
-    if (globalThis.localStorage === undefined) return null;
-
-    try {
-      // Get existing saved lists
-      let savedLists = {};
-      const savedListsJson = globalThis.localStorage.getItem(
-        SAVED_LISTS_STORAGE_KEY,
-      );
-
-      if (savedListsJson) {
-        savedLists = JSON.parse(savedListsJson);
-      }
-
-      // Create a unique ID for the list
-      const listId = `list_${Date.now()}`;
-
-      // Create minimal establishment objects (just essential data)
-      const minimalEstablishments = establishments.map((est) => ({
-        FHRSID: est.FHRSID,
-        BusinessName: est.BusinessName,
-        BusinessType: est.BusinessType,
-        AddressLine1: est.AddressLine1,
-        PostCode: est.PostCode,
-        RatingValue: est.RatingValue,
-        RatingDate: est.RatingDate,
-      }));
-
-      // Save the list
-      savedLists[listId] = {
-        name: listName,
-        created: new Date().toISOString(),
-        establishments: minimalEstablishments,
-      };
-
-      // Store back to localStorage
-      globalThis.localStorage.setItem(
-        SAVED_LISTS_STORAGE_KEY,
-        JSON.stringify(savedLists),
-      );
-
-      console.log(
-        `Saved list "${listName}" with ${establishments.length} establishments`,
-      );
-      return listId;
-    } catch (error) {
-      console.error("Error saving list:", error);
-      return null;
-    }
-  };
-
-  /**
-   * Handles saving the list and redirecting to the saved list page
-   *
-   * @param {string} listName - The name for the new list.
-   * @param {() => void} closeModalCallback - Callback to close the modal.
-   */
-  const handleSaveList = (listName, closeModalCallback) => {
-    if (loadedEstablishments.length === 0) {
-      alert("Cannot save an empty list.");
-      return;
-    }
-
-    const listId = saveList(listName, loadedEstablishments);
-
-    if (listId) {
-      // Redirect to the saved list
-      globalThis.location.href = `/lists/detail/?id=${listId}`;
-    } else {
-      alert("Sorry, there was an error saving your list. Please try again.");
-    }
-    if (closeModalCallback) {
-      closeModalCallback();
-    }
-  };
-
-  /**
-   * Shows the save list modal
-   */
-  const showSaveModal = async () => {
-    const modalContent = document.createElement("div");
-    modalContent.className = "modal-content";
-
-    const instruction = document.createElement("p");
-    instruction.textContent = "Give this list a name to save it to your lists:";
-    modalContent.append(instruction);
-
-    const listNameInput = document.createElement("input");
-    listNameInput.type = "text";
-    listNameInput.placeholder = "Enter a name for this list";
-    listNameInput.value = sharedTitle; // Pre-populate
-    listNameInput.className = "styled-input";
-    modalContent.append(listNameInput);
-
-    const buttonsContainer = document.createElement("div");
-    buttonsContainer.className = "button-group";
-
-    const confirmSaveButton = document.createElement("button");
-    confirmSaveButton.textContent = "Save";
-    confirmSaveButton.className = "primary-button";
-
-    const cancelSaveButton = document.createElement("button");
-    cancelSaveButton.textContent = "Cancel";
-    cancelSaveButton.className = "secondary-button";
-
-    buttonsContainer.append(confirmSaveButton);
-    buttonsContainer.append(cancelSaveButton);
-    modalContent.append(buttonsContainer);
-
-    let dialogElement; // To store the reference to the modal dialog element
-
-    const closeDialog = () => {
-      if (dialogElement) {
-        dialogElement.close(); // This will trigger the 'close' event on the dialog
-        // The dialog removes itself on the 'close' event (handled in openModal)
-      }
-    };
-
-    // The onCloseCallback for openModal, called when the dialog is closed.
-    const onModalClosed = () => {
-      dialogElement = null; // Clear the reference
-    };
-
-    dialogElement = await openModal(
-      "Save This List",
-      modalContent,
-      onModalClosed,
-    );
-
-    confirmSaveButton.addEventListener("click", () => {
-      const listName = listNameInput.value.trim() || sharedTitle;
-      handleSaveList(listName, closeDialog); // handleSaveList will call closeDialog
-    });
-
-    cancelSaveButton.addEventListener("click", closeDialog);
-
-    listNameInput.addEventListener("keydown", (event) => {
-      if (event.key === "Enter") {
-        event.preventDefault(); // Prevent form submission if it were in a form
-        const listName = listNameInput.value.trim() || sharedTitle;
-        handleSaveList(listName, closeDialog); // handleSaveList will call closeDialog
-      }
-    });
-    listNameInput.focus();
-    listNameInput.select();
-  };
-
   // Set up event listeners for the save functionality
   if (saveListButton) {
     saveListButton.addEventListener("click", showSaveModal);
@@ -338,7 +341,7 @@ document.addEventListener("DOMContentLoaded", () => {
       );
 
       // Store the loaded establishments for saving later
-      loadedEstablishments = validEstablishments;
+      state.loadedEstablishments = validEstablishments;
       allEstablishments = validEstablishments;
 
       // Update description
@@ -346,7 +349,7 @@ document.addEventListener("DOMContentLoaded", () => {
         `${validEstablishments.length} establishments shared with you`;
 
       // Show save button if we have establishments
-      if (validEstablishments.length > 0 && saveListButton) {
+      if (saveListButton && validEstablishments.length > 0) {
         saveListButton.removeAttribute("hidden");
       }
 

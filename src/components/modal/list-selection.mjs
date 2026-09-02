@@ -21,7 +21,7 @@ const initializeListSelectionModal = (FHRSID, modalElement) => {
   if (!modalBody) return;
 
   // Clear existing content
-  modalBody.innerHTML = "";
+  modalBody.replaceChildren();
 
   // Add a form to create a new list
   const modalContent = document.createElement("div");
@@ -101,7 +101,7 @@ const updateCheckboxStates = (FHRSID, modalElement) => {
   if (!savedListContainer) return;
 
   // Clear existing content
-  savedListContainer.innerHTML = "";
+  savedListContainer.replaceChildren();
 
   // Re-render the saved lists
   for (const [listId, list] of Object.entries(savedLists)) {

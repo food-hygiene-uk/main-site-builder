@@ -1,5 +1,6 @@
 import { fromFileUrl } from "@std/path";
 import UglifyJS from "uglify-js";
+import { escape } from "@std/html/entities";
 
 const minifyOptions = {
   module: true,
@@ -29,7 +30,7 @@ export const processJsFile = async ({
   path: string;
 }): Promise<string> => {
   const jsPath = fromFileUrl(path);
-  const content = await globalThis.Deno.readTextFile(jsPath);
+  const content = await Deno.readTextFile(jsPath);
   const result = UglifyJS.minify(content, minifyOptions);
   if (result.error) {
     throw new Error(`Error minifying JavaScript: ${result.error}`);
@@ -46,5 +47,5 @@ export const processJsFile = async ({
  * @returns The modified JavaScript with suffixed class names.
  */
 export const jsAddSuffix = (js: string, classSuffix: string): string => {
-  return js.replaceAll("__CLASS_SUFFIX__", classSuffix);
+  return js.replaceAll("__CLASS_SUFFIX__", () => escape(classSuffix));
 };

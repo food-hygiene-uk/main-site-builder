@@ -73,7 +73,7 @@ export class EstablishmentList {
     this.displayComponent = null;
 
     // Initialize
-    this._createElements();
+    this.#createElements();
   }
 
   /**
@@ -82,7 +82,7 @@ export class EstablishmentList {
    * @param {string} section - The section to show
    * @private
    */
-  showSection(section) {
+  #showSection(section) {
     const sections = {
       loading: this.loadingElement,
       empty: this.emptyElement,
@@ -92,11 +92,7 @@ export class EstablishmentList {
 
     for (const [key, sec] of Object.entries(sections)) {
       if (sec) {
-        if (key === section) {
-          sec.removeAttribute("hidden");
-        } else {
-          sec.setAttribute("hidden", "hidden");
-        }
+        sec.toggleAttribute("hidden", key !== section);
       }
     }
   }
@@ -106,7 +102,7 @@ export class EstablishmentList {
    *
    * @private
    */
-  async _createElements() {
+  async #createElements() {
     // Wrapper for the entire component
     this.wrapper = document.createElement("div");
     this.wrapper.className = "establishment-list-component";
@@ -155,14 +151,14 @@ export class EstablishmentList {
    * @param {(page: number) => void} [onPageChange] - Callback to execute when page changes
    * @private
    */
-  _renderPagination(onPageChange) {
-    this.paginationElement.innerHTML = "";
+  #renderPagination(onPageChange) {
+    this.paginationElement.replaceChildren();
 
     if (this.totalPages <= 1) return;
 
     // Previous button
     if (this.currentPage > 1) {
-      const previousButton = this._createPaginationButton(
+      const previousButton = this.createPaginationButton(
         "Previous",
         this.currentPage - 1,
         onPageChange,
@@ -175,7 +171,7 @@ export class EstablishmentList {
     const endPage = Math.min(this.totalPages, startPage + 4);
 
     for (let index = startPage; index <= endPage; index++) {
-      const button = this._createPaginationButton(index, index, onPageChange);
+      const button = this.createPaginationButton(index, index, onPageChange);
       if (index === this.currentPage) {
         button.classList.add("active");
       }
@@ -184,7 +180,7 @@ export class EstablishmentList {
 
     // Next button
     if (this.currentPage < this.totalPages) {
-      const nextButton = this._createPaginationButton(
+      const nextButton = this.createPaginationButton(
         "Next",
         this.currentPage + 1,
         onPageChange,
@@ -202,7 +198,7 @@ export class EstablishmentList {
    * @returns {HTMLButtonElement} The created button element
    * @private
    */
-  _createPaginationButton(text, page, onPageChange) {
+  createPaginationButton(text, page, onPageChange) {
     const button = document.createElement("button");
     button.textContent = text;
     button.addEventListener("click", (event) => {
@@ -232,7 +228,7 @@ export class EstablishmentList {
     }
 
     this.currentPage = page;
-    await this._renderCurrentPage();
+    await this.renderCurrentPage();
   }
 
   /**
@@ -241,12 +237,12 @@ export class EstablishmentList {
    * @private
    * @returns {Promise<void>} Promise that resolves when rendering is complete
    */
-  async _renderCurrentPage() {
+  async renderCurrentPage() {
     const currentItems = this.establishments;
-    this.listElement.innerHTML = "";
+    this.listElement.replaceChildren();
 
     // Show loading state while rendering
-    this.showSection("loading");
+    this.#showSection("loading");
 
     try {
       // Render items in list view
@@ -263,7 +259,7 @@ export class EstablishmentList {
         }
       }
     } finally {
-      this.showSection("list");
+      this.#showSection("list");
     }
   }
 
@@ -294,7 +290,7 @@ export class EstablishmentList {
     onSortChange = null,
   ) {
     if (isLoading) {
-      this.showSection("loading");
+      this.#showSection("loading");
 
       return;
     }
@@ -319,12 +315,12 @@ export class EstablishmentList {
     }
 
     if (totalEstablishments === 0) {
-      this.showSection("empty");
+      this.#showSection("empty");
       if (this.countElement) {
         this.countElement.textContent = "0 results found";
       }
     } else {
-      this.showSection("list");
+      this.#showSection("list");
 
       // Update count element if it exists
       if (this.countElement) {
@@ -348,8 +344,9 @@ export class EstablishmentList {
       }
 
       // Render establishments and pagination
-      await cssReady.then(() => this._renderCurrentPage());
-      this._renderPagination(onPageChange);
+      await cssReady;
+      await this.renderCurrentPage();
+      this.#renderPagination(onPageChange);
     }
   }
 
@@ -359,14 +356,16 @@ export class EstablishmentList {
    * @param {string} message - The error message to display
    */
   showError(message) {
-    if (this.errorElement) {
-      this.showSection("error");
-
-      this.errorElement.innerHTML = `
-        <div class="error-message">
-          <p>${message || "An error occurred"}</p>
-        </div>
-      `;
+    if (!this.errorElement) {
+      return;
     }
+
+    this.#showSection("error");
+
+    this.errorElement.innerHTML = `
+      <div class="error-message">
+        <p>${message || "An error occurred"}</p>
+      </div>
+    `;
   }
 }

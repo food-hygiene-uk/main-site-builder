@@ -1,4 +1,5 @@
 import { copy, emptyDir, ensureDir } from "@std/fs";
+import { escape } from "@std/html/entities";
 import { mapConcurrent } from "./generate-site/max-concurrent.mts";
 import { outputEstablishmentDetailPage } from "./pages/establishment-detail/establishment-detail.mts";
 import { fetchLocalAuthorityData } from "./generate-site/fetch-data.mts";
@@ -65,14 +66,17 @@ const robotsTxtPath = "dist/robots.txt";
 let robotsTxtContent = await Deno.readTextFile(robotsTxtPath);
 robotsTxtContent = robotsTxtContent.replace(
   /Sitemap: \//,
-  `Sitemap: ${baseURL}/`,
+  () => `Sitemap: ${escape(baseURL)}/`,
 );
 await Deno.writeTextFile(robotsTxtPath, robotsTxtContent);
 
 // Update sitemap.xml to include BASE_URL
 const sitemapXmlPath = "dist/sitemap.xml";
 let sitemapXmlContent = await Deno.readTextFile(sitemapXmlPath);
-sitemapXmlContent = sitemapXmlContent.replaceAll("<loc>/", `<loc>${baseURL}/`);
+sitemapXmlContent = sitemapXmlContent.replaceAll(
+  "<loc>/",
+  () => `<loc>${escape(baseURL)}/`,
+);
 await Deno.writeTextFile(sitemapXmlPath, sitemapXmlContent);
 
 console.log("Fetching authority data...");

@@ -50,7 +50,7 @@ export const updateList = (FHRSID, listId, add) => {
       return;
     }
 
-    if (!list.establishments.some((est) => est.FHRSID === FHRSID)) {
+    if (list.establishments.every((est) => est.FHRSID !== FHRSID)) {
       list.establishments.push({ FHRSID });
     }
   } else {

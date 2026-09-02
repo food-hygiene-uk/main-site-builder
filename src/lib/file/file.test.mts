@@ -19,14 +19,14 @@ describe("encodeName", () => {
   });
 
   it("replaces invalid characters with underscores", () => {
-    const input = 'invalid<>:"/\\|?*\u0000-\u001Ffilename';
+    const input = 'invalid<>:"/\\|?*\u{0}-\u{1F}filename';
     const expected = "invalid------------filename";
     const result = encodeName(input);
     assertEquals(result, expected);
   });
 
   it("handles string with only invalid characters", () => {
-    const input = '<>:"/\\|?*\u0000-\u001F';
+    const input = '<>:"/\\|?*\u{0}-\u{1F}';
     const expected = "------------";
     const result = encodeName(input);
     assertEquals(result, expected);

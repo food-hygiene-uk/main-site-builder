@@ -1,3 +1,4 @@
+/* eslint-disable unicorn/no-top-level-side-effects */
 import { fromFileUrl, join } from "@std/path";
 import vento from "@vento/vento";
 import autoTrim from "@vento/vento/plugins/auto_trim.ts";
@@ -267,7 +268,7 @@ export const outputEstablishmentDetailPage = async (
 
       // Extract geocode data for map rendering
       const geocode =
-        establishment.Geocode?.Latitude && establishment.Geocode?.Longitude
+        establishment.Geocode?.Latitude && establishment.Geocode.Longitude
           ? {
             latitude: Number(establishment.Geocode.Latitude),
             longitude: Number(establishment.Geocode.Longitude),

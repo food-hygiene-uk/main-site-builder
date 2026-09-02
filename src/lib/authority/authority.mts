@@ -15,7 +15,7 @@ export const getLinkURL = (authority: Authority) => {
 };
 
 export const getLinkName = (authority: Authority) => {
-  const safeName = globalThis.encodeURI(encodeName(authority.FriendlyName));
+  const safeName = encodeURI(encodeName(authority.FriendlyName));
 
   return safeName;
 };

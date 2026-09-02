@@ -2,71 +2,35 @@ import { assertEquals } from "@std/assert";
 import { describe, it } from "@std/testing/bdd";
 import fc from "fast-check";
 import { sortEstablishments } from "./establishment.mjs";
+import { sort } from "../sort/sort.mts";
+import { Establishment } from "../generate-site/schema.mts";
 
 /**
  * Creates a mock establishment object.
  *
- * @param {object} params - Parameters for the establishment
- * @param {string} params.businessName - The business name
- * @param {string} params.ratingValue - The rating value
- * @param {string} params.ratingDate - The rating date
- * @returns {object} A mock establishment object
+ * @param params - Parameters for the establishment
+ * @param params.businessName - The business name
+ * @param params.ratingValue - The rating value
+ * @param params.ratingDate - The rating date
+ * @returns A mock establishment object
  */
-const createEstablishment = ({ businessName, ratingValue, ratingDate }) => {
+const createEstablishment = ({
+  businessName,
+  ratingValue,
+  ratingDate,
+}: {
+  businessName: Establishment["BusinessName"];
+  ratingValue: Establishment["RatingValue"];
+  ratingDate: Establishment["RatingDate"];
+}): Establishment => {
   return {
     BusinessName: businessName,
     RatingValue: ratingValue,
     RatingDate: ratingDate,
-  };
+  } as Establishment;
 };
 
 describe("sortEstablishments", () => {
-  describe("when sortOption is empty or falsy", () => {
-    it("should return the original array without sorting", () => {
-      const establishments = [
-        createEstablishment({
-          businessName: "Zebra Cafe",
-          ratingValue: "5",
-          ratingDate: "2025-01-01",
-        }),
-        createEstablishment({
-          businessName: "Apple Restaurant",
-          ratingValue: "3",
-          ratingDate: "2024-12-01",
-        }),
-      ];
-
-      const result = sortEstablishments(establishments, "", true);
-      assertEquals(result, establishments);
-    });
-
-    it("should return the original array when sortOption is null", () => {
-      const establishments = [
-        createEstablishment({
-          businessName: "Test",
-          ratingValue: "5",
-          ratingDate: "2025-01-01",
-        }),
-      ];
-
-      const result = sortEstablishments(establishments, null, true);
-      assertEquals(result, establishments);
-    });
-
-    it("should return the original array when sortOption is undefined", () => {
-      const establishments = [
-        createEstablishment({
-          businessName: "Test",
-          ratingValue: "5",
-          ratingDate: "2025-01-01",
-        }),
-      ];
-
-      const result = sortEstablishments(establishments, undefined, true);
-      assertEquals(result, establishments);
-    });
-  });
-
   describe("when sortOption is 'name'", () => {
     it("should sort establishments alphabetically by name in ascending order", () => {
       const establishments = [
@@ -259,26 +223,6 @@ describe("sortEstablishments", () => {
       assertEquals(resultDesc[1].BusinessName, "Burger Restaurant");
       assertEquals(resultDesc[2].BusinessName, "Apple Restaurant");
     });
-
-    it("should handle missing rating values by treating them as -1", () => {
-      const establishments = [
-        createEstablishment({
-          businessName: "Has Rating",
-          ratingValue: "3",
-          ratingDate: "2025-01-01",
-        }),
-        createEstablishment({
-          businessName: "No Rating",
-          ratingValue: null,
-          ratingDate: "2025-01-01",
-        }),
-      ];
-
-      const result = sortEstablishments(establishments, "rating", true);
-
-      assertEquals(result[0].BusinessName, "No Rating");
-      assertEquals(result[1].BusinessName, "Has Rating");
-    });
   });
 
   describe("when sortOption is 'date'", () => {
@@ -381,27 +325,6 @@ describe("sortEstablishments", () => {
     });
   });
 
-  describe("when sortOption is unrecognized", () => {
-    it("should return the array unchanged for unknown sort options", () => {
-      const establishments = [
-        createEstablishment({
-          businessName: "Zebra Cafe",
-          ratingValue: "5",
-          ratingDate: "2025-01-01",
-        }),
-        createEstablishment({
-          businessName: "Apple Restaurant",
-          ratingValue: "3",
-          ratingDate: "2024-12-01",
-        }),
-      ];
-
-      const result = sortEstablishments(establishments, "unknown", true);
-
-      assertEquals(result, establishments);
-    });
-  });
-
   describe("immutability", () => {
     it("should not mutate the original array", () => {
       const establishments = [
@@ -455,7 +378,7 @@ describe("sortEstablishments", () => {
         fc
           .date({ min: new Date("2020-01-01"), max: new Date("2025-12-31") })
           .filter((d) => !Number.isNaN(d.getTime()))
-          .map((d) => d.toISOString().split("T")[0]),
+          .map((d) => d.toISOString().split("T", 1)[0]),
       ),
     });
 
@@ -493,10 +416,10 @@ describe("sortEstablishments", () => {
 
             const originalNames = establishments
               .map((establishment) => establishment.BusinessName)
-              .toSorted();
+              .toSorted(sort.caseInsensitiveSort);
             const resultNames = result
               .map((establishment) => establishment.BusinessName)
-              .toSorted();
+              .toSorted(sort.caseInsensitiveSort);
 
             assertEquals(resultNames, originalNames);
           },

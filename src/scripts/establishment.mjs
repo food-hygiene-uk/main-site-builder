@@ -4,7 +4,9 @@ const API_HEADERS = {
   "x-api-version": "2",
 };
 
-/* Basic cache of establishment details to avoid repeated API calls */
+/*
+Basic cache of establishment details to avoid repeated API calls
+*/
 const establishmentCache = new Map();
 
 /**
@@ -87,7 +89,7 @@ const compareBusinessName = (a, b) => {
  * Sort establishments by the given option and direction
  *
  * @param {Array<Establishment>} establishments - Establishments to sort
- * @param {string} sortOption - Sort option to use
+ * @param {"name"|"rating"|"date"} sortOption - Sort option to use
  * @param {boolean} sortDirection - Sort direction (true for ascending, false for descending)
  * @returns {Array<Establishment>} Sorted establishments
  */
@@ -96,8 +98,6 @@ export const sortEstablishments = (
   sortOption,
   sortDirection,
 ) => {
-  if (!sortOption) return establishments;
-
   const sortedEstablishments = [...establishments]; // Create a copy to avoid mutating original
 
   switch (sortOption) {

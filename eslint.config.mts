@@ -138,6 +138,12 @@ export default defineConfig([
     },
   },
   {
+    files: ["**/types.mts", "**/*.test.mts"],
+    rules: {
+      "unicorn/max-nested-calls": ["error", { max: 6 }],
+    },
+  },
+  {
     // Ignore patterns
     ignores: [
       "dist/",

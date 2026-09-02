@@ -1,6 +1,7 @@
 import { fromFileUrl } from "@std/path";
 import postcss from "postcss";
 import cssnano from "cssnano";
+import { escape } from "@std/html/entities";
 
 /**
  * Processes a CSS file by applying transformations and injecting additional CSS.
@@ -18,10 +19,10 @@ export const processCssFile = async ({
   additionalCss: string;
 }): Promise<string> => {
   const cssPath = fromFileUrl(path);
-  const content = await globalThis.Deno.readTextFile(cssPath);
+  const content = await Deno.readTextFile(cssPath);
   const cssContent = content.replaceAll(
     "/* __ADDITIONAL_CSS__ */",
-    additionalCss,
+    () => escape(additionalCss),
   );
 
   const processedCss = await postcss([cssnano()]).process(cssContent, {
@@ -39,5 +40,5 @@ export const processCssFile = async ({
  * @returns The modified CSS with suffixed class names.
  */
 export const cssAddSuffix = (css: string, classSuffix: string): string => {
-  return css.replaceAll("__CLASS_SUFFIX__", classSuffix);
+  return css.replaceAll("__CLASS_SUFFIX__", () => escape(classSuffix));
 };

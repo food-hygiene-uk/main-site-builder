@@ -1,3 +1,4 @@
+/* eslint-disable unicorn/no-top-level-side-effects */
 import { fromFileUrl, join } from "@std/path";
 import vento from "@vento/vento";
 import autoTrim from "@vento/vento/plugins/auto_trim.ts";
@@ -55,5 +56,5 @@ export const outputHomepagePage = async (): Promise<void> => {
   });
 
   const filename = `index.html`;
-  await globalThis.Deno.writeTextFile(join("dist", filename), html.content);
+  await Deno.writeTextFile(join("dist", filename), html.content);
 };

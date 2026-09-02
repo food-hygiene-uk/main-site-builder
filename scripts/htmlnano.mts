@@ -25,13 +25,13 @@ const minifyHtmlFiles = async (): Promise<void> => {
   });
 
   const workers: Promise<void>[] = [];
-  let done = false;
+  let isDone = false;
 
   const processNext = async (): Promise<void> => {
-    while (!done) {
+    while (!isDone) {
       const { value: entry, done: iterDone } = await iterator.next();
       if (iterDone || !entry) {
-        done = true;
+        isDone = true;
         break;
       }
       const filePath = entry.path;
@@ -44,9 +44,9 @@ const minifyHtmlFiles = async (): Promise<void> => {
           postHtmlOptions,
         );
         await Deno.writeTextFile(filePath, result.html);
-        globalThis.console.log(`Minified: ${filePath}`);
+        console.log(`Minified: ${filePath}`);
       } catch (error) {
-        globalThis.console.error(`Error minifying ${filePath}:`, error);
+        console.error(`Error minifying ${filePath}:`, error);
       }
     }
   };
@@ -58,5 +58,5 @@ const minifyHtmlFiles = async (): Promise<void> => {
 };
 
 if (import.meta.main) {
-  minifyHtmlFiles();
+  await minifyHtmlFiles();
 }
