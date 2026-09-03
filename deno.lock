@@ -24,7 +24,7 @@
     "npm:@typescript-eslint/eslint-plugin@8.68.0": "8.68.0_@typescript-eslint+parser@8.68.0_eslint@10.9.1_jiti@2.7.0",
     "npm:@typescript-eslint/parser@8.68.0": "8.68.0_eslint@10.9.1_typescript@6.0.3_jiti@2.7.0",
     "npm:baseline-browser-mapping@2.11.19": "2.11.19",
-    "npm:cssnano-preset-advanced@8.0.9": "8.0.9_postcss@8.5.26",
+    "npm:cssnano-preset-advanced@8.0.10": "8.0.10_postcss@8.5.26",
     "npm:cssnano@8.0.10": "8.0.10_postcss@8.5.26",
     "npm:eslint-config-prettier@10.1.8": "10.1.8_eslint@10.9.1_jiti@2.7.0",
     "npm:eslint-plugin-import@2.32.0": "2.32.0_eslint@9.39.5_jiti@2.7.0",
@@ -859,8 +859,8 @@
       "integrity": "sha512-/Tb/JcjK111nNScGob5MNtsntNM1aCNUDipB/TkwZFhyDrrE47SOx/18wF2bbjgc3ZzCSKW1T5nt5EbFoAz/Vg==",
       "bin": true
     },
-    "cssnano-preset-advanced@8.0.9_postcss@8.5.26": {
-      "integrity": "sha512-zTECXTkB6vQhTDS0wa8w+WJRgMCK2e/wlUe13XtUH2QYfGJUdPbSLEy7I4hk8KzyJGnsCqw3drpgo/74dwBdaQ==",
+    "cssnano-preset-advanced@8.0.10_postcss@8.5.26": {
+      "integrity": "sha512-5fdLuset3f2o7ZbCMK03suIV2X3SmwNvzICvhz31C4qVidiL2MPvo3ygy8sBUhYKrLW5VLNI7gHyaTuDFco9Ww==",
       "dependencies": [
         "autoprefixer",
         "css-declaration-sorter",
@@ -3295,7 +3295,7 @@
       "npm:@typescript-eslint/eslint-plugin@8.68.0",
       "npm:@typescript-eslint/parser@8.68.0",
       "npm:baseline-browser-mapping@2.11.19",
-      "npm:cssnano-preset-advanced@8.0.9",
+      "npm:cssnano-preset-advanced@8.0.10",
       "npm:cssnano@8.0.10",
       "npm:eslint-config-prettier@10.1.8",
       "npm:eslint-plugin-import@2.32.0",
