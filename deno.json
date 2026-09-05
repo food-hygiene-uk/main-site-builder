@@ -32,7 +32,7 @@
     "stylelint": "npm:stylelint@17.14.1",
     "terser": "npm:terser@5.51.2",
     "uglify-js": "npm:uglify-js@3.19.3",
-    "zod": "npm:zod@4.5.1"
+    "zod": "npm:zod@4.5.2"
   },
   "tasks": {
     "browserlist:lint": {
