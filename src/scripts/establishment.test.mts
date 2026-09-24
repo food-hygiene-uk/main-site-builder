@@ -3,7 +3,8 @@ import { describe, it } from "@std/testing/bdd";
 import fc from "fast-check";
 import { sortEstablishments } from "./establishment.mjs";
 import { sort } from "../sort/sort.mts";
-import { Establishment } from "../generate-site/schema.mts";
+import type { Establishment } from "../generate-site/schema.mts";
+import { establishmentArbitrary } from "../generate-site/fast-check-arbitrary.mts";
 
 /**
  * Creates a mock establishment object.
@@ -364,23 +365,6 @@ describe("sortEstablishments", () => {
 
   describe("property-based tests", () => {
     const propertyTestOptions = { numRuns: 100 };
-
-    const establishmentArbitrary = fc.record({
-      BusinessName: fc.string({ minLength: 1, maxLength: 50 }),
-      RatingValue: fc.oneof(
-        fc.constant(null),
-        fc.integer({ min: 0, max: 5 }).map(String),
-        fc.constant("AwaitingInspection"),
-        fc.constant("Exempt"),
-      ),
-      RatingDate: fc.oneof(
-        fc.constant(null),
-        fc
-          .date({ min: new Date("2020-01-01"), max: new Date("2025-12-31") })
-          .filter((d) => !Number.isNaN(d.getTime()))
-          .map((d) => d.toISOString().split("T", 1)[0]),
-      ),
-    });
 
     it("should always return an array of the same length", () => {
       fc.assert(
