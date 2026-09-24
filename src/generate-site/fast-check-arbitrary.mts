@@ -9,20 +9,22 @@ const ratingDateArbitrary = fc.oneof(
     .map((date) => date.toISOString().split("T", 1)[0]),
 );
 
-const ratingArbitrary = fc.constantFrom(
-  { RatingValue: "0", RatingKey: "fhrs_0_en-GB" },
-  { RatingValue: "1", RatingKey: "fhrs_1_en-GB" },
-  { RatingValue: "2", RatingKey: "fhrs_2_en-GB" },
-  { RatingValue: "3", RatingKey: "fhrs_3_en-GB" },
-  { RatingValue: "4", RatingKey: "fhrs_4_en-GB" },
-  { RatingValue: "5", RatingKey: "fhrs_5_en-GB" },
-).chain(({ RatingValue, RatingKey }) =>
-  fc.record({
-    RatingValue: fc.constant(RatingValue),
-    RatingKey: fc.constant(RatingKey),
-    RatingDate: ratingDateArbitrary,
-  })
-);
+const ratingArbitrary = fc
+  .constantFrom(
+    { RatingValue: "0", RatingKey: "fhrs_0_en-GB" },
+    { RatingValue: "1", RatingKey: "fhrs_1_en-GB" },
+    { RatingValue: "2", RatingKey: "fhrs_2_en-GB" },
+    { RatingValue: "3", RatingKey: "fhrs_3_en-GB" },
+    { RatingValue: "4", RatingKey: "fhrs_4_en-GB" },
+    { RatingValue: "5", RatingKey: "fhrs_5_en-GB" },
+  )
+  .chain(({ RatingValue, RatingKey }) =>
+    fc.record({
+      RatingValue: fc.constant(RatingValue),
+      RatingKey: fc.constant(RatingKey),
+      RatingDate: ratingDateArbitrary,
+    })
+  );
 
 export const establishmentArbitrary: fc.Arbitrary<Establishment> = fc
   .record({
