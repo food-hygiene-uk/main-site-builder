@@ -68,23 +68,27 @@ const initializeListSelectionModal = (FHRSID, modalElement) => {
   newListGroup.addEventListener("submit", (event) => {
     event.preventDefault();
     const listName = newListInput.value.trim();
-    if (listName) {
-      createNewList(listName, FHRSID);
-      newListInput.value = "";
-      updateCheckboxStates(FHRSID, modalElement);
+    if (!listName) {
+      return; // Do not create a list with an empty name
     }
+
+    createNewList(listName, FHRSID);
+    newListInput.value = "";
+    updateCheckboxStates(FHRSID, modalElement);
   });
 
   // Attach a single event listener to the modal body for checkbox changes
   modalBody.addEventListener("change", (event) => {
     const target = event.target;
-    if (target.classList.contains("styled-checkbox")) {
-      const listId = target.dataset.listId;
-      const isChecked = target.checked;
-      updateList(FHRSID, listId, isChecked);
-      // After updating the list, refresh the checkbox states within this specific modal
-      updateCheckboxStates(FHRSID, modalElement);
+    if (!target.classList.contains("styled-checkbox")) {
+      return;
     }
+
+    const listId = target.dataset.listId;
+    const isChecked = target.checked;
+    updateList(FHRSID, listId, isChecked);
+    // After updating the list, refresh the checkbox states within this specific modal
+    updateCheckboxStates(FHRSID, modalElement);
   });
 };
 

@@ -227,10 +227,12 @@ export class EstablishmentDisplay {
       this.sortSelect.value = sortOption;
     }
 
-    if (sortDirection !== null && sortDirection !== undefined) {
-      this.currentSortDirection = sortDirection;
-      this.#updateDirectionButton();
+    if (sortDirection === null || sortDirection === undefined) {
+      return; // Do not change the current sort direction if not provided
     }
+
+    this.currentSortDirection = sortDirection;
+    this.#updateDirectionButton();
   }
 
   /**
@@ -253,12 +255,14 @@ export class EstablishmentDisplay {
       this.sortOptions.push(option);
 
       // Also add to the select element if it exists
-      if (this.sortSelect) {
-        const optionElement = document.createElement("option");
-        optionElement.value = option.value;
-        optionElement.textContent = option.label;
-        this.sortSelect.append(optionElement);
+      if (!this.sortSelect) {
+        continue;
       }
+
+      const optionElement = document.createElement("option");
+      optionElement.value = option.value;
+      optionElement.textContent = option.label;
+      this.sortSelect.append(optionElement);
     }
   }
 

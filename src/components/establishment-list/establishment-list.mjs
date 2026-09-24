@@ -179,14 +179,16 @@ export class EstablishmentList {
     }
 
     // Next button
-    if (this.currentPage < this.totalPages) {
-      const nextButton = this.createPaginationButton(
-        "Next",
-        this.currentPage + 1,
-        onPageChange,
-      );
-      this.paginationElement.append(nextButton);
+    if (this.currentPage >= this.totalPages) {
+      return;
     }
+
+    const nextButton = this.createPaginationButton(
+      "Next",
+      this.currentPage + 1,
+      onPageChange,
+    );
+    this.paginationElement.append(nextButton);
   }
 
   /**

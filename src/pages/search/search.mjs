@@ -56,13 +56,15 @@ document.addEventListener("DOMContentLoaded", () => {
   }
 
   // Only proceed with API calls if consent is already given
-  if (hasUserConsent) {
-    loadReferenceData();
+  if (!hasUserConsent) {
+    return;
+  }
 
-    // Only perform search if consent is given
-    if (state.searchParams.toString()) {
-      performSearch();
-    }
+  loadReferenceData();
+
+  // Only perform search if consent is given
+  if (state.searchParams.toString()) {
+    performSearch();
   }
 });
 
@@ -92,15 +94,19 @@ function setupConsentHandling() {
 
     updateUIForConsent(state.hasUserConsent);
 
-    if (state.hasUserConsent) {
-      loadReferenceData();
-
-      // If search params exist in URL, perform search
-      if (state.searchParams.toString()) {
-        populateFormFromURL();
-        performSearch();
-      }
+    if (!state.hasUserConsent) {
+      return;
     }
+
+    loadReferenceData();
+
+    // If search params don't exist, we don't need to perform a search
+    if (!state.searchParams.toString()) {
+      return;
+    }
+
+    populateFormFromURL();
+    performSearch();
   });
 }
 

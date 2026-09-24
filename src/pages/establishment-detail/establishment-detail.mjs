@@ -142,56 +142,57 @@ document.addEventListener("DOMContentLoaded", async () => {
   // Set up map loading
   const loadMapButton = document.querySelector("#loadMapBtn");
   const alwaysLoadCheckbox = document.querySelector("#alwaysLoadMaps");
+
+  if (!loadMapButton || !alwaysLoadCheckbox) return;
+
   const mapConsentBox = document.querySelector(".map-consent-box");
 
-  if (loadMapButton && alwaysLoadCheckbox) {
-    // Check if user has set preference to always load maps
-    const shouldAlwaysLoadMaps =
-      localStorage.getItem("alwaysLoadMaps") === "true";
-    alwaysLoadCheckbox.checked = shouldAlwaysLoadMaps;
+  // Check if user has set preference to always load maps
+  const shouldAlwaysLoadMaps =
+    localStorage.getItem("alwaysLoadMaps") === "true";
+  alwaysLoadCheckbox.checked = shouldAlwaysLoadMaps;
 
-    // Handle checkbox change
-    alwaysLoadCheckbox.addEventListener("change", () => {
-      localStorage.setItem(
-        "alwaysLoadMaps",
-        alwaysLoadCheckbox.checked.toString(),
-      );
-    });
+  // Handle checkbox change
+  alwaysLoadCheckbox.addEventListener("change", () => {
+    localStorage.setItem(
+      "alwaysLoadMaps",
+      alwaysLoadCheckbox.checked.toString(),
+    );
+  });
 
-    /**
-     * Loads the map and handles UI cleanup
-     */
-    const loadMap = async () => {
-      const latitude = Number(loadMapButton.dataset.lat);
-      const longitude = Number(loadMapButton.dataset.lon);
+  /**
+   * Loads the map and handles UI cleanup
+   */
+  const loadMap = async () => {
+    const latitude = Number(loadMapButton.dataset.lat);
+    const longitude = Number(loadMapButton.dataset.lon);
 
-      if (Number.isNaN(latitude) || Number.isNaN(longitude)) {
-        console.error("Invalid coordinates");
-        return;
-      }
-
-      // Show loading state
-      if (mapConsentBox) {
-        mapConsentBox.style.opacity = "0.6";
-        loadMapButton.disabled = true;
-        loadMapButton.textContent = "Loading Map...";
-      }
-
-      await loadAndInitializeMap(latitude, longitude);
-
-      // Remove consent box after map loads (Leaflet replaces the container content)
-      if (mapConsentBox) {
-        mapConsentBox.remove();
-      }
-    };
-
-    // Auto-load if preference is set
-    if (shouldAlwaysLoadMaps) {
-      loadMap();
-    } else {
-      // Set up manual load button
-      loadMapButton.addEventListener("click", loadMap);
+    if (Number.isNaN(latitude) || Number.isNaN(longitude)) {
+      console.error("Invalid coordinates");
+      return;
     }
+
+    // Show loading state
+    if (mapConsentBox) {
+      mapConsentBox.style.opacity = "0.6";
+      loadMapButton.disabled = true;
+      loadMapButton.textContent = "Loading Map...";
+    }
+
+    await loadAndInitializeMap(latitude, longitude);
+
+    // Remove consent box after map loads (Leaflet replaces the container content)
+    if (mapConsentBox) {
+      mapConsentBox.remove();
+    }
+  };
+
+  // Auto-load if preference is set
+  if (shouldAlwaysLoadMaps) {
+    loadMap();
+  } else {
+    // Set up manual load button
+    loadMapButton.addEventListener("click", loadMap);
   }
 });
 
