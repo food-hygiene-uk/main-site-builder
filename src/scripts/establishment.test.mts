@@ -438,7 +438,9 @@ describe("sortEstablishments", () => {
             for (let index = 1; index < result.length; index++) {
               const current = result[index].BusinessName;
               const previous = result[index - 1].BusinessName;
-              const comparison = current.localeCompare(previous, undefined, { sensitivity: "base" });
+              const comparison = current.localeCompare(previous, undefined, {
+                sensitivity: "base",
+              });
 
               assertEquals(comparison >= 0, true);
             }
@@ -458,7 +460,9 @@ describe("sortEstablishments", () => {
             for (let index = 1; index < result.length; index++) {
               const current = result[index].BusinessName;
               const previous = result[index - 1].BusinessName;
-              const comparison = current.localeCompare(previous, undefined, { sensitivity: "base" });
+              const comparison = current.localeCompare(previous, undefined, {
+                sensitivity: "base",
+              });
 
               assertEquals(comparison <= 0, true);
             }
