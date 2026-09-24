@@ -1,6 +1,7 @@
 import { fromFileUrl } from "@std/path";
 import postcss from "postcss";
 import cssnano from "cssnano";
+import postcssPresetEnv from "postcss-preset-env";
 import { escape } from "@std/html/entities";
 
 /**
@@ -25,9 +26,12 @@ export const processCssFile = async ({
     () => escape(additionalCss),
   );
 
-  const processedCss = await postcss([cssnano()]).process(cssContent, {
-    from: undefined,
-  });
+  const processedCss = await postcss([postcssPresetEnv(), cssnano()]).process(
+    cssContent,
+    {
+      from: undefined,
+    },
+  );
 
   return processedCss.css;
 };
