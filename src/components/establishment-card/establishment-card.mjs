@@ -140,22 +140,13 @@ export async function renderEstablishmentCard(establishment) {
     establishment.PostCode
   ) {
     // Create address from address lines
-    const addressParts = [];
-    if (establishment.AddressLine1) {
-      addressParts.push(establishment.AddressLine1);
-    }
-    if (establishment.AddressLine2) {
-      addressParts.push(establishment.AddressLine2);
-    }
-    if (establishment.AddressLine3) {
-      addressParts.push(establishment.AddressLine3);
-    }
-    if (establishment.AddressLine4) {
-      addressParts.push(establishment.AddressLine4);
-    }
-    if (establishment.PostCode) {
-      addressParts.push(establishment.PostCode);
-    }
+    const addressParts = [
+      ...(establishment.AddressLine1 ? [establishment.AddressLine1] : []),
+      ...(establishment.AddressLine2 ? [establishment.AddressLine2] : []),
+      ...(establishment.AddressLine3 ? [establishment.AddressLine3] : []),
+      ...(establishment.AddressLine4 ? [establishment.AddressLine4] : []),
+      ...(establishment.PostCode ? [establishment.PostCode] : []),
+    ];
 
     if (addressParts.length > 0) {
       const addressElement = document.createElement("address");

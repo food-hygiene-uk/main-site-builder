@@ -47,10 +47,8 @@ const scoreToText = (
 ): string => {
   const descriptors = scoreDescriptors.scoreDescriptors[scoreType];
   const descriptor = descriptors[score];
-  if (descriptor) {
-    return descriptor.description[language];
-  }
-  return "Unknown score";
+
+  return descriptor ? descriptor.description[language] : "Unknown score";
 };
 
 /**
@@ -68,10 +66,10 @@ const scoreToDescription = (
 ): string => {
   const descriptors = scoreDescriptors.scoreDescriptors[scoreType];
   const descriptor = descriptors[score];
-  if (descriptor) {
-    return descriptor.detail[language] ?? descriptor.detail["en"];
-  }
-  return "Unknown score";
+
+  return descriptor
+    ? (descriptor.detail[language] ?? descriptor.detail["en"])
+    : "Unknown score";
 };
 
 /**
@@ -151,9 +149,7 @@ const getScoreDataWithSubscores = (
     subscore: string;
   }>
   | null => {
-  if (scores === null) return null;
-
-  return [
+  return scores === null ? null : [
     {
       title: "Hygiene",
       description: scoreToDescription(

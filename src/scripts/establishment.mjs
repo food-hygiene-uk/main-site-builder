@@ -86,8 +86,7 @@ const compareRatingValue = (a, b) => {
  */
 const compareRatingDate = (a, b) => {
   if (a.RatingDate !== b.RatingDate) {
-    if (!a.RatingDate) return -1;
-    if (!b.RatingDate) return -1;
+    if (!a.RatingDate || !b.RatingDate) return -1;
 
     const dateA = new Date(a.RatingDate);
     const dateB = new Date(b.RatingDate);
@@ -108,9 +107,15 @@ const compareRatingDate = (a, b) => {
  * @returns {number} The comparison result
  */
 const compareBusinessName = (a, b) => {
-  return a.BusinessName.localeCompare(b.BusinessName, undefined, {
-    sensitivity: "base",
-  });
+  const baseComparison = a.BusinessName.localeCompare(
+    b.BusinessName,
+    undefined,
+    { sensitivity: "base" },
+  );
+
+  return baseComparison === 0
+    ? a.BusinessName.localeCompare(b.BusinessName)
+    : baseComparison;
 };
 
 /**
