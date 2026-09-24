@@ -1,3 +1,7 @@
+/**
+ * @typedef {import("../generate-site/schema.mts").Establishment} Establishment
+ */
+
 // FHRS API Configuration
 const API_HEADERS = {
   accept: "application/json",
@@ -58,6 +62,13 @@ export const fetchEstablishmentDetails = async (FHRSID) => {
   }
 };
 
+/**
+ * Compares two establishments by their rating values, with higher ratings considered "greater".
+ *
+ * @param {Establishment} a - The first establishment to compare
+ * @param {Establishment} b - The second establishment to compare
+ * @returns {number} The comparison result
+ */
 const compareRatingValue = (a, b) => {
   const ratingA = a.RatingValue ? Number(a.RatingValue) : -1;
   const ratingB = b.RatingValue ? Number(b.RatingValue) : -1;
@@ -65,6 +76,14 @@ const compareRatingValue = (a, b) => {
   return ratingA - ratingB;
 };
 
+/**
+ * Compares two establishments by their rating dates, with more recent dates considered "greater".
+ * If one of the establishments does not have a rating date, it is considered "less than" the other.
+ *
+ * @param {Establishment} a - The first establishment to compare
+ * @param {Establishment} b - The second establishment to compare
+ * @returns {number} The comparison result
+ */
 const compareRatingDate = (a, b) => {
   if (a.RatingDate !== b.RatingDate) {
     if (!a.RatingDate) return -1;
@@ -81,8 +100,17 @@ const compareRatingDate = (a, b) => {
   return 0;
 };
 
+/**
+ * Compares two establishments by their business names in a case-insensitive manner.
+ *
+ * @param {Establishment} a - The first establishment to compare
+ * @param {Establishment} b - The second establishment to compare
+ * @returns {number} The comparison result
+ */
 const compareBusinessName = (a, b) => {
-  return a.BusinessName.localeCompare(b.BusinessName);
+  return a.BusinessName.localeCompare(b.BusinessName, undefined, {
+    sensitivity: "base",
+  });
 };
 
 /**
