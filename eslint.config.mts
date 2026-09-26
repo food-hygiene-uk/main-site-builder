@@ -1,4 +1,5 @@
 import { defineConfig } from "eslint/config";
+import css from "@eslint/css";
 import tsParser from "@typescript-eslint/parser";
 import tsPlugin from "@typescript-eslint/eslint-plugin";
 import prettierConfig from "eslint-config-prettier";
@@ -136,6 +137,42 @@ export default defineConfig([
     files: ["**/schema.mts", "**/types.mts", "**/*.test.mts"],
     rules: {
       "unicorn/max-nested-calls": ["error", { max: 6 }],
+    },
+  },
+  {
+    files: ["**/*.css"],
+    plugins: {
+      css,
+      unicorn: unicornPlugin,
+    },
+    extends: ["css/recommended"],
+    language: "css/css",
+    rules: {
+      "css/use-baseline": [
+        "error",
+        {
+          allowFunctions: ["light-dark"],
+          allowProperties: ["accent-color", "user-select"],
+        },
+      ], // handled by postcss
+      "css/no-invalid-properties": ["error", { allowUnknownVariables: true }],
+      "unicorn/expiring-todo-comments": "error",
+      "unicorn/no-deprecated-css-features": "error",
+      "unicorn/no-duplicate-css-selectors": "error",
+      "unicorn/no-duplicate-font-family-names": "error",
+      "unicorn/no-empty-file": "error",
+      "unicorn/no-invalid-media-features": "error",
+      "unicorn/no-missing-local-resource": "error",
+      "unicorn/no-nesting-with-mixed-specificity": "error",
+      "unicorn/no-redundant-nested-style-rules": "error",
+      "unicorn/no-shorthand-property-overrides": "error",
+      "unicorn/no-transition-all": "error",
+      "unicorn/no-unknown-css-annotations": "error",
+      "unicorn/no-unknown-pseudo-selectors": "error",
+      "unicorn/no-unscoped-css-nesting-selector": "error",
+      "unicorn/prefer-explicit-viewport-units": "error",
+      "unicorn/prefer-media-feature-range-syntax": "error",
+      "unicorn/text-encoding-identifier-case": "error",
     },
   },
   {

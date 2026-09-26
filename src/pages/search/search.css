@@ -44,10 +44,7 @@
   /* Component-scoped variables */
   --card-bg: light-dark(white, #2a2a2a);
   --card-border: light-dark(#ddd, #444);
-  --card-shadow: light-dark(
-    0 2px 4px rgb(0 0 0 / 10%),
-    0 2px 4px rgb(0 0 0 / 30%)
-  );
+  --card-shadow: 0 2px 4px light-dark(rgb(0 0 0 / 10%), rgb(0 0 0 / 30%));
   --input-bg: light-dark(#fff, #333);
   --input-border: light-dark(#ccc, #555);
   --text-muted: var(--card-color);

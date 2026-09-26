@@ -2,7 +2,9 @@ html {
   color-scheme: only light;
 }
 
-@media (not (scripting: none)) or (prefers-color-scheme: dark) {
+@media (scripting: initial-only),
+  (scripting: enabled),
+  (prefers-color-scheme: dark) {
   html:not([data-color-scheme="light"]) {
     color-scheme: only dark;
   }
@@ -135,5 +137,6 @@ a:hover {
 }
 
 [hidden]:not([hidden="until-found"]) {
+  /* eslint-disable-next-line css/no-important */
   display: none !important;
 }
