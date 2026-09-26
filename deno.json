@@ -20,7 +20,7 @@
     "eslint-plugin-import": "npm:eslint-plugin-import@2.32.0",
     "eslint-plugin-jsdoc": "npm:eslint-plugin-jsdoc@64.5.4",
     "eslint-plugin-promise": "npm:eslint-plugin-promise@7.3.0",
-    "eslint-plugin-unicorn": "npm:eslint-plugin-unicorn@75.0.0",
+    "eslint-plugin-unicorn": "npm:eslint-plugin-unicorn@76.0.0",
     "eslint": "npm:eslint@10.11.0",
     "fast-check": "npm:fast-check@4.10.1",
     "htmlnano": "npm:htmlnano@3.5.1",
