@@ -1,12 +1,14 @@
+/**
+ * @typedef {import("../../generate-site/schema.mts").Establishment} Establishment
+ */
+
 import { renderEstablishmentCard } from "components/establishment-card/establishment-card.mjs";
 import { createEstablishmentDisplay } from "components/establishment-display/establishment-display.mjs";
 
-/*
- * @typedef {import("components/establishment-card/establishment-card.mjs").Establishment} Establishment
- */
-
 /**
  * Adds the CSS link for the component to the document head.
+ *
+ * @type {Promise<void>}
  */
 const cssReady = new Promise((resolve, reject) => {
   const link = document.createElement("link");
@@ -58,9 +60,15 @@ export class EstablishmentList {
     this._onSortChangeCallback = null;
 
     // Original unfiltered and unsorted establishments
+    /**
+    @type {Array<Establishment>}
+    */
     this.originalEstablishments = [];
 
     // State
+    /**
+    @type {Array<Establishment>}
+    */
     this.establishments = [];
     this.currentPage = 1;
     this.totalResults = 0;
@@ -123,10 +131,14 @@ export class EstablishmentList {
         defaultSortDirection: this.defaultSortDirection,
         enableFiltering: this.enableFiltering,
         onFilterChange: (filterText) => {
-          this._onFilterChangeCallback(filterText);
+          if (this._onFilterChangeCallback) {
+            this._onFilterChangeCallback(filterText);
+          }
         },
         onSortChange: (sortOption, sortDirection) => {
-          this._onSortChangeCallback(sortOption, sortDirection);
+          if (this._onSortChangeCallback) {
+            this._onSortChangeCallback(sortOption, sortDirection);
+          }
         },
       });
     }

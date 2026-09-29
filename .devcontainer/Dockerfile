@@ -13,6 +13,7 @@ RUN apt-get update && apt-get install -y \
 COPY --from=deno /deno /usr/local/bin/deno
 
 RUN deno x --install-alias
+RUN deno completions --dynamic bash
 
 # Configure Git
 RUN git config --system core.autocrlf input \

@@ -1,6 +1,12 @@
+import { getReference } from "utils/dom.mjs";
+
 document.addEventListener("DOMContentLoaded", () => {
-  const filterGroup = document.querySelector(".filter-group");
-  const filterInput = filterGroup.querySelector("#filterInput");
+  const filterGroup = getReference(".filter-group", HTMLDivElement);
+  const filterInput = getReference(
+    "#filterInput",
+    HTMLInputElement,
+    filterGroup,
+  );
 
   filterInput.addEventListener("input", (event) => {
     const filterValue = event.target.value.toLowerCase();
@@ -28,10 +34,7 @@ document.addEventListener("DOMContentLoaded", () => {
       }
 
       // Hide the region if all its authorities are hidden
-      const areAllLocalAuthoritiesHidden =
-        region.querySelectorAll(".authority-link:not([style*='display: none'])")
-          .length === 0;
-      region.style.display = areAllLocalAuthoritiesHidden ? "none" : "block";
+      region.toggleAttribute("display", region.querySelectorAll(".authority-link:not([hidden])").length === 0);
     }
 
     // Check if all regions are hidden
@@ -48,7 +51,7 @@ document.addEventListener("DOMContentLoaded", () => {
         message.textContent = "No matches found.";
         message.style.textAlign = "center";
         message.style.marginTop = "1rem";
-        filterGroup.parentNode.append(message);
+        filterGroup.parentNode?.append(message);
       }
     } else if (noMatchesMessage) {
       noMatchesMessage.remove();

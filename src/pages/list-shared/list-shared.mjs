@@ -1,3 +1,7 @@
+/**
+ * @typedef {import("../../generate-site/schema.mts").Establishment} Establishment
+ */
+
 import { EstablishmentList } from "components/establishment-list/establishment-list.mjs";
 import { DEFAULT_SORT_CONFIG } from "components/establishment-display/establishment-display.mjs";
 import { openModal } from "components/modal/modal.mjs";
@@ -52,7 +56,7 @@ const decodeEstablishmentIds = (encoded) => {
  * Saves a list of establishments to localStorage
  *
  * @param {string} listName - The name of the list to save
- * @param {Array<object>} establishments - Array of establishment objects to save
+ * @param {Array<Establishment>} establishments - Array of establishment objects to save
  * @returns {string | null} The ID of the saved list or null on error
  */
 const saveList = (listName, establishments) => {
@@ -207,13 +211,15 @@ const showSaveModal = async () => {
 
 document.addEventListener("DOMContentLoaded", () => {
   // Get DOM elements
-  const listTitle = document.querySelector("#listTitle");
-  const listDescription = document.querySelector("#listDescription");
-  const establishmentsContainer = document.querySelector("#establishmentsList");
-  const emptyListMessage = document.querySelector("#emptyList");
-  const errorMessage = document.querySelector("#errorMessage");
-  const loadingIndicator = document.querySelector("#loading");
-  const saveListButton = document.querySelector("#saveListButton");
+  const references = {
+    listTitle: document.querySelector("#listTitle"),
+    listDescription: document.querySelector("#listDescription"),
+    establishmentsContainer: document.querySelector("#establishmentsList"),
+    emptyListMessage: document.querySelector("#emptyList"),
+    errorMessage: document.querySelector("#errorMessage"),
+    loadingIndicator: document.querySelector("#loading"),
+    saveListButton: document.querySelector("#saveListButton"),
+  };
 
   // Get shared list parameters from URL
   const urlParameters = new URLSearchParams(location.search);
@@ -287,11 +293,10 @@ document.addEventListener("DOMContentLoaded", () => {
 
   // Initialize the establishment list component with display component for filtering and sorting
   const establishmentList = new EstablishmentList({
-    container: establishmentsContainer,
-    loadingElement: loadingIndicator,
-    emptyElement: emptyListMessage,
-    errorElement: errorMessage,
-    pageSize: PAGE_SIZE,
+    container: references.establishmentsContainer,
+    loadingElement: references.loadingIndicator,
+    emptyElement: references.emptyListMessage,
+    errorElement: references.errorMessage,
     enableViewToggle: true,
     enableDisplay: true, // Enable the filter and sort functionality
     enableFiltering: true,
@@ -300,9 +305,7 @@ document.addEventListener("DOMContentLoaded", () => {
   });
 
   // Set up event listeners for the save functionality
-  if (saveListButton) {
-    saveListButton.addEventListener("click", showSaveModal);
-  }
+  references.saveListButton.addEventListener("click", showSaveModal);
 
   /**
    * Loads all establishments from the shared list
@@ -318,8 +321,8 @@ document.addEventListener("DOMContentLoaded", () => {
     );
 
     // Update page title and description
-    listTitle.textContent = sharedTitle;
-    listDescription.textContent = "Loading shared establishments...";
+    references.listTitle.textContent = sharedTitle;
+    references.listDescription.textContent = "Loading shared establishments...";
     document.title = `${sharedTitle} - Food Hygiene Ratings`;
 
     // Check if we have IDs to load
@@ -345,21 +348,21 @@ document.addEventListener("DOMContentLoaded", () => {
       allEstablishments = validEstablishments;
 
       // Update description
-      listDescription.textContent =
+      references.listDescription.textContent =
         `${validEstablishments.length} establishments shared with you`;
 
       // Show save button if we have establishments
-      if (saveListButton && validEstablishments.length > 0) {
-        saveListButton.removeAttribute("hidden");
+      if (references.saveListButton && validEstablishments.length > 0) {
+        references.saveListButton.removeAttribute("hidden");
       }
 
       // Handle empty result
       if (validEstablishments.length === 0) {
-        if (emptyListMessage) {
-          emptyListMessage.removeAttribute("hidden");
+        if (references.emptyListMessage) {
+          references.emptyListMessage.removeAttribute("hidden");
         }
-        if (establishmentsContainer) {
-          establishmentsContainer.setAttribute("hidden", "hidden");
+        if (references.establishmentsContainer) {
+          references.establishmentsContainer.setAttribute("hidden", "hidden");
         }
         return;
       }
@@ -375,7 +378,7 @@ document.addEventListener("DOMContentLoaded", () => {
       await renderEstablishments();
 
       // Ensure visibility
-      establishmentsContainer.removeAttribute("hidden");
+      references.establishmentsContainer.removeAttribute("hidden");
     } catch (error) {
       console.error("Error loading shared list:", error);
       establishmentList.showError("Failed to load the shared establishments");

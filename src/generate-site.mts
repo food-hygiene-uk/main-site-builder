@@ -46,7 +46,7 @@ await copy("assets", "dist", { overwrite: true });
 await copy("src/scripts", "dist/scripts", { overwrite: true });
 
 const components = [
-  "establishment-card",
+  "dom",  "establishment-card",
   "establishment-display",
   "establishment-list",
   "list-selection-button",
@@ -55,6 +55,13 @@ const components = [
 
 for (const component of components) {
   await copy(`src/components/${component}`, `dist/components/${component}`, {
+    overwrite: true,
+  });
+}
+
+const browserUtilities = ["dom"];
+for (const utility of browserUtilities) {
+  await copy(`src/browser/utils/${utility}`, `dist/utils/${utility}`, {
     overwrite: true,
   });
 }

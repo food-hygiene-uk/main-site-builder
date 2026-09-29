@@ -1,5 +1,5 @@
 import { assertEquals } from "@std/assert";
-import { describe, it } from "@std/testing/bdd";
+import { describe, it } from "node:test";
 import fc from "fast-check";
 import { sortEstablishments } from "./establishment.mjs";
 import { sort } from "../sort/sort.mts";
@@ -25,10 +25,32 @@ const createEstablishment = ({
   ratingDate: Establishment["RatingDate"];
 }): Establishment => {
   return {
+    FHRSID: 1,
     BusinessName: businessName,
     RatingValue: ratingValue,
     RatingDate: ratingDate,
-  } as Establishment;
+    BusinessType: "",
+    LocalAuthorityBusinessID: "",
+    BusinessTypeID: 7843,
+    LocalAuthorityCode: "",
+    LocalAuthorityName: "",
+    LocalAuthorityWebSite: "",
+    NewRatingPending: false,
+    LocalAuthorityEmailAddress: "",
+    Geocode: null,
+    AddressLine1: undefined,
+    AddressLine2: undefined,
+    AddressLine3: undefined,
+    AddressLine4: undefined,
+    PostCode: undefined,
+    SchemeType: "FHRS",
+    RatingKey: "fhrs_5_cy-gb",
+    Scores: {
+      Hygiene: 0,
+      Structural: 5,
+      ConfidenceInManagement: 5,
+    },
+  };
 };
 
 describe("sortEstablishments", () => {

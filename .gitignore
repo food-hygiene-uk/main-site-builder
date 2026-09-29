@@ -1,8 +1,8 @@
-.DS_STORE
 build/
+coverage/
 dist/
 node_modules/
-coverage/
+.DS_STORE
 
 # Playwright
 test-results/

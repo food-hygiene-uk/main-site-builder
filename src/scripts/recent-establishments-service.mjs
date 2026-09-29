@@ -4,6 +4,7 @@
  * @property {string} [BusinessName] - Name of the establishment
  * @property {string} [BusinessType] - Type of the establishment
  * @property {string} lastVisited - ISO date string of when the establishment page was last visited
+ * @property {string} LocalAuthorityCode - Code for the Local Authority
  */
 
 /**
@@ -23,7 +24,7 @@ class RecentEstablishmentsService {
    */
   addEstablishment(establishment) {
     // Don't run in server-side code
-    if (globalThis.localStorage === "undefined") return;
+    if (globalThis.localStorage === undefined) return;
 
     const recentItems = this.getRecentEstablishments();
 
@@ -74,7 +75,7 @@ class RecentEstablishmentsService {
    */
   getRecentEstablishments() {
     // Don't run in server-side code
-    if (globalThis.localStorage === "undefined") {
+    if (globalThis.localStorage === undefined) {
       console.log("localStorage is not available, returning empty array");
       return [];
     }
@@ -101,7 +102,7 @@ class RecentEstablishmentsService {
    */
   clearRecentEstablishments() {
     // Don't run in server-side code
-    if (globalThis.localStorage === "undefined") return;
+    if (globalThis.localStorage === undefined) return;
 
     globalThis.localStorage.removeItem(this.STORAGE_KEY);
     console.log("Cleared all recent establishments from localStorage");

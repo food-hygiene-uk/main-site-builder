@@ -1,5 +1,10 @@
+/**
+ * @typedef {import("../../generate-site/schema.mts").Establishment} Establishment
+ */
+
 /* eslint-disable unicorn/no-top-level-side-effects */
 import { EstablishmentList } from "components/establishment-list/establishment-list.mjs";
+import { getReference } from "utils/dom.mjs";
 
 // FHRS API Configuration
 const API_BASE = "https://api.ratings.food.gov.uk";
@@ -9,22 +14,30 @@ const API_HEADERS = {
 };
 
 // DOM Elements
-const searchForm = document.querySelector("#search-form");
-const advancedToggle = document.querySelector("#advanced-toggle");
-const advancedSearch = document.querySelector("#advanced-search");
-const loadingIndicator = document.querySelector("#loading");
-const resultsContainer = document.querySelector("#results-container");
-const resultsSection = document.querySelector("#results");
-const resultsCount = document.querySelector("#results-count");
-const consentSection = document.querySelector("#consent-section");
-const consentToggle = document.querySelector("#consent-toggle");
+const references = {
+  advancedSearch: getReference("#advanced-search", HTMLDivElement),
+  advancedToggle: getReference("#advanced-toggle", HTMLButtonElement),
+  consentSection: getReference("#consent-section", HTMLDivElement),
+  consentToggle: getReference("#consent-toggle", HTMLInputElement),
+  loadingIndicator: getReference("#loading", HTMLDivElement),
+  resultsContainer: getReference("#results-container", HTMLDivElement),
+  resultsCount: getReference("#results-count", HTMLParagraphElement),
+  resultsSection: getReference("#results", HTMLDivElement),
+  searchForm: getReference("#search-form", HTMLFormElement),
+};
 
 // Consent state
 const CONSENT_STORAGE_KEY = "fhrs_api_consent";
 
 // Search state
 const state = {
+    /**
+  @type {number | null}
+  */
   attentionEffectTimeout: null,
+  /**
+  @type {EstablishmentList | null}
+  */
   establishmentList: null,
   currentPage: 1,
   hasUserConsent: false,
@@ -38,12 +51,11 @@ document.addEventListener("DOMContentLoaded", () => {
   // Note: Search results come from the API with server-side pagination,
   // so we don't need client-side filtering/sorting
   state.establishmentList = new EstablishmentList({
-    container: resultsContainer,
-    loadingElement: loadingIndicator,
+    container: references.resultsContainer,
+    loadingElement: references.loadingIndicator,
     emptyElement: document.createElement("div"), // We'll handle empty state manually
     errorElement: document.createElement("div"), // We'll handle errors manually
-    countElement: resultsCount,
-    pageSize: state.pageSize,
+    countElement: references.resultsCount,
     enableDisplay: false, // Disable display component - API handles filtering/sorting
   });
 
@@ -56,7 +68,7 @@ document.addEventListener("DOMContentLoaded", () => {
   }
 
   // Only proceed with API calls if consent is already given
-  if (!hasUserConsent) {
+  if (!state.hasUserConsent) {
     return;
   }
 
@@ -79,15 +91,15 @@ function setupConsentHandling() {
 
   // Update UI based on existing consent
   if (state.hasUserConsent) {
-    consentToggle.checked = true;
+    references.consentToggle.checked = true;
     updateUIForConsent(true);
   } else {
     updateUIForConsent(false);
   }
 
   // Add event listener for consent toggle
-  consentToggle.addEventListener("change", () => {
-    state.hasUserConsent = consentToggle.checked;
+  references.consentToggle.addEventListener("change", () => {
+    state.hasUserConsent = references.consentToggle.checked;
 
     // Store user's choice
     localStorage.setItem(CONSENT_STORAGE_KEY, state.hasUserConsent);
@@ -118,13 +130,13 @@ function setupConsentHandling() {
 function updateUIForConsent(hasConsent) {
   // Update form styling to show active state
   if (hasConsent) {
-    searchForm.classList.add("consent-given");
-    searchForm.classList.remove("disabled");
-    consentSection.classList.add("consent-given");
+    references.searchForm.classList.add("consent-given");
+    references.searchForm.classList.remove("disabled");
+    references.consentSection.classList.add("consent-given");
   } else {
-    searchForm.classList.remove("consent-given");
-    searchForm.classList.add("disabled");
-    consentSection.classList.remove("consent-given");
+    references.searchForm.classList.remove("consent-given");
+    references.searchForm.classList.add("disabled");
+    references.consentSection.classList.remove("consent-given");
   }
 
   // Enable/disable form fields based on consent
@@ -138,14 +150,16 @@ function updateUIForConsent(hasConsent) {
  */
 function disableFormElements(disabled) {
   // Disable/enable all form inputs
-  const formElements = searchForm.querySelectorAll("input, select, button");
+  const formElements = references.searchForm.querySelectorAll(
+    "input, select, button",
+  );
   for (const element of formElements) {
     element.disabled = disabled;
   }
 
   // Also disable the advanced toggle
-  if (advancedToggle) {
-    advancedToggle.disabled = disabled;
+  if (references.advancedToggle) {
+    references.advancedToggle.disabled = disabled;
   }
 }
 
@@ -157,16 +171,16 @@ function highlightConsentSection() {
   // Instead of preventing multiple animations, cancel any existing one and start a new one
 
   // Scroll to consent section
-  consentSection.scrollIntoView({ behavior: "smooth" });
+  references.consentSection.scrollIntoView({ behavior: "smooth" });
 
   // Remove any existing animation class first
-  consentSection.classList.remove("attention-effect");
+  references.consentSection.classList.remove("attention-effect");
 
   // Force a reflow to ensure animations restart properly
-  void consentSection.offsetWidth;
+  void references.consentSection.offsetWidth;
 
   // Add combined animation class for attention effect
-  consentSection.classList.add("attention-effect");
+  references.consentSection.classList.add("attention-effect");
 
   // Clear any existing timeout
   if (state.attentionEffectTimeout) {
@@ -175,7 +189,7 @@ function highlightConsentSection() {
 
   // Remove class after animation completes
   state.attentionEffectTimeout = setTimeout(() => {
-    consentSection.classList.remove("attention-effect");
+    references.consentSection.classList.remove("attention-effect");
   }, 6000); // Match the animation duration
 }
 
@@ -184,22 +198,21 @@ function highlightConsentSection() {
  */
 function setupEventListeners() {
   // Toggle advanced search options
-  advancedToggle.addEventListener("click", () => {
+  references.advancedToggle.addEventListener("click", () => {
     if (!state.hasUserConsent) {
       highlightConsentSection();
       return;
     }
 
-    advancedSearch.style.display = advancedSearch.style.display === "grid"
-      ? "none"
-      : "grid";
-    advancedToggle.textContent = advancedSearch.style.display === "grid"
-      ? "Hide Advanced Options"
-      : "Advanced Options";
+    references.advancedSearch.removeAttribute("hidden");
+    references.advancedToggle.textContent =
+      references.advancedSearch.hasAttribute("hidden")
+        ? "Advanced Options"
+        : "Hide Advanced Options";
   });
 
   // Search form submission
-  searchForm.addEventListener("submit", (event) => {
+  references.searchForm.addEventListener("submit", (event) => {
     event.preventDefault();
 
     // Only proceed if user has given consent
@@ -213,7 +226,7 @@ function setupEventListeners() {
   });
 
   // Add a click event for the entire form
-  searchForm.addEventListener("click", (event) => {
+  references.searchForm.addEventListener("click", (event) => {
     if (state.hasUserConsent) {
       return;
     }
@@ -228,10 +241,10 @@ function setupEventListeners() {
   });
 
   // Make form focusable for keyboard navigation
-  searchForm.setAttribute("tabindex", "0");
+  references.searchForm.setAttribute("tabindex", "0");
 
   // Add focus handler for the form
-  searchForm.addEventListener("focus", () => {
+  references.searchForm.addEventListener("focus", () => {
     if (!state.hasUserConsent) {
       highlightConsentSection();
     }
@@ -278,17 +291,19 @@ async function loadReferenceData() {
  * Populates a select element with options from an array of objects
  *
  * @param {string} selectId - The ID of the select element to populate
- * @param {Array<object>} options - Array of objects containing option data
+ * @param {Array<Record<string, string>>} options - Array of objects containing option data
  * @param {string} valueKey - The key in each object to use as the option value
  * @param {string} textKey - The key in each object to use as the option text
  */
 function populateSelect(selectId, options, valueKey, textKey) {
   const select = document.querySelector(`#${selectId}`);
-  for (const option of options) {
-    const element = document.createElement("option");
-    element.value = option[valueKey];
-    element.textContent = option[textKey];
-    select.append(element);
+  if (select) {
+    for (const option of options) {
+      const element = document.createElement("option");
+      element.value = option[valueKey];
+      element.textContent = option[textKey];
+      select.append(element);
+    }
   }
 }
 
@@ -297,19 +312,19 @@ function populateSelect(selectId, options, valueKey, textKey) {
  * Creates a query string and updates browser history without reloading
  */
 function updateURLFromForm() {
-  const formData = new FormData(searchForm);
+  const formData = new FormData(references.searchForm);
   const parameters = new URLSearchParams();
 
   // Only add non-empty values
   for (const [key, value] of formData) {
-    if (value.trim()) {
+    if (typeof value === "string" && value.trim()) {
       parameters.append(key, value.trim());
     }
   }
 
   // Add current page if not first page
   if (state.currentPage > 1) {
-    parameters.append("pageNumber", state.currentPage);
+    parameters.append("pageNumber", String(state.currentPage));
   }
 
   // Update browser URL without reloading
@@ -327,7 +342,7 @@ function updateURLFromForm() {
 function populateFormFromURL() {
   // Populate form fields from URL parameters
   for (const [key, value] of state.searchParams.entries()) {
-    const field = searchForm.elements[key];
+    const field = references.searchForm.elements[key];
     if (field && key !== "pageNumber") {
       field.value = value;
     }
@@ -341,8 +356,8 @@ function populateFormFromURL() {
   ].some((paramameter) => state.searchParams.has(paramameter));
 
   if (hasAdvancedParameters) {
-    advancedSearch.style.display = "grid";
-    advancedToggle.textContent = "Hide Advanced Options";
+    references.advancedSearch.removeAttribute("hidden");
+    references.advancedToggle.textContent = "Hide Advanced Options";
   }
 
   // Set current page
@@ -365,8 +380,8 @@ async function performSearch() {
   }
 
   // Show loading state
-  resultsSection.style.display = "block";
-  await state.establishmentList.loadEstablishments(
+  references.resultsSection.removeAttribute("hidden");
+  await state.establishmentList?.loadEstablishments(
     {
       establishments: [],
     },
@@ -395,10 +410,10 @@ async function performSearch() {
     });
 
     // Scroll to results
-    resultsSection.scrollIntoView({ behavior: "smooth" });
+    references.resultsSection.scrollIntoView({ behavior: "smooth" });
   } catch (error) {
     console.error("Search failed:", error);
-    await state.establishmentList.showError(
+    await state.establishmentList?.showError(
       "Sorry, there was an error performing your search. Please try again.",
     );
   }
@@ -418,12 +433,12 @@ async function performSearch() {
  */
 export const displayResults = async ({ establishments, totalResults }) => {
   // Make sure results section is visible
-  resultsSection.style.display = "block";
-  resultsContainer.style.display = "block";
+  references.resultsSection.removeAttribute("hidden");
+  references.resultsContainer.removeAttribute("hidden");
 
   // Load the establishments into the list component
   // Server-side pagination: pass data as-is to the component
-  await state.establishmentList.loadEstablishments(
+  await state.establishmentList?.loadEstablishments(
     {
       establishments,
       totalResults,
@@ -433,8 +448,8 @@ export const displayResults = async ({ establishments, totalResults }) => {
     false,
     establishments.length,
     handlePageChange,
-    null, // No filter callback - API handles filtering
-    null, // No sort callback - API handles sorting
+    // No filter callback - API handles filtering
+    // No sort callback - API handles sorting
   );
 };
 
@@ -453,8 +468,8 @@ export const handlePageChange = async (page) => {
   history.pushState(null, "", newRelativePathQuery);
 
   // Show loading state but don't hide containing elements
-  if (loadingIndicator) {
-    loadingIndicator.style.display = "block";
+  if (references.loadingIndicator) {
+    references.loadingIndicator.removeAttribute("hidden");
   }
 
   // Fetch new results for this page

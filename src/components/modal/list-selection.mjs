@@ -3,6 +3,10 @@
  * Provides a modal interface for selecting lists to add or remove an establishment.
  */
 
+/**
+ * @typedef {import("../../generate-site/schema.mts").Establishment} Establishment
+ */
+
 import {
   createNewList,
   getSavedLists,
@@ -13,10 +17,10 @@ import { openModal } from "components/modal/modal.mjs";
 /**
  * Initializes the list selection modal content and attaches event listeners.
  *
- * @param {string} FHRSID - The unique identifier of the establishment.
+ * @param {Establishment} establishment - Establishment record
  * @param {HTMLDialogElement} modalElement - The dialog element for the modal.
  */
-const initializeListSelectionModal = (FHRSID, modalElement) => {
+const initializeListSelectionModal = (establishment, modalElement) => {
   const modalBody = modalElement.querySelector(".modal-body");
   if (!modalBody) return;
 
@@ -72,9 +76,9 @@ const initializeListSelectionModal = (FHRSID, modalElement) => {
       return; // Do not create a list with an empty name
     }
 
-    createNewList(listName, FHRSID);
+    createNewList(listName, establishment.FHRSID);
     newListInput.value = "";
-    updateCheckboxStates(FHRSID, modalElement);
+    updateCheckboxStates(establishment.FHRSID, modalElement);
   });
 
   // Attach a single event listener to the modal body for checkbox changes
@@ -86,9 +90,9 @@ const initializeListSelectionModal = (FHRSID, modalElement) => {
 
     const listId = target.dataset.listId;
     const isChecked = target.checked;
-    updateList(FHRSID, listId, isChecked);
+    updateList(establishment, listId, isChecked);
     // After updating the list, refresh the checkbox states within this specific modal
-    updateCheckboxStates(FHRSID, modalElement);
+    updateCheckboxStates(establishment.FHRSID, modalElement);
   });
 };
 
@@ -132,10 +136,10 @@ const updateCheckboxStates = (FHRSID, modalElement) => {
 /**
  * Opens a list selection modal for managing an establishment's lists.
  *
- * @param {string} FHRSID - The unique identifier of the establishment.
+ * @param {Establishment} establishment - Establishment record
  * @param {() => void} onClose - Callback function invoked when the modal is closed.
  */
-export const openListSelectionModal = async (FHRSID, onClose) => {
+export const openListSelectionModal = async (establishment, onClose) => {
   // Create a placeholder div. openModal will place this inside its own .modal-body.
   // initializeListSelectionModal will then populate that .modal-body.
   const contentPlaceholder = document.createElement("div");
@@ -147,8 +151,8 @@ export const openListSelectionModal = async (FHRSID, onClose) => {
   );
 
   // Initialize the modal content and attach event listeners, scoped to the dialog
-  initializeListSelectionModal(FHRSID, dialogElement);
+  initializeListSelectionModal(establishment.FHRSID, dialogElement);
 
   // Update checkbox states dynamically, scoped to the dialog
-  updateCheckboxStates(FHRSID, dialogElement);
+  updateCheckboxStates(establishment.FHRSID, dialogElement);
 };

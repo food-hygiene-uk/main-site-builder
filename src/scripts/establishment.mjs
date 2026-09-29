@@ -2,6 +2,34 @@
  * @typedef {import("../generate-site/schema.mts").Establishment} Establishment
  */
 
+const notFoundEstablishmentStub = /** @type {const} */ ({
+  FHRSID: 1,
+  BusinessName: "Unknown Establishment",
+  RatingValue: "",
+  RatingDate: null,
+  BusinessType: "",
+  LocalAuthorityBusinessID: "",
+  BusinessTypeID: 7843,
+  LocalAuthorityCode: "",
+  LocalAuthorityName: "",
+  LocalAuthorityWebSite: "",
+  NewRatingPending: false,
+  LocalAuthorityEmailAddress: "",
+  Geocode: null,
+  AddressLine1: undefined,
+  AddressLine2: undefined,
+  AddressLine3: undefined,
+  AddressLine4: undefined,
+  PostCode: undefined,
+  SchemeType: "FHRS",
+  RatingKey: "fhrs_5_cy-gb",
+  Scores: {
+    Hygiene: 0,
+    Structural: 5,
+    ConfidenceInManagement: 5,
+  },
+});
+
 // FHRS API Configuration
 const API_HEADERS = {
   accept: "application/json",
@@ -16,7 +44,7 @@ const establishmentCache = new Map();
 /**
  * Fetches establishment details from the FHRS API
  *
- * @param {string|number} FHRSID - The FHRSID of the establishment
+ * @param {Establishment['FHRSID']} FHRSID - The FHRSID of the establishment
  * @returns {Promise<Establishment>} The establishment data or stub if not found
  */
 export const fetchEstablishmentDetails = async (FHRSID) => {
@@ -38,12 +66,7 @@ export const fetchEstablishmentDetails = async (FHRSID) => {
       console.error(
         `Failed to fetch establishment ${FHRSID}: ${response.status}`,
       );
-      return {
-        FHRSID,
-        BusinessName: "Unknown Establishment",
-        RatingValue: null,
-        RatingDate: null,
-      };
+      return notFoundEstablishmentStub;
     }
 
     const data = await response.json();
@@ -53,12 +76,7 @@ export const fetchEstablishmentDetails = async (FHRSID) => {
   } catch (error) {
     console.error(`Error fetching establishment ${FHRSID}:`, error);
 
-    return {
-      FHRSID,
-      BusinessName: "Unknown Establishment",
-      RatingValue: null,
-      RatingDate: null,
-    };
+    return notFoundEstablishmentStub;
   }
 };
 
@@ -88,8 +106,8 @@ const compareRatingDate = (a, b) => {
   if (a.RatingDate !== b.RatingDate) {
     if (!a.RatingDate || !b.RatingDate) return -1;
 
-    const dateA = new Date(a.RatingDate);
-    const dateB = new Date(b.RatingDate);
+    const dateA = new Date(a.RatingDate).getTime();
+    const dateB = new Date(b.RatingDate).getTime();
 
     if (dateA !== dateB) {
       return dateB - dateA; // More recent date first

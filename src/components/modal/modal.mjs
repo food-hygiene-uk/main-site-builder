@@ -4,6 +4,8 @@
 
 /**
  * Adds the CSS link for the component to the document head.
+ *
+ * @type {Promise<void>}
  */
 const cssReady = new Promise((resolve, reject) => {
   const link = document.createElement("link");

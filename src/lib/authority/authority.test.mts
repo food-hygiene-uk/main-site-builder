@@ -1,9 +1,9 @@
 import { assertEquals } from "@std/assert";
-import { describe, it } from "@std/testing/bdd";
+import { describe, it } from "node:test";
 import fc from "fast-check";
 import { config as appConfig } from "../config/config.mts";
 import { encodeName as actualEncodeName } from "../file/file.mts";
-import type { Authority } from "../../ratings-api/types.mts";
+import type { Authority } from "../../ratings-data/types.mts";
 
 import {
   getCanonicalLinkURL,

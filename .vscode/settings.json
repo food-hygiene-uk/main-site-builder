@@ -1,5 +1,6 @@
 {
   "deno.enable": true,
+  "deno.enablePaths": ["./scripts", "./src", "./tests", "./deno.json"],
   "eslint.format.enable": true,
   "eslint.probe": [
     "css",

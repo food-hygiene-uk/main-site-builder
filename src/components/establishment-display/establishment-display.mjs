@@ -1,5 +1,5 @@
 /**
- * @typedef {import("components/establishment-card/establishment-card.mjs").Establishment} Establishment
+ * @typedef {import("../../generate-site/schema.mts").Establishment} Establishment
  * @typedef { "order" | "name" | "rating" | "date" } DefaultSortOptionValue
  * @typedef {object} SortOption
  * @property {DefaultSortOptionValue} value - The value to identify this sort option
@@ -8,6 +8,8 @@
 
 /**
  * Adds the CSS link for the component to the document head.
+ *
+ * @type {Promise<void>}
  */
 const cssReady = new Promise((resolve, reject) => {
   const link = document.createElement("link");
@@ -89,6 +91,9 @@ export class EstablishmentDisplay {
     this.currentSortOption = this.defaultSortOption;
     this.currentSortDirection = this.defaultSortDirection;
     this.filterText = "";
+    /**
+    @type {Array<Establishment>}
+    */
     this.originalEstablishments = [];
 
     // UI elements
@@ -320,7 +325,7 @@ export class EstablishmentDisplay {
  * @param {boolean} [options.enableFiltering] - Whether to enable name filtering
  * @param {(filterText: string) => void} options.onFilterChange - Callback when filter changes
  * @param {(sortOption: string, sortDirection: boolean) => void} options.onSortChange - Callback when sort changes
- * @returns {EstablishmentDisplay} A new EstablishmentDisplay instance
+ * @returns {Promise<EstablishmentDisplay>} A new EstablishmentDisplay instance
  */
 export async function createEstablishmentDisplay(options) {
   const establishmentDisplay = new EstablishmentDisplay(options);

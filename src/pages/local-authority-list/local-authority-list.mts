@@ -2,7 +2,7 @@
 import { fromFileUrl, join } from "@std/path";
 import vento from "@vento/vento";
 import autoTrim from "@vento/vento/plugins/auto_trim.ts";
-import { type Authorities } from "../../ratings-api/types.mts";
+import { type Authorities } from "../../ratings-data/types.mts";
 import { forgeRoot } from "../../components/root/forge.mts";
 import { forgeHeader } from "../../components/header/forge.mts";
 import { forgeFooter } from "../../components/footer/forge.mts";
