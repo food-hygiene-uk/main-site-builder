@@ -101,9 +101,7 @@ export async function renderEstablishmentCard(establishment) {
   }
 
   // Get last visited time from service or original data
-  const lastVisited = recentEstablishmentsService.getLastVisitedTime(
-    String(FHRSID),
-  );
+  const lastVisited = recentEstablishmentsService.getLastVisitedTime(FHRSID);
 
   if (!establishment) {
     console.error("Failed to get establishment details:", FHRSID);
@@ -113,7 +111,7 @@ export async function renderEstablishmentCard(establishment) {
   // Create the card element
   const item = document.createElement("div");
   item.className = "establishment-card box-shadow-hover";
-  item.dataset.establishmentId = FHRSID;
+  item.dataset.establishmentId = String(FHRSID);
 
   // Create content
   const nameElement = document.createElement("h3");

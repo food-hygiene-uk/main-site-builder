@@ -140,7 +140,7 @@ const compareBusinessName = (a, b) => {
  * Sort establishments by the given option and direction
  *
  * @param {Array<Establishment>} establishments - Establishments to sort
- * @param {"name"|"rating"|"date"} sortOption - Sort option to use
+ * @param {"order"|"name"|"rating"|"date"} sortOption - Sort option to use
  * @param {boolean} sortDirection - Sort direction (true for ascending, false for descending)
  * @returns {Array<Establishment>} Sorted establishments
  */

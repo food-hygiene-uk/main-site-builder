@@ -4,7 +4,7 @@
  */
 
 /**
- * @typedef {import("../../generate-site/schema.mts").Establishment} Establishment
+ * @typedef {import("scripts/list-service.mjs").ListEstablishment} ListEstablishment
  */
 
 import {
@@ -17,7 +17,7 @@ import { openModal } from "components/modal/modal.mjs";
 /**
  * Initializes the list selection modal content and attaches event listeners.
  *
- * @param {Establishment} establishment - Establishment record
+ * @param {ListEstablishment} establishment - Establishment record
  * @param {HTMLDialogElement} modalElement - The dialog element for the modal.
  */
 const initializeListSelectionModal = (establishment, modalElement) => {
@@ -76,7 +76,7 @@ const initializeListSelectionModal = (establishment, modalElement) => {
       return; // Do not create a list with an empty name
     }
 
-    createNewList(listName, establishment.FHRSID);
+    createNewList(listName, establishment);
     newListInput.value = "";
     updateCheckboxStates(establishment.FHRSID, modalElement);
   });
@@ -84,11 +84,16 @@ const initializeListSelectionModal = (establishment, modalElement) => {
   // Attach a single event listener to the modal body for checkbox changes
   modalBody.addEventListener("change", (event) => {
     const target = event.target;
-    if (!target.classList.contains("styled-checkbox")) {
+    if (
+      !(target instanceof HTMLInputElement) ||
+      !target.classList.contains("styled-checkbox")
+    ) {
       return;
     }
 
     const listId = target.dataset.listId;
+    if (!listId) return;
+
     const isChecked = target.checked;
     updateList(establishment, listId, isChecked);
     // After updating the list, refresh the checkbox states within this specific modal
@@ -99,7 +104,7 @@ const initializeListSelectionModal = (establishment, modalElement) => {
 /**
  * Updates the state of the checkboxes in the modal.
  *
- * @param {string} FHRSID - The unique identifier of the establishment.
+ * @param {number} FHRSID - The unique identifier of the establishment.
  * @param {HTMLDialogElement} modalElement - The dialog element for the modal.
  */
 const updateCheckboxStates = (FHRSID, modalElement) => {
@@ -136,7 +141,7 @@ const updateCheckboxStates = (FHRSID, modalElement) => {
 /**
  * Opens a list selection modal for managing an establishment's lists.
  *
- * @param {Establishment} establishment - Establishment record
+ * @param {ListEstablishment} establishment - Establishment record
  * @param {() => void} onClose - Callback function invoked when the modal is closed.
  */
 export const openListSelectionModal = async (establishment, onClose) => {
@@ -151,7 +156,7 @@ export const openListSelectionModal = async (establishment, onClose) => {
   );
 
   // Initialize the modal content and attach event listeners, scoped to the dialog
-  initializeListSelectionModal(establishment.FHRSID, dialogElement);
+  initializeListSelectionModal(establishment, dialogElement);
 
   // Update checkbox states dynamically, scoped to the dialog
   updateCheckboxStates(establishment.FHRSID, dialogElement);

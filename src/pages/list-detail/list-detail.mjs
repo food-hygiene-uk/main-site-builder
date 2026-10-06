@@ -1,6 +1,8 @@
 /**
  * @typedef {import("../../generate-site/schema.mts").Establishment} Establishment
- * @typedef {import("components/establishment-display/establishment-display.mjs").DefaultSortOptionValue} DefaultSortOptionValue
+ * @typedef {import("components/establishment-display/establishment-display.mjs").SortKeys} SortKeys
+ * @typedef {import("components/establishment-display/establishment-display.mjs").SortDirections} SortDirections
+ * @typedef {import("scripts/list-service.mjs").SavedList} SavedList
  */
 
 import { EstablishmentList } from "components/establishment-list/establishment-list.mjs";
@@ -24,7 +26,7 @@ const PAGE_SIZE = 10;
 /**
  * Default sort option for list detail page
  *
- * @type {DefaultSortOptionValue}
+ * @type {SortKeys}
  */
 const DEFAULT_SORT_OPTION = "order";
 
@@ -37,6 +39,9 @@ const DEFAULT_SORT_OPTION = "order";
 const DEFAULT_SORT_DIRECTION = false; // Descending (most recent first)
 
 // module scope variables
+/**
+ * @type {{ page: number; filterText: string; sortOption: SortKeys; sortDirection: SortDirections }}
+ */
 const establishmentView = {
   page: 1,
   filterText: "",
@@ -47,12 +52,12 @@ const establishmentView = {
 /**
  * Encodes an array of establishment IDs into a compact string representation
  *
- * @param {Array<string>} ids - Array of establishment IDs to encode
+ * @param {Array<number>} ids - Array of establishment IDs to encode
  * @returns {string} Encoded string representation
  */
 const encodeEstablishmentIds = (ids) => {
   // Convert to base36 representation for more compact encoding
-  const base36Ids = ids.map((id) => Number.parseInt(id).toString(36));
+  const base36Ids = ids.map((id) => id.toString(36));
 
   // Create a compact JSON object with the ids
   const dataObject = { i: base36Ids };
@@ -68,7 +73,7 @@ const encodeEstablishmentIds = (ids) => {
  * Gets a saved list by ID
  *
  * @param {string} id - The ID of the saved list to retrieve
- * @returns {object|null} The saved list or null if not found
+ * @returns {SavedList|null} The saved list or null if not found
  */
 const getSavedList = (id) => {
   if (globalThis.localStorage === undefined) return null;
@@ -79,7 +84,9 @@ const getSavedList = (id) => {
     );
     if (!savedListsJson) return null;
 
-    const savedLists = JSON.parse(savedListsJson);
+    const savedLists = /** @type {Record<string, SavedList>} */ (
+      JSON.parse(savedListsJson)
+    );
     return savedLists[id] || null;
   } catch (error) {
     console.error("Error retrieving saved list:", error);
@@ -102,7 +109,9 @@ const deleteList = (id) => {
     );
     if (!savedListsJson) return false;
 
-    const savedLists = JSON.parse(savedListsJson);
+    const savedLists = /** @type {Record<string, SavedList>} */ (
+      JSON.parse(savedListsJson)
+    );
 
     // Check if the list exists
     if (!Object.hasOwn(savedLists, id)) {
@@ -149,7 +158,6 @@ document.addEventListener("DOMContentLoaded", () => {
     loadingElement: references.loadingIndicator,
     emptyElement: references.emptyListMessage,
     errorElement: references.errorMessage,
-    enableViewToggle: true,
     enableDisplay: true, // Enable the filter and sort functionality
     enableFiltering: true,
     defaultSortOption: establishmentView.sortOption,
@@ -157,6 +165,9 @@ document.addEventListener("DOMContentLoaded", () => {
   });
 
   // Stores the current list of establishments for sharing
+  /**
+   * @type {Array<Establishment>}
+   */
   let currentEstablishments = [];
   let currentListTitle = "";
 
@@ -207,6 +218,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
       // Generate the share URL and set it in the input field
       const shareUrl = generateShareUrl();
+      if (!shareUrl) return;
       shareUrlInput.value = shareUrl;
 
       copyShareUrlButton.addEventListener("click", () => {
@@ -311,9 +323,15 @@ document.addEventListener("DOMContentLoaded", () => {
     currentEstablishments = []; // Reset current establishments
 
     // Hide all action buttons by default
-    if (references.shareButton) references.shareButton.setAttribute("hidden", "hidden");
-    if (references.clearButton) references.clearButton.setAttribute("hidden", "hidden");
-    if (references.deleteButton) references.deleteButton.setAttribute("hidden", "hidden");
+    if (references.shareButton) {
+      references.shareButton.setAttribute("hidden", "hidden");
+    }
+    if (references.clearButton) {
+      references.clearButton.setAttribute("hidden", "hidden");
+    }
+    if (references.deleteButton) {
+      references.deleteButton.setAttribute("hidden", "hidden");
+    }
 
     if (listId === "recent") {
       listInfo = {
@@ -390,6 +408,10 @@ document.addEventListener("DOMContentLoaded", () => {
       } else {
         // This is a saved list
         const savedList = getSavedList(listId);
+        if (!savedList) {
+          establishmentList.showError("The requested list could not be found");
+          return;
+        }
 
         establishments = await Promise.all(
           savedList.establishments.map((item) =>
@@ -438,12 +460,18 @@ document.addEventListener("DOMContentLoaded", () => {
     }
   }
 
+  /**
+   * @param {number} page
+   */
   const handleClientPageChange = async (page) => {
     establishmentView.page = page;
 
     loadEstablishments();
   };
 
+  /**
+   * @param {string} filterText
+   */
   const handleFilterChange = async (filterText) => {
     establishmentView.filterText = filterText;
     establishmentView.page = 1; // Reset to first page on filter change
@@ -451,6 +479,10 @@ document.addEventListener("DOMContentLoaded", () => {
     loadEstablishments();
   };
 
+  /**
+   * @param {SortKeys} sortOption -
+   * @param {SortDirections} sortDirection
+   */
   const handleSortChange = async (sortOption, sortDirection) => {
     establishmentView.sortOption = sortOption;
     establishmentView.sortDirection = sortDirection;

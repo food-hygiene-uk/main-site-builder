@@ -6,6 +6,13 @@ const searchInput = document.querySelector(
 );
 const container = document.querySelector(".establishments-container");
 
+if (
+  !(searchInput instanceof HTMLInputElement) ||
+  !(container instanceof HTMLElement)
+) {
+  throw new TypeError("Establishment search elements were not found");
+}
+
 const establishments = [...container.querySelectorAll(".establishment")];
 
 // Pre-cache establishment data to avoid DOM queries during search
@@ -28,13 +35,16 @@ const establishmentData = establishments.map((establishment) => ({
  * @returns {(...args: T) => void} A debounced version of the function.
  */
 const debounce = (function_, wait) => {
+  /**
+   * @type {ReturnType<typeof setTimeout> | undefined}
+   */
   let timeout;
   return (...arguments_) => {
     const later = () => {
-      clearTimeout(timeout);
+      if (timeout !== undefined) clearTimeout(timeout);
       function_(...arguments_);
     };
-    clearTimeout(timeout);
+    if (timeout !== undefined) clearTimeout(timeout);
     timeout = setTimeout(later, wait);
   };
 };
@@ -63,7 +73,7 @@ const parseSearchTerms = (searchTerm) => {
  * Each establishment is added with a horizontal rule separator.
  *
  * @param {HTMLElement} container - The container to append the establishments to.
- * @param {Array<{clone: Node}>} establishments - An array of establishment data objects, each containing a clone of the establishment's DOM node.
+ * @param {Iterable<{clone: Node}>} establishments - Establishment data to append.
  */
 const appendEstablishments = (container, establishments) => {
   // Remove all current establishments
@@ -118,8 +128,8 @@ const processBatch = (startIndex, batchSize, searchTerms, resolve) => {
   } else {
     // Continue processing
     const nextBatch = () => processBatch(end, batchSize, searchTerms, resolve);
-    if (globalThis.requestIdleCallback) {
-      requestIdleCallback(nextBatch);
+    if (typeof globalThis.requestIdleCallback === "function") {
+      globalThis.requestIdleCallback(nextBatch);
     } else {
       requestAnimationFrame(nextBatch);
     }
@@ -156,7 +166,7 @@ const handleSearch = async (searchTerm) => {
 // Attach debounced event listener
 searchInput.addEventListener(
   "input",
-  debounce((event) => {
-    handleSearch(event.target.value.toLowerCase());
+  debounce(() => {
+    handleSearch(searchInput.value.toLowerCase());
   }, 150),
 );

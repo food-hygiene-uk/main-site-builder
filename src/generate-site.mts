@@ -46,7 +46,8 @@ await copy("assets", "dist", { overwrite: true });
 await copy("src/scripts", "dist/scripts", { overwrite: true });
 
 const components = [
-  "dom",  "establishment-card",
+  "dom",
+  "establishment-card",
   "establishment-display",
   "establishment-list",
   "list-selection-button",

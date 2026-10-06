@@ -1,5 +1,8 @@
 /**
  * @typedef {import("../../generate-site/schema.mts").Establishment} Establishment
+ * @typedef {import("components/establishment-display/establishment-display.mjs").SortOption} SortOption
+ * @typedef {import("components/establishment-display/establishment-display.mjs").SortKeys} SortKeys
+ * @typedef {import("components/establishment-display/establishment-display.mjs").SortDirections} SortDirections
  */
 
 import { renderEstablishmentCard } from "components/establishment-card/establishment-card.mjs";
@@ -35,12 +38,12 @@ export class EstablishmentList {
    * @param {HTMLElement} [options.errorElement] - Element to show when an error occurs
    * @param {HTMLElement} [options.countElement] - Element to show result count
    * @param {boolean} [options.enableDisplay] - Whether to add the establishment-display component for filtering and sorting
-   * @param {Array<object>} [options.sortOptions] - Custom sort options for the display component
-   * @param {string} [options.defaultSortOption] - Default sort option for the display component
-   * @param {boolean} [options.defaultSortDirection] - Default sort direction for the display component
+   * @param {Array<SortOption>} [options.sortOptions] - Custom sort options for the display component
+   * @param {SortKeys} [options.defaultSortOption] - Default sort option for the display component
+   * @param {SortDirections} [options.defaultSortDirection] - Default sort direction for the display component
    * @param {boolean} [options.enableFiltering] - Whether to enable name filtering in the display component
    * @param {(filterText: string) => Array<Establishment>} [options.filterCallback] - Custom function to filter establishments
-   * @param {(sortOption: string, sortDirection: boolean) => Array<Establishment>} [options.sortCallback] - Custom function to sort establishments
+   * @param {(sortOption: SortKeys, sortDirection: SortDirections) => Array<Establishment>} [options.sortCallback] - Custom function to sort establishments
    */
   constructor(options) {
     this.container = options.container;
@@ -55,8 +58,17 @@ export class EstablishmentList {
     this.enableFiltering = options.enableFiltering;
 
     // Callbacks - will be set when loadEstablishments is called
+    /**
+     * @type {((page: number) => void) | null}
+     */
     this._onPageChangeCallback = null;
+    /**
+     * @type {((filterText: string) => void) | null}
+     */
     this._onFilterChangeCallback = null;
+    /**
+     * @type {((sortOption: SortKeys, sortDirection: SortDirections) => void) | null}
+     */
     this._onSortChangeCallback = null;
 
     // Original unfiltered and unsorted establishments
@@ -88,7 +100,6 @@ export class EstablishmentList {
    * Shows only the specified section and hides all others
    *
    * @param {string} section - The section to show
-   * @private
    */
   #showSection(section) {
     const sections = {
@@ -107,8 +118,6 @@ export class EstablishmentList {
 
   /**
    * Create the necessary DOM elements
-   *
-   * @private
    */
   async #createElements() {
     // Wrapper for the entire component
@@ -161,10 +170,12 @@ export class EstablishmentList {
    * Render the pagination controls
    *
    * @param {(page: number) => void} [onPageChange] - Callback to execute when page changes
-   * @private
    */
   #renderPagination(onPageChange) {
-    this.paginationElement.replaceChildren();
+    const paginationElement = this.paginationElement;
+    if (!paginationElement) return;
+
+    paginationElement.replaceChildren();
 
     if (this.totalPages <= 1) return;
 
@@ -175,7 +186,7 @@ export class EstablishmentList {
         this.currentPage - 1,
         onPageChange,
       );
-      this.paginationElement.append(previousButton);
+      paginationElement.append(previousButton);
     }
 
     // Page numbers
@@ -183,11 +194,15 @@ export class EstablishmentList {
     const endPage = Math.min(this.totalPages, startPage + 4);
 
     for (let index = startPage; index <= endPage; index++) {
-      const button = this.createPaginationButton(index, index, onPageChange);
+      const button = this.createPaginationButton(
+        String(index),
+        index,
+        onPageChange,
+      );
       if (index === this.currentPage) {
         button.classList.add("active");
       }
-      this.paginationElement.append(button);
+      paginationElement.append(button);
     }
 
     // Next button
@@ -200,13 +215,13 @@ export class EstablishmentList {
       this.currentPage + 1,
       onPageChange,
     );
-    this.paginationElement.append(nextButton);
+    paginationElement.append(nextButton);
   }
 
   /**
    * Creates a pagination button with the specified text and page number
    *
-   * @param {string|number} text - The text to display on the button
+   * @param {string} text - The text to display on the button
    * @param {number} page - The page number this button should navigate to
    * @param {(page: number) => void} [onPageChange] - Callback to execute when page changes
    * @returns {HTMLButtonElement} The created button element
@@ -253,7 +268,10 @@ export class EstablishmentList {
    */
   async renderCurrentPage() {
     const currentItems = this.establishments;
-    this.listElement.replaceChildren();
+    const listElement = this.listElement;
+    if (!listElement) return;
+
+    listElement.replaceChildren();
 
     // Show loading state while rendering
     this.#showSection("loading");
@@ -263,7 +281,7 @@ export class EstablishmentList {
       for (const establishment of currentItems) {
         try {
           const item = await renderEstablishmentCard(establishment);
-          this.listElement.append(item);
+          listElement.append(item);
         } catch (error) {
           console.error(
             "Error rendering establishment card:",
@@ -286,13 +304,13 @@ export class EstablishmentList {
    * @param {number} [data.currentPage] - Current page number
    * @param {number} [data.pageSize] - Page size
    * @param {string} [data.filterText] - Text to filter establishments by (if filter callback is provided)
-   * @param {string} [data.sortOption] - Sort option to use (if sort callback is provided)
-   * @param {boolean} [data.sortDirection] - Sort direction to use (if sort callback is provided)
+   * @param {SortKeys} [data.sortOption] - Sort option to use (if sort callback is provided)
+   * @param {SortDirections} [data.sortDirection] - Sort direction to use (if sort callback is provided)
    * @param {boolean} [isLoading] - Whether the data is still loading
    * @param {number} [totalEstablishments] - Total number of unfiltered establishments
-   * @param {(page: number) => void} [onPageChange] - Callback to execute when page changes
-   * @param {(filterText: string) => void} [onFilterChange] - Callback to execute when filter changes
-   * @param {(sortOption: string, sortDirection: boolean) => void} [onSortChange] - Callback to execute when sort changes
+   * @param {((page: number) => void) | null} [onPageChange=null] - Callback to execute when page changes
+   * @param {((filterText: string) => void) | null} [onFilterChange=null] - Callback to execute when filter changes
+   * @param {((sortOption: SortKeys, sortDirection: SortDirections) => void) | null} [onSortChange=null] - Callback to execute when sort changes
    * @returns {Promise<void>} Promise that resolves when establishments are loaded and rendered
    */
   async loadEstablishments(
@@ -316,8 +334,9 @@ export class EstablishmentList {
       this.currentPage = data.currentPage;
     }
 
-    this.totalResults = data.totalResults;
-    this.totalPages = Math.ceil(this.totalResults / data.pageSize);
+    this.totalResults = data.totalResults ?? 0;
+    const pageSize = data.pageSize ?? Math.max(this.establishments.length, 1);
+    this.totalPages = Math.ceil(this.totalResults / pageSize);
 
     // Store the onPageChange callback for future use
     this._onPageChangeCallback = onPageChange;
@@ -338,7 +357,7 @@ export class EstablishmentList {
 
       // Update count element if it exists
       if (this.countElement) {
-        const start = (this.currentPage - 1) * data.pageSize + 1;
+        const start = (this.currentPage - 1) * pageSize + 1;
         const end = Math.min(
           start + this.establishments.length - 1,
           this.totalResults,
@@ -360,7 +379,7 @@ export class EstablishmentList {
       // Render establishments and pagination
       await cssReady;
       await this.renderCurrentPage();
-      this.#renderPagination(onPageChange);
+      this.#renderPagination(onPageChange ?? undefined);
     }
   }
 

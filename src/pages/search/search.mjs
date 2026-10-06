@@ -1,5 +1,9 @@
 /**
  * @typedef {import("../../generate-site/schema.mts").Establishment} Establishment
+ * @typedef {{ businessTypes: Array<{ BusinessTypeId: string | number; BusinessTypeName: string }> }} BusinessTypesResponse
+ * @typedef {{ ratings: Array<{ ratingKeyName: string; ratingName: string }> }} RatingsResponse
+ * @typedef {{ authorities: Array<{ LocalAuthorityId: string | number; Name: string }> }} AuthoritiesResponse
+ * @typedef {{ establishments: Array<Establishment>; meta: { totalCount: number } }} EstablishmentsResponse
  */
 
 /* eslint-disable unicorn/no-top-level-side-effects */
@@ -31,7 +35,7 @@ const CONSENT_STORAGE_KEY = "fhrs_api_consent";
 
 // Search state
 const state = {
-    /**
+  /**
   @type {number | null}
   */
   attentionEffectTimeout: null,
@@ -102,7 +106,7 @@ function setupConsentHandling() {
     state.hasUserConsent = references.consentToggle.checked;
 
     // Store user's choice
-    localStorage.setItem(CONSENT_STORAGE_KEY, state.hasUserConsent);
+    localStorage.setItem(CONSENT_STORAGE_KEY, String(state.hasUserConsent));
 
     updateUIForConsent(state.hasUserConsent);
 
@@ -150,9 +154,10 @@ function updateUIForConsent(hasConsent) {
  */
 function disableFormElements(disabled) {
   // Disable/enable all form inputs
-  const formElements = references.searchForm.querySelectorAll(
-    "input, select, button",
-  );
+  const formElements =
+    /** @type {NodeListOf<HTMLInputElement | HTMLSelectElement | HTMLButtonElement>} */ (
+      references.searchForm.querySelectorAll("input, select, button")
+    );
   for (const element of formElements) {
     element.disabled = disabled;
   }
@@ -235,7 +240,10 @@ function setupEventListeners() {
     highlightConsentSection();
 
     // Prevent default actions only for interactive elements (but still allow the click)
-    if (["INPUT", "SELECT", "BUTTON"].includes(event.target.tagName)) {
+    if (
+      event.target instanceof Element &&
+      ["INPUT", "SELECT", "BUTTON"].includes(event.target.tagName)
+    ) {
       event.preventDefault();
     }
   });
@@ -262,7 +270,9 @@ async function loadReferenceData() {
 
   try {
     // Load business types
-    const businessTypes = await fetchAPI("/BusinessTypes");
+    const businessTypes = /** @type {BusinessTypesResponse} */ (
+      await fetchAPI("/BusinessTypes")
+    );
     populateSelect(
       "businessTypeId",
       businessTypes.businessTypes,
@@ -271,11 +281,13 @@ async function loadReferenceData() {
     );
 
     // Load ratings
-    const ratings = await fetchAPI("/Ratings");
+    const ratings = /** @type {RatingsResponse} */ (await fetchAPI("/Ratings"));
     populateSelect("ratingKey", ratings.ratings, "ratingKeyName", "ratingName");
 
     // Load authorities
-    const authorities = await fetchAPI("/Authorities");
+    const authorities = /** @type {AuthoritiesResponse} */ (
+      await fetchAPI("/Authorities")
+    );
     populateSelect(
       "localAuthorityId",
       authorities.authorities,
@@ -291,7 +303,7 @@ async function loadReferenceData() {
  * Populates a select element with options from an array of objects
  *
  * @param {string} selectId - The ID of the select element to populate
- * @param {Array<Record<string, string>>} options - Array of objects containing option data
+ * @param {Array<Record<string, string | number>>} options - Array of objects containing option data
  * @param {string} valueKey - The key in each object to use as the option value
  * @param {string} textKey - The key in each object to use as the option text
  */
@@ -300,8 +312,8 @@ function populateSelect(selectId, options, valueKey, textKey) {
   if (select) {
     for (const option of options) {
       const element = document.createElement("option");
-      element.value = option[valueKey];
-      element.textContent = option[textKey];
+      element.value = String(option[valueKey]);
+      element.textContent = String(option[textKey]);
       select.append(element);
     }
   }
@@ -342,8 +354,13 @@ function updateURLFromForm() {
 function populateFormFromURL() {
   // Populate form fields from URL parameters
   for (const [key, value] of state.searchParams.entries()) {
-    const field = references.searchForm.elements[key];
-    if (field && key !== "pageNumber") {
+    const field = references.searchForm.elements.namedItem(key);
+    if (
+      key !== "pageNumber" &&
+      (field instanceof HTMLInputElement ||
+        field instanceof HTMLSelectElement ||
+        field instanceof HTMLTextAreaElement)
+    ) {
       field.value = value;
     }
   }
@@ -396,8 +413,8 @@ async function performSearch() {
     queryParameters.set("pageSize", state.pageSize.toString());
 
     // Fetch results
-    const response = await fetchAPI(
-      `/Establishments?${queryParameters.toString()}`,
+    const response = /** @type {EstablishmentsResponse} */ (
+      await fetchAPI(`/Establishments?${queryParameters.toString()}`)
     );
 
     const establishments = response.establishments || [];
@@ -480,7 +497,7 @@ export const handlePageChange = async (page) => {
  * Fetches data from the FHRS API
  *
  * @param {string} endpoint - The API endpoint to fetch
- * @returns {Promise<object>} The JSON response from the API
+ * @returns {Promise<unknown>} The JSON response from the API
  * @throws {Error} If the request fails or user has not given consent
  */
 export const fetchAPI = async (endpoint) => {

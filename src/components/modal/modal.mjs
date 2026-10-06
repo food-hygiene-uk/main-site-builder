@@ -24,7 +24,7 @@ const cssReady = new Promise((resolve, reject) => {
  * @param {string} title - The title of the modal.
  * @param {HTMLElement} content - The content to display inside the modal.
  * @param {() => void} [onCloseCallback] - Optional callback invoked when the modal is closed.
- * @returns {HTMLDialogElement} The created modal dialog element.
+ * @returns {Promise<HTMLDialogElement>} The created modal dialog element.
  */
 export const openModal = async (title, content, onCloseCallback) => {
   // Create the dialog element
@@ -43,12 +43,18 @@ export const openModal = async (title, content, onCloseCallback) => {
   `;
 
   const closeButton = dialog.querySelector(".modal-close-button");
+  if (!(closeButton instanceof HTMLButtonElement)) {
+    throw new TypeError("Modal close button was not found");
+  }
   closeButton.addEventListener("click", () => {
     dialog.close();
   });
 
   // Append the dynamic content to the modal body
   const modalBody = dialog.querySelector(".modal-body");
+  if (!(modalBody instanceof HTMLDivElement)) {
+    throw new TypeError("Modal body was not found");
+  }
   modalBody.append(content);
 
   // Handle the close event
