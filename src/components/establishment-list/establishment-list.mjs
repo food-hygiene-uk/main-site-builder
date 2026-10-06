@@ -5,7 +5,7 @@
  * @typedef {import("components/establishment-display/establishment-display.mjs").SortDirections} SortDirections
  */
 
-import { renderEstablishmentCard } from "components/establishment-card/establishment-card.mjs";
+import { EstablishmentCard } from "components/establishment-card/establishment-card.mjs";
 import { createEstablishmentDisplay } from "components/establishment-display/establishment-display.mjs";
 
 /**
@@ -280,7 +280,10 @@ export class EstablishmentList {
       // Render items in list view
       for (const establishment of currentItems) {
         try {
-          const item = await renderEstablishmentCard(establishment);
+          const item = document.createElement("establishment-card");
+          if (item instanceof EstablishmentCard) {
+            item.establishment = establishment;
+          }
           listElement.append(item);
         } catch (error) {
           console.error(
