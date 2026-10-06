@@ -37,6 +37,7 @@
     "npm:http-server@14.1.1": "14.1.1",
     "npm:jiti@2.7.0": "2.7.0",
     "npm:meriyah@6.0.5": "6.0.5",
+    "npm:playwright@*": "1.63.0",
     "npm:playwright@1.63.0": "1.63.0",
     "npm:postcss-preset-env@11.5.4": "11.5.4_postcss@8.5.28",
     "npm:postcss@8.5.28": "8.5.28",
