@@ -2,10 +2,8 @@ import {
   dataSchema,
   type LocalAuthorityData,
 } from "../generate-site/schema.mts";
-import {
-  type AuthoritiesResponse,
-  authoritiesResponseSchema,
-} from "./types.mts";
+import { type AuthoritiesResponse } from "./types.mts";
+import { authoritiesResponseSchema } from "./types.mts";
 
 /**
  * Default fetch initialization options for API requests.

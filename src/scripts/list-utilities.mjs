@@ -1,5 +1,5 @@
 /**
- * @typedef {import("components/establishment-card/establishment-card.mjs").Establishment} Establishment
+ * @typedef {import("../generate-site/schema.mts").Establishment} Establishment
  */
 
 /**

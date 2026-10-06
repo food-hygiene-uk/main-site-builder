@@ -1,6 +1,15 @@
+/**
+ * @typedef {import("../../generate-site/schema.mts").Establishment} Establishment
+ * @typedef {import("components/establishment-display/establishment-display.mjs").SortKeys} SortKeys
+ * @typedef {import("components/establishment-display/establishment-display.mjs").SortDirections} SortDirections
+ * @typedef {import("scripts/list-service.mjs").SavedList} SavedList
+ * @typedef {SavedList & { created?: string }} SharedSavedList
+ */
+
 import { EstablishmentList } from "components/establishment-list/establishment-list.mjs";
 import { DEFAULT_SORT_CONFIG } from "components/establishment-display/establishment-display.mjs";
 import { openModal } from "components/modal/modal.mjs";
+import { getReference } from "utils/dom.mjs";
 import {
   fetchEstablishmentDetails,
   sortEstablishments,
@@ -15,10 +24,16 @@ const SAVED_LISTS_STORAGE_KEY = "saved-establishment-lists";
 const PAGE_SIZE = 10;
 
 const state = {
+  /**
+   * @type {Array<Establishment>}
+   */
   loadedEstablishments: [],
 };
 
 // module scope variables
+/**
+ * @type {{ page: number; filterText: string; sortOption: SortKeys; sortDirection: SortDirections }}
+ */
 const establishmentView = {
   page: 1,
   filterText: "",
@@ -30,7 +45,7 @@ const establishmentView = {
  * Decodes a compact string representation back into an array of establishment IDs
  *
  * @param {string} encoded - The encoded string to decode
- * @returns {Array<string>} Array of decoded establishment IDs
+ * @returns {Array<number>} Array of decoded establishment IDs
  */
 const decodeEstablishmentIds = (encoded) => {
   try {
@@ -38,10 +53,10 @@ const decodeEstablishmentIds = (encoded) => {
     const jsonString = atob(encoded);
 
     // Parse the JSON
-    const dataObject = JSON.parse(jsonString);
+    const dataObject = /** @type {{ i: string[] }} */ (JSON.parse(jsonString));
 
     // Convert the base36 ids back to decimal
-    return dataObject.i.map((id) => Number.parseInt(id, 36).toString());
+    return dataObject.i.map((id) => Number.parseInt(id, 36));
   } catch (error) {
     console.error("Error decoding establishment IDs:", error);
     return [];
@@ -52,7 +67,7 @@ const decodeEstablishmentIds = (encoded) => {
  * Saves a list of establishments to localStorage
  *
  * @param {string} listName - The name of the list to save
- * @param {Array<object>} establishments - Array of establishment objects to save
+ * @param {Array<Establishment>} establishments - Array of establishment objects to save
  * @returns {string | null} The ID of the saved list or null on error
  */
 const saveList = (listName, establishments) => {
@@ -61,13 +76,18 @@ const saveList = (listName, establishments) => {
 
   try {
     // Get existing saved lists
+    /**
+     * @type {Record<string, SharedSavedList>}
+     */
     let savedLists = {};
     const savedListsJson = globalThis.localStorage.getItem(
       SAVED_LISTS_STORAGE_KEY,
     );
 
     if (savedListsJson) {
-      savedLists = JSON.parse(savedListsJson);
+      savedLists = /** @type {Record<string, SharedSavedList>} */ (
+        JSON.parse(savedListsJson)
+      );
     }
 
     // Create a unique ID for the list
@@ -134,8 +154,10 @@ const handleSaveList = (listName, closeModalCallback) => {
 
 /**
  * Shows the save list modal
+ *
+ * @param {string} title - Suggested name for the saved list
  */
-const showSaveModal = async () => {
+const showSaveModal = async (title) => {
   const modalContent = document.createElement("div");
   modalContent.className = "modal-content";
 
@@ -146,7 +168,7 @@ const showSaveModal = async () => {
   const listNameInput = document.createElement("input");
   listNameInput.type = "text";
   listNameInput.placeholder = "Enter a name for this list";
-  listNameInput.value = sharedTitle; // Pre-populate
+  listNameInput.value = title;
   listNameInput.className = "styled-input";
   modalContent.append(listNameInput);
 
@@ -165,7 +187,10 @@ const showSaveModal = async () => {
   buttonsContainer.append(cancelSaveButton);
   modalContent.append(buttonsContainer);
 
-  let dialogElement; // To store the reference to the modal dialog element
+  /**
+   * @type {HTMLDialogElement | null}
+   */
+  let dialogElement = null;
 
   const closeDialog = () => {
     if (dialogElement) {
@@ -186,7 +211,7 @@ const showSaveModal = async () => {
   );
 
   confirmSaveButton.addEventListener("click", () => {
-    const listName = listNameInput.value.trim() || sharedTitle;
+    const listName = listNameInput.value.trim() || title;
     handleSaveList(listName, closeDialog); // handleSaveList will call closeDialog
   });
 
@@ -198,7 +223,7 @@ const showSaveModal = async () => {
     }
 
     event.preventDefault(); // Prevent form submission if it were in a form
-    const listName = listNameInput.value.trim() || sharedTitle;
+    const listName = listNameInput.value.trim() || title;
     handleSaveList(listName, closeDialog); // handleSaveList will call closeDialog
   });
   listNameInput.focus();
@@ -207,39 +232,57 @@ const showSaveModal = async () => {
 
 document.addEventListener("DOMContentLoaded", () => {
   // Get DOM elements
-  const listTitle = document.querySelector("#listTitle");
-  const listDescription = document.querySelector("#listDescription");
-  const establishmentsContainer = document.querySelector("#establishmentsList");
-  const emptyListMessage = document.querySelector("#emptyList");
-  const errorMessage = document.querySelector("#errorMessage");
-  const loadingIndicator = document.querySelector("#loading");
-  const saveListButton = document.querySelector("#saveListButton");
+  const references = {
+    listTitle: getReference("#listTitle", HTMLElement),
+    listDescription: getReference("#listDescription", HTMLElement),
+    establishmentsContainer: getReference("#establishmentsList", HTMLElement),
+    emptyListMessage: getReference("#emptyList", HTMLElement),
+    errorMessage: getReference("#errorMessage", HTMLElement),
+    loadingIndicator: getReference("#loading", HTMLElement),
+    saveListButton: getReference("#saveListButton", HTMLButtonElement),
+  };
 
   // Get shared list parameters from URL
   const urlParameters = new URLSearchParams(location.search);
   const sharedTitle = urlParameters.get("title") || "Shared List";
 
   // Get the encoded data and decode it
+  /**
+   * @type {Array<number>}
+   */
   let establishmentIds = [];
   if (urlParameters.has("data")) {
     const encodedData = urlParameters.get("data");
-    establishmentIds = decodeEstablishmentIds(encodedData);
+    if (encodedData) establishmentIds = decodeEstablishmentIds(encodedData);
   }
 
   // Store loaded establishments for filtering/sorting/pagination
+  /**
+   * @type {Array<Establishment>}
+   */
   let allEstablishments = [];
 
+  /**
+   * @param {number} page - The page number to load
+   */
   const handleClientPageChange = async (page) => {
     establishmentView.page = page;
     renderEstablishments();
   };
 
+  /**
+   * @param {string} filterText - The text to filter on
+   */
   const handleFilterChange = async (filterText) => {
     establishmentView.filterText = filterText;
     establishmentView.page = 1; // Reset to first page on filter change
     renderEstablishments();
   };
 
+  /**
+   * @param {SortKeys} sortOption - The sort option to apply
+   * @param {SortDirections} sortDirection - The sort direction to apply
+   */
   const handleSortChange = async (sortOption, sortDirection) => {
     establishmentView.sortOption = sortOption;
     establishmentView.sortDirection = sortDirection;
@@ -287,12 +330,10 @@ document.addEventListener("DOMContentLoaded", () => {
 
   // Initialize the establishment list component with display component for filtering and sorting
   const establishmentList = new EstablishmentList({
-    container: establishmentsContainer,
-    loadingElement: loadingIndicator,
-    emptyElement: emptyListMessage,
-    errorElement: errorMessage,
-    pageSize: PAGE_SIZE,
-    enableViewToggle: true,
+    container: references.establishmentsContainer,
+    loadingElement: references.loadingIndicator,
+    emptyElement: references.emptyListMessage,
+    errorElement: references.errorMessage,
     enableDisplay: true, // Enable the filter and sort functionality
     enableFiltering: true,
     defaultSortOption: establishmentView.sortOption,
@@ -300,9 +341,9 @@ document.addEventListener("DOMContentLoaded", () => {
   });
 
   // Set up event listeners for the save functionality
-  if (saveListButton) {
-    saveListButton.addEventListener("click", showSaveModal);
-  }
+  references.saveListButton.addEventListener("click", () => {
+    showSaveModal(sharedTitle);
+  });
 
   /**
    * Loads all establishments from the shared list
@@ -318,8 +359,8 @@ document.addEventListener("DOMContentLoaded", () => {
     );
 
     // Update page title and description
-    listTitle.textContent = sharedTitle;
-    listDescription.textContent = "Loading shared establishments...";
+    references.listTitle.textContent = sharedTitle;
+    references.listDescription.textContent = "Loading shared establishments...";
     document.title = `${sharedTitle} - Food Hygiene Ratings`;
 
     // Check if we have IDs to load
@@ -345,21 +386,21 @@ document.addEventListener("DOMContentLoaded", () => {
       allEstablishments = validEstablishments;
 
       // Update description
-      listDescription.textContent =
+      references.listDescription.textContent =
         `${validEstablishments.length} establishments shared with you`;
 
       // Show save button if we have establishments
-      if (saveListButton && validEstablishments.length > 0) {
-        saveListButton.removeAttribute("hidden");
+      if (references.saveListButton && validEstablishments.length > 0) {
+        references.saveListButton.removeAttribute("hidden");
       }
 
       // Handle empty result
       if (validEstablishments.length === 0) {
-        if (emptyListMessage) {
-          emptyListMessage.removeAttribute("hidden");
+        if (references.emptyListMessage) {
+          references.emptyListMessage.removeAttribute("hidden");
         }
-        if (establishmentsContainer) {
-          establishmentsContainer.setAttribute("hidden", "hidden");
+        if (references.establishmentsContainer) {
+          references.establishmentsContainer.setAttribute("hidden", "hidden");
         }
         return;
       }
@@ -375,7 +416,7 @@ document.addEventListener("DOMContentLoaded", () => {
       await renderEstablishments();
 
       // Ensure visibility
-      establishmentsContainer.removeAttribute("hidden");
+      references.establishmentsContainer.removeAttribute("hidden");
     } catch (error) {
       console.error("Error loading shared list:", error);
       establishmentList.showError("Failed to load the shared establishments");

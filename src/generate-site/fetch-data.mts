@@ -1,6 +1,6 @@
 import { exists } from "@std/fs";
-import { type Authorities } from "../ratings-api/types.mts";
-import * as api from "../ratings-api/rest.mts";
+import { type Authorities } from "../ratings-data/types.mts";
+import * as api from "../ratings-data/rest.mts";
 import { EnrichedLocalAuthorities } from "./schema-app.mts";
 import { getBuildFileName } from "../lib/local-authority/local-authority.mts";
 

@@ -1,4 +1,12 @@
+/**
+ * @typedef {import("../../generate-site/schema.mts").Establishment} Establishment
+ * @typedef {import("components/establishment-display/establishment-display.mjs").SortKeys} SortKeys
+ * @typedef {import("components/establishment-display/establishment-display.mjs").SortDirections} SortDirections
+ * @typedef {import("scripts/list-service.mjs").SavedList} SavedList
+ */
+
 import { EstablishmentList } from "components/establishment-list/establishment-list.mjs";
+import { getReference } from "utils/dom.mjs";
 import recentEstablishmentsService from "scripts/recent-establishments-service.mjs";
 import { openModal } from "components/modal/modal.mjs";
 import {
@@ -11,11 +19,6 @@ import {
 } from "scripts/list-utilities.mjs";
 import { getListCreationDate } from "scripts/list-service.mjs";
 
-/*
- * @typedef {import("components/establishment-card/establishment-card.mjs").Establishment} Establishment
- * @typedef {import("components/establishment-display/establishment-display.mjs").DefaultSortOptionValue} DefaultSortOptionValue
- */
-
 // Storage key for saved lists
 const SAVED_LISTS_STORAGE_KEY = "saved-establishment-lists";
 const PAGE_SIZE = 10;
@@ -23,7 +26,7 @@ const PAGE_SIZE = 10;
 /**
  * Default sort option for list detail page
  *
- * @type {DefaultSortOptionValue}
+ * @type {SortKeys}
  */
 const DEFAULT_SORT_OPTION = "order";
 
@@ -36,6 +39,9 @@ const DEFAULT_SORT_OPTION = "order";
 const DEFAULT_SORT_DIRECTION = false; // Descending (most recent first)
 
 // module scope variables
+/**
+ * @type {{ page: number; filterText: string; sortOption: SortKeys; sortDirection: SortDirections }}
+ */
 const establishmentView = {
   page: 1,
   filterText: "",
@@ -46,12 +52,12 @@ const establishmentView = {
 /**
  * Encodes an array of establishment IDs into a compact string representation
  *
- * @param {Array<string>} ids - Array of establishment IDs to encode
+ * @param {Array<number>} ids - Array of establishment IDs to encode
  * @returns {string} Encoded string representation
  */
 const encodeEstablishmentIds = (ids) => {
   // Convert to base36 representation for more compact encoding
-  const base36Ids = ids.map((id) => Number.parseInt(id).toString(36));
+  const base36Ids = ids.map((id) => id.toString(36));
 
   // Create a compact JSON object with the ids
   const dataObject = { i: base36Ids };
@@ -67,7 +73,7 @@ const encodeEstablishmentIds = (ids) => {
  * Gets a saved list by ID
  *
  * @param {string} id - The ID of the saved list to retrieve
- * @returns {object|null} The saved list or null if not found
+ * @returns {SavedList|null} The saved list or null if not found
  */
 const getSavedList = (id) => {
   if (globalThis.localStorage === undefined) return null;
@@ -78,7 +84,9 @@ const getSavedList = (id) => {
     );
     if (!savedListsJson) return null;
 
-    const savedLists = JSON.parse(savedListsJson);
+    const savedLists = /** @type {Record<string, SavedList>} */ (
+      JSON.parse(savedListsJson)
+    );
     return savedLists[id] || null;
   } catch (error) {
     console.error("Error retrieving saved list:", error);
@@ -101,7 +109,9 @@ const deleteList = (id) => {
     );
     if (!savedListsJson) return false;
 
-    const savedLists = JSON.parse(savedListsJson);
+    const savedLists = /** @type {Record<string, SavedList>} */ (
+      JSON.parse(savedListsJson)
+    );
 
     // Check if the list exists
     if (!Object.hasOwn(savedLists, id)) {
@@ -126,15 +136,17 @@ const deleteList = (id) => {
 
 document.addEventListener("DOMContentLoaded", () => {
   // Get DOM elements
-  const listTitle = document.querySelector("#listTitle");
-  const listDescription = document.querySelector("#listDescription");
-  const establishmentsContainer = document.querySelector("#establishmentsList");
-  const emptyListMessage = document.querySelector("#emptyList");
-  const errorMessage = document.querySelector("#errorMessage");
-  const loadingIndicator = document.querySelector("#loading");
-  const shareButton = document.querySelector("#shareButton");
-  const clearButton = document.querySelector("#clearButton");
-  const deleteButton = document.querySelector("#deleteButton");
+  const references = {
+    listTitle: getReference("#listTitle", HTMLElement),
+    listDescription: getReference("#listDescription", HTMLElement),
+    establishmentsContainer: getReference("#establishmentsList", HTMLElement),
+    emptyListMessage: getReference("#emptyList", HTMLElement),
+    errorMessage: getReference("#errorMessage", HTMLElement),
+    loadingIndicator: getReference("#loading", HTMLElement),
+    shareButton: document.querySelector("#shareButton"),
+    clearButton: document.querySelector("#clearButton"),
+    deleteButton: document.querySelector("#deleteButton"),
+  };
 
   // Get list ID from URL
   const urlParameters = new URLSearchParams(location.search);
@@ -142,12 +154,10 @@ document.addEventListener("DOMContentLoaded", () => {
 
   // Initialize the establishment list component with display component for filtering and sorting
   const establishmentList = new EstablishmentList({
-    container: establishmentsContainer,
-    loadingElement: loadingIndicator,
-    emptyElement: emptyListMessage,
-    errorElement: errorMessage,
-    pageSize: PAGE_SIZE,
-    enableViewToggle: true,
+    container: references.establishmentsContainer,
+    loadingElement: references.loadingIndicator,
+    emptyElement: references.emptyListMessage,
+    errorElement: references.errorMessage,
     enableDisplay: true, // Enable the filter and sort functionality
     enableFiltering: true,
     defaultSortOption: establishmentView.sortOption,
@@ -155,12 +165,15 @@ document.addEventListener("DOMContentLoaded", () => {
   });
 
   // Stores the current list of establishments for sharing
+  /**
+   * @type {Array<Establishment>}
+   */
   let currentEstablishments = [];
   let currentListTitle = "";
 
   // Share modal event handlers
-  if (shareButton) {
-    shareButton.addEventListener("click", async () => {
+  if (references.shareButton) {
+    references.shareButton.addEventListener("click", async () => {
       const modalContent = document.createElement("div");
       modalContent.className = "modal-content";
 
@@ -205,6 +218,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
       // Generate the share URL and set it in the input field
       const shareUrl = generateShareUrl();
+      if (!shareUrl) return;
       shareUrlInput.value = shareUrl;
 
       copyShareUrlButton.addEventListener("click", () => {
@@ -226,8 +240,8 @@ document.addEventListener("DOMContentLoaded", () => {
   }
 
   // Clear button handler for Recent list
-  if (clearButton) {
-    clearButton.addEventListener("click", () => {
+  if (references.clearButton) {
+    references.clearButton.addEventListener("click", () => {
       if (
         !confirm(
           "Are you sure you want to clear your recent establishments list? This action cannot be undone.",
@@ -245,8 +259,8 @@ document.addEventListener("DOMContentLoaded", () => {
   }
 
   // Delete button handler for saved lists
-  if (deleteButton) {
-    deleteButton.addEventListener("click", () => {
+  if (references.deleteButton) {
+    references.deleteButton.addEventListener("click", () => {
       if (
         confirm(
           "Are you sure you want to delete this list? This action cannot be undone.",
@@ -309,9 +323,15 @@ document.addEventListener("DOMContentLoaded", () => {
     currentEstablishments = []; // Reset current establishments
 
     // Hide all action buttons by default
-    if (shareButton) shareButton.setAttribute("hidden", "hidden");
-    if (clearButton) clearButton.setAttribute("hidden", "hidden");
-    if (deleteButton) deleteButton.setAttribute("hidden", "hidden");
+    if (references.shareButton) {
+      references.shareButton.setAttribute("hidden", "hidden");
+    }
+    if (references.clearButton) {
+      references.clearButton.setAttribute("hidden", "hidden");
+    }
+    if (references.deleteButton) {
+      references.deleteButton.setAttribute("hidden", "hidden");
+    }
 
     if (listId === "recent") {
       listInfo = {
@@ -320,8 +340,8 @@ document.addEventListener("DOMContentLoaded", () => {
       };
 
       // Show the clear button for recent list
-      if (clearButton) {
-        clearButton.removeAttribute("hidden");
+      if (references.clearButton) {
+        references.clearButton.removeAttribute("hidden");
       }
     } else if (listId.startsWith("list_")) {
       // This is a saved list
@@ -338,8 +358,8 @@ document.addEventListener("DOMContentLoaded", () => {
         };
 
         // Show delete button for saved lists
-        if (deleteButton) {
-          deleteButton.removeAttribute("hidden");
+        if (references.deleteButton) {
+          references.deleteButton.removeAttribute("hidden");
         }
       } else {
         establishmentList.showError("The requested list could not be found");
@@ -354,17 +374,17 @@ document.addEventListener("DOMContentLoaded", () => {
     currentListTitle = listInfo.title;
 
     // Show share button if we have establishments
-    if (shareButton) {
-      shareButton.removeAttribute("hidden");
+    if (references.shareButton) {
+      references.shareButton.removeAttribute("hidden");
     }
 
     // Update page title and description
-    listTitle.textContent = listInfo.title;
-    listDescription.textContent = listInfo.description;
+    references.listTitle.textContent = listInfo.title;
+    references.listDescription.textContent = listInfo.description;
     document.title = `${listInfo.title} - Food Hygiene Ratings`;
 
     // Make sure the container is visible before loading establishments
-    establishmentsContainer.removeAttribute("hidden");
+    references.establishmentsContainer.removeAttribute("hidden");
 
     loadEstablishments();
   };
@@ -388,6 +408,10 @@ document.addEventListener("DOMContentLoaded", () => {
       } else {
         // This is a saved list
         const savedList = getSavedList(listId);
+        if (!savedList) {
+          establishmentList.showError("The requested list could not be found");
+          return;
+        }
 
         establishments = await Promise.all(
           savedList.establishments.map((item) =>
@@ -436,12 +460,18 @@ document.addEventListener("DOMContentLoaded", () => {
     }
   }
 
+  /**
+   * @param {number} page - The page number to load
+   */
   const handleClientPageChange = async (page) => {
     establishmentView.page = page;
 
     loadEstablishments();
   };
 
+  /**
+   * @param {string} filterText - The filter text to apply
+   */
   const handleFilterChange = async (filterText) => {
     establishmentView.filterText = filterText;
     establishmentView.page = 1; // Reset to first page on filter change
@@ -449,6 +479,10 @@ document.addEventListener("DOMContentLoaded", () => {
     loadEstablishments();
   };
 
+  /**
+   * @param {SortKeys} sortOption - The sort option to apply
+   * @param {SortDirections} sortDirection - The sort direction to apply
+   */
   const handleSortChange = async (sortOption, sortDirection) => {
     establishmentView.sortOption = sortOption;
     establishmentView.sortDirection = sortDirection;

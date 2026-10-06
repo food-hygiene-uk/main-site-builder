@@ -1,6 +1,15 @@
-build/
-dist/
-node_modules/
+# tool managed
 assets/google3decab8acc23e179.html
 deno.lock
 package.json
+
+# git ignored
+build/
+coverage/
+dist/
+node_modules/
+.DS_STORE
+
+# Playwright
+test-results/
+playwright-report/

@@ -4,24 +4,24 @@ import { getListCreationDate } from "scripts/list-service.mjs";
 const SAVED_LISTS_STORAGE_KEY = "saved-establishment-lists";
 
 /**
- * @typedef {object} Establishment
- * @property {string} id - The unique identifier for the establishment.
- * @property {string} name - The name of the establishment.
+ * @typedef {import("scripts/list-service.mjs").SavedList} SavedList
  */
 
 /**
  * Gets all saved lists from localStorage
  *
- * @returns {{ [key: string]: { name: string; establishments: Establishment[] } }} Object containing all saved lists
+ * @returns {Record<string, SavedList>} Object containing all saved lists
  */
 const getSavedLists = () => {
-  if (globalThis.localStorage === "undefined") return {};
+  if (globalThis.localStorage === undefined) return {};
 
   try {
     const savedListsJson = globalThis.localStorage.getItem(
       SAVED_LISTS_STORAGE_KEY,
     );
-    return savedListsJson ? JSON.parse(savedListsJson) : {};
+    return savedListsJson
+      ? /** @type {Record<string, SavedList>} */ (JSON.parse(savedListsJson))
+      : {};
   } catch (error) {
     console.error("Error retrieving saved lists:", error);
     return {};
@@ -62,8 +62,12 @@ const deleteList = (listId) => {
 };
 
 document.addEventListener("DOMContentLoaded", () => {
-  const userListsContainer = document.querySelector("#userLists");
-  const noListsMessage = document.querySelector("#noLists");
+  const userListsContainer = /** @type {HTMLElement | null} */ (
+    document.querySelector("#userLists")
+  );
+  const noListsMessage = /** @type {HTMLElement | null} */ (
+    document.querySelector("#noLists")
+  );
 
   /**
    * Handles the delete button click event
@@ -93,6 +97,8 @@ document.addEventListener("DOMContentLoaded", () => {
    * Renders the saved lists in the UI
    */
   const renderSavedLists = () => {
+    if (!(userListsContainer instanceof HTMLElement)) return;
+
     // Get saved lists
     const savedLists = getSavedLists();
     const listEntries = Object.entries(savedLists);

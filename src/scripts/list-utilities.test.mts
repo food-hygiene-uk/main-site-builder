@@ -1,15 +1,11 @@
-/**
- * @import { Establishment } from "components/establishment-card/establishment-card.mjs"
- */
-
-import { describe, it } from "@std/testing/bdd";
+import { describe, it } from "node:test";
 import { assertEquals } from "@std/assert";
 import fc from "fast-check";
 import {
   filterEstablishments,
   sliceEstablishments,
 } from "./list-utilities.mjs";
-import { Establishment } from "../generate-site/schema.mts";
+import { type Establishment } from "../generate-site/schema.mts";
 
 /**
  * Creates a test establishment with minimal required fields
@@ -21,16 +17,36 @@ import { Establishment } from "../generate-site/schema.mts";
 const createTestEstablishment = (
   businessName: string,
   id: number,
-): Establishment => {
-  return {
-    FHRSID: id,
-    BusinessName: businessName,
-    RatingValue: "5",
-    RatingDate: "2024-01-01",
-    LocalAuthorityName: "Test Authority",
-    LocalAuthorityCode: "123",
-  } as Establishment;
-};
+): Establishment => ({
+  FHRSID: id,
+  BusinessName: businessName,
+  BusinessType: "Hospitals/Childcare/Caring Premises",
+  LocalAuthorityBusinessID: "13730/0043/0/000",
+  BusinessTypeID: 5,
+  LocalAuthorityCode: "021",
+  LocalAuthorityName: "Buckinghamshire",
+  LocalAuthorityWebSite: "https://www.buckinghamshire.gov.uk",
+  NewRatingPending: false,
+  LocalAuthorityEmailAddress: "environmentalhealth@buckinghamshire.gov.uk",
+  Geocode: {
+    Latitude: "51.536938",
+    Longitude: "-0.519708",
+  },
+  AddressLine1: "Maybank House",
+  AddressLine2: "43 Slough Road",
+  AddressLine3: "Iver Heath",
+  AddressLine4: "Buckinghamshire",
+  PostCode: "SL0 0DW",
+  SchemeType: "FHRS",
+  RatingValue: "5",
+  RatingKey: "fhrs_5_en-GB",
+  RatingDate: "2015-08-05",
+  Scores: {
+    Hygiene: 5,
+    Structural: 0,
+    ConfidenceInManagement: 5,
+  },
+});
 
 describe("filterEstablishments", () => {
   describe("Example-based tests", () => {

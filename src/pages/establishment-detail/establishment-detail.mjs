@@ -3,6 +3,16 @@ import { renderListSelectionButton } from "components/list-selection-button/list
 import { lacToRegionSlug } from "scripts/region.mjs";
 
 /**
+ * @typedef {{ addTo: (map: LeafletMap) => LeafletLayer; bindPopup: (text: string) => LeafletLayer }} LeafletLayer
+ */
+/**
+ * @typedef {{ setView: (coordinates: [number, number], zoom: number) => LeafletMap }} LeafletMap
+ */
+/**
+ * @typedef {{ map: (id: string) => LeafletMap; tileLayer: (url: string, options: { maxZoom: number; attribution: string }) => LeafletLayer; control: { scale: (options: { imperial: boolean; metric: boolean }) => LeafletLayer }; marker: (coordinates: [number, number]) => LeafletLayer }} LeafletApi
+ */
+
+/**
  * Dynamically loads a CSS file into the document
  *
  * @param {string} href - URL of the CSS file to load
@@ -50,23 +60,31 @@ const loadScript = (source) => {
 const initializeMap = async (latitude, longitude) => {
   const mapContainer = document.querySelector("#map");
 
-  if (!mapContainer) return;
+  if (!(mapContainer instanceof HTMLElement)) return;
+
+  const leaflet = /** @type {typeof globalThis & { L?: LeafletApi }} */ (
+    globalThis
+  ).L;
+  if (!leaflet) return;
 
   // Initialize the map centered on the establishment
-  const map = globalThis.L.map("map").setView([latitude, longitude], 17);
+  const map = leaflet.map("map").setView([latitude, longitude], 17);
 
   // Add OpenStreetMap tiles
-  globalThis.L.tileLayer("https://tile.openstreetmap.org/{z}/{x}/{y}.png", {
-    maxZoom: 19,
-    attribution:
-      '&copy; <a href="https://openstreetmap.org/copyright">OpenStreetMap contributors</a>',
-  }).addTo(map);
+  leaflet
+    .tileLayer("https://tile.openstreetmap.org/{z}/{x}/{y}.png", {
+      maxZoom: 19,
+      attribution:
+        '&copy; <a href="https://openstreetmap.org/copyright">OpenStreetMap contributors</a>',
+    })
+    .addTo(map);
 
   // Show scale bar
-  globalThis.L.control.scale({ imperial: true, metric: true }).addTo(map);
+  leaflet.control.scale({ imperial: true, metric: true }).addTo(map);
 
   // Add a marker at the establishment location
-  globalThis.L.marker([latitude, longitude])
+  leaflet
+    .marker([latitude, longitude])
     .bindPopup("Establishment Location")
     .addTo(map);
 
@@ -96,11 +114,13 @@ const loadAndInitializeMap = async (latitude, longitude) => {
 document.addEventListener("DOMContentLoaded", async () => {
   // Find the establishment element and extract data
   const establishmentElement = document.querySelector(".establishment");
-  if (!establishmentElement) return;
+  if (!(establishmentElement instanceof HTMLElement)) return;
 
   const establishmentId = establishmentElement.dataset.establishmentId;
 
   if (!establishmentId) return;
+  const establishmentIdNumber = Number(establishmentId);
+  if (!Number.isFinite(establishmentIdNumber)) return;
 
   // Get the business name from the h1 element
   const businessNameElement = establishmentElement.querySelector("h1.name");
@@ -117,33 +137,40 @@ document.addEventListener("DOMContentLoaded", async () => {
     : "";
 
   const localAuthorityCode = establishmentElement.dataset.localAuthorityCode;
+  if (!localAuthorityCode) return;
 
   // Add this establishment to the recently viewed list with name and type
   recentEstablishmentsService.addEstablishment({
-    FHRSID: establishmentId,
+    FHRSID: establishmentIdNumber,
     BusinessName: businessName,
     BusinessType: businessType,
     LocalAuthorityCode: localAuthorityCode,
   });
 
   // Load and display recently viewed establishments (excluding current one)
-  displayRecentlyViewed(establishmentId);
+  displayRecentlyViewed(establishmentIdNumber);
 
   // Update the "Add to List" button to match the new design with a bookmark icon and "Save" text
   if (businessNameElement) {
     const wrapper = document.querySelector(".establishment-header");
-    const listSelectionButton = await renderListSelectionButton(
-      establishmentId,
-    );
+    const listSelectionButton = await renderListSelectionButton({
+      FHRSID: establishmentIdNumber,
+      BusinessName: businessName,
+    });
 
-    wrapper.append(listSelectionButton);
+    wrapper?.append(listSelectionButton);
   }
 
   // Set up map loading
   const loadMapButton = document.querySelector("#loadMapBtn");
   const alwaysLoadCheckbox = document.querySelector("#alwaysLoadMaps");
 
-  if (!loadMapButton || !alwaysLoadCheckbox) return;
+  if (
+    !(loadMapButton instanceof HTMLButtonElement) ||
+    !(alwaysLoadCheckbox instanceof HTMLInputElement)
+  ) {
+    return;
+  }
 
   const mapConsentBox = document.querySelector(".map-consent-box");
 
@@ -173,7 +200,7 @@ document.addEventListener("DOMContentLoaded", async () => {
     }
 
     // Show loading state
-    if (mapConsentBox) {
+    if (mapConsentBox instanceof HTMLElement) {
       mapConsentBox.style.opacity = "0.6";
       loadMapButton.disabled = true;
       loadMapButton.textContent = "Loading Map...";
@@ -182,7 +209,7 @@ document.addEventListener("DOMContentLoaded", async () => {
     await loadAndInitializeMap(latitude, longitude);
 
     // Remove consent box after map loads (Leaflet replaces the container content)
-    if (mapConsentBox) {
+    if (mapConsentBox instanceof HTMLElement) {
       mapConsentBox.remove();
     }
   };
@@ -199,13 +226,18 @@ document.addEventListener("DOMContentLoaded", async () => {
 /**
  * Displays recently viewed establishments excluding the current one
  *
- * @param {string} currentId - The ID of the current establishment to exclude
+ * @param {number} currentId - The ID of the current establishment to exclude
  */
 const displayRecentlyViewed = (currentId) => {
   const recentSection = document.querySelector("#recentlyViewed");
   const recentContainer = document.querySelector("#recentEstablishments");
 
-  if (!recentSection || !recentContainer) return;
+  if (
+    !(recentSection instanceof HTMLElement) ||
+    !(recentContainer instanceof HTMLElement)
+  ) {
+    return;
+  }
 
   // Get all recent establishments and filter out the current one
   const allRecent = recentEstablishmentsService.getRecentEstablishments();
@@ -231,7 +263,7 @@ const displayRecentlyViewed = (currentId) => {
     // Create container
     const item = document.createElement("div");
     item.className = "recent-establishment-item box-shadow-hover";
-    item.dataset.establishmentId = establishment.FHRSID;
+    item.dataset.establishmentId = String(establishment.FHRSID);
 
     // Create content wrapper to help with consistent height
     const contentWrapper = document.createElement("div");
@@ -245,7 +277,7 @@ const displayRecentlyViewed = (currentId) => {
     // business type
     const type = document.createElement("p");
     type.className = "business-type";
-    type.textContent = establishment.BusinessType;
+    type.textContent = establishment.BusinessType ?? "";
 
     // Footer section for the visited time
     const footer = document.createElement("div");
@@ -253,7 +285,9 @@ const displayRecentlyViewed = (currentId) => {
 
     const visitedTime = document.createElement("p");
     visitedTime.className = "visited-time";
-    visitedTime.textContent = formatRelativeTime(establishment.lastVisited);
+    visitedTime.textContent = establishment.lastVisited
+      ? formatRelativeTime(establishment.lastVisited)
+      : "Unknown";
 
     // Assemble the structure
     contentWrapper.append(name);
@@ -282,8 +316,7 @@ const displayRecentlyViewed = (currentId) => {
  * @returns {string} Formatted relative time string
  */
 const formatRelativeTime = (date) => {
-  const now = new Date();
-  const diffMs = now - new Date(date);
+  const diffMs = Date.now() - new Date(date).getTime();
   const diffSec = Math.floor(diffMs / 1000);
   const diffMin = Math.floor(diffSec / 60);
   const diffHour = Math.floor(diffMin / 60);

@@ -3,7 +3,7 @@ import { slugify } from "../../generate-site/slugify.mts";
 import {
   type AuthoritiesResponse,
   type Authority,
-} from "../../ratings-api/types.mts";
+} from "../../ratings-data/types.mts";
 
 const authoritiesResponse = await fetch(
   "https://food-hygiene-uk.github.io/data/files/api/authorities-en-GB.json",

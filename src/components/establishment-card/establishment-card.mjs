@@ -1,14 +1,16 @@
-import recentEstablishmentsService from "scripts/recent-establishments-service.mjs";
-import { renderListSelectionButton } from "components/list-selection-button/list-selection-button.mjs";
-import { lacToRegionSlug } from "scripts/region.mjs";
-
 /**
  * @typedef {import("scripts/recent-establishments-service.mjs").MinimalEstablishment} MinimalEstablishment
  * @typedef {import("../../generate-site/schema.mts").Establishment} Establishment
  */
 
+import recentEstablishmentsService from "scripts/recent-establishments-service.mjs";
+import { renderListSelectionButton } from "components/list-selection-button/list-selection-button.mjs";
+import { lacToRegionSlug } from "scripts/region.mjs";
+
 /**
  * Adds the CSS link for the component to the document head.
+ *
+ * @type {Promise<void>}
  */
 const cssReady = new Promise((resolve, reject) => {
   const link = document.createElement("link");
@@ -28,8 +30,8 @@ const cssReady = new Promise((resolve, reject) => {
  * @returns {string} Formatted relative time string
  */
 export function formatRelativeTime(date) {
-  const now = new Date();
-  const diffMs = now - new Date(date);
+  const now = Date.now();
+  const diffMs = now - new Date(date).getTime();
   const diffSec = Math.floor(diffMs / 1000);
   const diffMin = Math.floor(diffSec / 60);
   const diffHour = Math.floor(diffMin / 60);
@@ -99,9 +101,7 @@ export async function renderEstablishmentCard(establishment) {
   }
 
   // Get last visited time from service or original data
-  const lastVisited = recentEstablishmentsService.getLastVisitedTime(
-    String(FHRSID),
-  );
+  const lastVisited = recentEstablishmentsService.getLastVisitedTime(FHRSID);
 
   if (!establishment) {
     console.error("Failed to get establishment details:", FHRSID);
@@ -111,7 +111,7 @@ export async function renderEstablishmentCard(establishment) {
   // Create the card element
   const item = document.createElement("div");
   item.className = "establishment-card box-shadow-hover";
-  item.dataset.establishmentId = FHRSID;
+  item.dataset.establishmentId = String(FHRSID);
 
   // Create content
   const nameElement = document.createElement("h3");
@@ -206,9 +206,7 @@ export async function renderEstablishmentCard(establishment) {
   // Add an "Add to List" button to the establishment card using the reusable component
   const buttonContainer = document.createElement("div");
   buttonContainer.className = "button-container";
-  const listSelectionButton = await renderListSelectionButton(
-    establishment.FHRSID,
-  );
+  const listSelectionButton = await renderListSelectionButton(establishment);
   buttonContainer.append(listSelectionButton);
   item.append(buttonContainer);
 

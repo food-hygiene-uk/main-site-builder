@@ -1,5 +1,5 @@
 import { z } from "zod";
-import { authoritiesResponseSchema } from "../ratings-api/types.mts";
+import { authoritiesResponseSchema } from "../ratings-data/types.mts";
 
 type AuthorityFromSchema = z.infer<
   typeof authoritiesResponseSchema

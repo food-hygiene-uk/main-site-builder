@@ -3,15 +3,27 @@
  */
 
 /**
+ * @typedef {object} ListEstablishment
+ * @property {number} FHRSID - Establishment ID
+ * @property {string} BusinessName - Name of the business
+ */
+
+/**
+ * @typedef {object} SavedList
+ * @property {string} name - Friendly name of the list
+ * @property {ListEstablishment[]} establishments - Array of establishment ids
+ */
+
+/**
  * Retrieves all saved lists from localStorage.
  *
- * @returns {object} An object containing all saved lists.
+ * @returns {Record<string, SavedList>} An object containing all saved lists.
  */
 export const getSavedLists = () => {
   try {
     const savedLists = JSON.parse(
-      globalThis.localStorage.getItem("saved-establishment-lists"),
-    ) || {};
+      globalThis.localStorage.getItem("saved-establishment-lists") ?? "{}",
+    );
     return savedLists;
   } catch (error) {
     console.error("Error retrieving saved lists:", error);
@@ -22,7 +34,7 @@ export const getSavedLists = () => {
 /**
  * Checks if an establishment is on any saved list.
  *
- * @param {string} FHRSID - The unique identifier of the establishment.
+ * @param {number} FHRSID - The unique identifier of the establishment.
  * @returns {boolean} True if the establishment is on any list, false otherwise.
  */
 export const isEstablishmentOnList = (FHRSID) => {
@@ -35,30 +47,35 @@ export const isEstablishmentOnList = (FHRSID) => {
 /**
  * Updates the saved lists by adding or removing an establishment.
  *
- * @param {string} FHRSID - The unique identifier of the establishment.
+ * @param {ListEstablishment} establishment - Establishment record
  * @param {string} listId - The ID of the list to update.
  * @param {boolean} add - Whether to add (true) or remove (false) the establishment.
  */
-export const updateList = (FHRSID, listId, add) => {
+export const updateList = (establishment, listId, add) => {
   const savedLists = getSavedLists();
   const list = savedLists[listId];
 
   if (add) {
     // If the list doesn't exist, create it and add the establishment
     if (!list) {
-      createNewList(listId, FHRSID);
+      createNewList(listId, establishment);
       return;
     }
 
-    if (list.establishments.every((est) => est.FHRSID !== FHRSID)) {
-      list.establishments.push({ FHRSID });
+    if (
+      list.establishments.every((est) => est.FHRSID !== establishment.FHRSID)
+    ) {
+      list.establishments.push({
+        FHRSID: establishment.FHRSID,
+        BusinessName: establishment.BusinessName,
+      });
     }
   } else {
     // If the list doesn't exist, there's nothing to do
     if (!list) return;
 
     list.establishments = list.establishments.filter(
-      (est) => est.FHRSID !== FHRSID,
+      (est) => est.FHRSID !== establishment.FHRSID,
     );
   }
 
@@ -72,11 +89,11 @@ export const updateList = (FHRSID, listId, add) => {
  * Saves a new list with the given name and establishments.
  *
  * @param {string} listName - The name of the list.
- * @param {Array} establishments - The establishments to include in the list.
+ * @param {ListEstablishment[]} establishments - The establishments to include in the list.
  * @returns {string|null} The ID of the saved list, or null if an error occurred.
  */
 export const saveList = (listName, establishments) => {
-  if (globalThis.localStorage === "undefined") return null;
+  if (globalThis.localStorage === undefined) return null;
 
   try {
     const savedLists = getSavedLists();
@@ -112,15 +129,20 @@ export const saveList = (listName, establishments) => {
  * Creates a new list with the given name and adds an establishment to it.
  *
  * @param {string} listName - The name of the new list.
- * @param {string} FHRSID - The unique identifier of the establishment to add.
+ * @param {ListEstablishment} establishment - Establishment record
  * @returns {string} The ID of the new list.
  */
-export const createNewList = (listName, FHRSID) => {
+export const createNewList = (listName, establishment) => {
   const savedLists = getSavedLists();
   const listId = `list_${Date.now()}`;
   savedLists[listId] = {
     name: listName,
-    establishments: [{ FHRSID }],
+    establishments: [
+      {
+        FHRSID: establishment.FHRSID,
+        BusinessName: establishment.BusinessName,
+      },
+    ],
   };
   globalThis.localStorage.setItem(
     "saved-establishment-lists",

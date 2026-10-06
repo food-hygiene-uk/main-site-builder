@@ -1,5 +1,8 @@
 "use strict";
 {
+  /**
+   * @param {MediaQueryList | undefined} mql - Media Query List
+   */
   const updateColorScheme = (mql) => {
     const prefers = mql?.matches ? "dark" : "light";
     const setting = localStorage.getItem("color-scheme");
@@ -9,8 +12,8 @@
   const colorSchemeMQL = globalThis?.matchMedia?.(
     "(prefers-color-scheme:dark)",
   );
-  colorSchemeMQL.addEventListener("change", function (event) {
-    updateColorScheme(event);
+  colorSchemeMQL?.addEventListener("change", () => {
+    updateColorScheme(colorSchemeMQL);
   });
 
   updateColorScheme(colorSchemeMQL);

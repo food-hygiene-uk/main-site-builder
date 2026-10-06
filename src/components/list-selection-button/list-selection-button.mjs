@@ -1,8 +1,14 @@
+/**
+ * @typedef {import("scripts/list-service.mjs").ListEstablishment} ListEstablishment
+ */
+
 import { isEstablishmentOnList } from "scripts/list-service.mjs";
 import { openListSelectionModal } from "components/modal/list-selection.mjs";
 
 /**
  * Adds the CSS link for the component to the document head.
+ *
+ * @type {Promise<void>}
  */
 const cssReady = new Promise((resolve, reject) => {
   const link = document.createElement("link");
@@ -19,10 +25,10 @@ const cssReady = new Promise((resolve, reject) => {
  * Renders an "Add to List" button with a bookmark icon and "Save" text.
  * The button changes appearance to indicate if the establishment is already on a list.
  *
- * @param {string} FHRSID - The unique identifier of the establishment.
- * @returns {HTMLElement} The rendered "Add to List" button element.
+ * @param {ListEstablishment} establishment - Establishment record
+ * @returns {Promise<HTMLElement>} The rendered "Add to List" button element.
  */
-export const renderListSelectionButton = async (FHRSID) => {
+export const renderListSelectionButton = async (establishment) => {
   const listSelectionButton = document.createElement("button");
   listSelectionButton.className = "list-selection-button";
 
@@ -41,16 +47,16 @@ export const renderListSelectionButton = async (FHRSID) => {
   listSelectionButton.append(buttonText);
 
   // Check if the establishment is already on a list (excluding recent)
-  const isOnList = isEstablishmentOnList(FHRSID);
+  const isOnList = isEstablishmentOnList(establishment.FHRSID);
   if (isOnList) {
     listSelectionButton.classList.add("on-list"); // Apply a visual indicator
   }
 
   // Add event listener to open the modal
   listSelectionButton.addEventListener("click", async () => {
-    await openListSelectionModal(FHRSID, () => {
+    await openListSelectionModal(establishment, () => {
       // Reevaluate if the establishment is on the list after the modal is closed
-      const updatedIsOnList = isEstablishmentOnList(FHRSID);
+      const updatedIsOnList = isEstablishmentOnList(establishment.FHRSID);
       listSelectionButton.classList.toggle("on-list", updatedIsOnList);
     });
   });

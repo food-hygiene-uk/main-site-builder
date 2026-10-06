@@ -1,9 +1,17 @@
 /**
  * @typedef {object} MinimalEstablishment
- * @property {string} FHRSID - Unique identifier for the establishment
- * @property {string} [BusinessName] - Name of the establishment
+ * @property {number} FHRSID - Unique identifier for the establishment
+ * @property {string} BusinessName - Name of the establishment
  * @property {string} [BusinessType] - Type of the establishment
- * @property {string} lastVisited - ISO date string of when the establishment page was last visited
+ * @property {string} [lastVisited] - ISO date string of when the establishment page was last visited
+ * @property {string} LocalAuthorityCode - Code for the Local Authority
+ * @property {string} [AddressLine1] - First line of the address
+ * @property {string} [AddressLine2] - Second line of the address
+ * @property {string} [AddressLine3] - Third line of the address
+ * @property {string} [AddressLine4] - Fourth line of the address
+ * @property {string} [PostCode] - Postal code
+ * @property {string} [RatingValue] - Food hygiene rating
+ * @property {string|null} [RatingDate] - Date of the last rating
  */
 
 /**
@@ -23,7 +31,7 @@ class RecentEstablishmentsService {
    */
   addEstablishment(establishment) {
     // Don't run in server-side code
-    if (globalThis.localStorage === "undefined") return;
+    if (globalThis.localStorage === undefined) return;
 
     const recentItems = this.getRecentEstablishments();
 
@@ -74,7 +82,7 @@ class RecentEstablishmentsService {
    */
   getRecentEstablishments() {
     // Don't run in server-side code
-    if (globalThis.localStorage === "undefined") {
+    if (globalThis.localStorage === undefined) {
       console.log("localStorage is not available, returning empty array");
       return [];
     }
@@ -101,7 +109,7 @@ class RecentEstablishmentsService {
    */
   clearRecentEstablishments() {
     // Don't run in server-side code
-    if (globalThis.localStorage === "undefined") return;
+    if (globalThis.localStorage === undefined) return;
 
     globalThis.localStorage.removeItem(this.STORAGE_KEY);
     console.log("Cleared all recent establishments from localStorage");
@@ -110,7 +118,7 @@ class RecentEstablishmentsService {
   /**
    * Get the last visited time for a specific establishment
    *
-   * @param {string} FHRSID - The FHRSID of the establishment to lookup
+   * @param {number} FHRSID - The FHRSID of the establishment to lookup
    * @returns {string|null} ISO date string of when the establishment was last visited, or null if not found
    */
   getLastVisitedTime(FHRSID) {

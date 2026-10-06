@@ -2,7 +2,7 @@
 import { fromFileUrl } from "@std/path";
 import vento from "@vento/vento";
 import autoTrim from "@vento/vento/plugins/auto_trim.ts";
-import { Establishment } from "../../generate-site/schema.mts";
+import { type Establishment } from "../../generate-site/schema.mts";
 import { getClassSuffix } from "../../lib/template/template.mts";
 import { cssAddSuffix, processCssFile } from "../../lib/css/css.mts";
 
