@@ -33,9 +33,7 @@ await ensureDir("dist/lists/shared");
 await ensureDir("dist/scripts");
 await ensureDir("dist/sitemap");
 await ensureDir("dist/components");
-await ensureDir("dist/components/establishment-card");
-await ensureDir("dist/components/establishment-list");
-await ensureDir("dist/components/establishment-display");
+await ensureDir("dist/utils");
 
 for (const regionSlug of itlRegionSlugs) {
   await ensureDir(`dist/region-${regionSlug}`);
@@ -46,7 +44,6 @@ await copy("assets", "dist", { overwrite: true });
 await copy("src/scripts", "dist/scripts", { overwrite: true });
 
 const components = [
-  "dom",
   "establishment-card",
   "establishment-display",
   "establishment-list",
@@ -60,12 +57,9 @@ for (const component of components) {
   });
 }
 
-const browserUtilities = ["dom"];
-for (const utility of browserUtilities) {
-  await copy(`src/browser/utils/${utility}`, `dist/utils/${utility}`, {
-    overwrite: true,
-  });
-}
+await copy(`src/browser/utils/`, `dist/utils/`, {
+  overwrite: true,
+});
 
 const baseURL = config.BASE_URL;
 
