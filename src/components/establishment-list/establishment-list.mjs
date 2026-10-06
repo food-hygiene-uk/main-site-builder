@@ -74,13 +74,13 @@ export class EstablishmentList {
     // Original unfiltered and unsorted establishments
     /**
     @type {Array<Establishment>}
-    */
+     */
     this.originalEstablishments = [];
 
     // State
     /**
     @type {Array<Establishment>}
-    */
+     */
     this.establishments = [];
     this.currentPage = 1;
     this.totalResults = 0;
@@ -308,9 +308,9 @@ export class EstablishmentList {
    * @param {SortDirections} [data.sortDirection] - Sort direction to use (if sort callback is provided)
    * @param {boolean} [isLoading] - Whether the data is still loading
    * @param {number} [totalEstablishments] - Total number of unfiltered establishments
-   * @param {((page: number) => void) | null} [onPageChange=null] - Callback to execute when page changes
-   * @param {((filterText: string) => void) | null} [onFilterChange=null] - Callback to execute when filter changes
-   * @param {((sortOption: SortKeys, sortDirection: SortDirections) => void) | null} [onSortChange=null] - Callback to execute when sort changes
+   * @param {((page: number) => void) | null} [onPageChange] - Callback to execute when page changes
+   * @param {((filterText: string) => void) | null} [onFilterChange] - Callback to execute when filter changes
+   * @param {((sortOption: SortKeys, sortDirection: SortDirections) => void) | null} [onSortChange] - Callback to execute when sort changes
    * @returns {Promise<void>} Promise that resolves when establishments are loaded and rendered
    */
   async loadEstablishments(

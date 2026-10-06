@@ -4,7 +4,7 @@
  * @template {Element} T
  * @param {string} selector - The CSS selector for the element
  * @param {new (...args: never[]) => T} elementType - The expected constructor of the element type
- * @param {ParentNode} [root=document] - The root in which to search
+ * @param {ParentNode} [root] - The root in which to search
  * @throws {TypeError} If the element is not found or is of the wrong type
  * @returns {T} The DOM element of the specified type
  */

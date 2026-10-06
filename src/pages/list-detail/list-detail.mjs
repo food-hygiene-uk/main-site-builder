@@ -461,7 +461,7 @@ document.addEventListener("DOMContentLoaded", () => {
   }
 
   /**
-   * @param {number} page
+   * @param {number} page - The page number to load
    */
   const handleClientPageChange = async (page) => {
     establishmentView.page = page;
@@ -470,7 +470,7 @@ document.addEventListener("DOMContentLoaded", () => {
   };
 
   /**
-   * @param {string} filterText
+   * @param {string} filterText - The filter text to apply
    */
   const handleFilterChange = async (filterText) => {
     establishmentView.filterText = filterText;
@@ -480,8 +480,8 @@ document.addEventListener("DOMContentLoaded", () => {
   };
 
   /**
-   * @param {SortKeys} sortOption -
-   * @param {SortDirections} sortDirection
+   * @param {SortKeys} sortOption - The sort option to apply
+   * @param {SortDirections} sortDirection - The sort direction to apply
    */
   const handleSortChange = async (sortOption, sortDirection) => {
     establishmentView.sortOption = sortOption;

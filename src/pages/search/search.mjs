@@ -37,11 +37,11 @@ const CONSENT_STORAGE_KEY = "fhrs_api_consent";
 const state = {
   /**
   @type {number | null}
-  */
+   */
   attentionEffectTimeout: null,
   /**
   @type {EstablishmentList | null}
-  */
+   */
   establishmentList: null,
   currentPage: 1,
   hasUserConsent: false,

@@ -102,7 +102,7 @@ export class EstablishmentDisplay {
     this.filterText = "";
     /**
     @type {Array<Establishment>}
-    */
+     */
     this.originalEstablishments = [];
 
     // UI elements
