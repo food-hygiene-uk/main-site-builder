@@ -1,15 +1,19 @@
-.establishment-card {
+:host {
+  display: block;
   padding: 15px;
   position: relative;
   border: var(--card-border);
   border-radius: 8px;
   background-color: var(--card-background);
-  transition: transform 0.2s;
+  transition:
+    transform 0.2s,
+    box-shadow 0.2s;
 
   &:hover,
   &:focus,
   &:focus-within {
     transform: scale(1.01);
+    box-shadow: var(--box-shadow-hover);
   }
 
   h3 {
@@ -95,6 +99,11 @@
     display: contents;
 
     & > * {
+      position: relative;
+      z-index: 1;
+    }
+
+    ::slotted(*) {
       position: relative;
       z-index: 1;
     }
