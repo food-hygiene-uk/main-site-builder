@@ -1,9 +1,8 @@
 import { dataSchema, LocalAuthorityData } from "../generate-site/schema.mts";
-
 import {
   type AuthoritiesResponse,
   authoritiesResponseSchema,
-} from "../ratings-api/types.mts";
+} from "./types.mts";
 
 export const authorities = async (): Promise<AuthoritiesResponse> => {
   const response = await fetch(

@@ -1,4 +1,4 @@
-import type { APIRegion } from "../../ratings-api/types.mts";
+import type { APIRegion } from "../../ratings-data/types.mts";
 import { slugify } from "../../generate-site/slugify.mts";
 import {
   type AuthoritiesResponse,
