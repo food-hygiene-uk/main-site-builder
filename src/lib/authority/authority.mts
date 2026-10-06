@@ -1,4 +1,4 @@
-import { Authority } from "../../ratings-data/types.mts";
+import { type Authority } from "../../ratings-data/types.mts";
 import { config } from "../config/config.mts";
 import { encodeName } from "../file/file.mts";
 
