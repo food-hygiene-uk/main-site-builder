@@ -20,7 +20,7 @@
     "npm:@typescript-eslint/parser@8.71.0": "8.71.0_eslint@10.11.0_typescript@6.0.3",
     "npm:baseline-browser-mapping@2.11.27": "2.11.27",
     "npm:browserslist-lint@0.4.0": "0.4.0",
-    "npm:cssnano-preset-advanced@9.1.4": "9.1.4_postcss@8.5.29",
+    "npm:cssnano-preset-advanced@9.2.2": "9.2.2_postcss@8.5.29",
     "npm:cssnano@9.3.2": "9.3.2_postcss@8.5.29",
     "npm:eslint-config-prettier@10.1.8": "10.1.8_eslint@10.11.0_jiti@2.7.0",
     "npm:eslint-plugin-import@2.32.0": "2.32.0_eslint@9.39.5_acorn@8.19.0",
@@ -32,7 +32,7 @@
     "npm:estree-walker@3.0.3": "3.0.3",
     "npm:fast-check@4.10.2": "4.10.2",
     "npm:fast-check@4.3.0": "4.3.0",
-    "npm:htmlnano@3.5.1": "3.5.1_cssnano@9.3.2__postcss@8.5.29_postcss@8.5.29_terser@5.51.2",
+    "npm:htmlnano@3.5.1": "3.5.1_cssnano@9.3.2_postcss@8.5.29_terser@5.51.2",
     "npm:http-server@*": "14.1.1",
     "npm:http-server@14.1.1": "14.1.1",
     "npm:jiti@2.7.0": "2.7.0",
@@ -1325,8 +1325,8 @@
       "integrity": "sha512-/Tb/JcjK111nNScGob5MNtsntNM1aCNUDipB/TkwZFhyDrrE47SOx/18wF2bbjgc3ZzCSKW1T5nt5EbFoAz/Vg==",
       "bin": true
     },
-    "cssnano-preset-advanced@9.1.4_postcss@8.5.29": {
-      "integrity": "sha512-UNY3lxsKEnHTmdTbAkJbJgiOEAkKN0wi1VOUdCOqpFzZHhcVgeSAhHj+uxOmb0p+yeY2Pgwtvrkj9VYGySDg5A==",
+    "cssnano-preset-advanced@9.2.2_postcss@8.5.29": {
+      "integrity": "sha512-foN8NpgyfT0ViE4GBQ2PplMAvc75R5psFmwtBznOF0HoV76JcHpKAqoji4L0z7Snkz7cNvk2ubPsSvptxo+5ng==",
       "dependencies": [
         "autoprefixer",
         "css-declaration-sorter",
@@ -1342,7 +1342,7 @@
       "integrity": "sha512-UmIa9PVDvU6UDjNGb1g2w3uLuKCHO1CHv0prMUmhwXhuGXtRuOznbZBBTZNISrk8IW0GEgoNRcHucVtVENYN5g==",
       "dependencies": [
         "browserslist",
-        "cssnano-utils@9.0.0_postcss@8.5.29",
+        "cssnano-utils",
         "postcss",
         "postcss-calc",
         "postcss-colormin",
@@ -1371,13 +1371,6 @@
         "postcss-reduce-transforms",
         "postcss-svgo",
         "postcss-unique-selectors"
-      ]
-    },
-    "cssnano-utils@8.2.1_postcss@8.5.29": {
-      "integrity": "sha512-ZdZOIbZdO6bDQbRAEdZKsWuaRD00sAltCSkSx0ipDjAc1THTV01Lw3NVAYMrgYbb4Yz3hySIpCHi+x0qUGzohA==",
-      "dependencies": [
-        "@csstools/css-tokenizer",
-        "postcss"
       ]
     },
     "cssnano-utils@9.0.0_postcss@8.5.29": {
@@ -2188,7 +2181,7 @@
     "html-tags@5.1.0": {
       "integrity": "sha512-n6l5uca7/y5joxZ3LUePhzmBFUJ+U2YWzhMa8XUTecSeSlQiZdF5XAd/Q3/WUl0VsXgUwWi8I7CNIwdI5WN1SQ=="
     },
-    "htmlnano@3.5.1_cssnano@9.3.2__postcss@8.5.29_postcss@8.5.29_terser@5.51.2": {
+    "htmlnano@3.5.1_cssnano@9.3.2_postcss@8.5.29_terser@5.51.2": {
       "integrity": "sha512-TDyNiRaBYaNIKDbwQmPEs9rKkXCpgnnihabzMYYWvj2KR7CVfgtjT3OsWm0G11s8Km3kRm7EgRpF+RoqzG5CfA==",
       "dependencies": [
         "@types/relateurl",
@@ -2829,7 +2822,7 @@
         "@csstools/css-tokenizer",
         "browserslist",
         "caniuse-api",
-        "cssnano-utils@9.0.0_postcss@8.5.29",
+        "cssnano-utils",
         "postcss"
       ]
     },
@@ -2837,7 +2830,7 @@
       "integrity": "sha512-rxfc/loH4qU3Q/PQeAJ1e+9VtKDUxBtMVa0fUjsldNj/eKnkmKbxOJSJjYt82uSKZZNCi/0L2upBOJMj2BcuqA==",
       "dependencies": [
         "browserslist",
-        "cssnano-utils@9.0.0_postcss@8.5.29",
+        "cssnano-utils",
         "postcss"
       ]
     },
@@ -2883,21 +2876,21 @@
       "integrity": "sha512-YaHPbph+EYK2TXx1UieOtLKpBecoQE+wQmrlz6ob+OWaRwabniUJ1ugkTvHxX43inPsd1iEeJ2qxLaHJFte84Q==",
       "dependencies": [
         "@csstools/css-tokenizer",
-        "cssnano-utils@9.0.0_postcss@8.5.29",
+        "cssnano-utils",
         "postcss"
       ]
     },
     "postcss-discard-duplicates@9.0.7_postcss@8.5.29": {
       "integrity": "sha512-rbsx1SvhBzCetQDbHVNfQrf0mG83Cyz5SPChQT2kPiXO32hWKPFtd00sy+j1NPPQJOGIVp1VHEgI55tGeqc3Kw==",
       "dependencies": [
-        "cssnano-utils@9.0.0_postcss@8.5.29",
+        "cssnano-utils",
         "postcss"
       ]
     },
     "postcss-discard-empty@9.0.8_postcss@8.5.29": {
       "integrity": "sha512-hCGjUuCd/IxKRyVl/uaJOLJTeACXo4GkS+0kRTvO8bBs0OxrGJWhxRaRPKXCdftCI+At0aAlosIgS0yjWNubuQ==",
       "dependencies": [
-        "cssnano-utils@9.0.0_postcss@8.5.29",
+        "cssnano-utils",
         "postcss"
       ]
     },
@@ -2907,11 +2900,11 @@
         "postcss"
       ]
     },
-    "postcss-discard-unused@9.0.6_postcss@8.5.29": {
-      "integrity": "sha512-nOPAjOJaNsK0+psTXaBeHXZ4duIRZKzZtZshNZWbdRVp3uYbzFjAlEXB9rc8tprmKm7BM7umx1Oibqlm+JR6fQ==",
+    "postcss-discard-unused@9.0.7_postcss@8.5.29": {
+      "integrity": "sha512-56jqaE+dsfYyZBeuh5TKv6vGzwdLx91upqWl5sknxLb392IR86TDOkvat2oCnAveOHUj/3DyK0QFSvolaR3JZQ==",
       "dependencies": [
         "@csstools/css-tokenizer",
-        "cssnano-utils@8.2.1_postcss@8.5.29",
+        "cssnano-utils",
         "postcss"
       ]
     },
@@ -2976,11 +2969,11 @@
         "postcss-value-parser"
       ]
     },
-    "postcss-merge-idents@9.0.7_postcss@8.5.29": {
-      "integrity": "sha512-0M3itZHQP/Rm4BwwQ0yIg8vPqsUlp/c6rmCxwUamprVb8sdJ6eF/lB8QM2OaWCZ0cyKgLEwC4i+nVir4k389rQ==",
+    "postcss-merge-idents@9.0.8_postcss@8.5.29": {
+      "integrity": "sha512-wpWkZlevX7QUeCuqeQcJyfSPE0COzpYcWMkQF83TOmvzjaxkDxqp7jq58GwWHRnOFVAH6cWZrUeyatYnJkV/5w==",
       "dependencies": [
         "@csstools/css-tokenizer",
-        "cssnano-utils@8.2.1_postcss@8.5.29",
+        "cssnano-utils",
         "postcss"
       ]
     },
@@ -2989,7 +2982,7 @@
       "dependencies": [
         "@csstools/css-tokenizer",
         "browserslist",
-        "cssnano-utils@9.0.0_postcss@8.5.29",
+        "cssnano-utils",
         "postcss",
         "stylehacks"
       ]
@@ -3000,7 +2993,7 @@
         "@csstools/css-tokenizer",
         "browserslist",
         "caniuse-api",
-        "cssnano-utils@9.0.0_postcss@8.5.29",
+        "cssnano-utils",
         "postcss",
         "postcss-minify-selectors"
       ]
@@ -3009,7 +3002,7 @@
       "integrity": "sha512-eJkOtHU/zZWJJ7c1MWgalpACGV0sERvtowpWDrgr9Ys0seX5vFBx9pWLOrN8eYO2TIOfMvatMhvgtGKtre1gsg==",
       "dependencies": [
         "@csstools/css-tokenizer",
-        "cssnano-utils@9.0.0_postcss@8.5.29",
+        "cssnano-utils",
         "postcss"
       ]
     },
@@ -3018,7 +3011,7 @@
       "dependencies": [
         "@colordx/core",
         "@csstools/css-tokenizer",
-        "cssnano-utils@9.0.0_postcss@8.5.29",
+        "cssnano-utils",
         "postcss"
       ]
     },
@@ -3026,7 +3019,7 @@
       "integrity": "sha512-DZNhq6Lz9i4EOiuImFBqldE6XUXFvEKSA2wQnn539c24naj/Ia2Qn1QVf56bva+UiMYurM1sn217yaap+pQBYQ==",
       "dependencies": [
         "browserslist",
-        "cssnano-utils@9.0.0_postcss@8.5.29",
+        "cssnano-utils",
         "postcss"
       ]
     },
@@ -3035,7 +3028,7 @@
       "dependencies": [
         "browserslist",
         "caniuse-api",
-        "cssnano-utils@9.0.0_postcss@8.5.29",
+        "cssnano-utils",
         "postcss"
       ]
     },
@@ -3058,21 +3051,21 @@
       "integrity": "sha512-M9eGIjAdIjuO6t4HqQJBOjbC+rI+9hF/srxppXa7xAY7EpCwdYVepq8PEAad1pb8EfEWoSCGpK9++nCcw5rl+w==",
       "dependencies": [
         "@csstools/css-tokenizer",
-        "cssnano-utils@9.0.0_postcss@8.5.29",
+        "cssnano-utils",
         "postcss"
       ]
     },
     "postcss-normalize-positions@9.0.8_postcss@8.5.29": {
       "integrity": "sha512-LymeX5GrQjS2N6xyBUpKsVMX+DSufYr1OSJYmM3iWVYre0zeBkKiaWNNqLeiJZMcdHgfcRw0HsLnhh7mNhO60A==",
       "dependencies": [
-        "cssnano-utils@9.0.0_postcss@8.5.29",
+        "cssnano-utils",
         "postcss"
       ]
     },
     "postcss-normalize-repeat-style@9.0.7_postcss@8.5.29": {
       "integrity": "sha512-13iZyi8hUtMEUO3vSQVOH20ByhT8zzEx/2cmONY/tcfZYnMwgPGxn+p5OvJZTbmxhUDqSFsIWpBVBIEA5fJeYQ==",
       "dependencies": [
-        "cssnano-utils@9.0.0_postcss@8.5.29",
+        "cssnano-utils",
         "postcss"
       ]
     },
@@ -3080,7 +3073,7 @@
       "integrity": "sha512-1XZyPwvQpoYewPpveU70LjTA/L17vxECuHnSf4Fg3lRgTzFza9Nxbk1lztTQ41+6PlNKxB2lXX/HGRX5QCbLQg==",
       "dependencies": [
         "@csstools/css-tokenizer",
-        "cssnano-utils@9.0.0_postcss@8.5.29",
+        "cssnano-utils",
         "postcss"
       ]
     },
@@ -3088,7 +3081,7 @@
       "integrity": "sha512-fWFD289YZXKgIsi28EjT5FuM2NMkEp/5zj1uZZJj/OCXTXun3KFVn2/cbU9iSfgmEbNlJ+uxyFw6GW2aQybKgw==",
       "dependencies": [
         "@csstools/css-tokenizer",
-        "cssnano-utils@9.0.0_postcss@8.5.29",
+        "cssnano-utils",
         "postcss"
       ]
     },
@@ -3097,7 +3090,7 @@
       "dependencies": [
         "@csstools/css-tokenizer",
         "browserslist",
-        "cssnano-utils@9.0.0_postcss@8.5.29",
+        "cssnano-utils",
         "postcss"
       ]
     },
@@ -3105,7 +3098,7 @@
       "integrity": "sha512-tIHAU7kcrNCblle/wnMQUGoxnuSaTX2kzcXG52k7gfLQdZklOxqZwO59eEgbixAX9llT67oiQVUewYyyFCvf4w==",
       "dependencies": [
         "@csstools/css-tokenizer",
-        "cssnano-utils@9.0.0_postcss@8.5.29",
+        "cssnano-utils",
         "postcss"
       ]
     },
@@ -3113,7 +3106,7 @@
       "integrity": "sha512-YhqcSyZX6fVIM6sZFf/nd3ZOEEclNZmLSgork6NgetpnQK0QOCyIuT/h3nVja+up5hXCVffl6VcGVqSL8kS4OA==",
       "dependencies": [
         "@csstools/css-tokenizer",
-        "cssnano-utils@9.0.0_postcss@8.5.29",
+        "cssnano-utils",
         "postcss"
       ]
     },
@@ -3126,7 +3119,7 @@
     "postcss-ordered-values@9.0.9_postcss@8.5.29": {
       "integrity": "sha512-bEeFjrZITn6H81YjFgctaoY5XPXEQeS5NOwMroB47CocSfgnbpc9wH2QzNLXxnhcfEdsGCkTAi8kATYY/EkyTw==",
       "dependencies": [
-        "cssnano-utils@9.0.0_postcss@8.5.29",
+        "cssnano-utils",
         "postcss"
       ]
     },
@@ -3241,10 +3234,10 @@
         "postcss-selector-parser"
       ]
     },
-    "postcss-reduce-idents@9.0.6_postcss@8.5.29": {
-      "integrity": "sha512-z9tKlT8YOdDPfJ9r6SP8OxClUiSAtd1eutcoo5n08p/vdBVBFf7eQQTop6L5u/fRdvrlO0gog/hlg5lpNiUOPQ==",
+    "postcss-reduce-idents@9.0.7_postcss@8.5.29": {
+      "integrity": "sha512-v/orZtkvWi8SN4mQq2/PmrNTLTHpOIO05TOKVhjuyQ7/80+aNOIMpuagT3YU9k3cerz0tHrWm5CEmbSWI5P5Wg==",
       "dependencies": [
-        "cssnano-utils@8.2.1_postcss@8.5.29",
+        "cssnano-utils",
         "postcss"
       ]
     },
@@ -3259,7 +3252,7 @@
     "postcss-reduce-transforms@9.0.6_postcss@8.5.29": {
       "integrity": "sha512-xW/3eNKeL9vVXNMiJdI7ythFkC4CGDq04ziTN0/oJwJXIKeJCenLbM9IXU5ton/iNrwtqzZphERdtad4auQ9wQ==",
       "dependencies": [
-        "cssnano-utils@9.0.0_postcss@8.5.29",
+        "cssnano-utils",
         "postcss"
       ]
     },
@@ -3293,7 +3286,7 @@
       "integrity": "sha512-XOZ3r+Zq252CoHZb1zzpRzKyO70XKJBnQgEw8QWIkqqS2k0MJAjKnXmUsoL/nsPzk1APhxyXSQuxfkwSlZpkrA==",
       "dependencies": [
         "@csstools/css-tokenizer",
-        "cssnano-utils@9.0.0_postcss@8.5.29",
+        "cssnano-utils",
         "postcss",
         "svgo"
       ]
@@ -4018,7 +4011,7 @@
       "npm:@typescript-eslint/parser@8.71.0",
       "npm:baseline-browser-mapping@2.11.27",
       "npm:browserslist-lint@0.4.0",
-      "npm:cssnano-preset-advanced@9.1.4",
+      "npm:cssnano-preset-advanced@9.2.2",
       "npm:cssnano@9.3.2",
       "npm:eslint-config-prettier@10.1.8",
       "npm:eslint-plugin-import@2.32.0",
