@@ -32,7 +32,7 @@
     "npm:estree-walker@3.0.3": "3.0.3",
     "npm:fast-check@4.10.2": "4.10.2",
     "npm:fast-check@4.3.0": "4.3.0",
-    "npm:htmlnano@3.5.1": "3.5.1_cssnano@9.6.0_postcss@8.5.29_terser@5.51.2",
+    "npm:htmlnano@3.6.1": "3.6.1_cssnano@9.6.0_postcss@8.5.29_terser@5.51.2",
     "npm:http-server@*": "14.1.1",
     "npm:http-server@14.1.1": "14.1.1",
     "npm:jiti@2.7.0": "2.7.0",
@@ -985,6 +985,9 @@
     "argparse@2.0.1": {
       "integrity": "sha512-8+9WqebbFzpX9OR+Wa6O29asIogeRMzcGtAINdpMHHyAg10f05aSFVBbcEqGf/PXw1EjAZ+q2/bEBg3DvurK3Q=="
     },
+    "argparse@3.0.3": {
+      "integrity": "sha512-Sn98ftV3KfsO8xfLPHG6oT8y+b0yvbrLgZjgPDXsharNY15tTAjqIsIju4S32nl6/iEUNNE4v+yL2Zhm8ooP3w=="
+    },
     "array-buffer-byte-length@1.0.2": {
       "integrity": "sha512-LHE+8BuR7RYGDKvnrmcuSq3tDcKv9OFEXQt/HpbZhY7V6h0zlUXutnAD82GiFx9rdieCMjkvtcsPqBwgUl1Iiw==",
       "dependencies": [
@@ -1236,7 +1239,7 @@
       "integrity": "sha512-/zvGoYn0y27QTBmK+0B+oPdEPC4fKGUmJsMTQbDjqph00TrkqfVFW/M+C6ya54sYCgHC6QCwK/mI6djt8cEGHQ==",
       "dependencies": [
         "env-paths",
-        "js-yaml@5.4.2"
+        "js-yaml@5.5.0"
       ]
     },
     "cosmiconfig@9.0.2_typescript@6.0.3": {
@@ -2181,8 +2184,8 @@
     "html-tags@5.1.0": {
       "integrity": "sha512-n6l5uca7/y5joxZ3LUePhzmBFUJ+U2YWzhMa8XUTecSeSlQiZdF5XAd/Q3/WUl0VsXgUwWi8I7CNIwdI5WN1SQ=="
     },
-    "htmlnano@3.5.1_cssnano@9.6.0_postcss@8.5.29_terser@5.51.2": {
-      "integrity": "sha512-TDyNiRaBYaNIKDbwQmPEs9rKkXCpgnnihabzMYYWvj2KR7CVfgtjT3OsWm0G11s8Km3kRm7EgRpF+RoqzG5CfA==",
+    "htmlnano@3.6.1_cssnano@9.6.0_postcss@8.5.29_terser@5.51.2": {
+      "integrity": "sha512-BYPyIO1bcfSOIGqPH0fOSR+Vs8tBJUcOjnsfrPUkVthSueF1kIrtSE7CvksqKAjqAgPc+fMZ80jaexnfxnGpbw==",
       "dependencies": [
         "@types/relateurl",
         "commander@15.0.0",
@@ -2467,14 +2470,14 @@
     "js-yaml@4.3.2": {
       "integrity": "sha512-SFNOvSJ+Dgf/9An904Yx+CgSlIPCkIpao4qo51lpee25TIRejdH3rhR4EZMGoNx3/TP3O+wzWuiTFl4sqbltzA==",
       "dependencies": [
-        "argparse"
+        "argparse@2.0.1"
       ],
       "bin": true
     },
-    "js-yaml@5.4.2": {
-      "integrity": "sha512-m+aqu+LwO1O6sIopafj8HUVl5aawITwZQe/yHpMCKjaWBaA/d07B/QdMb3529REftiU+RMMHL3Vlsw3hON7vWg==",
+    "js-yaml@5.5.0": {
+      "integrity": "sha512-paNr4LFIFPjeeSmwNYdrb8FafLLG/Cr2Af3GjbsHJ5CxIjH4r0c2emlmRdAtpPAieP1gRVzk6buBbVP5gBMGAg==",
       "dependencies": [
-        "argparse"
+        "argparse@3.0.3"
       ],
       "bin": true
     },
@@ -4019,7 +4022,7 @@
       "npm:eslint-plugin-unicorn@76.0.0",
       "npm:eslint@10.11.0",
       "npm:fast-check@4.10.2",
-      "npm:htmlnano@3.5.1",
+      "npm:htmlnano@3.6.1",
       "npm:http-server@14.1.1",
       "npm:jiti@2.7.0",
       "npm:playwright@1.63.0",
