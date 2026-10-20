@@ -4,7 +4,6 @@ import tsParser from "@typescript-eslint/parser";
 import tsPlugin from "@typescript-eslint/eslint-plugin";
 import prettierConfig from "eslint-config-prettier";
 import unicornPlugin from "eslint-plugin-unicorn";
-import importPlugin from "eslint-plugin-import";
 import jsdocPlugin from "eslint-plugin-jsdoc";
 import promisePlugin from "eslint-plugin-promise";
 
@@ -51,22 +50,9 @@ export default defineConfig([
         CustomEvent: "readonly",
       },
     },
-    plugins: {
-      import: importPlugin,
-    },
     rules: {
       // General rules
       "no-unused-vars": "off", // Use @typescript-eslint/no-unused-vars instead
-      "import/extensions": [
-        "error",
-        "ignorePackages",
-        {
-          js: "always",
-          mjs: "always",
-          mts: "always",
-          ts: "always",
-        },
-      ],
     },
   },
   {
