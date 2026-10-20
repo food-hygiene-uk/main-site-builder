@@ -43,7 +43,7 @@
     "npm:stylelint@17.16.0": "17.16.0",
     "npm:terser@5.51.2": "5.51.2",
     "npm:uglify-js@3.19.3": "3.19.3",
-    "npm:zod@4.6.6": "4.6.6"
+    "npm:zod@4.6.7": "4.6.7"
   },
   "jsr": {
     "@davidbonnet/astring@1.8.6": {
@@ -3065,8 +3065,8 @@
     "yocto-queue@0.1.0": {
       "integrity": "sha512-rVksvsnNCdJ/ohGc6xgPwyN8eheCxsiLM8mxuE/t/mOVqJewPuO1miLpTHQiRgTKCLexL4MeAFVagts7HmNZ2Q=="
     },
-    "zod@4.6.6": {
-      "integrity": "sha512-4UmzQUF5fxvfcYHlbjBmejU+w+hbDnWFx4aS8kBx7nPBHcO2SqPbpAG8snbdg+Xse4pRefR98hgjFgIMCI/UhA=="
+    "zod@4.6.7": {
+      "integrity": "sha512-g8W2D2kU6a8untc053fX1uVBKzM7yqAxW/3zwk83+6RyF2+SKOuV+c0wBDhUwzV1PaGapmZH+rmcUzPf+3CGwg=="
     }
   },
   "workspace": {
@@ -3101,7 +3101,7 @@
       "npm:stylelint@17.16.0",
       "npm:terser@5.51.2",
       "npm:uglify-js@3.19.3",
-      "npm:zod@4.6.6"
+      "npm:zod@4.6.7"
     ]
   }
 }
