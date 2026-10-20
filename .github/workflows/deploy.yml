@@ -166,12 +166,29 @@ jobs:
         working-directory: ./repos/source
         run: deno task test:e2e
 
+      - name: Generate Journey Review Gallery
+        if: always()
+        working-directory: ./repos/source
+        run: deno task gallery:generate
+
+      - name: Upload User Journey Screenshots & Review Portal
+        if: always()
+        uses: actions/upload-artifact@043fb46d1a93c77aae656e7c1c64a875d1fc6a0a # v7.0.1
+        with:
+          name: user-journey-screenshots
+          path: |
+            ./repos/source/test-results/screenshots/
+            test-results/screenshots/
+          retention-days: 14
+
       - name: Upload Playwright report
         if: always() # Upload report even if tests fail
         uses: actions/upload-artifact@043fb46d1a93c77aae656e7c1c64a875d1fc6a0a # v7.0.1
         with:
           name: playwright-report
-          path: ./repos/source/playwright-report/
+          path: |
+            ./repos/source/playwright-report/
+            playwright-report/
           retention-days: 7
 
       - name: Cleanup disk space
