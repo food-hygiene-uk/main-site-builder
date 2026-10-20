@@ -116,6 +116,19 @@
     "test:e2e": {
       "description": "Runs end-to-end tests",
       "dependencies": ["playwright:test"]
+    },
+    "gallery:generate": {
+      "description": "Generates the user journey visual review gallery",
+      "command": "deno run --allow-read=./test-results/screenshots,./tests/e2e --allow-write=./test-results/screenshots tests/e2e/helpers/generate-gallery.ts"
+    },
+    "test:journeys": {
+      "description": "Runs Playwright user journey tests and builds review gallery",
+      "dependencies": ["playwright:install"],
+      "command": "deno run --allow-all npm:playwright test tests/e2e/journeys && deno task gallery:generate"
+    },
+    "review:journeys": {
+      "description": "Serves the user journey review portal locally",
+      "command": "deno run --allow-env --allow-read=./test-results/screenshots --allow-net=0.0.0.0:8081 npm:http-server test-results/screenshots --port 8081 -o"
     }
   },
   "fmt": {
