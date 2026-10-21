@@ -21,6 +21,8 @@ import {
 import { Address } from "../../components/address/forge.mts";
 import { jsAddSuffix, processJsFile } from "../../lib/js/js.mts";
 import { cssAddSuffix, processCssFile } from "../../lib/css/css.mts";
+import { LANGUAGE } from "utils/intl.mjs";
+import type { SupportedLanguage } from "utils/intl.mjs";
 
 const environment = vento();
 environment.use(autoTrim());
@@ -38,12 +40,11 @@ const address = Address();
 
 type ScoreType = keyof typeof scoreDescriptors.scoreDescriptors;
 type ScoreKey = keyof (typeof scoreDescriptors.scoreDescriptors)[ScoreType];
-type Language = "en" | "cy";
 
 const scoreToText = (
   score: ScoreKey,
   scoreType: ScoreType,
-  language: Language,
+  language: SupportedLanguage,
 ): string => {
   const descriptors = scoreDescriptors.scoreDescriptors[scoreType];
   const descriptor = descriptors[score];
@@ -52,17 +53,17 @@ const scoreToText = (
 };
 
 /**
- * Converts a score value to a detailed description
- *
- * @param score - The score key
- * @param scoreType - The type of score
- * @param language - The language for the description
- * @returns The detailed score description
- */
+Converts a score value to a detailed description
+
+@param score - The score key
+@param scoreType - The type of score
+@param language - The language for the description
+@returns The detailed score description
+*/
 const scoreToDescription = (
   score: ScoreKey,
   scoreType: ScoreType,
-  language: Language,
+  language: SupportedLanguage,
 ): string => {
   const descriptors = scoreDescriptors.scoreDescriptors[scoreType];
   const descriptor = descriptors[score];
@@ -73,8 +74,8 @@ const scoreToDescription = (
 };
 
 /**
- * Precomputes and caches a Map of scores for each score type.
- */
+Precomputes and caches a Map of scores for each score type.
+*/
 const cachedScoreMaps: Record<ScoreType, Map<number, number>> = {
   Hygiene: new Map(
     Object.keys(scoreDescriptors.scoreDescriptors.Hygiene)
@@ -100,22 +101,22 @@ const cachedScoreMaps: Record<ScoreType, Map<number, number>> = {
 };
 
 /**
- * Converts a raw score value to a simplified subscore using a cached Map.
- *
- * @param rawScore - The raw score value
- * @param scoreType - The type of score
- * @returns The simplified subscore
- */
+Converts a raw score value to a simplified subscore using a cached Map.
+
+@param rawScore - The raw score value
+@param scoreType - The type of score
+@returns The simplified subscore
+*/
 const calculateSubscore = (rawScore: number, scoreType: ScoreType): number => {
   return cachedScoreMaps[scoreType].get(rawScore) ?? -1;
 };
 
 /**
- * Formats a rating date into ISO and human-readable formats
- *
- * @param ratingDate - The rating date string
- * @returns Object containing ISO and formatted date strings, or null if no date
- */
+Formats a rating date into ISO and human-readable formats
+
+@param ratingDate - The rating date string
+@returns Object containing ISO and formatted date strings, or null if no date
+*/
 const getRatingDate = (
   ratingDate: string | null,
 ): { iso: string; formatted: string } | null => {
@@ -134,11 +135,11 @@ const getRatingDate = (
 };
 
 /**
- * Extracts and formats score data with subscores from an establishment's scores
- *
- * @param scores - The scores object from an establishment
- * @returns Array of score data objects, or null if no scores
- */
+Extracts and formats score data with subscores from an establishment's scores
+
+@param scores - The scores object from an establishment
+@returns Array of score data objects, or null if no scores
+*/
 const getScoreDataWithSubscores = (
   scores: Establishment["Scores"],
 ):
@@ -155,12 +156,12 @@ const getScoreDataWithSubscores = (
       description: scoreToDescription(
         scores.Hygiene.toString() as ScoreKey,
         "Hygiene",
-        "en",
+        LANGUAGE,
       ),
       value: scoreToText(
         scores.Hygiene.toString() as ScoreKey,
         "Hygiene",
-        "en",
+        LANGUAGE,
       ),
       subscore: `${calculateSubscore(scores.Hygiene, "Hygiene")} out of ${
         Object.keys(scoreDescriptors.scoreDescriptors["Hygiene"]).length
@@ -171,12 +172,12 @@ const getScoreDataWithSubscores = (
       description: scoreToDescription(
         scores.Structural.toString() as ScoreKey,
         "Structural",
-        "en",
+        LANGUAGE,
       ),
       value: scoreToText(
         scores.Structural.toString() as ScoreKey,
         "Structural",
-        "en",
+        LANGUAGE,
       ),
       subscore: `${calculateSubscore(scores.Structural, "Structural")} out of ${
         Object.keys(scoreDescriptors.scoreDescriptors["Structural"]).length
@@ -187,12 +188,12 @@ const getScoreDataWithSubscores = (
       description: scoreToDescription(
         scores.ConfidenceInManagement.toString() as ScoreKey,
         "Confidence",
-        "en",
+        LANGUAGE,
       ),
       value: scoreToText(
         scores.ConfidenceInManagement.toString() as ScoreKey,
         "Confidence",
-        "en",
+        LANGUAGE,
       ),
       subscore: `${
         calculateSubscore(
@@ -226,11 +227,11 @@ const [template, Header, Footer, processedCss, processedJs] = await Promise.all(
 );
 
 /**
- * Generates HTML pages for each establishment in a local authority
- *
- * @param localAuthority - The local authority object
- * @param establishments - Array of establishments to generate pages for
- */
+Generates HTML pages for each establishment in a local authority
+
+@param localAuthority - The local authority object
+@param establishments - Array of establishments to generate pages for
+*/
 export const outputEstablishmentDetailPage = async (
   localAuthority: EnrichedLocalAuthority,
   establishments: Establishment[],

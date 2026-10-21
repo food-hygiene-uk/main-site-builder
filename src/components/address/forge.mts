@@ -22,11 +22,11 @@ const [processedCss, template] = await Promise.all([
 ]);
 
 /**
- * Extracts address information from an establishment
- *
- * @param establishment - The establishment to extract the address from
- * @returns Object containing address lines, postcode, and location link
- */
+Extracts address information from an establishment
+
+@param establishment - The establishment to extract the address from
+@returns Object containing address lines, postcode, and location link
+*/
 const getAddress = (
   establishment: Establishment,
 ): {
@@ -56,10 +56,10 @@ const getAddress = (
 };
 
 /**
- * Creates an address component factory
- *
- * @returns Object containing the component's CSS and render function
- */
+Creates an address component factory
+
+@returns Object containing the component's CSS and render function
+*/
 export const Address = (): {
   css: string;
   render: (
@@ -70,11 +70,11 @@ export const Address = (): {
   const css = cssAddSuffix(processedCss, classSuffix);
 
   /**
-   * Renders an address for the given establishment
-   *
-   * @param establishment - The establishment to render the address for
-   * @returns Promise resolving to the rendered template
-   */
+  Renders an address for the given establishment
+
+  @param establishment - The establishment to render the address for
+  @returns Promise resolving to the rendered template
+  */
   const render = async (
     establishment: Establishment,
   ): Promise<ReturnType<typeof template>> => {

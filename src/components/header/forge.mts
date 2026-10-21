@@ -23,10 +23,10 @@ const [processedCss, template] = await Promise.all([
 ]);
 
 /**
- * Generates the header component.
- *
- * @returns An object containing the CSS and HTML for the header.
- */
+Generates the header component.
+
+@returns An object containing the CSS and HTML for the header.
+*/
 export const forgeHeader = async (): Promise<{
   css: string;
   html: string;

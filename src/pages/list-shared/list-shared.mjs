@@ -1,10 +1,10 @@
 /**
- * @typedef {import("../../generate-site/schema.mts").Establishment} Establishment
- * @typedef {import("components/establishment-display/establishment-display.mjs").SortKeys} SortKeys
- * @typedef {import("components/establishment-display/establishment-display.mjs").SortDirections} SortDirections
- * @typedef {import("scripts/list-service.mjs").SavedList} SavedList
- * @typedef {SavedList & { created?: string }} SharedSavedList
- */
+@typedef {import("../../generate-site/schema.mts").Establishment} Establishment
+@typedef {import("components/establishment-display/establishment-display.mjs").SortKeys} SortKeys
+@typedef {import("components/establishment-display/establishment-display.mjs").SortDirections} SortDirections
+@typedef {import("scripts/list-service.mjs").SavedList} SavedList
+@typedef {SavedList & { created?: string }} SharedSavedList
+*/
 
 import { EstablishmentList } from "components/establishment-list/establishment-list.mjs";
 import { DEFAULT_SORT_CONFIG } from "components/establishment-display/establishment-display.mjs";
@@ -25,15 +25,15 @@ const PAGE_SIZE = 10;
 
 const state = {
   /**
-   * @type {Array<Establishment>}
-   */
+  @type {Array<Establishment>}
+  */
   loadedEstablishments: [],
 };
 
 // module scope variables
 /**
- * @type {{ page: number; filterText: string; sortOption: SortKeys; sortDirection: SortDirections }}
- */
+@type {{ page: number; filterText: string; sortOption: SortKeys; sortDirection: SortDirections }}
+*/
 const establishmentView = {
   page: 1,
   filterText: "",
@@ -42,11 +42,11 @@ const establishmentView = {
 };
 
 /**
- * Decodes a compact string representation back into an array of establishment IDs
- *
- * @param {string} encoded - The encoded string to decode
- * @returns {Array<number>} Array of decoded establishment IDs
- */
+Decodes a compact string representation back into an array of establishment IDs
+
+@param {string} encoded - The encoded string to decode
+@returns {Array<number>} Array of decoded establishment IDs
+*/
 const decodeEstablishmentIds = (encoded) => {
   try {
     // Decode the base64 string
@@ -64,12 +64,12 @@ const decodeEstablishmentIds = (encoded) => {
 };
 
 /**
- * Saves a list of establishments to localStorage
- *
- * @param {string} listName - The name of the list to save
- * @param {Array<Establishment>} establishments - Array of establishment objects to save
- * @returns {string | null} The ID of the saved list or null on error
- */
+Saves a list of establishments to localStorage
+
+@param {string} listName - The name of the list to save
+@param {Array<Establishment>} establishments - Array of establishment objects to save
+@returns {string | null} The ID of the saved list or null on error
+*/
 const saveList = (listName, establishments) => {
   // Don't run in server-side code
   if (globalThis.localStorage === undefined) return null;
@@ -77,8 +77,8 @@ const saveList = (listName, establishments) => {
   try {
     // Get existing saved lists
     /**
-     * @type {Record<string, SharedSavedList>}
-     */
+    @type {Record<string, SharedSavedList>}
+    */
     let savedLists = {};
     const savedListsJson = globalThis.localStorage.getItem(
       SAVED_LISTS_STORAGE_KEY,
@@ -128,11 +128,11 @@ const saveList = (listName, establishments) => {
 };
 
 /**
- * Handles saving the list and redirecting to the saved list page
- *
- * @param {string} listName - The name for the new list.
- * @param {() => void} closeModalCallback - Callback to close the modal.
- */
+Handles saving the list and redirecting to the saved list page
+
+@param {string} listName - The name for the new list.
+@param {() => void} closeModalCallback - Callback to close the modal.
+*/
 const handleSaveList = (listName, closeModalCallback) => {
   if (state.loadedEstablishments.length === 0) {
     alert("Cannot save an empty list.");
@@ -153,10 +153,10 @@ const handleSaveList = (listName, closeModalCallback) => {
 };
 
 /**
- * Shows the save list modal
- *
- * @param {string} title - Suggested name for the saved list
- */
+Shows the save list modal
+
+@param {string} title - Suggested name for the saved list
+*/
 const showSaveModal = async (title) => {
   const modalContent = document.createElement("div");
   modalContent.className = "modal-content";
@@ -188,8 +188,8 @@ const showSaveModal = async (title) => {
   modalContent.append(buttonsContainer);
 
   /**
-   * @type {HTMLDialogElement | null}
-   */
+  @type {HTMLDialogElement | null}
+  */
   let dialogElement = null;
 
   const closeDialog = () => {
@@ -248,8 +248,8 @@ document.addEventListener("DOMContentLoaded", () => {
 
   // Get the encoded data and decode it
   /**
-   * @type {Array<number>}
-   */
+  @type {Array<number>}
+  */
   let establishmentIds = [];
   if (urlParameters.has("data")) {
     const encodedData = urlParameters.get("data");
@@ -258,21 +258,21 @@ document.addEventListener("DOMContentLoaded", () => {
 
   // Store loaded establishments for filtering/sorting/pagination
   /**
-   * @type {Array<Establishment>}
-   */
+  @type {Array<Establishment>}
+  */
   let allEstablishments = [];
 
   /**
-   * @param {number} page - The page number to load
-   */
+  @param {number} page - The page number to load
+  */
   const handleClientPageChange = async (page) => {
     establishmentView.page = page;
     renderEstablishments();
   };
 
   /**
-   * @param {string} filterText - The text to filter on
-   */
+  @param {string} filterText - The text to filter on
+  */
   const handleFilterChange = async (filterText) => {
     establishmentView.filterText = filterText;
     establishmentView.page = 1; // Reset to first page on filter change
@@ -280,9 +280,9 @@ document.addEventListener("DOMContentLoaded", () => {
   };
 
   /**
-   * @param {SortKeys} sortOption - The sort option to apply
-   * @param {SortDirections} sortDirection - The sort direction to apply
-   */
+  @param {SortKeys} sortOption - The sort option to apply
+  @param {SortDirections} sortDirection - The sort direction to apply
+  */
   const handleSortChange = async (sortOption, sortDirection) => {
     establishmentView.sortOption = sortOption;
     establishmentView.sortDirection = sortDirection;
@@ -291,8 +291,8 @@ document.addEventListener("DOMContentLoaded", () => {
   };
 
   /**
-   * Renders establishments based on current state (filter, sort, page)
-   */
+  Renders establishments based on current state (filter, sort, page)
+  */
   const renderEstablishments = async () => {
     const filteredEstablishments = filterEstablishments(
       allEstablishments,
@@ -346,8 +346,8 @@ document.addEventListener("DOMContentLoaded", () => {
   });
 
   /**
-   * Loads all establishments from the shared list
-   */
+  Loads all establishments from the shared list
+  */
   const loadSharedList = async () => {
     // Show loading state
     await establishmentList.loadEstablishments(

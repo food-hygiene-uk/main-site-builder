@@ -51,10 +51,10 @@ const [
 ]);
 
 /**
- * Generates and outputs the lists detail page.
- *
- * @returns Resolves when the page is written to the output directory.
- */
+Generates and outputs the lists detail page.
+
+@returns Resolves when the page is written to the output directory.
+*/
 export const outputListDetailPage = async (): Promise<void> => {
   const classSuffix = getClassSuffix(true);
 

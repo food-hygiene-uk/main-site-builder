@@ -54,10 +54,10 @@ const [
 ]);
 
 /**
- * Generates and outputs the list shared page.
- *
- * @returns Resolves when the page is written to the output directory.
- */
+Generates and outputs the list shared page.
+
+@returns Resolves when the page is written to the output directory.
+*/
 export const outputListSharedPage = async (): Promise<void> => {
   const classSuffix = getClassSuffix(true);
 

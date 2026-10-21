@@ -1,10 +1,10 @@
 const suffixPoolIndexes = new Map();
 
 /**
- * Gets a hash of the caller's filename for consistent class suffix generation
- *
- * @returns A hash string derived from the caller's filename
- */
+Gets a hash of the caller's filename for consistent class suffix generation
+
+@returns A hash string derived from the caller's filename
+*/
 const getCallerFilenameHash = (): string => {
   const error = new Error("generate stack trace");
   const stack = (error.stack ?? "").split("\n");
@@ -136,21 +136,21 @@ const suffixPool = [
 ];
 
 /**
- * Returns a string to be used as a class suffix.
- *
- * This mimics CSS Modules unique class hashes,
- * but is designed to work with static websites.
- *
- * If the HTML and build order remains the same, then
- * the class suffix will remain consistent between builds.
- *
- * There is a pool of suffixes that will be rotated between.
- *
- * If the class is for a single instance component, then the classSuffix does not need to be distinct.
- *
- * @param isSingleInstance - Whether the component is a single instance component.
- * @returns A random string of characters.
- */
+Returns a string to be used as a class suffix.
+
+This mimics CSS Modules unique class hashes,
+but is designed to work with static websites.
+
+If the HTML and build order remains the same, then
+the class suffix will remain consistent between builds.
+
+There is a pool of suffixes that will be rotated between.
+
+If the class is for a single instance component, then the classSuffix does not need to be distinct.
+
+@param isSingleInstance - Whether the component is a single instance component.
+@returns A random string of characters.
+*/
 export const getClassSuffix = (isSingleInstance: boolean): string => {
   const isSingleInstanceComponent = isSingleInstance;
 

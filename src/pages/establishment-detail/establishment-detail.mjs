@@ -3,21 +3,21 @@ import { renderListSelectionButton } from "components/list-selection-button/list
 import { lacToRegionSlug } from "scripts/region.mjs";
 
 /**
- * @typedef {{ addTo: (map: LeafletMap) => LeafletLayer; bindPopup: (text: string) => LeafletLayer }} LeafletLayer
- */
+@typedef {{ addTo: (map: LeafletMap) => LeafletLayer; bindPopup: (text: string) => LeafletLayer }} LeafletLayer
+*/
 /**
- * @typedef {{ setView: (coordinates: [number, number], zoom: number) => LeafletMap }} LeafletMap
- */
+@typedef {{ setView: (coordinates: [number, number], zoom: number) => LeafletMap }} LeafletMap
+*/
 /**
- * @typedef {{ map: (id: string) => LeafletMap; tileLayer: (url: string, options: { maxZoom: number; attribution: string }) => LeafletLayer; control: { scale: (options: { imperial: boolean; metric: boolean }) => LeafletLayer }; marker: (coordinates: [number, number]) => LeafletLayer }} LeafletApi
- */
+@typedef {{ map: (id: string) => LeafletMap; tileLayer: (url: string, options: { maxZoom: number; attribution: string }) => LeafletLayer; control: { scale: (options: { imperial: boolean; metric: boolean }) => LeafletLayer }; marker: (coordinates: [number, number]) => LeafletLayer }} LeafletApi
+*/
 
 /**
- * Dynamically loads a CSS file into the document
- *
- * @param {string} href - URL of the CSS file to load
- * @returns {Promise<void>} Promise that resolves when the CSS is loaded
- */
+Dynamically loads a CSS file into the document
+
+@param {string} href - URL of the CSS file to load
+@returns {Promise<void>} Promise that resolves when the CSS is loaded
+*/
 const loadCSS = (href) => {
   return new Promise((resolve, reject) => {
     const link = document.createElement("link");
@@ -33,11 +33,11 @@ const loadCSS = (href) => {
 };
 
 /**
- * Dynamically loads a JavaScript file
- *
- * @param {string} source - URL of the JavaScript file to load
- * @returns {Promise<void>} Promise that resolves when the script is loaded
- */
+Dynamically loads a JavaScript file
+
+@param {string} source - URL of the JavaScript file to load
+@returns {Promise<void>} Promise that resolves when the script is loaded
+*/
 const loadScript = (source) => {
   return new Promise((resolve, reject) => {
     const script = document.createElement("script");
@@ -52,11 +52,11 @@ const loadScript = (source) => {
 };
 
 /**
- * Initializes and displays a Leaflet map with OpenStreetMap tiles
- *
- * @param {number} latitude - Latitude coordinate
- * @param {number} longitude - Longitude coordinate
- */
+Initializes and displays a Leaflet map with OpenStreetMap tiles
+
+@param {number} latitude - Latitude coordinate
+@param {number} longitude - Longitude coordinate
+*/
 const initializeMap = async (latitude, longitude) => {
   const mapContainer = document.querySelector("#map");
 
@@ -92,11 +92,11 @@ const initializeMap = async (latitude, longitude) => {
 };
 
 /**
- * Loads Leaflet library and initializes the map
- *
- * @param {number} latitude - Latitude coordinate
- * @param {number} longitude - Longitude coordinate
- */
+Loads Leaflet library and initializes the map
+
+@param {number} latitude - Latitude coordinate
+@param {number} longitude - Longitude coordinate
+*/
 const loadAndInitializeMap = async (latitude, longitude) => {
   try {
     // Load Leaflet CSS and JS
@@ -188,8 +188,8 @@ document.addEventListener("DOMContentLoaded", async () => {
   });
 
   /**
-   * Loads the map and handles UI cleanup
-   */
+  Loads the map and handles UI cleanup
+  */
   const loadMap = async () => {
     const latitude = Number(loadMapButton.dataset.lat);
     const longitude = Number(loadMapButton.dataset.lon);
@@ -224,10 +224,10 @@ document.addEventListener("DOMContentLoaded", async () => {
 });
 
 /**
- * Displays recently viewed establishments excluding the current one
- *
- * @param {number} currentId - The ID of the current establishment to exclude
- */
+Displays recently viewed establishments excluding the current one
+
+@param {number} currentId - The ID of the current establishment to exclude
+*/
 const displayRecentlyViewed = (currentId) => {
   const recentSection = document.querySelector("#recentlyViewed");
   const recentContainer = document.querySelector("#recentEstablishments");
@@ -310,11 +310,11 @@ const displayRecentlyViewed = (currentId) => {
 };
 
 /**
- * Formats a date as a relative time (e.g., "2 days ago")
- *
- * @param {string} date - ISO date string to format
- * @returns {string} Formatted relative time string
- */
+Formats a date as a relative time (e.g., "2 days ago")
+
+@param {string} date - ISO date string to format
+@returns {string} Formatted relative time string
+*/
 const formatRelativeTime = (date) => {
   const diffMs = Date.now() - new Date(date).getTime();
   const diffSec = Math.floor(diffMs / 1000);
@@ -337,11 +337,11 @@ const formatRelativeTime = (date) => {
 };
 
 /**
- * Creates a URL-friendly slug from a text string
- *
- * @param {string} text - The text to convert to a slug
- * @returns {string} URL-friendly slug
- */
+Creates a URL-friendly slug from a text string
+
+@param {string} text - The text to convert to a slug
+@returns {string} URL-friendly slug
+*/
 const slugify = (text) => {
   return text
     .toString()

@@ -1,34 +1,34 @@
 /**
- * @typedef {object} MinimalEstablishment
- * @property {number} FHRSID - Unique identifier for the establishment
- * @property {string} BusinessName - Name of the establishment
- * @property {string} [BusinessType] - Type of the establishment
- * @property {string} [lastVisited] - ISO date string of when the establishment page was last visited
- * @property {string} LocalAuthorityCode - Code for the Local Authority
- * @property {string} [AddressLine1] - First line of the address
- * @property {string} [AddressLine2] - Second line of the address
- * @property {string} [AddressLine3] - Third line of the address
- * @property {string} [AddressLine4] - Fourth line of the address
- * @property {string} [PostCode] - Postal code
- * @property {string} [RatingValue] - Food hygiene rating
- * @property {string|null} [RatingDate] - Date of the last rating
- */
+@typedef {object} MinimalEstablishment
+@property {number} FHRSID - Unique identifier for the establishment
+@property {string} BusinessName - Name of the establishment
+@property {string} [BusinessType] - Type of the establishment
+@property {string} [lastVisited] - ISO date string of when the establishment page was last visited
+@property {string} LocalAuthorityCode - Code for the Local Authority
+@property {string} [AddressLine1] - First line of the address
+@property {string} [AddressLine2] - Second line of the address
+@property {string} [AddressLine3] - Third line of the address
+@property {string} [AddressLine4] - Fourth line of the address
+@property {string} [PostCode] - Postal code
+@property {string} [RatingValue] - Food hygiene rating
+@property {string|null} [RatingDate] - Date of the last rating
+*/
 
 /**
- * Service to manage the tracking of recently viewed establishments
- */
+Service to manage the tracking of recently viewed establishments
+*/
 class RecentEstablishmentsService {
   /**
-   * Initialize the service with default storage key and maximum items
-   */
+  Initialize the service with default storage key and maximum items
+  */
   STORAGE_KEY = "recent-establishments";
   MAX_ITEMS = 30;
 
   /**
-   * Add an establishment to the recent list
-   *
-   * @param {MinimalEstablishment} establishment - The establishment object to add
-   */
+  Add an establishment to the recent list
+
+  @param {MinimalEstablishment} establishment - The establishment object to add
+  */
   addEstablishment(establishment) {
     // Don't run in server-side code
     if (globalThis.localStorage === undefined) return;
@@ -76,10 +76,10 @@ class RecentEstablishmentsService {
   }
 
   /**
-   * Get all recent establishments, ordered by most recent first
-   *
-   * @returns {Array<MinimalEstablishment>} Array of establishment objects
-   */
+  Get all recent establishments, ordered by most recent first
+
+  @returns {Array<MinimalEstablishment>} Array of establishment objects
+  */
   getRecentEstablishments() {
     // Don't run in server-side code
     if (globalThis.localStorage === undefined) {
@@ -105,8 +105,8 @@ class RecentEstablishmentsService {
   }
 
   /**
-   * Clear all recent establishments
-   */
+  Clear all recent establishments
+  */
   clearRecentEstablishments() {
     // Don't run in server-side code
     if (globalThis.localStorage === undefined) return;
@@ -116,11 +116,11 @@ class RecentEstablishmentsService {
   }
 
   /**
-   * Get the last visited time for a specific establishment
-   *
-   * @param {number} FHRSID - The FHRSID of the establishment to lookup
-   * @returns {string|null} ISO date string of when the establishment was last visited, or null if not found
-   */
+  Get the last visited time for a specific establishment
+
+  @param {number} FHRSID - The FHRSID of the establishment to lookup
+  @returns {string|null} ISO date string of when the establishment was last visited, or null if not found
+  */
   getLastVisitedTime(FHRSID) {
     const recentItems = this.getRecentEstablishments();
     const item = recentItems.find((item) => item.FHRSID === FHRSID);

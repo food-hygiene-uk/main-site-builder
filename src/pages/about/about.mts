@@ -33,10 +33,10 @@ const [template, Header, Footer, processedCss] = await Promise.all([
 ]);
 
 /**
- * Generates the "About" page and writes it to the output directory.
- *
- * @returns Resolves when the page has been successfully written.
- */
+Generates the "About" page and writes it to the output directory.
+
+@returns Resolves when the page has been successfully written.
+*/
 export const outputAboutPage = async (): Promise<void> => {
   const classSuffix = getClassSuffix(true);
 

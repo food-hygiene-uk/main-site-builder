@@ -1,13 +1,13 @@
 /**
- * Runs a function that returns a promise on an array of items with a maximum number of concurrent requests.
- *
- * @template T - The type of the items in the array.
- * @template R - The type of the result returned by the function.
- * @param items - The array of items to process.
- * @param maxConcurrent - The maximum number of concurrent requests.
- * @param function_ - The function to run on each item, which returns a promise.
- * @returns A promise that resolves to an array of results.
- */
+Runs a function that returns a promise on an array of items with a maximum number of concurrent requests.
+
+@template T - The type of the items in the array.
+@template R - The type of the result returned by the function.
+@param items - The array of items to process.
+@param maxConcurrent - The maximum number of concurrent requests.
+@param function_ - The function to run on each item, which returns a promise.
+@returns A promise that resolves to an array of results.
+*/
 export function mapConcurrent<T, R>(
   items: T[],
   maxConcurrent: number,
@@ -21,8 +21,8 @@ export function mapConcurrent<T, R>(
 
   return new Promise(function (resolve, reject) {
     /**
-     * Executes the next function in the queue, updating the in-flight counter and handling results or errors.
-     */
+    Executes the next function in the queue, updating the in-flight counter and handling results or errors.
+    */
     async function runNext() {
       const index_ = index;
       ++inFlightCntr;
@@ -41,8 +41,8 @@ export function mapConcurrent<T, R>(
     }
 
     /**
-     * Manages the execution of the function on items, ensuring the maximum concurrency limit is respected.
-     */
+    Manages the execution of the function on items, ensuring the maximum concurrency limit is respected.
+    */
     function run(): void {
       // launch as many as we're allowed to
       while (

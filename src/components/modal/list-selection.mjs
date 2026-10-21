@@ -1,11 +1,11 @@
 /**
- * List Selection Modal Component
- * Provides a modal interface for selecting lists to add or remove an establishment.
- */
+List Selection Modal Component
+Provides a modal interface for selecting lists to add or remove an establishment.
+*/
 
 /**
- * @typedef {import("scripts/list-service.mjs").ListEstablishment} ListEstablishment
- */
+@typedef {import("scripts/list-service.mjs").ListEstablishment} ListEstablishment
+*/
 
 import {
   createNewList,
@@ -15,11 +15,11 @@ import {
 import { openModal } from "components/modal/modal.mjs";
 
 /**
- * Initializes the list selection modal content and attaches event listeners.
- *
- * @param {ListEstablishment} establishment - Establishment record
- * @param {HTMLDialogElement} modalElement - The dialog element for the modal.
- */
+Initializes the list selection modal content and attaches event listeners.
+
+@param {ListEstablishment} establishment - Establishment record
+@param {HTMLDialogElement} modalElement - The dialog element for the modal.
+*/
 const initializeListSelectionModal = (establishment, modalElement) => {
   const modalBody = modalElement.querySelector(".modal-body");
   if (!modalBody) return;
@@ -102,11 +102,11 @@ const initializeListSelectionModal = (establishment, modalElement) => {
 };
 
 /**
- * Updates the state of the checkboxes in the modal.
- *
- * @param {number} FHRSID - The unique identifier of the establishment.
- * @param {HTMLDialogElement} modalElement - The dialog element for the modal.
- */
+Updates the state of the checkboxes in the modal.
+
+@param {number} FHRSID - The unique identifier of the establishment.
+@param {HTMLDialogElement} modalElement - The dialog element for the modal.
+*/
 const updateCheckboxStates = (FHRSID, modalElement) => {
   const savedLists = getSavedLists();
   const savedListContainer = modalElement.querySelector(".saved-list");
@@ -139,11 +139,11 @@ const updateCheckboxStates = (FHRSID, modalElement) => {
 };
 
 /**
- * Opens a list selection modal for managing an establishment's lists.
- *
- * @param {ListEstablishment} establishment - Establishment record
- * @param {() => void} onClose - Callback function invoked when the modal is closed.
- */
+Opens a list selection modal for managing an establishment's lists.
+
+@param {ListEstablishment} establishment - Establishment record
+@param {() => void} onClose - Callback function invoked when the modal is closed.
+*/
 export const openListSelectionModal = async (establishment, onClose) => {
   // Create a placeholder div. openModal will place this inside its own .modal-body.
   // initializeListSelectionModal will then populate that .modal-body.

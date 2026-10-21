@@ -46,10 +46,10 @@ const [template, Header, Footer, processedCss, processedJs] = await Promise.all(
 );
 
 /**
- * Generates and outputs the search page HTML.
- *
- * @returns Resolves when the search page has been written to the output directory.
- */
+Generates and outputs the search page HTML.
+
+@returns Resolves when the search page has been written to the output directory.
+*/
 export const outputSearchPage = async (): Promise<void> => {
   const classSuffix = getClassSuffix(true);
 

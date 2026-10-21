@@ -1,7 +1,7 @@
 /**
- * Fetches the latest Deno version from the GitHub API and updates the .deno-version
- * file and the devcontainer.json file with the new version.
- */
+Fetches the latest Deno version from the GitHub API and updates the .deno-version
+file and the devcontainer.json file with the new version.
+*/
 const updateDenoVersion = async () => {
   const latestReleaseUrl =
     "https://api.github.com/repos/denoland/deno/releases/latest";

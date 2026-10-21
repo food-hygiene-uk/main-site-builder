@@ -7,14 +7,14 @@ import type { Establishment } from "../generate-site/schema.mts";
 import { establishmentArbitrary } from "../generate-site/fast-check-arbitrary.mts";
 
 /**
- * Creates a mock establishment object.
- *
- * @param params - Parameters for the establishment
- * @param params.businessName - The business name
- * @param params.ratingValue - The rating value
- * @param params.ratingDate - The rating date
- * @returns A mock establishment object
- */
+Creates a mock establishment object.
+
+@param params - Parameters for the establishment
+@param params.businessName - The business name
+@param params.ratingValue - The rating value
+@param params.ratingDate - The rating date
+@returns A mock establishment object
+*/
 const createEstablishment = ({
   businessName,
   ratingValue,

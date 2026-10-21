@@ -18,13 +18,13 @@ export const authorities = async (): Promise<AuthoritiesResponse> => {
 };
 
 /**
- * Fetches local authority data from the specified URL.
- *
- * @param url - The URL to fetch data from.
- * @returns A promise resolving to the local authority data.
- * @throws {Error} If the fetch response is not ok.
- * @throws {TypeError} If the data format is invalid.
- */
+Fetches local authority data from the specified URL.
+
+@param url - The URL to fetch data from.
+@returns A promise resolving to the local authority data.
+@throws {Error} If the fetch response is not ok.
+@throws {TypeError} If the data format is invalid.
+*/
 export const fetchLocalAuthorityData = async (
   url: string,
 ): Promise<LocalAuthorityData> => {

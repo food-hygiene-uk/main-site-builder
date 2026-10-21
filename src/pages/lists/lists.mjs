@@ -4,14 +4,14 @@ import { getListCreationDate } from "scripts/list-service.mjs";
 const SAVED_LISTS_STORAGE_KEY = "saved-establishment-lists";
 
 /**
- * @typedef {import("scripts/list-service.mjs").SavedList} SavedList
- */
+@typedef {import("scripts/list-service.mjs").SavedList} SavedList
+*/
 
 /**
- * Gets all saved lists from localStorage
- *
- * @returns {Record<string, SavedList>} Object containing all saved lists
- */
+Gets all saved lists from localStorage
+
+@returns {Record<string, SavedList>} Object containing all saved lists
+*/
 const getSavedLists = () => {
   if (globalThis.localStorage === undefined) return {};
 
@@ -29,11 +29,11 @@ const getSavedLists = () => {
 };
 
 /**
- * Deletes a saved list by ID
- *
- * @param {string} listId - The ID of the list to delete
- * @returns {boolean} True if deletion was successful
- */
+Deletes a saved list by ID
+
+@param {string} listId - The ID of the list to delete
+@returns {boolean} True if deletion was successful
+*/
 const deleteList = (listId) => {
   if (globalThis.localStorage === undefined) return false;
 
@@ -70,11 +70,11 @@ document.addEventListener("DOMContentLoaded", () => {
   );
 
   /**
-   * Handles the delete button click event
-   *
-   * @param {Event} event - The click event
-   * @param {string} listId - The ID of the list to delete
-   */
+  Handles the delete button click event
+
+  @param {Event} event - The click event
+  @param {string} listId - The ID of the list to delete
+  */
   const handleDeleteClick = (event, listId) => {
     event.preventDefault();
     event.stopPropagation();
@@ -94,8 +94,8 @@ document.addEventListener("DOMContentLoaded", () => {
   };
 
   /**
-   * Renders the saved lists in the UI
-   */
+  Renders the saved lists in the UI
+  */
   const renderSavedLists = () => {
     if (!(userListsContainer instanceof HTMLElement)) return;
 

@@ -1,30 +1,30 @@
 /**
- * @typedef {import("../../generate-site/schema.mts").Establishment} Establishment
- * @typedef {import("components/establishment-list/establishment-list.mjs").EstablishmentList} EstablishmentList
- * @typedef { "order" | "name" | "rating" | "date" } SortKeys
- * @typedef {boolean} SortDirections
- * @typedef {Record<SortKeys, SortDirections>} DefaultSortDirections
- */
+@typedef {import("../../generate-site/schema.mts").Establishment} Establishment
+@typedef {import("components/establishment-list/establishment-list.mjs").EstablishmentList} EstablishmentList
+@typedef { "order" | "name" | "rating" | "date" } SortKeys
+@typedef {boolean} SortDirections
+@typedef {Record<SortKeys, SortDirections>} DefaultSortDirections
+*/
 
 /**
- * @typedef {object} SortOption
- * @property {SortKeys} value - The value to identify this sort option
- * @property {string} label - The display label for this sort option
- */
+@typedef {object} SortOption
+@property {SortKeys} value - The value to identify this sort option
+@property {string} label - The display label for this sort option
+*/
 
 /**
- * @typedef {object} SortConfig
- * @property {SortKeys} defaultSortOption - The default sort option to use
- * @property {SortDirections} defaultSortDirection - The default sort direction (true for ascending, false for descending)
- * @property {Array<SortOption>} sortOptions - Available sort options
- * @property {DefaultSortDirections} sortDirections - Default directions for each sort option
- */
+@typedef {object} SortConfig
+@property {SortKeys} defaultSortOption - The default sort option to use
+@property {SortDirections} defaultSortDirection - The default sort direction (true for ascending, false for descending)
+@property {Array<SortOption>} sortOptions - Available sort options
+@property {DefaultSortDirections} sortDirections - Default directions for each sort option
+*/
 
 /**
- * Adds the CSS link for the component to the document head.
- *
- * @type {Promise<void>}
- */
+Adds the CSS link for the component to the document head.
+
+@type {Promise<void>}
+*/
 const cssReady = new Promise((resolve, reject) => {
   const link = document.createElement("link");
   link.rel = "stylesheet";
@@ -39,8 +39,8 @@ const cssReady = new Promise((resolve, reject) => {
 const defaultSortKey = "order";
 
 /**
- * @type {DefaultSortDirections}
- */
+@type {DefaultSortDirections}
+*/
 const defaultSortDirections = {
   order: false, // Descending
   name: true, // Ascending
@@ -49,10 +49,10 @@ const defaultSortDirections = {
 };
 
 /**
- * Default sort configuration for establishment lists
- *
- * @type {SortConfig}
- */
+Default sort configuration for establishment lists
+
+@type {SortConfig}
+*/
 export const DEFAULT_SORT_CONFIG = {
   defaultSortOption: defaultSortKey,
   defaultSortDirection: defaultSortDirections[defaultSortKey],
@@ -66,22 +66,22 @@ export const DEFAULT_SORT_CONFIG = {
 };
 
 /**
- * A component for filtering and sorting establishment lists
- */
+A component for filtering and sorting establishment lists
+*/
 export class EstablishmentDisplay {
   /**
-   * Creates a new establishment display instance
-   *
-   * @param {object} options - Configuration options
-   * @param {HTMLElement} options.container - The container element to render the controls in
-   * @param {EstablishmentList} options.establishmentList - The establishment list component to control
-   * @param {Array<SortOption>} [options.sortOptions] - Available sort options
-   * @param {SortKeys} [options.defaultSortOption] - Default sort option value
-   * @param {boolean} [options.defaultSortDirection] - Default sort direction (true for ascending, false for descending)
-   * @param {boolean} [options.enableFiltering] - Whether to enable name filtering
-   * @param {(filterText: string) => void} options.onFilterChange - Callback when filter changes
-   * @param {(sortOption: SortKeys, sortDirection: SortDirections) => void} options.onSortChange - Callback when sort changes
-   */
+  Creates a new establishment display instance
+
+  @param {object} options - Configuration options
+  @param {HTMLElement} options.container - The container element to render the controls in
+  @param {EstablishmentList} options.establishmentList - The establishment list component to control
+  @param {Array<SortOption>} [options.sortOptions] - Available sort options
+  @param {SortKeys} [options.defaultSortOption] - Default sort option value
+  @param {boolean} [options.defaultSortDirection] - Default sort direction (true for ascending, false for descending)
+  @param {boolean} [options.enableFiltering] - Whether to enable name filtering
+  @param {(filterText: string) => void} options.onFilterChange - Callback when filter changes
+  @param {(sortOption: SortKeys, sortDirection: SortDirections) => void} options.onSortChange - Callback when sort changes
+  */
   constructor(options) {
     this.container = options.container;
     this.establishmentList = options.establishmentList;
@@ -102,7 +102,7 @@ export class EstablishmentDisplay {
     this.filterText = "";
     /**
     @type {Array<Establishment>}
-     */
+    */
     this.originalEstablishments = [];
 
     // UI elements
@@ -116,8 +116,8 @@ export class EstablishmentDisplay {
   }
 
   /**
-   * Create the necessary DOM elements
-   */
+  Create the necessary DOM elements
+  */
   #createElements() {
     // Wrapper for the entire component
     this.wrapper = document.createElement("div");
@@ -201,8 +201,8 @@ export class EstablishmentDisplay {
   }
 
   /**
-   * Update the direction button icon and title based on current sort direction
-   */
+  Update the direction button icon and title based on current sort direction
+  */
   #updateDirectionButton() {
     if (!this.directionButton) return;
 
@@ -215,13 +215,13 @@ export class EstablishmentDisplay {
   }
 
   /**
-   * Set the establishments data and apply current filters and sorting
-   *
-   * @param {Array<Establishment>} establishments - Array of establishment objects
-   * @param {string} [filterText] - Current filter text to display (optional)
-   * @param {SortKeys} [sortOption] - Current sort option to use (optional)
-   * @param {SortDirections} [sortDirection] - Current sort direction to use (optional)
-   */
+  Set the establishments data and apply current filters and sorting
+
+  @param {Array<Establishment>} establishments - Array of establishment objects
+  @param {string} [filterText] - Current filter text to display (optional)
+  @param {SortKeys} [sortOption] - Current sort option to use (optional)
+  @param {SortDirections} [sortDirection] - Current sort direction to use (optional)
+  */
   setEstablishments(establishments, filterText, sortOption, sortDirection) {
     // Don't do anything if the data is the same (prevents unnecessary updates)
     if (this.originalEstablishments === establishments) {
@@ -251,10 +251,10 @@ export class EstablishmentDisplay {
   }
 
   /**
-   * Add custom sort options
-   *
-   * @param {Array<SortOption>} options - Additional sort options to add
-   */
+  Add custom sort options
+
+  @param {Array<SortOption>} options - Additional sort options to add
+  */
   addSortOptions(options) {
     if (!options || !Array.isArray(options)) return;
 
@@ -282,8 +282,8 @@ export class EstablishmentDisplay {
   }
 
   /**
-   * Reset all filters and sorting to defaults
-   */
+  Reset all filters and sorting to defaults
+  */
   reset() {
     // Track which callbacks need to be called
     let isFilterChanged = false;
@@ -324,19 +324,19 @@ export class EstablishmentDisplay {
 }
 
 /**
- * Creates a new establishment display instance
- *
- * @param {object} options - Configuration options
- * @param {HTMLElement} options.container - The container element to render the display in
- * @param {EstablishmentList} options.establishmentList - The establishment list to control
- * @param {Array<SortOption>} [options.sortOptions] - Custom sort options
- * @param {SortKeys} [options.defaultSortOption] - Default sort option value
- * @param {SortDirections} [options.defaultSortDirection] - Default sort direction (true for ascending, false for descending)
- * @param {boolean} [options.enableFiltering] - Whether to enable name filtering
- * @param {(filterText: string) => void} options.onFilterChange - Callback when filter changes
- * @param {(sortOption: SortKeys, sortDirection: SortDirections) => void} options.onSortChange - Callback when sort changes
- * @returns {Promise<EstablishmentDisplay>} A new EstablishmentDisplay instance
- */
+Creates a new establishment display instance
+
+@param {object} options - Configuration options
+@param {HTMLElement} options.container - The container element to render the display in
+@param {EstablishmentList} options.establishmentList - The establishment list to control
+@param {Array<SortOption>} [options.sortOptions] - Custom sort options
+@param {SortKeys} [options.defaultSortOption] - Default sort option value
+@param {SortDirections} [options.defaultSortDirection] - Default sort direction (true for ascending, false for descending)
+@param {boolean} [options.enableFiltering] - Whether to enable name filtering
+@param {(filterText: string) => void} options.onFilterChange - Callback when filter changes
+@param {(sortOption: SortKeys, sortDirection: SortDirections) => void} options.onSortChange - Callback when sort changes
+@returns {Promise<EstablishmentDisplay>} A new EstablishmentDisplay instance
+*/
 export async function createEstablishmentDisplay(options) {
   const establishmentDisplay = new EstablishmentDisplay(options);
 

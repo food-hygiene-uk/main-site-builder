@@ -30,13 +30,13 @@ const reservedNames = new Set([
 ]);
 
 /**
- * Accepts a string and returns a string that is a valid name part of a filename.
- * Replaces invalid characters with hyphens and throws an error for reserved names.
- *
- * @param string - The input string to convert to a valid filename
- * @returns A valid filename string with invalid characters replaced
- * @throws {Error} If the input string converts to a reserved filename
- */
+Accepts a string and returns a string that is a valid name part of a filename.
+Replaces invalid characters with hyphens and throws an error for reserved names.
+
+@param string - The input string to convert to a valid filename
+@returns A valid filename string with invalid characters replaced
+@throws {Error} If the input string converts to a reserved filename
+*/
 export const encodeName = (string: string): string => {
   const filename = string
     .toLowerCase()

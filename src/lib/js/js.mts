@@ -18,12 +18,12 @@ const minifyOptions = {
 };
 
 /**
- * Processes a JavaScript file by reading its content and minifying it.
- *
- * @param params - Parameters for processing JavaScript.
- * @param params.path - The file path to the JavaScript file.
- * @returns A promise that resolves to the minified content of the JavaScript file as a string.
- */
+Processes a JavaScript file by reading its content and minifying it.
+
+@param params - Parameters for processing JavaScript.
+@param params.path - The file path to the JavaScript file.
+@returns A promise that resolves to the minified content of the JavaScript file as a string.
+*/
 export const processJsFile = async ({
   path,
 }: {
@@ -40,12 +40,12 @@ export const processJsFile = async ({
 };
 
 /**
- * Adds a suffix to all class names in the provided JavaScript string.
- *
- * @param js - The JavaScript content as a string.
- * @param classSuffix - The suffix to append to class names.
- * @returns The modified JavaScript with suffixed class names.
- */
+Adds a suffix to all class names in the provided JavaScript string.
+
+@param js - The JavaScript content as a string.
+@param classSuffix - The suffix to append to class names.
+@returns The modified JavaScript with suffixed class names.
+*/
 export const jsAddSuffix = (js: string, classSuffix: string): string => {
   return js.replaceAll("__CLASS_SUFFIX__", () => escape(classSuffix));
 };

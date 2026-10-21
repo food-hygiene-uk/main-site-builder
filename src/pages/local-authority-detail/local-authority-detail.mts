@@ -48,12 +48,12 @@ const [template, Header, Footer, processedCss, processedJs] = await Promise.all(
 );
 
 /**
- * Generates the Local Authority Detail page.
- *
- * @param localAuthority - The enriched local authority data.
- * @param establishments - The list of establishments.
- * @returns A promise that resolves when the page is generated.
- */
+Generates the Local Authority Detail page.
+
+@param localAuthority - The enriched local authority data.
+@param establishments - The list of establishments.
+@returns A promise that resolves when the page is generated.
+*/
 export const outputLocalAuthorityDetailPage = async (
   localAuthority: EnrichedLocalAuthority,
   establishments: Establishment[],
