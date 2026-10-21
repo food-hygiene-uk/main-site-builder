@@ -21,6 +21,7 @@
         "EditorConfig.EditorConfig",
         "esbenp.prettier-vscode",
         "github.vscode-github-actions",
+        "google.google-antigravity",
         "ms-azuretools.vscode-docker",
         "ms-playwright.playwright",
         "ms-vscode.live-server",

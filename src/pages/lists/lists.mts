@@ -47,10 +47,10 @@ const [
 ]);
 
 /**
- * Generates and outputs the lists page.
- *
- * @returns Resolves when the page is written to the output directory.
- */
+Generates and outputs the lists page.
+
+@returns Resolves when the page is written to the output directory.
+*/
 export const outputListsPage = async (): Promise<void> => {
   const classSuffix = getClassSuffix(true);
 

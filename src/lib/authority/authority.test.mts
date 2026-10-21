@@ -31,13 +31,13 @@ const validFriendlyNameArbitrary = fc
   });
 
 /**
- * Creates a mock Authority object with the given friendly name.
- * This helper assumes that for the functions under test, only `FriendlyName` is primarily accessed.
- * The object is cast to `Authority` to satisfy TypeScript's type checking.
- *
- * @param friendlyName - The friendly name for the authority.
- * @returns A mock Authority object.
- */
+Creates a mock Authority object with the given friendly name.
+This helper assumes that for the functions under test, only `FriendlyName` is primarily accessed.
+The object is cast to `Authority` to satisfy TypeScript's type checking.
+
+@param friendlyName - The friendly name for the authority.
+@returns A mock Authority object.
+*/
 const createAuthority = (friendlyName: string): Authority => {
   return {
     FriendlyName: friendlyName,

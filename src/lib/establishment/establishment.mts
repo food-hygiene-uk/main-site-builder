@@ -5,31 +5,31 @@ import { slugify } from "../../generate-site/slugify.mts";
 import { getAuthorityITLRegionSlug } from "../region/region.mts";
 
 /**
- * Gets the HTML filename for an establishment
- *
- * @param establishment - The establishment object
- * @returns The HTML filename for the establishment
- */
+Gets the HTML filename for an establishment
+
+@param establishment - The establishment object
+@returns The HTML filename for the establishment
+*/
 export const getHtmlFilename = (establishment: Establishment): string => {
   return `${getLinkURL(establishment)}.html`;
 };
 
 /**
- * Gets the canonical URL for an establishment
- *
- * @param establishment - The establishment object
- * @returns The canonical URL for the establishment
- */
+Gets the canonical URL for an establishment
+
+@param establishment - The establishment object
+@returns The canonical URL for the establishment
+*/
 export const getCanonicalLinkURL = (establishment: Establishment): string => {
   return `${config.BASE_URL}${getLinkURL(establishment)}`;
 };
 
 /**
- * Gets the relative URL path for an establishment
- *
- * @param establishment - The establishment object
- * @returns The relative URL path for the establishment
- */
+Gets the relative URL path for an establishment
+
+@param establishment - The establishment object
+@returns The relative URL path for the establishment
+*/
 export const getLinkURL = (establishment: Establishment): string => {
   return `/region-${
     getAuthorityITLRegionSlug(
@@ -39,11 +39,11 @@ export const getLinkURL = (establishment: Establishment): string => {
 };
 
 /**
- * Gets the link name segment for an establishment URL
- *
- * @param establishment - The establishment object
- * @returns The URL-friendly name segment for the establishment
- */
+Gets the link name segment for an establishment URL
+
+@param establishment - The establishment object
+@returns The URL-friendly name segment for the establishment
+*/
 export const getLinkName = (establishment: Establishment): string => {
   const safeName = encodeURI(
     encodeName(

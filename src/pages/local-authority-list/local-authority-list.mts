@@ -40,11 +40,11 @@ const processedLocalAuthorityListPageJsPromise = processJsFile({
 });
 
 /**
- * Maps local authorities to their respective regions.
- *
- * @param localAuthorities - List of local authorities.
- * @returns Grouped and sorted local authorities by region.
- */
+Maps local authorities to their respective regions.
+
+@param localAuthorities - List of local authorities.
+@returns Grouped and sorted local authorities by region.
+*/
 const getRegionLocalAuthorities = (
   localAuthorities: Authorities,
 ): Array<{
@@ -87,11 +87,11 @@ const [
 ]);
 
 /**
- * Outputs the local authority list page to the `dist` directory.
- *
- * @param localAuthorities - List of local authorities.
- * @returns Resolves when the page is written to disk.
- */
+Outputs the local authority list page to the `dist` directory.
+
+@param localAuthorities - List of local authorities.
+@returns Resolves when the page is written to disk.
+*/
 export const outputLocalAuthorityListPage = async (
   localAuthorities: Authorities,
 ) => {

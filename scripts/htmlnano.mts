@@ -1,16 +1,16 @@
 /**
- * Minifies all HTML files in the dist directory using htmlnano.
- */
+Minifies all HTML files in the dist directory using htmlnano.
+*/
 import { walk } from "@std/fs";
 import htmlnano from "htmlnano";
 
 const DIST_DIR = "./dist";
 
 /**
- * Minifies all HTML files in the dist directory using htmlnano with custom options.
- *
- * @returns Resolves when all HTML files have been minified.
- */
+Minifies all HTML files in the dist directory using htmlnano with custom options.
+
+@returns Resolves when all HTML files have been minified.
+*/
 const minifyHtmlFiles = async (): Promise<void> => {
   // No custom options required for htmlnano; using defaults
   const options = {};

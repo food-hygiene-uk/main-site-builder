@@ -8,12 +8,12 @@ import {
 import { type Establishment } from "../generate-site/schema.mts";
 
 /**
- * Creates a test establishment with minimal required fields
- *
- * @param businessName - The business name
- * @param id - The establishment ID
- * @returns A test establishment object
- */
+Creates a test establishment with minimal required fields
+
+@param businessName - The business name
+@param id - The establishment ID
+@returns A test establishment object
+*/
 const createTestEstablishment = (
   businessName: string,
   id: number,

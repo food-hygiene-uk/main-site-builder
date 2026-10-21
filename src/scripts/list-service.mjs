@@ -1,24 +1,24 @@
 /**
- * Service to manage saved lists and their operations.
- */
+Service to manage saved lists and their operations.
+*/
 
 /**
- * @typedef {object} ListEstablishment
- * @property {number} FHRSID - Establishment ID
- * @property {string} BusinessName - Name of the business
- */
+@typedef {object} ListEstablishment
+@property {number} FHRSID - Establishment ID
+@property {string} BusinessName - Name of the business
+*/
 
 /**
- * @typedef {object} SavedList
- * @property {string} name - Friendly name of the list
- * @property {ListEstablishment[]} establishments - Array of establishment ids
- */
+@typedef {object} SavedList
+@property {string} name - Friendly name of the list
+@property {ListEstablishment[]} establishments - Array of establishment ids
+*/
 
 /**
- * Retrieves all saved lists from localStorage.
- *
- * @returns {Record<string, SavedList>} An object containing all saved lists.
- */
+Retrieves all saved lists from localStorage.
+
+@returns {Record<string, SavedList>} An object containing all saved lists.
+*/
 export const getSavedLists = () => {
   try {
     const savedLists = JSON.parse(
@@ -32,11 +32,11 @@ export const getSavedLists = () => {
 };
 
 /**
- * Checks if an establishment is on any saved list.
- *
- * @param {number} FHRSID - The unique identifier of the establishment.
- * @returns {boolean} True if the establishment is on any list, false otherwise.
- */
+Checks if an establishment is on any saved list.
+
+@param {number} FHRSID - The unique identifier of the establishment.
+@returns {boolean} True if the establishment is on any list, false otherwise.
+*/
 export const isEstablishmentOnList = (FHRSID) => {
   const savedLists = getSavedLists();
   return Object.values(savedLists).some((list) =>
@@ -45,12 +45,12 @@ export const isEstablishmentOnList = (FHRSID) => {
 };
 
 /**
- * Updates the saved lists by adding or removing an establishment.
- *
- * @param {ListEstablishment} establishment - Establishment record
- * @param {string} listId - The ID of the list to update.
- * @param {boolean} add - Whether to add (true) or remove (false) the establishment.
- */
+Updates the saved lists by adding or removing an establishment.
+
+@param {ListEstablishment} establishment - Establishment record
+@param {string} listId - The ID of the list to update.
+@param {boolean} add - Whether to add (true) or remove (false) the establishment.
+*/
 export const updateList = (establishment, listId, add) => {
   const savedLists = getSavedLists();
   const list = savedLists[listId];
@@ -86,12 +86,12 @@ export const updateList = (establishment, listId, add) => {
 };
 
 /**
- * Saves a new list with the given name and establishments.
- *
- * @param {string} listName - The name of the list.
- * @param {ListEstablishment[]} establishments - The establishments to include in the list.
- * @returns {string|null} The ID of the saved list, or null if an error occurred.
- */
+Saves a new list with the given name and establishments.
+
+@param {string} listName - The name of the list.
+@param {ListEstablishment[]} establishments - The establishments to include in the list.
+@returns {string|null} The ID of the saved list, or null if an error occurred.
+*/
 export const saveList = (listName, establishments) => {
   if (globalThis.localStorage === undefined) return null;
 
@@ -126,12 +126,12 @@ export const saveList = (listName, establishments) => {
 };
 
 /**
- * Creates a new list with the given name and adds an establishment to it.
- *
- * @param {string} listName - The name of the new list.
- * @param {ListEstablishment} establishment - Establishment record
- * @returns {string} The ID of the new list.
- */
+Creates a new list with the given name and adds an establishment to it.
+
+@param {string} listName - The name of the new list.
+@param {ListEstablishment} establishment - Establishment record
+@returns {string} The ID of the new list.
+*/
 export const createNewList = (listName, establishment) => {
   const savedLists = getSavedLists();
   const listId = `list_${Date.now()}`;
@@ -152,11 +152,11 @@ export const createNewList = (listName, establishment) => {
 };
 
 /**
- * Derives the creation date from the list ID.
- *
- * @param {string} listId - The ID of the list.
- * @returns {Date} The creation date of the list.
- */
+Derives the creation date from the list ID.
+
+@param {string} listId - The ID of the list.
+@returns {Date} The creation date of the list.
+*/
 export const getListCreationDate = (listId) => {
   const timestamp = Number(listId.replace("list_", ""));
   return new Date(timestamp);

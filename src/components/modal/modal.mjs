@@ -1,12 +1,12 @@
 /**
- * Modal component for displaying dynamic content using HTMLDialogElement.
- */
+Modal component for displaying dynamic content using HTMLDialogElement.
+*/
 
 /**
- * Adds the CSS link for the component to the document head.
- *
- * @type {Promise<void>}
- */
+Adds the CSS link for the component to the document head.
+
+@type {Promise<void>}
+*/
 const cssReady = new Promise((resolve, reject) => {
   const link = document.createElement("link");
   link.rel = "stylesheet";
@@ -19,13 +19,13 @@ const cssReady = new Promise((resolve, reject) => {
 });
 
 /**
- * Opens a modal with the specified content.
- *
- * @param {string} title - The title of the modal.
- * @param {HTMLElement} content - The content to display inside the modal.
- * @param {() => void} [onCloseCallback] - Optional callback invoked when the modal is closed.
- * @returns {Promise<HTMLDialogElement>} The created modal dialog element.
- */
+Opens a modal with the specified content.
+
+@param {string} title - The title of the modal.
+@param {HTMLElement} content - The content to display inside the modal.
+@param {() => void} [onCloseCallback] - Optional callback invoked when the modal is closed.
+@returns {Promise<HTMLDialogElement>} The created modal dialog element.
+*/
 export const openModal = async (title, content, onCloseCallback) => {
   // Create the dialog element
   const dialog = document.createElement("dialog");

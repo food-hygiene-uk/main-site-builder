@@ -1,18 +1,18 @@
 /**
- * @typedef {import("scripts/recent-establishments-service.mjs").MinimalEstablishment} MinimalEstablishment
- * @typedef {import("../../../generate-site/schema.mts").Establishment} Establishment
- */
+@typedef {import("scripts/recent-establishments-service.mjs").MinimalEstablishment} MinimalEstablishment
+@typedef {import("../../../generate-site/schema.mts").Establishment} Establishment
+*/
 
 import recentEstablishmentsService from "scripts/recent-establishments-service.mjs";
 import { renderListSelectionButton } from "components/list-selection-button/list-selection-button.mjs";
 import { lacToRegionSlug } from "scripts/region.mjs";
 
 /**
- * Formats a date as a relative time (e.g., "2 days ago")
- *
- * @param {string} date - ISO date string to format
- * @returns {string} Formatted relative time string
- */
+Formats a date as a relative time (e.g., "2 days ago")
+
+@param {string} date - ISO date string to format
+@returns {string} Formatted relative time string
+*/
 export function formatRelativeTime(date) {
   const now = Date.now();
   const diffMs = now - new Date(date).getTime();
@@ -36,11 +36,11 @@ export function formatRelativeTime(date) {
 }
 
 /**
- * Formats a date string into a human-readable format
- *
- * @param {string} dateString - The date string to format
- * @returns {string} Formatted date string or "Not available" if no date
- */
+Formats a date string into a human-readable format
+
+@param {string} dateString - The date string to format
+@returns {string} Formatted date string or "Not available" if no date
+*/
 export function formatDate(dateString) {
   if (!dateString) return "Not available";
 
@@ -53,11 +53,11 @@ export function formatDate(dateString) {
 }
 
 /**
- * Creates a URL-friendly slug from a text string
- *
- * @param {string} text - The text to convert to a slug
- * @returns {string} URL-friendly slug
- */
+Creates a URL-friendly slug from a text string
+
+@param {string} text - The text to convert to a slug
+@returns {string} URL-friendly slug
+*/
 export function slugify(text) {
   return text
     .toString()
@@ -70,27 +70,27 @@ export function slugify(text) {
 }
 
 /**
- * Establishment Card custom element
- */
+Establishment Card custom element
+*/
 export class EstablishmentCard extends HTMLElement {
   /**
-   * @type {Establishment | MinimalEstablishment | null}
-   */
+  @type {Establishment | MinimalEstablishment | null}
+  */
   #establishment = null;
 
   /**
-   * Creates a new EstablishmentCard element.
-   */
+  Creates a new EstablishmentCard element.
+  */
   constructor() {
     super();
     this.attachShadow({ mode: "open" });
   }
 
   /**
-   * Renders the establishment card content inside Shadow DOM
-   *
-   * @returns {Promise<void>}
-   */
+  Renders the establishment card content inside Shadow DOM
+
+  @returns {Promise<void>}
+  */
   async #render() {
     const establishment = this.#establishment;
     const shadow = this.shadowRoot;
@@ -225,8 +225,8 @@ export class EstablishmentCard extends HTMLElement {
   }
 
   /**
-   * Invoked when the element is connected to the DOM.
-   */
+  Invoked when the element is connected to the DOM.
+  */
   connectedCallback() {
     if (this.#establishment && this.shadowRoot?.children.length === 0) {
       this.#render();
@@ -234,19 +234,19 @@ export class EstablishmentCard extends HTMLElement {
   }
 
   /**
-   * Gets the establishment data
-   *
-   * @returns {Establishment | MinimalEstablishment | null} The establishment data
-   */
+  Gets the establishment data
+
+  @returns {Establishment | MinimalEstablishment | null} The establishment data
+  */
   get establishment() {
     return this.#establishment;
   }
 
   /**
-   * Sets the establishment data and updates the card display
-   *
-   * @param {Establishment | MinimalEstablishment | null} value - Establishment data
-   */
+  Sets the establishment data and updates the card display
+
+  @param {Establishment | MinimalEstablishment | null} value - Establishment data
+  */
   set establishment(value) {
     this.#establishment = value;
 
@@ -265,11 +265,11 @@ if (!customElements.get("establishment-card")) {
 }
 
 /**
- * Renders an establishment card custom element
- *
- * @param {Establishment|MinimalEstablishment} establishment - The establishment to render
- * @returns {Promise<EstablishmentCard>} Promise resolving to the rendered establishment card element
- */
+Renders an establishment card custom element
+
+@param {Establishment|MinimalEstablishment} establishment - The establishment to render
+@returns {Promise<EstablishmentCard>} Promise resolving to the rendered establishment card element
+*/
 export async function renderEstablishmentCard(establishment) {
   const card = new EstablishmentCard();
   card.establishment = establishment;

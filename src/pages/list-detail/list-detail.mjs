@@ -1,9 +1,9 @@
 /**
- * @typedef {import("../../generate-site/schema.mts").Establishment} Establishment
- * @typedef {import("components/establishment-display/establishment-display.mjs").SortKeys} SortKeys
- * @typedef {import("components/establishment-display/establishment-display.mjs").SortDirections} SortDirections
- * @typedef {import("scripts/list-service.mjs").SavedList} SavedList
- */
+@typedef {import("../../generate-site/schema.mts").Establishment} Establishment
+@typedef {import("components/establishment-display/establishment-display.mjs").SortKeys} SortKeys
+@typedef {import("components/establishment-display/establishment-display.mjs").SortDirections} SortDirections
+@typedef {import("scripts/list-service.mjs").SavedList} SavedList
+*/
 
 import { EstablishmentList } from "components/establishment-list/establishment-list.mjs";
 import { getReference } from "utils/dom.mjs";
@@ -24,24 +24,24 @@ const SAVED_LISTS_STORAGE_KEY = "saved-establishment-lists";
 const PAGE_SIZE = 10;
 
 /**
- * Default sort option for list detail page
- *
- * @type {SortKeys}
- */
+Default sort option for list detail page
+
+@type {SortKeys}
+*/
 const DEFAULT_SORT_OPTION = "order";
 
 /**
- * Default sort direction for list detail page
- *
- * @type {boolean}
- */
+Default sort direction for list detail page
+
+@type {boolean}
+*/
 // eslint-disable-next-line unicorn/consistent-boolean-name
 const DEFAULT_SORT_DIRECTION = false; // Descending (most recent first)
 
 // module scope variables
 /**
- * @type {{ page: number; filterText: string; sortOption: SortKeys; sortDirection: SortDirections }}
- */
+@type {{ page: number; filterText: string; sortOption: SortKeys; sortDirection: SortDirections }}
+*/
 const establishmentView = {
   page: 1,
   filterText: "",
@@ -50,11 +50,11 @@ const establishmentView = {
 };
 
 /**
- * Encodes an array of establishment IDs into a compact string representation
- *
- * @param {Array<number>} ids - Array of establishment IDs to encode
- * @returns {string} Encoded string representation
- */
+Encodes an array of establishment IDs into a compact string representation
+
+@param {Array<number>} ids - Array of establishment IDs to encode
+@returns {string} Encoded string representation
+*/
 const encodeEstablishmentIds = (ids) => {
   // Convert to base36 representation for more compact encoding
   const base36Ids = ids.map((id) => id.toString(36));
@@ -70,11 +70,11 @@ const encodeEstablishmentIds = (ids) => {
 };
 
 /**
- * Gets a saved list by ID
- *
- * @param {string} id - The ID of the saved list to retrieve
- * @returns {SavedList|null} The saved list or null if not found
- */
+Gets a saved list by ID
+
+@param {string} id - The ID of the saved list to retrieve
+@returns {SavedList|null} The saved list or null if not found
+*/
 const getSavedList = (id) => {
   if (globalThis.localStorage === undefined) return null;
 
@@ -95,11 +95,11 @@ const getSavedList = (id) => {
 };
 
 /**
- * Deletes a saved list by ID
- *
- * @param {string} id - The ID of the list to delete
- * @returns {boolean} True if deletion was successful
- */
+Deletes a saved list by ID
+
+@param {string} id - The ID of the list to delete
+@returns {boolean} True if deletion was successful
+*/
 const deleteList = (id) => {
   if (globalThis.localStorage === undefined) return false;
 
@@ -166,8 +166,8 @@ document.addEventListener("DOMContentLoaded", () => {
 
   // Stores the current list of establishments for sharing
   /**
-   * @type {Array<Establishment>}
-   */
+  @type {Array<Establishment>}
+  */
   let currentEstablishments = [];
   let currentListTitle = "";
 
@@ -277,10 +277,10 @@ document.addEventListener("DOMContentLoaded", () => {
   }
 
   /**
-   * Generates a shareable URL containing the list title and establishment IDs
-   *
-   * @returns {string|undefined} The generated shareable URL or undefined if no establishments exist
-   */
+  Generates a shareable URL containing the list title and establishment IDs
+
+  @returns {string|undefined} The generated shareable URL or undefined if no establishments exist
+  */
   const generateShareUrl = () => {
     if (currentEstablishments.length === 0) return;
 
@@ -390,9 +390,9 @@ document.addEventListener("DOMContentLoaded", () => {
   };
 
   /**
-   * Loads and displays establishments from the specified list.
-   * Handles recent establishments, saved lists, and updates the UI accordingly.
-   */
+  Loads and displays establishments from the specified list.
+  Handles recent establishments, saved lists, and updates the UI accordingly.
+  */
   async function loadEstablishments() {
     let establishments = currentEstablishments;
 
@@ -461,8 +461,8 @@ document.addEventListener("DOMContentLoaded", () => {
   }
 
   /**
-   * @param {number} page - The page number to load
-   */
+  @param {number} page - The page number to load
+  */
   const handleClientPageChange = async (page) => {
     establishmentView.page = page;
 
@@ -470,8 +470,8 @@ document.addEventListener("DOMContentLoaded", () => {
   };
 
   /**
-   * @param {string} filterText - The filter text to apply
-   */
+  @param {string} filterText - The filter text to apply
+  */
   const handleFilterChange = async (filterText) => {
     establishmentView.filterText = filterText;
     establishmentView.page = 1; // Reset to first page on filter change
@@ -480,9 +480,9 @@ document.addEventListener("DOMContentLoaded", () => {
   };
 
   /**
-   * @param {SortKeys} sortOption - The sort option to apply
-   * @param {SortDirections} sortDirection - The sort direction to apply
-   */
+  @param {SortKeys} sortOption - The sort option to apply
+  @param {SortDirections} sortDirection - The sort direction to apply
+  */
   const handleSortChange = async (sortOption, sortDirection) => {
     establishmentView.sortOption = sortOption;
     establishmentView.sortDirection = sortDirection;

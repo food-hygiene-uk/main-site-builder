@@ -1,10 +1,10 @@
 /**
- * @typedef {import("../../generate-site/schema.mts").Establishment} Establishment
- * @typedef {{ businessTypes: Array<{ BusinessTypeId: string | number; BusinessTypeName: string }> }} BusinessTypesResponse
- * @typedef {{ ratings: Array<{ ratingKeyName: string; ratingName: string }> }} RatingsResponse
- * @typedef {{ authorities: Array<{ LocalAuthorityId: string | number; Name: string }> }} AuthoritiesResponse
- * @typedef {{ establishments: Array<Establishment>; meta: { totalCount: number } }} EstablishmentsResponse
- */
+@typedef {import("../../generate-site/schema.mts").Establishment} Establishment
+@typedef {{ businessTypes: Array<{ BusinessTypeId: string | number; BusinessTypeName: string }> }} BusinessTypesResponse
+@typedef {{ ratings: Array<{ ratingKeyName: string; ratingName: string }> }} RatingsResponse
+@typedef {{ authorities: Array<{ LocalAuthorityId: string | number; Name: string }> }} AuthoritiesResponse
+@typedef {{ establishments: Array<Establishment>; meta: { totalCount: number } }} EstablishmentsResponse
+*/
 
 /* eslint-disable unicorn/no-top-level-side-effects */
 import { EstablishmentList } from "components/establishment-list/establishment-list.mjs";
@@ -37,11 +37,11 @@ const CONSENT_STORAGE_KEY = "fhrs_api_consent";
 const state = {
   /**
   @type {number | null}
-   */
+  */
   attentionEffectTimeout: null,
   /**
   @type {EstablishmentList | null}
-   */
+  */
   establishmentList: null,
   currentPage: 1,
   hasUserConsent: false,
@@ -85,9 +85,9 @@ document.addEventListener("DOMContentLoaded", () => {
 });
 
 /**
- * Sets up consent handling by checking for existing consent,
- * updating the UI accordingly, and adding event listeners for consent changes.
- */
+Sets up consent handling by checking for existing consent,
+updating the UI accordingly, and adding event listeners for consent changes.
+*/
 function setupConsentHandling() {
   // Check for existing consent
   const storedConsent = localStorage.getItem(CONSENT_STORAGE_KEY);
@@ -127,10 +127,10 @@ function setupConsentHandling() {
 }
 
 /**
- * Updates the UI based on whether the user has given consent
- *
- * @param {boolean} hasConsent - Whether the user has given consent
- */
+Updates the UI based on whether the user has given consent
+
+@param {boolean} hasConsent - Whether the user has given consent
+*/
 function updateUIForConsent(hasConsent) {
   // Update form styling to show active state
   if (hasConsent) {
@@ -148,10 +148,10 @@ function updateUIForConsent(hasConsent) {
 }
 
 /**
- * Enables or disables all form elements based on consent status
- *
- * @param {boolean} disabled - Whether the form elements should be disabled
- */
+Enables or disables all form elements based on consent status
+
+@param {boolean} disabled - Whether the form elements should be disabled
+*/
 function disableFormElements(disabled) {
   // Disable/enable all form inputs
   const formElements =
@@ -169,9 +169,9 @@ function disableFormElements(disabled) {
 }
 
 /**
- * Highlights the consent section with animation and scrolls to it
- * Cancels any existing animation and starts a new one
- */
+Highlights the consent section with animation and scrolls to it
+Cancels any existing animation and starts a new one
+*/
 function highlightConsentSection() {
   // Instead of preventing multiple animations, cancel any existing one and start a new one
 
@@ -199,8 +199,8 @@ function highlightConsentSection() {
 }
 
 /**
- * Sets up all event listeners for the search form
- */
+Sets up all event listeners for the search form
+*/
 function setupEventListeners() {
   // Toggle advanced search options
   references.advancedToggle.addEventListener("click", () => {
@@ -260,10 +260,10 @@ function setupEventListeners() {
 }
 
 /**
- * Loads reference data from the API and populates select dropdowns
- *
- * @returns {Promise<void>}
- */
+Loads reference data from the API and populates select dropdowns
+
+@returns {Promise<void>}
+*/
 async function loadReferenceData() {
   // Only proceed if user has given consent
   if (!state.hasUserConsent) return;
@@ -300,13 +300,13 @@ async function loadReferenceData() {
 }
 
 /**
- * Populates a select element with options from an array of objects
- *
- * @param {string} selectId - The ID of the select element to populate
- * @param {Array<Record<string, string | number>>} options - Array of objects containing option data
- * @param {string} valueKey - The key in each object to use as the option value
- * @param {string} textKey - The key in each object to use as the option text
- */
+Populates a select element with options from an array of objects
+
+@param {string} selectId - The ID of the select element to populate
+@param {Array<Record<string, string | number>>} options - Array of objects containing option data
+@param {string} valueKey - The key in each object to use as the option value
+@param {string} textKey - The key in each object to use as the option text
+*/
 function populateSelect(selectId, options, valueKey, textKey) {
   const select = document.querySelector(`#${selectId}`);
   if (select) {
@@ -320,9 +320,9 @@ function populateSelect(selectId, options, valueKey, textKey) {
 }
 
 /**
- * Updates the URL based on the current form values
- * Creates a query string and updates browser history without reloading
- */
+Updates the URL based on the current form values
+Creates a query string and updates browser history without reloading
+*/
 function updateURLFromForm() {
   const formData = new FormData(references.searchForm);
   const parameters = new URLSearchParams();
@@ -348,9 +348,9 @@ function updateURLFromForm() {
 }
 
 /**
- * Populates the form fields from URL parameters
- * Also sets the current page and determines if advanced search should be shown
- */
+Populates the form fields from URL parameters
+Also sets the current page and determines if advanced search should be shown
+*/
 function populateFormFromURL() {
   // Populate form fields from URL parameters
   for (const [key, value] of state.searchParams.entries()) {
@@ -385,10 +385,10 @@ function populateFormFromURL() {
 }
 
 /**
- * Performs a search using the current search parameters
- *
- * @returns {Promise<void>}
- */
+Performs a search using the current search parameters
+
+@returns {Promise<void>}
+*/
 async function performSearch() {
   // Only proceed if user has given consent
   if (!state.hasUserConsent) {
@@ -437,17 +437,17 @@ async function performSearch() {
 }
 
 /**
- * @typedef {object} DisplayResultsData
- * @property {Array<Establishment>} establishments - Array of establishment objects to display
- * @property {number} totalResults - Total number of results
- */
+@typedef {object} DisplayResultsData
+@property {Array<Establishment>} establishments - Array of establishment objects to display
+@property {number} totalResults - Total number of results
+*/
 
 /**
- * Displays search results using the establishment list component
- *
- * @param {DisplayResultsData} data - Data containing establishments and pagination info
- * @returns {Promise<void>} Resolves when the results are displayed
- */
+Displays search results using the establishment list component
+
+@param {DisplayResultsData} data - Data containing establishments and pagination info
+@returns {Promise<void>} Resolves when the results are displayed
+*/
 export const displayResults = async ({ establishments, totalResults }) => {
   // Make sure results section is visible
   references.resultsSection.removeAttribute("hidden");
@@ -471,10 +471,10 @@ export const displayResults = async ({ establishments, totalResults }) => {
 };
 
 /**
- * Handles page changes in the establishment list
- *
- * @param {number} page - The page number to navigate to
- */
+Handles page changes in the establishment list
+
+@param {number} page - The page number to navigate to
+*/
 export const handlePageChange = async (page) => {
   state.currentPage = page;
 
@@ -494,12 +494,12 @@ export const handlePageChange = async (page) => {
 };
 
 /**
- * Fetches data from the FHRS API
- *
- * @param {string} endpoint - The API endpoint to fetch
- * @returns {Promise<unknown>} The JSON response from the API
- * @throws {Error} If the request fails or user has not given consent
- */
+Fetches data from the FHRS API
+
+@param {string} endpoint - The API endpoint to fetch
+@returns {Promise<unknown>} The JSON response from the API
+@throws {Error} If the request fails or user has not given consent
+*/
 export const fetchAPI = async (endpoint) => {
   // Safety check - don't fetch if no consent
   if (!state.hasUserConsent) {

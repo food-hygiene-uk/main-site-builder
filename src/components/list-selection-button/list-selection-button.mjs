@@ -1,15 +1,15 @@
 /**
- * @typedef {import("scripts/list-service.mjs").ListEstablishment} ListEstablishment
- */
+@typedef {import("scripts/list-service.mjs").ListEstablishment} ListEstablishment
+*/
 
 import { isEstablishmentOnList } from "scripts/list-service.mjs";
 import { openListSelectionModal } from "components/modal/list-selection.mjs";
 
 /**
- * Adds the CSS link for the component to the document head.
- *
- * @type {Promise<void>}
- */
+Adds the CSS link for the component to the document head.
+
+@type {Promise<void>}
+*/
 const cssReady = new Promise((resolve, reject) => {
   const link = document.createElement("link");
   link.rel = "stylesheet";
@@ -22,12 +22,12 @@ const cssReady = new Promise((resolve, reject) => {
 });
 
 /**
- * Renders an "Add to List" button with a bookmark icon and "Save" text.
- * The button changes appearance to indicate if the establishment is already on a list.
- *
- * @param {ListEstablishment} establishment - Establishment record
- * @returns {Promise<HTMLElement>} The rendered "Add to List" button element.
- */
+Renders an "Add to List" button with a bookmark icon and "Save" text.
+The button changes appearance to indicate if the establishment is already on a list.
+
+@param {ListEstablishment} establishment - Establishment record
+@returns {Promise<HTMLElement>} The rendered "Add to List" button element.
+*/
 export const renderListSelectionButton = async (establishment) => {
   const listSelectionButton = document.createElement("button");
   listSelectionButton.className = "list-selection-button";

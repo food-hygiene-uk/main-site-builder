@@ -29,10 +29,10 @@ const [processedCss, processedJs, template] = await Promise.all([
 ]);
 
 /**
- * Processes and returns the root component's CSS, HTML, and renderHead function.
- *
- * @returns Processed CSS, HTML, and a function to render the head section
- */
+Processes and returns the root component's CSS, HTML, and renderHead function.
+
+@returns Processed CSS, HTML, and a function to render the head section
+*/
 export const forgeRoot = (): {
   css: string;
   html: string;
@@ -51,16 +51,16 @@ export const forgeRoot = (): {
   const html = "";
 
   /**
-   * Renders the head section of the page.
-   *
-   * @param options - Options for rendering the head.
-   * @param options.canonical - The canonical URL of the page.
-   * @param [options.title] - The title of the page.
-   * @param options.pageCSS - The CSS for the page.
-   * @param options.headerCSS - The CSS for the header.
-   * @param options.footerCSS - The CSS for the footer.
-   * @returns The rendered head section as a string.
-   */
+  Renders the head section of the page.
+
+  @param options - Options for rendering the head.
+  @param options.canonical - The canonical URL of the page.
+  @param [options.title] - The title of the page.
+  @param options.pageCSS - The CSS for the page.
+  @param options.headerCSS - The CSS for the header.
+  @param options.footerCSS - The CSS for the footer.
+  @returns The rendered head section as a string.
+  */
   const renderHead = async ({
     canonical,
     title,

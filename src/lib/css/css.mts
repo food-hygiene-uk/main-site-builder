@@ -5,13 +5,13 @@ import postcssPresetEnv from "postcss-preset-env";
 import { escape } from "@std/html/entities";
 
 /**
- * Processes a CSS file by applying transformations and injecting additional CSS.
- *
- * @param params - Parameters for processing CSS.
- * @param params.path - The file path to the CSS file.
- * @param params.additionalCss - Additional CSS to inject into the file.
- * @returns A promise that resolves to the processed CSS as a string.
- */
+Processes a CSS file by applying transformations and injecting additional CSS.
+
+@param params - Parameters for processing CSS.
+@param params.path - The file path to the CSS file.
+@param params.additionalCss - Additional CSS to inject into the file.
+@returns A promise that resolves to the processed CSS as a string.
+*/
 export const processCssFile = async ({
   path,
   additionalCss,
@@ -37,12 +37,12 @@ export const processCssFile = async ({
 };
 
 /**
- * Adds a suffix to all CSS class names in the provided CSS string.
- *
- * @param css - The CSS content as a string.
- * @param classSuffix - The suffix to append to class names.
- * @returns The modified CSS with suffixed class names.
- */
+Adds a suffix to all CSS class names in the provided CSS string.
+
+@param css - The CSS content as a string.
+@param classSuffix - The suffix to append to class names.
+@returns The modified CSS with suffixed class names.
+*/
 export const cssAddSuffix = (css: string, classSuffix: string): string => {
   return css.replaceAll("__CLASS_SUFFIX__", () => escape(classSuffix));
 };

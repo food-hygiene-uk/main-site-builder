@@ -1,18 +1,18 @@
 /**
- * @typedef {import("../../generate-site/schema.mts").Establishment} Establishment
- * @typedef {import("components/establishment-display/establishment-display.mjs").SortOption} SortOption
- * @typedef {import("components/establishment-display/establishment-display.mjs").SortKeys} SortKeys
- * @typedef {import("components/establishment-display/establishment-display.mjs").SortDirections} SortDirections
- */
+@typedef {import("../../generate-site/schema.mts").Establishment} Establishment
+@typedef {import("components/establishment-display/establishment-display.mjs").SortOption} SortOption
+@typedef {import("components/establishment-display/establishment-display.mjs").SortKeys} SortKeys
+@typedef {import("components/establishment-display/establishment-display.mjs").SortDirections} SortDirections
+*/
 
 import { EstablishmentCard } from "components/establishment-card/establishment-card.mjs";
 import { createEstablishmentDisplay } from "components/establishment-display/establishment-display.mjs";
 
 /**
- * Adds the CSS link for the component to the document head.
- *
- * @type {Promise<void>}
- */
+Adds the CSS link for the component to the document head.
+
+@type {Promise<void>}
+*/
 const cssReady = new Promise((resolve, reject) => {
   const link = document.createElement("link");
   link.rel = "stylesheet";
@@ -25,26 +25,26 @@ const cssReady = new Promise((resolve, reject) => {
 });
 
 /**
- * A reusable component for rendering lists of establishments with pagination
- */
+A reusable component for rendering lists of establishments with pagination
+*/
 export class EstablishmentList {
   /**
-   * Creates a new establishment list instance
-   *
-   * @param {object} options - Configuration options
-   * @param {HTMLElement} options.container - The container element to render the list in
-   * @param {HTMLElement} [options.loadingElement] - Element to show/hide during loading
-   * @param {HTMLElement} [options.emptyElement] - Element to show when list is empty
-   * @param {HTMLElement} [options.errorElement] - Element to show when an error occurs
-   * @param {HTMLElement} [options.countElement] - Element to show result count
-   * @param {boolean} [options.enableDisplay] - Whether to add the establishment-display component for filtering and sorting
-   * @param {Array<SortOption>} [options.sortOptions] - Custom sort options for the display component
-   * @param {SortKeys} [options.defaultSortOption] - Default sort option for the display component
-   * @param {SortDirections} [options.defaultSortDirection] - Default sort direction for the display component
-   * @param {boolean} [options.enableFiltering] - Whether to enable name filtering in the display component
-   * @param {(filterText: string) => Array<Establishment>} [options.filterCallback] - Custom function to filter establishments
-   * @param {(sortOption: SortKeys, sortDirection: SortDirections) => Array<Establishment>} [options.sortCallback] - Custom function to sort establishments
-   */
+  Creates a new establishment list instance
+
+  @param {object} options - Configuration options
+  @param {HTMLElement} options.container - The container element to render the list in
+  @param {HTMLElement} [options.loadingElement] - Element to show/hide during loading
+  @param {HTMLElement} [options.emptyElement] - Element to show when list is empty
+  @param {HTMLElement} [options.errorElement] - Element to show when an error occurs
+  @param {HTMLElement} [options.countElement] - Element to show result count
+  @param {boolean} [options.enableDisplay] - Whether to add the establishment-display component for filtering and sorting
+  @param {Array<SortOption>} [options.sortOptions] - Custom sort options for the display component
+  @param {SortKeys} [options.defaultSortOption] - Default sort option for the display component
+  @param {SortDirections} [options.defaultSortDirection] - Default sort direction for the display component
+  @param {boolean} [options.enableFiltering] - Whether to enable name filtering in the display component
+  @param {(filterText: string) => Array<Establishment>} [options.filterCallback] - Custom function to filter establishments
+  @param {(sortOption: SortKeys, sortDirection: SortDirections) => Array<Establishment>} [options.sortCallback] - Custom function to sort establishments
+  */
   constructor(options) {
     this.container = options.container;
     this.loadingElement = options.loadingElement;
@@ -59,28 +59,28 @@ export class EstablishmentList {
 
     // Callbacks - will be set when loadEstablishments is called
     /**
-     * @type {((page: number) => void) | null}
-     */
+    @type {((page: number) => void) | null}
+    */
     this._onPageChangeCallback = null;
     /**
-     * @type {((filterText: string) => void) | null}
-     */
+    @type {((filterText: string) => void) | null}
+    */
     this._onFilterChangeCallback = null;
     /**
-     * @type {((sortOption: SortKeys, sortDirection: SortDirections) => void) | null}
-     */
+    @type {((sortOption: SortKeys, sortDirection: SortDirections) => void) | null}
+    */
     this._onSortChangeCallback = null;
 
     // Original unfiltered and unsorted establishments
     /**
     @type {Array<Establishment>}
-     */
+    */
     this.originalEstablishments = [];
 
     // State
     /**
     @type {Array<Establishment>}
-     */
+    */
     this.establishments = [];
     this.currentPage = 1;
     this.totalResults = 0;
@@ -97,10 +97,10 @@ export class EstablishmentList {
   }
 
   /**
-   * Shows only the specified section and hides all others
-   *
-   * @param {string} section - The section to show
-   */
+  Shows only the specified section and hides all others
+
+  @param {string} section - The section to show
+  */
   #showSection(section) {
     const sections = {
       loading: this.loadingElement,
@@ -117,8 +117,8 @@ export class EstablishmentList {
   }
 
   /**
-   * Create the necessary DOM elements
-   */
+  Create the necessary DOM elements
+  */
   async #createElements() {
     // Wrapper for the entire component
     this.wrapper = document.createElement("div");
@@ -167,10 +167,10 @@ export class EstablishmentList {
   }
 
   /**
-   * Render the pagination controls
-   *
-   * @param {(page: number) => void} [onPageChange] - Callback to execute when page changes
-   */
+  Render the pagination controls
+
+  @param {(page: number) => void} [onPageChange] - Callback to execute when page changes
+  */
   #renderPagination(onPageChange) {
     const paginationElement = this.paginationElement;
     if (!paginationElement) return;
@@ -219,14 +219,14 @@ export class EstablishmentList {
   }
 
   /**
-   * Creates a pagination button with the specified text and page number
-   *
-   * @param {string} text - The text to display on the button
-   * @param {number} page - The page number this button should navigate to
-   * @param {(page: number) => void} [onPageChange] - Callback to execute when page changes
-   * @returns {HTMLButtonElement} The created button element
-   * @private
-   */
+  Creates a pagination button with the specified text and page number
+
+  @param {string} text - The text to display on the button
+  @param {number} page - The page number this button should navigate to
+  @param {(page: number) => void} [onPageChange] - Callback to execute when page changes
+  @returns {HTMLButtonElement} The created button element
+  @private
+  */
   createPaginationButton(text, page, onPageChange) {
     const button = document.createElement("button");
     button.textContent = text;
@@ -246,11 +246,11 @@ export class EstablishmentList {
   }
 
   /**
-   * Go to a specific page (only for client-side pagination)
-   *
-   * @param {number} page - The page number to go to
-   * @returns {Promise<void>} Promise that resolves when the page is rendered
-   */
+  Go to a specific page (only for client-side pagination)
+
+  @param {number} page - The page number to go to
+  @returns {Promise<void>} Promise that resolves when the page is rendered
+  */
   async goToPage(page) {
     if (page < 1 || page > this.totalPages || page === this.currentPage) {
       return;
@@ -261,11 +261,11 @@ export class EstablishmentList {
   }
 
   /**
-   * Render the establishments for the current page
-   *
-   * @private
-   * @returns {Promise<void>} Promise that resolves when rendering is complete
-   */
+  Render the establishments for the current page
+
+  @private
+  @returns {Promise<void>} Promise that resolves when rendering is complete
+  */
   async renderCurrentPage() {
     const currentItems = this.establishments;
     const listElement = this.listElement;
@@ -299,23 +299,23 @@ export class EstablishmentList {
   }
 
   /**
-   * Load and display establishments
-   *
-   * @param {object} data - Data object with establishments and metadata
-   * @param {Array<Establishment>} data.establishments - Array of establishment objects to display
-   * @param {number} [data.totalResults] - Total number of results (for pagination)
-   * @param {number} [data.currentPage] - Current page number
-   * @param {number} [data.pageSize] - Page size
-   * @param {string} [data.filterText] - Text to filter establishments by (if filter callback is provided)
-   * @param {SortKeys} [data.sortOption] - Sort option to use (if sort callback is provided)
-   * @param {SortDirections} [data.sortDirection] - Sort direction to use (if sort callback is provided)
-   * @param {boolean} [isLoading] - Whether the data is still loading
-   * @param {number} [totalEstablishments] - Total number of unfiltered establishments
-   * @param {((page: number) => void) | null} [onPageChange] - Callback to execute when page changes
-   * @param {((filterText: string) => void) | null} [onFilterChange] - Callback to execute when filter changes
-   * @param {((sortOption: SortKeys, sortDirection: SortDirections) => void) | null} [onSortChange] - Callback to execute when sort changes
-   * @returns {Promise<void>} Promise that resolves when establishments are loaded and rendered
-   */
+  Load and display establishments
+
+  @param {object} data - Data object with establishments and metadata
+  @param {Array<Establishment>} data.establishments - Array of establishment objects to display
+  @param {number} [data.totalResults] - Total number of results (for pagination)
+  @param {number} [data.currentPage] - Current page number
+  @param {number} [data.pageSize] - Page size
+  @param {string} [data.filterText] - Text to filter establishments by (if filter callback is provided)
+  @param {SortKeys} [data.sortOption] - Sort option to use (if sort callback is provided)
+  @param {SortDirections} [data.sortDirection] - Sort direction to use (if sort callback is provided)
+  @param {boolean} [isLoading] - Whether the data is still loading
+  @param {number} [totalEstablishments] - Total number of unfiltered establishments
+  @param {((page: number) => void) | null} [onPageChange] - Callback to execute when page changes
+  @param {((filterText: string) => void) | null} [onFilterChange] - Callback to execute when filter changes
+  @param {((sortOption: SortKeys, sortDirection: SortDirections) => void) | null} [onSortChange] - Callback to execute when sort changes
+  @returns {Promise<void>} Promise that resolves when establishments are loaded and rendered
+  */
   async loadEstablishments(
     data,
     isLoading = false,
@@ -387,11 +387,11 @@ export class EstablishmentList {
   }
 
   /**
-   * Show an error message
-   *
-   * @param {string} message - The error message to display
-   */
-  showError(message) {
+  Show an error message
+
+  @param {string} message - The error message to display
+  */
+  showError(message = "An error occurred") {
     if (!this.errorElement) {
       return;
     }
@@ -400,7 +400,7 @@ export class EstablishmentList {
 
     this.errorElement.innerHTML = `
       <div class="error-message">
-        <p>${message || "An error occurred"}</p>
+        <p>${message}</p>
       </div>
     `;
   }

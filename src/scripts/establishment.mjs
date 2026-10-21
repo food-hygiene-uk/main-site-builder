@@ -1,6 +1,6 @@
 /**
- * @typedef {import("../generate-site/schema.mts").Establishment} Establishment
- */
+@typedef {import("../generate-site/schema.mts").Establishment} Establishment
+*/
 
 const notFoundEstablishmentStub = /** @type {const} */ ({
   FHRSID: 1,
@@ -42,11 +42,11 @@ Basic cache of establishment details to avoid repeated API calls
 const establishmentCache = new Map();
 
 /**
- * Fetches establishment details from the FHRS API
- *
- * @param {Establishment['FHRSID']} FHRSID - The FHRSID of the establishment
- * @returns {Promise<Establishment>} The establishment data or stub if not found
- */
+Fetches establishment details from the FHRS API
+
+@param {Establishment['FHRSID']} FHRSID - The FHRSID of the establishment
+@returns {Promise<Establishment>} The establishment data or stub if not found
+*/
 export const fetchEstablishmentDetails = async (FHRSID) => {
   // Check cache first
   if (establishmentCache.has(FHRSID)) {
@@ -81,12 +81,12 @@ export const fetchEstablishmentDetails = async (FHRSID) => {
 };
 
 /**
- * Compares two establishments by their rating values, with higher ratings considered "greater".
- *
- * @param {Establishment} a - The first establishment to compare
- * @param {Establishment} b - The second establishment to compare
- * @returns {number} The comparison result
- */
+Compares two establishments by their rating values, with higher ratings considered "greater".
+
+@param {Establishment} a - The first establishment to compare
+@param {Establishment} b - The second establishment to compare
+@returns {number} The comparison result
+*/
 const compareRatingValue = (a, b) => {
   const ratingA = a.RatingValue ? Number(a.RatingValue) : -1;
   const ratingB = b.RatingValue ? Number(b.RatingValue) : -1;
@@ -95,13 +95,13 @@ const compareRatingValue = (a, b) => {
 };
 
 /**
- * Compares two establishments by their rating dates, with more recent dates considered "greater".
- * If one of the establishments does not have a rating date, it is considered "less than" the other.
- *
- * @param {Establishment} a - The first establishment to compare
- * @param {Establishment} b - The second establishment to compare
- * @returns {number} The comparison result
- */
+Compares two establishments by their rating dates, with more recent dates considered "greater".
+If one of the establishments does not have a rating date, it is considered "less than" the other.
+
+@param {Establishment} a - The first establishment to compare
+@param {Establishment} b - The second establishment to compare
+@returns {number} The comparison result
+*/
 const compareRatingDate = (a, b) => {
   if (a.RatingDate !== b.RatingDate) {
     if (!a.RatingDate || !b.RatingDate) return -1;
@@ -118,12 +118,12 @@ const compareRatingDate = (a, b) => {
 };
 
 /**
- * Compares two establishments by their business names in a case-insensitive manner.
- *
- * @param {Establishment} a - The first establishment to compare
- * @param {Establishment} b - The second establishment to compare
- * @returns {number} The comparison result
- */
+Compares two establishments by their business names in a case-insensitive manner.
+
+@param {Establishment} a - The first establishment to compare
+@param {Establishment} b - The second establishment to compare
+@returns {number} The comparison result
+*/
 const compareBusinessName = (a, b) => {
   const baseComparison = a.BusinessName.localeCompare(
     b.BusinessName,
@@ -137,13 +137,13 @@ const compareBusinessName = (a, b) => {
 };
 
 /**
- * Sort establishments by the given option and direction
- *
- * @param {Array<Establishment>} establishments - Establishments to sort
- * @param {"order"|"name"|"rating"|"date"} sortOption - Sort option to use
- * @param {boolean} sortDirection - Sort direction (true for ascending, false for descending)
- * @returns {Array<Establishment>} Sorted establishments
- */
+Sort establishments by the given option and direction
+
+@param {Array<Establishment>} establishments - Establishments to sort
+@param {"order"|"name"|"rating"|"date"} sortOption - Sort option to use
+@param {boolean} sortDirection - Sort direction (true for ascending, false for descending)
+@returns {Array<Establishment>} Sorted establishments
+*/
 export const sortEstablishments = (
   establishments,
   sortOption,

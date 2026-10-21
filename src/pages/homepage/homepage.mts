@@ -33,10 +33,10 @@ const [template, Header, Footer, processedCss] = await Promise.all([
 ]);
 
 /**
- * Generates the homepage HTML and writes it to the `dist` directory.
- *
- * @returns Resolves when the homepage has been generated.
- */
+Generates the homepage HTML and writes it to the `dist` directory.
+
+@returns Resolves when the homepage has been generated.
+*/
 export const outputHomepagePage = async (): Promise<void> => {
   const classSuffix = getClassSuffix(true);
 

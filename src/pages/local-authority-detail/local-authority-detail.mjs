@@ -26,18 +26,18 @@ const establishmentData = establishments.map((establishment) => ({
 }));
 
 /**
- * Debounces a function, delaying its execution until after a certain amount of time has passed
- * since the last invocation.
- *
- * @template {unknown[]} T
- * @param {(...args: T) => void} function_ - The function to debounce.
- * @param {number} wait - The number of milliseconds to wait before executing the function.
- * @returns {(...args: T) => void} A debounced version of the function.
- */
+Debounces a function, delaying its execution until after a certain amount of time has passed
+since the last invocation.
+
+@template {unknown[]} T
+@param {(...args: T) => void} function_ - The function to debounce.
+@param {number} wait - The number of milliseconds to wait before executing the function.
+@returns {(...args: T) => void} A debounced version of the function.
+*/
 const debounce = (function_, wait) => {
   /**
-   * @type {ReturnType<typeof setTimeout> | undefined}
-   */
+  @type {ReturnType<typeof setTimeout> | undefined}
+  */
   let timeout;
   return (...arguments_) => {
     const later = () => {
@@ -50,11 +50,11 @@ const debounce = (function_, wait) => {
 };
 
 /**
- * Parses a search string into individual search terms, handling quoted phrases.
- *
- * @param {string} searchTerm - The search string to parse.
- * @returns {string[]} An array of lowercase search terms.
- */
+Parses a search string into individual search terms, handling quoted phrases.
+
+@param {string} searchTerm - The search string to parse.
+@returns {string[]} An array of lowercase search terms.
+*/
 const parseSearchTerms = (searchTerm) => {
   const regex = /"([^"]+)"|(\S+)/g;
   const terms = [];
@@ -69,13 +69,12 @@ const parseSearchTerms = (searchTerm) => {
 };
 
 /**
- * Appends a list of establishments to a container, clearing the container's existing content.
- * Each establishment is added with a horizontal rule separator.
- *
- * @param {HTMLElement} container - The container to append the establishments to.
- * @param {Iterable<{clone: Node}>} establishments - Establishment data to append.
- */
-const appendEstablishments = (container, establishments) => {
+Appends a list of establishments to a container, clearing the container's existing content.
+Each establishment is added with a horizontal rule separator.
+
+@param {Iterable<{clone: Node}>} establishments - Establishment data to append.
+*/
+const appendEstablishments = (establishments) => {
   // Remove all current establishments
   container.replaceChildren();
 
@@ -96,14 +95,14 @@ const appendEstablishments = (container, establishments) => {
 const updates = new Set(); // Store visibility updates
 
 /**
- * Processes a batch of establishments, determining their visibility based on search terms.
- *
- * @param {number} startIndex - The starting index of the batch.
- * @param {number} batchSize - The size of the batch.
- * @param {string[]} searchTerms - The array of search terms.
- * @param {() => void} resolve - The resolve function of the promise.
- * @returns {void}
- */
+Processes a batch of establishments, determining their visibility based on search terms.
+
+@param {number} startIndex - The starting index of the batch.
+@param {number} batchSize - The size of the batch.
+@param {string[]} searchTerms - The array of search terms.
+@param {() => void} resolve - The resolve function of the promise.
+@returns {void}
+*/
 const processBatch = (startIndex, batchSize, searchTerms, resolve) => {
   const end = Math.min(startIndex + batchSize, establishmentData.length);
 
@@ -121,7 +120,7 @@ const processBatch = (startIndex, batchSize, searchTerms, resolve) => {
   if (end >= establishmentData.length) {
     // Final batch - update the real DOM
     requestAnimationFrame(() => {
-      appendEstablishments(container, updates);
+      appendEstablishments(updates);
 
       resolve();
     });
@@ -137,19 +136,19 @@ const processBatch = (startIndex, batchSize, searchTerms, resolve) => {
 };
 
 /**
- * Handles the search functionality, filtering establishments based on the search term.
- *
- * @param {string} searchTerm - The search term to filter by.
- * @returns {Promise<void>} A promise that resolves when the search is complete.
- * @async
- */
+Handles the search functionality, filtering establishments based on the search term.
+
+@param {string} searchTerm - The search term to filter by.
+@returns {Promise<void>} A promise that resolves when the search is complete.
+@async
+*/
 const handleSearch = async (searchTerm) => {
   const searchTerms = parseSearchTerms(searchTerm);
 
   // If search is empty, restore all establishments
   if (searchTerms.length === 0) {
     requestAnimationFrame(() => {
-      appendEstablishments(container, establishmentData);
+      appendEstablishments(establishmentData);
     });
     return;
   }

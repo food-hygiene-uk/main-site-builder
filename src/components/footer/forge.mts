@@ -23,10 +23,10 @@ const [processedCss, template] = await Promise.all([
 ]);
 
 /**
- * Generates the footer component.
- *
- * @returns An object containing the CSS and HTML for the footer.
- */
+Generates the footer component.
+
+@returns An object containing the CSS and HTML for the footer.
+*/
 export const forgeFooter = async (): Promise<{
   css: string;
   html: string;
