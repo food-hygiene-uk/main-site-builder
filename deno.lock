@@ -23,9 +23,9 @@
     "npm:cssnano-preset-advanced@10.0.0": "10.0.0_postcss@8.5.30",
     "npm:cssnano@9.8.0": "9.8.0_postcss@8.5.30",
     "npm:eslint-config-prettier@10.1.8": "10.1.8_eslint@10.12.0_jiti@2.7.0",
-    "npm:eslint-plugin-jsdoc@65.3.4": "65.3.4_eslint@10.12.0_typescript@6.0.3_jiti@2.7.0",
+    "npm:eslint-plugin-jsdoc@65.3.6": "65.3.6_eslint@10.12.0_typescript@6.0.3_jiti@2.7.0",
     "npm:eslint-plugin-promise@7.3.0": "7.3.0_eslint@10.12.0_jiti@2.7.0",
-    "npm:eslint-plugin-unicorn@78.0.0": "78.0.0_eslint@10.12.0_jiti@2.7.0",
+    "npm:eslint-plugin-unicorn@78.0.0": "78.0.0_eslint@10.12.0_typescript@6.0.3_jiti@2.7.0",
     "npm:eslint@10.12.0": "10.12.0_jiti@2.7.0",
     "npm:estree-walker@3.0.3": "3.0.3",
     "npm:fast-check@4.10.2": "4.10.2",
@@ -1329,8 +1329,8 @@
       ],
       "bin": true
     },
-    "eslint-plugin-jsdoc@65.3.4_eslint@10.12.0_typescript@6.0.3_jiti@2.7.0": {
-      "integrity": "sha512-Z3/ro8sZPqnXKhyAzCNa3F7KCZ3js5xVx/q9BEvTjUGzN6OIQfdb+q3Sc9lJ3zCfyPnN0tI524ulZjYRxAwnAw==",
+    "eslint-plugin-jsdoc@65.3.6_eslint@10.12.0_typescript@6.0.3_jiti@2.7.0": {
+      "integrity": "sha512-XN1JIoVqJIgHqHjoe0y7Pj97Z7+3UKhW1/J3E7+1ZyK+rL8lHATT3mgdS6peI84Kcr7DwxOv54Z5hdiqVheSew==",
       "dependencies": [
         "@es-joy/jsdoccomment",
         "@es-joy/resolve.exports",
@@ -1361,7 +1361,7 @@
         "eslint"
       ]
     },
-    "eslint-plugin-unicorn@78.0.0_eslint@10.12.0_jiti@2.7.0": {
+    "eslint-plugin-unicorn@78.0.0_eslint@10.12.0_typescript@6.0.3_jiti@2.7.0": {
       "integrity": "sha512-XTDqxcJeAmh2lhgU75TpuMDdFtPDnAU+DCW56nR5UzXTG+uOyvOGjV80O11my7kNb2bYSCPlWa8c4K8/rwlYog==",
       "dependencies": [
         "@eslint-community/eslint-utils",
@@ -1386,7 +1386,11 @@
         "reserved-identifiers",
         "semver",
         "strip-indent",
+        "typescript",
         "yaml"
+      ],
+      "optionalPeers": [
+        "typescript"
       ]
     },
     "eslint-scope@9.1.2": {
@@ -3188,7 +3192,7 @@
       "npm:cssnano-preset-advanced@10.0.0",
       "npm:cssnano@9.8.0",
       "npm:eslint-config-prettier@10.1.8",
-      "npm:eslint-plugin-jsdoc@65.3.4",
+      "npm:eslint-plugin-jsdoc@65.3.6",
       "npm:eslint-plugin-promise@7.3.0",
       "npm:eslint-plugin-unicorn@78.0.0",
       "npm:eslint@10.12.0",
