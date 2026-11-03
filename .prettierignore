@@ -1,4 +1,6 @@
 # tool managed
+.agents/skills
+agents/
 assets/google3decab8acc23e179.html
 deno.lock
 package.json
