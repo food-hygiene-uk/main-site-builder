@@ -19,3 +19,7 @@ RUN deno completions --dynamic bash
 RUN git config --system core.autocrlf input \
   && git config --system core.eol lf \
   && git config --system pull.rebase false
+
+# Install the Antigravity CLI
+RUN curl -fsSL https://antigravity.google/cli/install.sh | bash
+
