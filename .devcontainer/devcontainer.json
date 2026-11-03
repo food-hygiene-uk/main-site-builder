@@ -4,7 +4,10 @@
     "dockerfile": "Dockerfile",
     "options": ["--build-arg=DENO_VERSION=2.9.8"]
   },
-  "postCreateCommand": "deno cache src/generate-site.mts",
+  "containerEnv": {
+    "DISABLE_TELEMETRY": "1"
+  },
+  "postCreateCommand": "bash .devcontainer/postCreateCommand.sh",
   "features": {
     "ghcr.io/devcontainers/features/github-cli:1": {}
   },
@@ -39,5 +42,8 @@
         }
       }
     }
-  }
+  },
+  "mounts": [
+    "source=antigravity-history-${localWorkspaceFolderBasename},target=/home/node/.gemini/antigravity,type=volume"
+  ]
 }

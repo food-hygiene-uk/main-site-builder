@@ -1,0 +1,2531 @@
+{
+  "timestamp": "2026-11-03T19:48:32.219Z",
+  "minimumVersions": {
+    "and_chr": "156",
+    "and_ff": "159",
+    "android": "156",
+    "chrome": "124",
+    "edge": "124",
+    "firefox": "125",
+    "ios_saf": "17.4",
+    "opera": "110",
+    "safari": "17.4",
+    "samsung": "27"
+  },
+  "requiredPolyfillsAndFallbacks": [
+    {
+      "featureId": "aac",
+      "title": "aac",
+      "reasons": [
+        "and_ff 159 lacks native support (status: \"a #1\")",
+        "firefox 125 lacks native support (status: \"a #1\")"
+      ]
+    },
+    {
+      "featureId": "ac3-ec3",
+      "title": "ac3-ec3",
+      "reasons": [
+        "and_chr 156 lacks native support (status: \"n\")",
+        "and_ff 159 lacks native support (status: \"n\")",
+        "android 156 lacks native support (status: \"n\")",
+        "chrome 124 lacks native support (status: \"n\")",
+        "edge 124 lacks native support (status: \"n\")",
+        "firefox 125 lacks native support (status: \"n\")",
+        "ios_saf 17.4 lacks native support (status: \"a #1\")",
+        "opera 110 lacks native support (status: \"n\")",
+        "safari 17.4 lacks native support (status: \"n\")",
+        "samsung 27 lacks native support (status: \"n\")"
+      ]
+    },
+    {
+      "featureId": "accelerometer",
+      "title": "accelerometer",
+      "reasons": [
+        "and_ff 159 lacks native support (status: \"n\")",
+        "firefox 125 lacks native support (status: \"n\")",
+        "ios_saf 17.4 lacks native support (status: \"n\")",
+        "safari 17.4 lacks native support (status: \"n\")",
+        "samsung 27 lacks native support (status: \"n\")"
+      ]
+    },
+    {
+      "featureId": "alternate-stylesheet",
+      "title": "alternate-stylesheet",
+      "reasons": [
+        "and_chr 156 lacks native support (status: \"u\")",
+        "and_ff 159 lacks native support (status: \"u\")",
+        "android 156 lacks native support (status: \"n\")",
+        "chrome 124 lacks native support (status: \"n\")",
+        "edge 124 lacks native support (status: \"n\")",
+        "ios_saf 17.4 lacks native support (status: \"n\")",
+        "opera 110 lacks native support (status: \"u\")",
+        "safari 17.4 lacks native support (status: \"n\")",
+        "samsung 27 lacks native support (status: \"u\")"
+      ]
+    },
+    {
+      "featureId": "ambient-light",
+      "title": "ambient-light",
+      "reasons": [
+        "and_chr 156 lacks native support (status: \"n d #2\")",
+        "android 156 lacks native support (status: \"n\")",
+        "chrome 124 lacks native support (status: \"n d #2\")",
+        "edge 124 lacks native support (status: \"n d #2\")",
+        "firefox 125 lacks native support (status: \"n d #1\")",
+        "ios_saf 17.4 lacks native support (status: \"n\")",
+        "opera 110 lacks native support (status: \"n d #2\")",
+        "safari 17.4 lacks native support (status: \"n\")",
+        "samsung 27 lacks native support (status: \"n\")"
+      ]
+    },
+    {
+      "featureId": "asmjs",
+      "title": "asmjs",
+      "reasons": [
+        "and_chr 156 lacks native support (status: \"a #1\")",
+        "android 156 lacks native support (status: \"a #1\")",
+        "chrome 124 lacks native support (status: \"a #1\")",
+        "edge 124 lacks native support (status: \"a #1\")",
+        "ios_saf 17.4 lacks native support (status: \"n\")",
+        "opera 110 lacks native support (status: \"a #1\")",
+        "safari 17.4 lacks native support (status: \"n\")",
+        "samsung 27 lacks native support (status: \"a #1\")"
+      ]
+    },
+    {
+      "featureId": "async-clipboard",
+      "title": "async-clipboard",
+      "reasons": [
+        "android 156 lacks native support (status: \"a #2\")"
+      ]
+    },
+    {
+      "featureId": "audio",
+      "title": "audio",
+      "reasons": [
+        "ios_saf 17.4 lacks native support (status: \"a #2\")"
+      ]
+    },
+    {
+      "featureId": "audiotracks",
+      "title": "audiotracks",
+      "reasons": [
+        "and_chr 156 lacks native support (status: \"n d #2\")",
+        "and_ff 159 lacks native support (status: \"n\")",
+        "android 156 lacks native support (status: \"n\")",
+        "chrome 124 lacks native support (status: \"n d #2\")",
+        "edge 124 lacks native support (status: \"n d #2\")",
+        "firefox 125 lacks native support (status: \"n d #1\")",
+        "opera 110 lacks native support (status: \"n d #2\")",
+        "samsung 27 lacks native support (status: \"n\")"
+      ]
+    },
+    {
+      "featureId": "autofocus",
+      "title": "autofocus",
+      "reasons": [
+        "ios_saf 17.4 lacks native support (status: \"n\")"
+      ]
+    },
+    {
+      "featureId": "auxclick",
+      "title": "auxclick",
+      "reasons": [
+        "ios_saf 17.4 lacks native support (status: \"n\")",
+        "safari 17.4 lacks native support (status: \"n\")"
+      ]
+    },
+    {
+      "featureId": "av1",
+      "title": "av1",
+      "reasons": [
+        "ios_saf 17.4 lacks native support (status: \"a #4\")",
+        "safari 17.4 lacks native support (status: \"a #4\")"
+      ]
+    },
+    {
+      "featureId": "background-attachment",
+      "title": "background-attachment",
+      "reasons": [
+        "android 156 lacks native support (status: \"n\")",
+        "ios_saf 17.4 lacks native support (status: \"a #6\")",
+        "samsung 27 lacks native support (status: \"a #4\")"
+      ]
+    },
+    {
+      "featureId": "background-sync",
+      "title": "background-sync",
+      "reasons": [
+        "and_ff 159 lacks native support (status: \"n\")",
+        "firefox 125 lacks native support (status: \"n\")",
+        "ios_saf 17.4 lacks native support (status: \"n\")",
+        "safari 17.4 lacks native support (status: \"n\")"
+      ]
+    },
+    {
+      "featureId": "battery-status",
+      "title": "battery-status",
+      "reasons": [
+        "and_ff 159 lacks native support (status: \"n\")",
+        "firefox 125 lacks native support (status: \"n\")",
+        "ios_saf 17.4 lacks native support (status: \"n\")",
+        "safari 17.4 lacks native support (status: \"n\")"
+      ]
+    },
+    {
+      "featureId": "beforeafterprint",
+      "title": "beforeafterprint",
+      "reasons": [
+        "android 156 lacks native support (status: \"n\")",
+        "samsung 27 lacks native support (status: \"n\")"
+      ]
+    },
+    {
+      "featureId": "client-hints-dpr-width-viewport",
+      "title": "client-hints-dpr-width-viewport",
+      "reasons": [
+        "and_ff 159 lacks native support (status: \"n\")",
+        "firefox 125 lacks native support (status: \"n\")",
+        "ios_saf 17.4 lacks native support (status: \"n\")",
+        "safari 17.4 lacks native support (status: \"n\")"
+      ]
+    },
+    {
+      "featureId": "clipboard",
+      "title": "clipboard",
+      "reasons": [
+        "and_chr 156 lacks native support (status: \"a #7\")",
+        "and_ff 159 lacks native support (status: \"a #4\")",
+        "android 156 lacks native support (status: \"a #2\")",
+        "chrome 124 lacks native support (status: \"a #7\")",
+        "edge 124 lacks native support (status: \"a #7\")",
+        "firefox 125 lacks native support (status: \"a #6\")",
+        "opera 110 lacks native support (status: \"a #7\")",
+        "samsung 27 lacks native support (status: \"a #7\")"
+      ]
+    },
+    {
+      "featureId": "colr-v1",
+      "title": "colr-v1",
+      "reasons": [
+        "ios_saf 17.4 lacks native support (status: \"n\")",
+        "safari 17.4 lacks native support (status: \"n\")"
+      ]
+    },
+    {
+      "featureId": "cookie-store-api",
+      "title": "cookie-store-api",
+      "reasons": [
+        "firefox 125 lacks native support (status: \"n\")",
+        "ios_saf 17.4 lacks native support (status: \"n\")",
+        "safari 17.4 lacks native support (status: \"n\")"
+      ]
+    },
+    {
+      "featureId": "credential-management",
+      "title": "credential-management",
+      "reasons": [
+        "and_ff 159 lacks native support (status: \"n\")",
+        "firefox 125 lacks native support (status: \"n\")",
+        "safari 17.4 lacks native support (status: \"n\")"
+      ]
+    },
+    {
+      "featureId": "cross-document-view-transitions",
+      "title": "cross-document-view-transitions",
+      "reasons": [
+        "and_ff 159 lacks native support (status: \"a #2\")",
+        "chrome 124 lacks native support (status: \"n\")",
+        "edge 124 lacks native support (status: \"n\")",
+        "firefox 125 lacks native support (status: \"n\")",
+        "ios_saf 17.4 lacks native support (status: \"n\")",
+        "opera 110 lacks native support (status: \"n\")",
+        "safari 17.4 lacks native support (status: \"n\")",
+        "samsung 27 lacks native support (status: \"n\")"
+      ]
+    },
+    {
+      "featureId": "css-anchor-positioning",
+      "title": "css-anchor-positioning",
+      "reasons": [
+        "and_chr 156 lacks native support (status: \"a #5\")",
+        "and_ff 159 lacks native support (status: \"a #4 #5\")",
+        "android 156 lacks native support (status: \"a #3 #5\")",
+        "chrome 124 lacks native support (status: \"n d #1\")",
+        "edge 124 lacks native support (status: \"n d #1\")",
+        "firefox 125 lacks native support (status: \"n\")",
+        "ios_saf 17.4 lacks native support (status: \"n\")",
+        "opera 110 lacks native support (status: \"n d #1\")",
+        "safari 17.4 lacks native support (status: \"n\")",
+        "samsung 27 lacks native support (status: \"a #3 #5\")"
+      ]
+    },
+    {
+      "featureId": "css-at-counter-style",
+      "title": "css-at-counter-style",
+      "reasons": [
+        "and_chr 156 lacks native support (status: \"a #1\")",
+        "and_ff 159 lacks native support (status: \"a #1\")",
+        "android 156 lacks native support (status: \"a #1\")",
+        "chrome 124 lacks native support (status: \"a #1\")",
+        "edge 124 lacks native support (status: \"a #1\")",
+        "firefox 125 lacks native support (status: \"a #1\")",
+        "ios_saf 17.4 lacks native support (status: \"a\")",
+        "opera 110 lacks native support (status: \"a #1\")",
+        "safari 17.4 lacks native support (status: \"a\")",
+        "samsung 27 lacks native support (status: \"a #1\")"
+      ]
+    },
+    {
+      "featureId": "css-autofill",
+      "title": "css-autofill",
+      "reasons": [
+        "and_ff 159 lacks native support (status: \"n\")",
+        "firefox 125 lacks native support (status: \"n\")"
+      ]
+    },
+    {
+      "featureId": "css-boxdecorationbreak",
+      "title": "css-boxdecorationbreak",
+      "reasons": [
+        "chrome 124 lacks native support (status: \"a x #1\")",
+        "edge 124 lacks native support (status: \"a x #1\")",
+        "ios_saf 17.4 lacks native support (status: \"a x #1\")",
+        "opera 110 lacks native support (status: \"a x #1\")",
+        "safari 17.4 lacks native support (status: \"a x #1\")",
+        "samsung 27 lacks native support (status: \"a x #1\")"
+      ]
+    },
+    {
+      "featureId": "css-canvas",
+      "title": "css-canvas",
+      "reasons": [
+        "and_chr 156 lacks native support (status: \"n\")",
+        "and_ff 159 lacks native support (status: \"n\")",
+        "android 156 lacks native support (status: \"n\")",
+        "chrome 124 lacks native support (status: \"n\")",
+        "edge 124 lacks native support (status: \"n\")",
+        "firefox 125 lacks native support (status: \"n\")",
+        "opera 110 lacks native support (status: \"n\")",
+        "samsung 27 lacks native support (status: \"n\")"
+      ]
+    },
+    {
+      "featureId": "css-cascade-scope",
+      "title": "css-cascade-scope",
+      "reasons": [
+        "firefox 125 lacks native support (status: \"n\")"
+      ]
+    },
+    {
+      "featureId": "css-clip-path",
+      "title": "css-clip-path",
+      "reasons": [
+        "and_chr 156 lacks native support (status: \"a #2\")",
+        "android 156 lacks native support (status: \"a #2\")",
+        "chrome 124 lacks native support (status: \"a #2\")",
+        "edge 124 lacks native support (status: \"a #2\")",
+        "ios_saf 17.4 lacks native support (status: \"a #2\")",
+        "opera 110 lacks native support (status: \"a #2\")",
+        "safari 17.4 lacks native support (status: \"a #2\")",
+        "samsung 27 lacks native support (status: \"a #2\")"
+      ]
+    },
+    {
+      "featureId": "css-color-adjust",
+      "title": "css-color-adjust",
+      "reasons": [
+        "and_chr 156 lacks native support (status: \"u\")",
+        "samsung 27 lacks native support (status: \"u\")"
+      ]
+    },
+    {
+      "featureId": "css-container-queries-style",
+      "title": "css-container-queries-style",
+      "reasons": [
+        "and_chr 156 lacks native support (status: \"a #2\")",
+        "android 156 lacks native support (status: \"a #2\")",
+        "chrome 124 lacks native support (status: \"a #2\")",
+        "edge 124 lacks native support (status: \"a #2\")",
+        "firefox 125 lacks native support (status: \"n\")",
+        "ios_saf 17.4 lacks native support (status: \"n\")",
+        "opera 110 lacks native support (status: \"a #2\")",
+        "safari 17.4 lacks native support (status: \"n\")",
+        "samsung 27 lacks native support (status: \"a #2\")"
+      ]
+    },
+    {
+      "featureId": "css-content-visibility",
+      "title": "css-content-visibility",
+      "reasons": [
+        "ios_saf 17.4 lacks native support (status: \"n\")",
+        "safari 17.4 lacks native support (status: \"n\")"
+      ]
+    },
+    {
+      "featureId": "css-cross-fade",
+      "title": "css-cross-fade",
+      "reasons": [
+        "and_ff 159 lacks native support (status: \"n\")",
+        "firefox 125 lacks native support (status: \"n\")"
+      ]
+    },
+    {
+      "featureId": "css-descendant-gtgt",
+      "title": "css-descendant-gtgt",
+      "reasons": [
+        "and_chr 156 lacks native support (status: \"n\")",
+        "and_ff 159 lacks native support (status: \"n\")",
+        "android 156 lacks native support (status: \"n\")",
+        "chrome 124 lacks native support (status: \"n\")",
+        "edge 124 lacks native support (status: \"n\")",
+        "firefox 125 lacks native support (status: \"n\")",
+        "ios_saf 17.4 lacks native support (status: \"n\")",
+        "opera 110 lacks native support (status: \"n\")",
+        "safari 17.4 lacks native support (status: \"n\")",
+        "samsung 27 lacks native support (status: \"n\")"
+      ]
+    },
+    {
+      "featureId": "css-deviceadaptation",
+      "title": "css-deviceadaptation",
+      "reasons": [
+        "and_chr 156 lacks native support (status: \"n\")",
+        "and_ff 159 lacks native support (status: \"n\")",
+        "android 156 lacks native support (status: \"n\")",
+        "chrome 124 lacks native support (status: \"n d\")",
+        "edge 124 lacks native support (status: \"n d\")",
+        "firefox 125 lacks native support (status: \"n\")",
+        "ios_saf 17.4 lacks native support (status: \"n\")",
+        "opera 110 lacks native support (status: \"n d\")",
+        "safari 17.4 lacks native support (status: \"n\")",
+        "samsung 27 lacks native support (status: \"n\")"
+      ]
+    },
+    {
+      "featureId": "css-display-contents",
+      "title": "css-display-contents",
+      "reasons": [
+        "and_chr 156 lacks native support (status: \"a #2\")",
+        "and_ff 159 lacks native support (status: \"a #2\")",
+        "android 156 lacks native support (status: \"a #2\")",
+        "chrome 124 lacks native support (status: \"a #2\")",
+        "edge 124 lacks native support (status: \"a #2\")",
+        "firefox 125 lacks native support (status: \"a #2\")",
+        "opera 110 lacks native support (status: \"a #2\")",
+        "safari 17.4 lacks native support (status: \"a #2\")",
+        "samsung 27 lacks native support (status: \"a #2\")"
+      ]
+    },
+    {
+      "featureId": "css-element-function",
+      "title": "css-element-function",
+      "reasons": [
+        "and_chr 156 lacks native support (status: \"n\")",
+        "android 156 lacks native support (status: \"n\")",
+        "chrome 124 lacks native support (status: \"n\")",
+        "edge 124 lacks native support (status: \"n\")",
+        "ios_saf 17.4 lacks native support (status: \"n\")",
+        "opera 110 lacks native support (status: \"n\")",
+        "safari 17.4 lacks native support (status: \"n\")",
+        "samsung 27 lacks native support (status: \"n\")"
+      ]
+    },
+    {
+      "featureId": "css-exclusions",
+      "title": "css-exclusions",
+      "reasons": [
+        "and_chr 156 lacks native support (status: \"n\")",
+        "and_ff 159 lacks native support (status: \"n\")",
+        "android 156 lacks native support (status: \"n\")",
+        "chrome 124 lacks native support (status: \"n\")",
+        "edge 124 lacks native support (status: \"n\")",
+        "firefox 125 lacks native support (status: \"n\")",
+        "ios_saf 17.4 lacks native support (status: \"n\")",
+        "opera 110 lacks native support (status: \"n\")",
+        "safari 17.4 lacks native support (status: \"n\")",
+        "samsung 27 lacks native support (status: \"n\")"
+      ]
+    },
+    {
+      "featureId": "css-filter-function",
+      "title": "css-filter-function",
+      "reasons": [
+        "and_chr 156 lacks native support (status: \"n\")",
+        "and_ff 159 lacks native support (status: \"n\")",
+        "android 156 lacks native support (status: \"n\")",
+        "chrome 124 lacks native support (status: \"n\")",
+        "edge 124 lacks native support (status: \"n\")",
+        "firefox 125 lacks native support (status: \"n\")",
+        "opera 110 lacks native support (status: \"n\")",
+        "samsung 27 lacks native support (status: \"n\")"
+      ]
+    },
+    {
+      "featureId": "css-grid-lanes",
+      "title": "css-grid-lanes",
+      "reasons": [
+        "and_chr 156 lacks native support (status: \"p d #1\")",
+        "and_ff 159 lacks native support (status: \"p d #1\")",
+        "android 156 lacks native support (status: \"n\")",
+        "chrome 124 lacks native support (status: \"n\")",
+        "edge 124 lacks native support (status: \"n\")",
+        "firefox 125 lacks native support (status: \"p d #1\")",
+        "ios_saf 17.4 lacks native support (status: \"p d #1\")",
+        "opera 110 lacks native support (status: \"n\")",
+        "safari 17.4 lacks native support (status: \"p d #1\")",
+        "samsung 27 lacks native support (status: \"n\")"
+      ]
+    },
+    {
+      "featureId": "css-hanging-punctuation",
+      "title": "css-hanging-punctuation",
+      "reasons": [
+        "and_chr 156 lacks native support (status: \"n\")",
+        "and_ff 159 lacks native support (status: \"n\")",
+        "android 156 lacks native support (status: \"n\")",
+        "chrome 124 lacks native support (status: \"n\")",
+        "edge 124 lacks native support (status: \"n\")",
+        "firefox 125 lacks native support (status: \"n\")",
+        "opera 110 lacks native support (status: \"n\")",
+        "samsung 27 lacks native support (status: \"n\")"
+      ]
+    },
+    {
+      "featureId": "css-if",
+      "title": "css-if",
+      "reasons": [
+        "and_ff 159 lacks native support (status: \"n\")",
+        "chrome 124 lacks native support (status: \"n\")",
+        "edge 124 lacks native support (status: \"n\")",
+        "firefox 125 lacks native support (status: \"n\")",
+        "ios_saf 17.4 lacks native support (status: \"n\")",
+        "opera 110 lacks native support (status: \"n\")",
+        "safari 17.4 lacks native support (status: \"n\")",
+        "samsung 27 lacks native support (status: \"n\")"
+      ]
+    },
+    {
+      "featureId": "css-initial-letter",
+      "title": "css-initial-letter",
+      "reasons": [
+        "and_chr 156 lacks native support (status: \"a #2\")",
+        "and_ff 159 lacks native support (status: \"n\")",
+        "android 156 lacks native support (status: \"a #2\")",
+        "chrome 124 lacks native support (status: \"a #2\")",
+        "edge 124 lacks native support (status: \"a #2\")",
+        "firefox 125 lacks native support (status: \"n\")",
+        "ios_saf 17.4 lacks native support (status: \"a x #1 #2\")",
+        "opera 110 lacks native support (status: \"a #2\")",
+        "safari 17.4 lacks native support (status: \"a x #1 #2\")",
+        "samsung 27 lacks native support (status: \"a #2\")"
+      ]
+    },
+    {
+      "featureId": "css-marker-pseudo",
+      "title": "css-marker-pseudo",
+      "reasons": [
+        "ios_saf 17.4 lacks native support (status: \"a #1\")",
+        "safari 17.4 lacks native support (status: \"a #1\")"
+      ]
+    },
+    {
+      "featureId": "css-media-scripting",
+      "title": "css-media-scripting",
+      "reasons": [
+        "and_chr 156 lacks native support (status: \"n\")",
+        "and_ff 159 lacks native support (status: \"n\")",
+        "android 156 lacks native support (status: \"n\")",
+        "chrome 124 lacks native support (status: \"n\")",
+        "edge 124 lacks native support (status: \"n\")",
+        "firefox 125 lacks native support (status: \"n\")",
+        "ios_saf 17.4 lacks native support (status: \"n\")",
+        "opera 110 lacks native support (status: \"n\")",
+        "safari 17.4 lacks native support (status: \"n\")",
+        "samsung 27 lacks native support (status: \"n\")"
+      ]
+    },
+    {
+      "featureId": "css-mixblendmode",
+      "title": "css-mixblendmode",
+      "reasons": [
+        "ios_saf 17.4 lacks native support (status: \"a #2\")",
+        "safari 17.4 lacks native support (status: \"a #2\")"
+      ]
+    },
+    {
+      "featureId": "css-module-scripts",
+      "title": "css-module-scripts",
+      "reasons": [
+        "and_chr 156 lacks native support (status: \"n d #1\")",
+        "and_ff 159 lacks native support (status: \"n\")",
+        "android 156 lacks native support (status: \"n\")",
+        "firefox 125 lacks native support (status: \"n\")",
+        "ios_saf 17.4 lacks native support (status: \"n\")",
+        "opera 110 lacks native support (status: \"u\")",
+        "safari 17.4 lacks native support (status: \"n\")",
+        "samsung 27 lacks native support (status: \"n\")"
+      ]
+    },
+    {
+      "featureId": "css-overflow-anchor",
+      "title": "css-overflow-anchor",
+      "reasons": [
+        "ios_saf 17.4 lacks native support (status: \"n\")",
+        "safari 17.4 lacks native support (status: \"n\")"
+      ]
+    },
+    {
+      "featureId": "css-overflow-overlay",
+      "title": "css-overflow-overlay",
+      "reasons": [
+        "and_chr 156 lacks native support (status: \"n #1\")",
+        "and_ff 159 lacks native support (status: \"n\")",
+        "android 156 lacks native support (status: \"n #1\")",
+        "chrome 124 lacks native support (status: \"n #1\")",
+        "edge 124 lacks native support (status: \"n #1\")",
+        "firefox 125 lacks native support (status: \"n\")",
+        "ios_saf 17.4 lacks native support (status: \"n #1\")",
+        "opera 110 lacks native support (status: \"n #1\")",
+        "safari 17.4 lacks native support (status: \"n #1\")"
+      ]
+    },
+    {
+      "featureId": "css-page-break",
+      "title": "css-page-break",
+      "reasons": [
+        "and_chr 156 lacks native support (status: \"a #1 #2 #3\")",
+        "and_ff 159 lacks native support (status: \"a #2 #3\")",
+        "firefox 125 lacks native support (status: \"a #2 #3\")",
+        "ios_saf 17.4 lacks native support (status: \"a #1 #2 #3\")",
+        "safari 17.4 lacks native support (status: \"a #1 #2 #3\")"
+      ]
+    },
+    {
+      "featureId": "css-paged-media",
+      "title": "css-paged-media",
+      "reasons": [
+        "android 156 lacks native support (status: \"u\")",
+        "ios_saf 17.4 lacks native support (status: \"n\")",
+        "safari 17.4 lacks native support (status: \"n\")"
+      ]
+    },
+    {
+      "featureId": "css-paint-api",
+      "title": "css-paint-api",
+      "reasons": [
+        "and_ff 159 lacks native support (status: \"n\")",
+        "firefox 125 lacks native support (status: \"n\")",
+        "ios_saf 17.4 lacks native support (status: \"n\")",
+        "safari 17.4 lacks native support (status: \"n d #1\")"
+      ]
+    },
+    {
+      "featureId": "css-reflections",
+      "title": "css-reflections",
+      "reasons": [
+        "and_ff 159 lacks native support (status: \"n\")",
+        "firefox 125 lacks native support (status: \"n\")"
+      ]
+    },
+    {
+      "featureId": "css-regions",
+      "title": "css-regions",
+      "reasons": [
+        "and_chr 156 lacks native support (status: \"n\")",
+        "and_ff 159 lacks native support (status: \"n\")",
+        "android 156 lacks native support (status: \"n\")",
+        "chrome 124 lacks native support (status: \"n\")",
+        "edge 124 lacks native support (status: \"n\")",
+        "firefox 125 lacks native support (status: \"n\")",
+        "ios_saf 17.4 lacks native support (status: \"n\")",
+        "opera 110 lacks native support (status: \"n\")",
+        "safari 17.4 lacks native support (status: \"n\")",
+        "samsung 27 lacks native support (status: \"n\")"
+      ]
+    },
+    {
+      "featureId": "css-relative-colors",
+      "title": "css-relative-colors",
+      "reasons": [
+        "chrome 124 lacks native support (status: \"a #2\")",
+        "edge 124 lacks native support (status: \"a #2\")",
+        "firefox 125 lacks native support (status: \"n\")",
+        "ios_saf 17.4 lacks native support (status: \"a #2\")",
+        "opera 110 lacks native support (status: \"a #2\")",
+        "safari 17.4 lacks native support (status: \"a #2\")",
+        "samsung 27 lacks native support (status: \"a #2\")"
+      ]
+    },
+    {
+      "featureId": "css-resize",
+      "title": "css-resize",
+      "reasons": [
+        "ios_saf 17.4 lacks native support (status: \"n\")"
+      ]
+    },
+    {
+      "featureId": "css-scrollbar",
+      "title": "css-scrollbar",
+      "reasons": [
+        "android 156 lacks native support (status: \"a x #2\")",
+        "ios_saf 17.4 lacks native support (status: \"n\")",
+        "safari 17.4 lacks native support (status: \"a x #2\")"
+      ]
+    },
+    {
+      "featureId": "css-selection",
+      "title": "css-selection",
+      "reasons": [
+        "ios_saf 17.4 lacks native support (status: \"n\")"
+      ]
+    },
+    {
+      "featureId": "css-text-box-trim",
+      "title": "css-text-box-trim",
+      "reasons": [
+        "chrome 124 lacks native support (status: \"n\")",
+        "edge 124 lacks native support (status: \"n\")",
+        "firefox 125 lacks native support (status: \"n\")",
+        "ios_saf 17.4 lacks native support (status: \"n d #1\")",
+        "opera 110 lacks native support (status: \"n\")",
+        "safari 17.4 lacks native support (status: \"n d #1\")",
+        "samsung 27 lacks native support (status: \"n\")"
+      ]
+    },
+    {
+      "featureId": "css-text-indent",
+      "title": "css-text-indent",
+      "reasons": [
+        "chrome 124 lacks native support (status: \"a #1 #2\")",
+        "edge 124 lacks native support (status: \"a #1 #2\")",
+        "opera 110 lacks native support (status: \"a #1 #2\")",
+        "samsung 27 lacks native support (status: \"a #1 #2\")"
+      ]
+    },
+    {
+      "featureId": "css-text-justify",
+      "title": "css-text-justify",
+      "reasons": [
+        "chrome 124 lacks native support (status: \"n d #2\")",
+        "edge 124 lacks native support (status: \"n d #2\")",
+        "ios_saf 17.4 lacks native support (status: \"n\")",
+        "opera 110 lacks native support (status: \"n d #2\")",
+        "safari 17.4 lacks native support (status: \"n\")",
+        "samsung 27 lacks native support (status: \"n d #2\")"
+      ]
+    },
+    {
+      "featureId": "css-text-spacing",
+      "title": "css-text-spacing",
+      "reasons": [
+        "and_chr 156 lacks native support (status: \"n\")",
+        "and_ff 159 lacks native support (status: \"n\")",
+        "android 156 lacks native support (status: \"n\")",
+        "chrome 124 lacks native support (status: \"n\")",
+        "edge 124 lacks native support (status: \"n\")",
+        "firefox 125 lacks native support (status: \"n\")",
+        "ios_saf 17.4 lacks native support (status: \"n\")",
+        "opera 110 lacks native support (status: \"n\")",
+        "safari 17.4 lacks native support (status: \"n\")",
+        "samsung 27 lacks native support (status: \"n\")"
+      ]
+    },
+    {
+      "featureId": "css-text-wrap-balance",
+      "title": "css-text-wrap-balance",
+      "reasons": [
+        "chrome 124 lacks native support (status: \"a #1\")",
+        "edge 124 lacks native support (status: \"a #1\")",
+        "ios_saf 17.4 lacks native support (status: \"n\")",
+        "opera 110 lacks native support (status: \"a #1\")",
+        "safari 17.4 lacks native support (status: \"n\")",
+        "samsung 27 lacks native support (status: \"a #1\")"
+      ]
+    },
+    {
+      "featureId": "css-touch-action",
+      "title": "css-touch-action",
+      "reasons": [
+        "safari 17.4 lacks native support (status: \"n #5\")"
+      ]
+    },
+    {
+      "featureId": "css-unicode-bidi",
+      "title": "css-unicode-bidi",
+      "reasons": [
+        "ios_saf 17.4 lacks native support (status: \"a x #3\")",
+        "opera 110 lacks native support (status: \"a #1\")",
+        "safari 17.4 lacks native support (status: \"a x #3\")"
+      ]
+    },
+    {
+      "featureId": "css-when-else",
+      "title": "css-when-else",
+      "reasons": [
+        "and_chr 156 lacks native support (status: \"n\")",
+        "and_ff 159 lacks native support (status: \"n\")",
+        "android 156 lacks native support (status: \"n\")",
+        "chrome 124 lacks native support (status: \"n\")",
+        "edge 124 lacks native support (status: \"n\")",
+        "firefox 125 lacks native support (status: \"n\")",
+        "ios_saf 17.4 lacks native support (status: \"n\")",
+        "opera 110 lacks native support (status: \"n\")",
+        "safari 17.4 lacks native support (status: \"n\")",
+        "samsung 27 lacks native support (status: \"n\")"
+      ]
+    },
+    {
+      "featureId": "css-widows-orphans",
+      "title": "css-widows-orphans",
+      "reasons": [
+        "and_ff 159 lacks native support (status: \"n\")",
+        "firefox 125 lacks native support (status: \"n\")"
+      ]
+    },
+    {
+      "featureId": "css-width-stretch",
+      "title": "css-width-stretch",
+      "reasons": [
+        "firefox 125 lacks native support (status: \"n\")"
+      ]
+    },
+    {
+      "featureId": "css-zoom",
+      "title": "css-zoom",
+      "reasons": [
+        "firefox 125 lacks native support (status: \"n\")"
+      ]
+    },
+    {
+      "featureId": "css3-attr",
+      "title": "css3-attr",
+      "reasons": [
+        "chrome 124 lacks native support (status: \"n\")",
+        "edge 124 lacks native support (status: \"n\")",
+        "firefox 125 lacks native support (status: \"n\")",
+        "ios_saf 17.4 lacks native support (status: \"n\")",
+        "opera 110 lacks native support (status: \"n\")",
+        "safari 17.4 lacks native support (status: \"n\")",
+        "samsung 27 lacks native support (status: \"n\")"
+      ]
+    },
+    {
+      "featureId": "css3-cursors-grab",
+      "title": "css3-cursors-grab",
+      "reasons": [
+        "and_ff 159 lacks native support (status: \"n\")",
+        "ios_saf 17.4 lacks native support (status: \"n\")",
+        "samsung 27 lacks native support (status: \"n\")"
+      ]
+    },
+    {
+      "featureId": "css3-cursors-newer",
+      "title": "css3-cursors-newer",
+      "reasons": [
+        "and_ff 159 lacks native support (status: \"n\")",
+        "ios_saf 17.4 lacks native support (status: \"n\")",
+        "samsung 27 lacks native support (status: \"n\")"
+      ]
+    },
+    {
+      "featureId": "css3-cursors",
+      "title": "css3-cursors",
+      "reasons": [
+        "and_ff 159 lacks native support (status: \"n\")",
+        "ios_saf 17.4 lacks native support (status: \"n\")",
+        "samsung 27 lacks native support (status: \"n\")"
+      ]
+    },
+    {
+      "featureId": "custom-elements",
+      "title": "custom-elements",
+      "reasons": [
+        "and_chr 156 lacks native support (status: \"n\")",
+        "and_ff 159 lacks native support (status: \"n\")",
+        "android 156 lacks native support (status: \"n\")",
+        "chrome 124 lacks native support (status: \"n\")",
+        "edge 124 lacks native support (status: \"n\")",
+        "firefox 125 lacks native support (status: \"n\")",
+        "ios_saf 17.4 lacks native support (status: \"p\")",
+        "opera 110 lacks native support (status: \"n\")",
+        "safari 17.4 lacks native support (status: \"p\")",
+        "samsung 27 lacks native support (status: \"n\")"
+      ]
+    },
+    {
+      "featureId": "custom-elementsv1",
+      "title": "custom-elementsv1",
+      "reasons": [
+        "ios_saf 17.4 lacks native support (status: \"a #1\")",
+        "safari 17.4 lacks native support (status: \"a #1\")"
+      ]
+    },
+    {
+      "featureId": "customizable-select",
+      "title": "customizable-select",
+      "reasons": [
+        "and_ff 159 lacks native support (status: \"n\")",
+        "android 156 lacks native support (status: \"n\")",
+        "chrome 124 lacks native support (status: \"n d #1\")",
+        "edge 124 lacks native support (status: \"n d #1\")",
+        "firefox 125 lacks native support (status: \"n\")",
+        "ios_saf 17.4 lacks native support (status: \"n\")",
+        "opera 110 lacks native support (status: \"n d #1\")",
+        "safari 17.4 lacks native support (status: \"n\")",
+        "samsung 27 lacks native support (status: \"n\")"
+      ]
+    },
+    {
+      "featureId": "datalist",
+      "title": "datalist",
+      "reasons": [
+        "and_ff 159 lacks native support (status: \"n\")",
+        "firefox 125 lacks native support (status: \"a #7\")",
+        "ios_saf 17.4 lacks native support (status: \"a #5 #8\")"
+      ]
+    },
+    {
+      "featureId": "decorators",
+      "title": "decorators",
+      "reasons": [
+        "and_chr 156 lacks native support (status: \"n\")",
+        "and_ff 159 lacks native support (status: \"n\")",
+        "android 156 lacks native support (status: \"n\")",
+        "chrome 124 lacks native support (status: \"n\")",
+        "edge 124 lacks native support (status: \"n\")",
+        "firefox 125 lacks native support (status: \"n\")",
+        "ios_saf 17.4 lacks native support (status: \"n\")",
+        "opera 110 lacks native support (status: \"n\")",
+        "safari 17.4 lacks native support (status: \"n\")",
+        "samsung 27 lacks native support (status: \"n\")"
+      ]
+    },
+    {
+      "featureId": "devicepixelratio",
+      "title": "devicepixelratio",
+      "reasons": [
+        "ios_saf 17.4 lacks native support (status: \"a #1\")",
+        "safari 17.4 lacks native support (status: \"a #1\")"
+      ]
+    },
+    {
+      "featureId": "dnssec",
+      "title": "dnssec",
+      "reasons": [
+        "and_chr 156 lacks native support (status: \"a #1\")",
+        "and_ff 159 lacks native support (status: \"a #1\")",
+        "android 156 lacks native support (status: \"a #1\")",
+        "chrome 124 lacks native support (status: \"a #1\")",
+        "edge 124 lacks native support (status: \"a #1\")",
+        "firefox 125 lacks native support (status: \"a #1\")",
+        "ios_saf 17.4 lacks native support (status: \"a #1\")",
+        "opera 110 lacks native support (status: \"a #1\")",
+        "safari 17.4 lacks native support (status: \"a #1\")",
+        "samsung 27 lacks native support (status: \"a #1\")"
+      ]
+    },
+    {
+      "featureId": "do-not-track",
+      "title": "do-not-track",
+      "reasons": [
+        "ios_saf 17.4 lacks native support (status: \"n\")",
+        "safari 17.4 lacks native support (status: \"n\")"
+      ]
+    },
+    {
+      "featureId": "document-policy",
+      "title": "document-policy",
+      "reasons": [
+        "and_chr 156 lacks native support (status: \"a #1\")",
+        "and_ff 159 lacks native support (status: \"n\")",
+        "android 156 lacks native support (status: \"a #1\")",
+        "chrome 124 lacks native support (status: \"a #1\")",
+        "edge 124 lacks native support (status: \"a #1\")",
+        "firefox 125 lacks native support (status: \"n\")",
+        "ios_saf 17.4 lacks native support (status: \"n\")",
+        "opera 110 lacks native support (status: \"a #1\")",
+        "safari 17.4 lacks native support (status: \"n\")",
+        "samsung 27 lacks native support (status: \"n\")"
+      ]
+    },
+    {
+      "featureId": "dommatrix",
+      "title": "dommatrix",
+      "reasons": [
+        "and_chr 156 lacks native support (status: \"a #4\")",
+        "and_ff 159 lacks native support (status: \"a #4\")",
+        "android 156 lacks native support (status: \"a #4\")",
+        "chrome 124 lacks native support (status: \"a #4\")",
+        "edge 124 lacks native support (status: \"a #4\")",
+        "firefox 125 lacks native support (status: \"a #4\")",
+        "ios_saf 17.4 lacks native support (status: \"a #4\")",
+        "opera 110 lacks native support (status: \"a #4\")",
+        "safari 17.4 lacks native support (status: \"a #4\")",
+        "samsung 27 lacks native support (status: \"a #1\")"
+      ]
+    },
+    {
+      "featureId": "dragndrop",
+      "title": "dragndrop",
+      "reasons": [
+        "and_ff 159 lacks native support (status: \"n\")",
+        "samsung 27 lacks native support (status: \"n\")"
+      ]
+    },
+    {
+      "featureId": "eot",
+      "title": "eot",
+      "reasons": [
+        "and_chr 156 lacks native support (status: \"n\")",
+        "and_ff 159 lacks native support (status: \"n\")",
+        "android 156 lacks native support (status: \"n\")",
+        "chrome 124 lacks native support (status: \"n\")",
+        "edge 124 lacks native support (status: \"n\")",
+        "firefox 125 lacks native support (status: \"n\")",
+        "ios_saf 17.4 lacks native support (status: \"n\")",
+        "opera 110 lacks native support (status: \"n\")",
+        "safari 17.4 lacks native support (status: \"n\")",
+        "samsung 27 lacks native support (status: \"n\")"
+      ]
+    },
+    {
+      "featureId": "extended-system-fonts",
+      "title": "extended-system-fonts",
+      "reasons": [
+        "and_chr 156 lacks native support (status: \"n\")",
+        "and_ff 159 lacks native support (status: \"n\")",
+        "android 156 lacks native support (status: \"n\")",
+        "chrome 124 lacks native support (status: \"n\")",
+        "edge 124 lacks native support (status: \"n\")",
+        "firefox 125 lacks native support (status: \"n\")",
+        "opera 110 lacks native support (status: \"n\")",
+        "samsung 27 lacks native support (status: \"n\")"
+      ]
+    },
+    {
+      "featureId": "feature-policy",
+      "title": "feature-policy",
+      "reasons": [
+        "and_ff 159 lacks native support (status: \"a #2\")",
+        "firefox 125 lacks native support (status: \"a #2\")",
+        "ios_saf 17.4 lacks native support (status: \"a #2 #3\")",
+        "safari 17.4 lacks native support (status: \"a #2 #3\")"
+      ]
+    },
+    {
+      "featureId": "filesystem",
+      "title": "filesystem",
+      "reasons": [
+        "and_ff 159 lacks native support (status: \"n\")",
+        "android 156 lacks native support (status: \"n\")",
+        "firefox 125 lacks native support (status: \"n\")",
+        "ios_saf 17.4 lacks native support (status: \"n\")",
+        "safari 17.4 lacks native support (status: \"n\")"
+      ]
+    },
+    {
+      "featureId": "font-size-adjust",
+      "title": "font-size-adjust",
+      "reasons": [
+        "chrome 124 lacks native support (status: \"n d #1\")",
+        "edge 124 lacks native support (status: \"n d #1\")",
+        "opera 110 lacks native support (status: \"n d #1\")",
+        "samsung 27 lacks native support (status: \"n\")"
+      ]
+    },
+    {
+      "featureId": "font-smooth",
+      "title": "font-smooth",
+      "reasons": [
+        "and_chr 156 lacks native support (status: \"n\")",
+        "and_ff 159 lacks native support (status: \"n\")",
+        "android 156 lacks native support (status: \"n\")",
+        "chrome 124 lacks native support (status: \"a x #1 #3\")",
+        "edge 124 lacks native support (status: \"a x #1 #3\")",
+        "firefox 125 lacks native support (status: \"a x #2 #3\")",
+        "ios_saf 17.4 lacks native support (status: \"n\")",
+        "opera 110 lacks native support (status: \"a x #1 #3\")",
+        "safari 17.4 lacks native support (status: \"a x #1 #3\")",
+        "samsung 27 lacks native support (status: \"n\")"
+      ]
+    },
+    {
+      "featureId": "form-validation",
+      "title": "form-validation",
+      "reasons": [
+        "and_ff 159 lacks native support (status: \"a #1\")"
+      ]
+    },
+    {
+      "featureId": "forms",
+      "title": "forms",
+      "reasons": [
+        "and_ff 159 lacks native support (status: \"a\")",
+        "firefox 125 lacks native support (status: \"a\")",
+        "ios_saf 17.4 lacks native support (status: \"a\")",
+        "safari 17.4 lacks native support (status: \"a\")"
+      ]
+    },
+    {
+      "featureId": "fullscreen",
+      "title": "fullscreen",
+      "reasons": [
+        "android 156 lacks native support (status: \"n\")",
+        "ios_saf 17.4 lacks native support (status: \"a #5\")"
+      ]
+    },
+    {
+      "featureId": "gamepad",
+      "title": "gamepad",
+      "reasons": [
+        "android 156 lacks native support (status: \"n\")"
+      ]
+    },
+    {
+      "featureId": "gyroscope",
+      "title": "gyroscope",
+      "reasons": [
+        "and_ff 159 lacks native support (status: \"n\")",
+        "firefox 125 lacks native support (status: \"n\")",
+        "ios_saf 17.4 lacks native support (status: \"n\")",
+        "safari 17.4 lacks native support (status: \"n\")",
+        "samsung 27 lacks native support (status: \"n\")"
+      ]
+    },
+    {
+      "featureId": "heif",
+      "title": "heif",
+      "reasons": [
+        "and_chr 156 lacks native support (status: \"n\")",
+        "and_ff 159 lacks native support (status: \"n\")",
+        "android 156 lacks native support (status: \"n\")",
+        "chrome 124 lacks native support (status: \"n\")",
+        "edge 124 lacks native support (status: \"n\")",
+        "firefox 125 lacks native support (status: \"n\")",
+        "opera 110 lacks native support (status: \"n\")",
+        "samsung 27 lacks native support (status: \"n\")"
+      ]
+    },
+    {
+      "featureId": "hevc",
+      "title": "hevc",
+      "reasons": [
+        "and_chr 156 lacks native support (status: \"a #5\")",
+        "and_ff 159 lacks native support (status: \"a #8\")",
+        "android 156 lacks native support (status: \"a #5\")",
+        "chrome 124 lacks native support (status: \"a #5\")",
+        "edge 124 lacks native support (status: \"a #4\")",
+        "firefox 125 lacks native support (status: \"n d #7\")",
+        "opera 110 lacks native support (status: \"a #5\")"
+      ]
+    },
+    {
+      "featureId": "html-media-capture",
+      "title": "html-media-capture",
+      "reasons": [
+        "chrome 124 lacks native support (status: \"n\")",
+        "edge 124 lacks native support (status: \"n\")",
+        "firefox 125 lacks native support (status: \"n\")",
+        "opera 110 lacks native support (status: \"n\")",
+        "safari 17.4 lacks native support (status: \"n\")"
+      ]
+    },
+    {
+      "featureId": "http-live-streaming",
+      "title": "http-live-streaming",
+      "reasons": [
+        "chrome 124 lacks native support (status: \"n\")",
+        "edge 124 lacks native support (status: \"n\")",
+        "firefox 125 lacks native support (status: \"n\")",
+        "opera 110 lacks native support (status: \"n\")"
+      ]
+    },
+    {
+      "featureId": "http3",
+      "title": "http3",
+      "reasons": [
+        "samsung 27 lacks native support (status: \"n\")"
+      ]
+    },
+    {
+      "featureId": "iframe-seamless",
+      "title": "iframe-seamless",
+      "reasons": [
+        "and_chr 156 lacks native support (status: \"n\")",
+        "and_ff 159 lacks native support (status: \"n\")",
+        "android 156 lacks native support (status: \"n\")",
+        "chrome 124 lacks native support (status: \"n\")",
+        "edge 124 lacks native support (status: \"n\")",
+        "firefox 125 lacks native support (status: \"n\")",
+        "ios_saf 17.4 lacks native support (status: \"n\")",
+        "opera 110 lacks native support (status: \"n\")",
+        "safari 17.4 lacks native support (status: \"n\")",
+        "samsung 27 lacks native support (status: \"n\")"
+      ]
+    },
+    {
+      "featureId": "imagecapture",
+      "title": "imagecapture",
+      "reasons": [
+        "and_ff 159 lacks native support (status: \"n\")",
+        "firefox 125 lacks native support (status: \"n d #1\")",
+        "ios_saf 17.4 lacks native support (status: \"n\")",
+        "safari 17.4 lacks native support (status: \"n\")"
+      ]
+    },
+    {
+      "featureId": "ime",
+      "title": "ime",
+      "reasons": [
+        "and_chr 156 lacks native support (status: \"n\")",
+        "and_ff 159 lacks native support (status: \"n\")",
+        "android 156 lacks native support (status: \"n\")",
+        "chrome 124 lacks native support (status: \"n\")",
+        "edge 124 lacks native support (status: \"n\")",
+        "firefox 125 lacks native support (status: \"n\")",
+        "ios_saf 17.4 lacks native support (status: \"n\")",
+        "opera 110 lacks native support (status: \"n\")",
+        "safari 17.4 lacks native support (status: \"n\")",
+        "samsung 27 lacks native support (status: \"n\")"
+      ]
+    },
+    {
+      "featureId": "imports",
+      "title": "imports",
+      "reasons": [
+        "and_chr 156 lacks native support (status: \"n\")",
+        "and_ff 159 lacks native support (status: \"p\")",
+        "android 156 lacks native support (status: \"n\")",
+        "chrome 124 lacks native support (status: \"n\")",
+        "edge 124 lacks native support (status: \"n\")",
+        "firefox 125 lacks native support (status: \"p\")",
+        "ios_saf 17.4 lacks native support (status: \"p\")",
+        "opera 110 lacks native support (status: \"n\")",
+        "safari 17.4 lacks native support (status: \"p\")",
+        "samsung 27 lacks native support (status: \"n\")"
+      ]
+    },
+    {
+      "featureId": "input-autocomplete-onoff",
+      "title": "input-autocomplete-onoff",
+      "reasons": [
+        "chrome 124 lacks native support (status: \"a #2\")",
+        "edge 124 lacks native support (status: \"a #2\")",
+        "firefox 125 lacks native support (status: \"a #3\")",
+        "safari 17.4 lacks native support (status: \"a #5\")"
+      ]
+    },
+    {
+      "featureId": "input-datetime",
+      "title": "input-datetime",
+      "reasons": [
+        "and_ff 159 lacks native support (status: \"a #6\")",
+        "firefox 125 lacks native support (status: \"a #6\")",
+        "ios_saf 17.4 lacks native support (status: \"a #2\")",
+        "safari 17.4 lacks native support (status: \"a #6\")"
+      ]
+    },
+    {
+      "featureId": "input-file-accept",
+      "title": "input-file-accept",
+      "reasons": [
+        "and_chr 156 lacks native support (status: \"a #2\")",
+        "and_ff 159 lacks native support (status: \"n\")",
+        "android 156 lacks native support (status: \"n #3\")",
+        "ios_saf 17.4 lacks native support (status: \"a #1\")",
+        "samsung 27 lacks native support (status: \"a #2\")"
+      ]
+    },
+    {
+      "featureId": "input-file-directory",
+      "title": "input-file-directory",
+      "reasons": [
+        "ios_saf 17.4 lacks native support (status: \"n\")",
+        "samsung 27 lacks native support (status: \"n\")"
+      ]
+    },
+    {
+      "featureId": "input-file-multiple",
+      "title": "input-file-multiple",
+      "reasons": [
+        "and_chr 156 lacks native support (status: \"a #1\")",
+        "android 156 lacks native support (status: \"n #1\")",
+        "samsung 27 lacks native support (status: \"a #1\")"
+      ]
+    },
+    {
+      "featureId": "input-number",
+      "title": "input-number",
+      "reasons": [
+        "and_chr 156 lacks native support (status: \"a #1 #2\")",
+        "android 156 lacks native support (status: \"a #1 #2\")",
+        "ios_saf 17.4 lacks native support (status: \"a #1 #2\")",
+        "samsung 27 lacks native support (status: \"a #1 #2\")"
+      ]
+    },
+    {
+      "featureId": "intersectionobserver-v2",
+      "title": "intersectionobserver-v2",
+      "reasons": [
+        "and_ff 159 lacks native support (status: \"n\")",
+        "firefox 125 lacks native support (status: \"n\")",
+        "ios_saf 17.4 lacks native support (status: \"n\")",
+        "safari 17.4 lacks native support (status: \"n\")"
+      ]
+    },
+    {
+      "featureId": "intrinsic-width",
+      "title": "intrinsic-width",
+      "reasons": [
+        "and_ff 159 lacks native support (status: \"a #2 #5\")",
+        "firefox 125 lacks native support (status: \"a #2 #5\")"
+      ]
+    },
+    {
+      "featureId": "jpeg2000",
+      "title": "jpeg2000",
+      "reasons": [
+        "and_chr 156 lacks native support (status: \"n\")",
+        "and_ff 159 lacks native support (status: \"n\")",
+        "android 156 lacks native support (status: \"n\")",
+        "chrome 124 lacks native support (status: \"n\")",
+        "edge 124 lacks native support (status: \"n\")",
+        "firefox 125 lacks native support (status: \"n\")",
+        "opera 110 lacks native support (status: \"n\")",
+        "samsung 27 lacks native support (status: \"n\")"
+      ]
+    },
+    {
+      "featureId": "jpegxl",
+      "title": "jpegxl",
+      "reasons": [
+        "chrome 124 lacks native support (status: \"n\")",
+        "edge 124 lacks native support (status: \"n\")",
+        "firefox 125 lacks native support (status: \"n d #2 #5\")",
+        "ios_saf 17.4 lacks native support (status: \"a #4 #5\")",
+        "opera 110 lacks native support (status: \"n\")",
+        "safari 17.4 lacks native support (status: \"a #4 #5\")",
+        "samsung 27 lacks native support (status: \"n\")"
+      ]
+    },
+    {
+      "featureId": "jpegxr",
+      "title": "jpegxr",
+      "reasons": [
+        "and_chr 156 lacks native support (status: \"n\")",
+        "and_ff 159 lacks native support (status: \"n\")",
+        "android 156 lacks native support (status: \"n\")",
+        "chrome 124 lacks native support (status: \"n\")",
+        "edge 124 lacks native support (status: \"n\")",
+        "firefox 125 lacks native support (status: \"n\")",
+        "ios_saf 17.4 lacks native support (status: \"n\")",
+        "opera 110 lacks native support (status: \"n\")",
+        "safari 17.4 lacks native support (status: \"n\")",
+        "samsung 27 lacks native support (status: \"n\")"
+      ]
+    },
+    {
+      "featureId": "keyboardevent-charcode",
+      "title": "keyboardevent-charcode",
+      "reasons": [
+        "and_ff 159 lacks native support (status: \"n #1\")"
+      ]
+    },
+    {
+      "featureId": "keyboardevent-code",
+      "title": "keyboardevent-code",
+      "reasons": [
+        "and_chr 156 lacks native support (status: \"n d #1\")",
+        "android 156 lacks native support (status: \"n\")",
+        "samsung 27 lacks native support (status: \"n d #1\")"
+      ]
+    },
+    {
+      "featureId": "keyboardevent-which",
+      "title": "keyboardevent-which",
+      "reasons": [
+        "and_chr 156 lacks native support (status: \"a #1\")",
+        "and_ff 159 lacks native support (status: \"a #1\")",
+        "samsung 27 lacks native support (status: \"a #1\")"
+      ]
+    },
+    {
+      "featureId": "lazyload",
+      "title": "lazyload",
+      "reasons": [
+        "and_chr 156 lacks native support (status: \"n\")",
+        "and_ff 159 lacks native support (status: \"n\")",
+        "android 156 lacks native support (status: \"n\")",
+        "chrome 124 lacks native support (status: \"n\")",
+        "edge 124 lacks native support (status: \"n\")",
+        "firefox 125 lacks native support (status: \"n\")",
+        "ios_saf 17.4 lacks native support (status: \"n\")",
+        "opera 110 lacks native support (status: \"n\")",
+        "safari 17.4 lacks native support (status: \"n\")",
+        "samsung 27 lacks native support (status: \"n\")"
+      ]
+    },
+    {
+      "featureId": "link-icon-svg",
+      "title": "link-icon-svg",
+      "reasons": [
+        "android 156 lacks native support (status: \"n\")",
+        "ios_saf 17.4 lacks native support (status: \"n\")",
+        "safari 17.4 lacks native support (status: \"n\")"
+      ]
+    },
+    {
+      "featureId": "link-rel-dns-prefetch",
+      "title": "link-rel-dns-prefetch",
+      "reasons": [
+        "android 156 lacks native support (status: \"u\")",
+        "firefox 125 lacks native support (status: \"a #2\")",
+        "ios_saf 17.4 lacks native support (status: \"u\")"
+      ]
+    },
+    {
+      "featureId": "link-rel-prefetch",
+      "title": "link-rel-prefetch",
+      "reasons": [
+        "ios_saf 17.4 lacks native support (status: \"n d #1\")",
+        "safari 17.4 lacks native support (status: \"n d #1\")"
+      ]
+    },
+    {
+      "featureId": "link-rel-prerender",
+      "title": "link-rel-prerender",
+      "reasons": [
+        "and_ff 159 lacks native support (status: \"n\")",
+        "android 156 lacks native support (status: \"n\")",
+        "firefox 125 lacks native support (status: \"n\")",
+        "ios_saf 17.4 lacks native support (status: \"n\")",
+        "safari 17.4 lacks native support (status: \"n\")"
+      ]
+    },
+    {
+      "featureId": "loading-lazy-media",
+      "title": "loading-lazy-media",
+      "reasons": [
+        "and_ff 159 lacks native support (status: \"n\")",
+        "chrome 124 lacks native support (status: \"n\")",
+        "edge 124 lacks native support (status: \"n\")",
+        "firefox 125 lacks native support (status: \"n\")",
+        "ios_saf 17.4 lacks native support (status: \"n\")",
+        "opera 110 lacks native support (status: \"n\")",
+        "safari 17.4 lacks native support (status: \"n\")",
+        "samsung 27 lacks native support (status: \"n\")"
+      ]
+    },
+    {
+      "featureId": "magnetometer",
+      "title": "magnetometer",
+      "reasons": [
+        "and_chr 156 lacks native support (status: \"n d #1\")",
+        "and_ff 159 lacks native support (status: \"n\")",
+        "android 156 lacks native support (status: \"n\")",
+        "chrome 124 lacks native support (status: \"n d #1\")",
+        "edge 124 lacks native support (status: \"n\")",
+        "firefox 125 lacks native support (status: \"n\")",
+        "ios_saf 17.4 lacks native support (status: \"n\")",
+        "opera 110 lacks native support (status: \"n d #1\")",
+        "safari 17.4 lacks native support (status: \"n\")",
+        "samsung 27 lacks native support (status: \"n\")"
+      ]
+    },
+    {
+      "featureId": "media-fragments",
+      "title": "media-fragments",
+      "reasons": [
+        "and_chr 156 lacks native support (status: \"a #1\")",
+        "and_ff 159 lacks native support (status: \"a #1\")",
+        "android 156 lacks native support (status: \"a #1\")",
+        "chrome 124 lacks native support (status: \"a #1\")",
+        "edge 124 lacks native support (status: \"a #1\")",
+        "firefox 125 lacks native support (status: \"a #1\")",
+        "ios_saf 17.4 lacks native support (status: \"a #1\")",
+        "opera 110 lacks native support (status: \"a #1\")",
+        "safari 17.4 lacks native support (status: \"a #1\")",
+        "samsung 27 lacks native support (status: \"a #1\")"
+      ]
+    },
+    {
+      "featureId": "mediacapture-fromelement",
+      "title": "mediacapture-fromelement",
+      "reasons": [
+        "and_ff 159 lacks native support (status: \"a #2\")",
+        "firefox 125 lacks native support (status: \"a #2\")",
+        "ios_saf 17.4 lacks native support (status: \"n\")",
+        "safari 17.4 lacks native support (status: \"a #1\")"
+      ]
+    },
+    {
+      "featureId": "mediarecorder",
+      "title": "mediarecorder",
+      "reasons": [
+        "and_ff 159 lacks native support (status: \"n\")",
+        "android 156 lacks native support (status: \"n\")"
+      ]
+    },
+    {
+      "featureId": "mediasource",
+      "title": "mediasource",
+      "reasons": [
+        "ios_saf 17.4 lacks native support (status: \"a #2\")"
+      ]
+    },
+    {
+      "featureId": "menu",
+      "title": "menu",
+      "reasons": [
+        "and_chr 156 lacks native support (status: \"n\")",
+        "and_ff 159 lacks native support (status: \"n d #1 #2\")",
+        "android 156 lacks native support (status: \"n\")",
+        "chrome 124 lacks native support (status: \"n\")",
+        "edge 124 lacks native support (status: \"n\")",
+        "firefox 125 lacks native support (status: \"n d #1 #2\")",
+        "ios_saf 17.4 lacks native support (status: \"n\")",
+        "opera 110 lacks native support (status: \"n\")",
+        "safari 17.4 lacks native support (status: \"n\")",
+        "samsung 27 lacks native support (status: \"n\")"
+      ]
+    },
+    {
+      "featureId": "meta-theme-color",
+      "title": "meta-theme-color",
+      "reasons": [
+        "and_chr 156 lacks native support (status: \"a #3\")",
+        "and_ff 159 lacks native support (status: \"n\")",
+        "android 156 lacks native support (status: \"n\")",
+        "chrome 124 lacks native support (status: \"a #1\")",
+        "edge 124 lacks native support (status: \"n\")",
+        "firefox 125 lacks native support (status: \"n\")",
+        "opera 110 lacks native support (status: \"n\")"
+      ]
+    },
+    {
+      "featureId": "midi",
+      "title": "midi",
+      "reasons": [
+        "and_ff 159 lacks native support (status: \"n\")",
+        "ios_saf 17.4 lacks native support (status: \"n\")",
+        "safari 17.4 lacks native support (status: \"n\")"
+      ]
+    },
+    {
+      "featureId": "mpeg-dash",
+      "title": "mpeg-dash",
+      "reasons": [
+        "and_chr 156 lacks native support (status: \"n\")",
+        "and_ff 159 lacks native support (status: \"n\")",
+        "android 156 lacks native support (status: \"n\")",
+        "chrome 124 lacks native support (status: \"n\")",
+        "edge 124 lacks native support (status: \"n\")",
+        "firefox 125 lacks native support (status: \"n\")",
+        "ios_saf 17.4 lacks native support (status: \"n\")",
+        "opera 110 lacks native support (status: \"n\")",
+        "safari 17.4 lacks native support (status: \"n\")",
+        "samsung 27 lacks native support (status: \"n\")"
+      ]
+    },
+    {
+      "featureId": "multicolumn",
+      "title": "multicolumn",
+      "reasons": [
+        "and_chr 156 lacks native support (status: \"a #3\")",
+        "and_ff 159 lacks native support (status: \"a #4\")",
+        "android 156 lacks native support (status: \"a #3\")",
+        "chrome 124 lacks native support (status: \"a #3\")",
+        "edge 124 lacks native support (status: \"a #3\")",
+        "firefox 125 lacks native support (status: \"a #4\")",
+        "opera 110 lacks native support (status: \"a #3\")",
+        "samsung 27 lacks native support (status: \"a #3\")"
+      ]
+    },
+    {
+      "featureId": "mutation-events",
+      "title": "mutation-events",
+      "reasons": [
+        "and_chr 156 lacks native support (status: \"n\")",
+        "and_ff 159 lacks native support (status: \"n\")",
+        "android 156 lacks native support (status: \"n\")",
+        "chrome 124 lacks native support (status: \"a #1\")",
+        "edge 124 lacks native support (status: \"a #1\")",
+        "firefox 125 lacks native support (status: \"a #2\")",
+        "ios_saf 17.4 lacks native support (status: \"a #1\")",
+        "opera 110 lacks native support (status: \"a #1\")",
+        "safari 17.4 lacks native support (status: \"a #1\")",
+        "samsung 27 lacks native support (status: \"a #1\")"
+      ]
+    },
+    {
+      "featureId": "native-filesystem-api",
+      "title": "native-filesystem-api",
+      "reasons": [
+        "and_chr 156 lacks native support (status: \"n\")",
+        "and_ff 159 lacks native support (status: \"n\")",
+        "android 156 lacks native support (status: \"n\")",
+        "firefox 125 lacks native support (status: \"n\")",
+        "ios_saf 17.4 lacks native support (status: \"n\")",
+        "safari 17.4 lacks native support (status: \"n\")",
+        "samsung 27 lacks native support (status: \"n\")"
+      ]
+    },
+    {
+      "featureId": "netinfo",
+      "title": "netinfo",
+      "reasons": [
+        "and_ff 159 lacks native support (status: \"n\")",
+        "chrome 124 lacks native support (status: \"a #4\")",
+        "edge 124 lacks native support (status: \"a #4\")",
+        "firefox 125 lacks native support (status: \"n\")",
+        "ios_saf 17.4 lacks native support (status: \"n\")",
+        "opera 110 lacks native support (status: \"a #4\")",
+        "safari 17.4 lacks native support (status: \"n\")"
+      ]
+    },
+    {
+      "featureId": "notifications",
+      "title": "notifications",
+      "reasons": [
+        "android 156 lacks native support (status: \"a x\")",
+        "ios_saf 17.4 lacks native support (status: \"a #3\")",
+        "samsung 27 lacks native support (status: \"n #1\")"
+      ]
+    },
+    {
+      "featureId": "object-observe",
+      "title": "object-observe",
+      "reasons": [
+        "and_chr 156 lacks native support (status: \"n\")",
+        "and_ff 159 lacks native support (status: \"n\")",
+        "android 156 lacks native support (status: \"n\")",
+        "chrome 124 lacks native support (status: \"n\")",
+        "edge 124 lacks native support (status: \"n\")",
+        "firefox 125 lacks native support (status: \"n\")",
+        "ios_saf 17.4 lacks native support (status: \"n\")",
+        "opera 110 lacks native support (status: \"n\")",
+        "safari 17.4 lacks native support (status: \"n\")",
+        "samsung 27 lacks native support (status: \"n\")"
+      ]
+    },
+    {
+      "featureId": "objectrtc",
+      "title": "objectrtc",
+      "reasons": [
+        "and_chr 156 lacks native support (status: \"n\")",
+        "and_ff 159 lacks native support (status: \"n\")",
+        "android 156 lacks native support (status: \"n\")",
+        "chrome 124 lacks native support (status: \"n\")",
+        "edge 124 lacks native support (status: \"n\")",
+        "firefox 125 lacks native support (status: \"n\")",
+        "ios_saf 17.4 lacks native support (status: \"n\")",
+        "opera 110 lacks native support (status: \"n\")",
+        "safari 17.4 lacks native support (status: \"n\")",
+        "samsung 27 lacks native support (status: \"n\")"
+      ]
+    },
+    {
+      "featureId": "offline-apps",
+      "title": "offline-apps",
+      "reasons": [
+        "and_chr 156 lacks native support (status: \"n\")",
+        "and_ff 159 lacks native support (status: \"n\")",
+        "android 156 lacks native support (status: \"n\")",
+        "chrome 124 lacks native support (status: \"n\")",
+        "edge 124 lacks native support (status: \"n\")",
+        "firefox 125 lacks native support (status: \"n\")",
+        "ios_saf 17.4 lacks native support (status: \"n\")",
+        "opera 110 lacks native support (status: \"n\")",
+        "safari 17.4 lacks native support (status: \"n\")"
+      ]
+    },
+    {
+      "featureId": "ogg-vorbis",
+      "title": "ogg-vorbis",
+      "reasons": [
+        "ios_saf 17.4 lacks native support (status: \"a #2\")",
+        "safari 17.4 lacks native support (status: \"a #2\")"
+      ]
+    },
+    {
+      "featureId": "ogv",
+      "title": "ogv",
+      "reasons": [
+        "and_chr 156 lacks native support (status: \"n\")",
+        "android 156 lacks native support (status: \"n\")",
+        "chrome 124 lacks native support (status: \"n d #1\")",
+        "edge 124 lacks native support (status: \"n d #1\")",
+        "ios_saf 17.4 lacks native support (status: \"n\")",
+        "opera 110 lacks native support (status: \"n d #1\")",
+        "safari 17.4 lacks native support (status: \"n\")",
+        "samsung 27 lacks native support (status: \"n\")"
+      ]
+    },
+    {
+      "featureId": "opus",
+      "title": "opus",
+      "reasons": [
+        "ios_saf 17.4 lacks native support (status: \"a #2\")",
+        "safari 17.4 lacks native support (status: \"a #2\")"
+      ]
+    },
+    {
+      "featureId": "orientation-sensor",
+      "title": "orientation-sensor",
+      "reasons": [
+        "and_ff 159 lacks native support (status: \"n\")",
+        "firefox 125 lacks native support (status: \"n\")",
+        "ios_saf 17.4 lacks native support (status: \"n\")",
+        "safari 17.4 lacks native support (status: \"n\")",
+        "samsung 27 lacks native support (status: \"n\")"
+      ]
+    },
+    {
+      "featureId": "passkeys",
+      "title": "passkeys",
+      "reasons": [
+        "android 156 lacks native support (status: \"n\")"
+      ]
+    },
+    {
+      "featureId": "passwordrules",
+      "title": "passwordrules",
+      "reasons": [
+        "and_chr 156 lacks native support (status: \"u\")",
+        "and_ff 159 lacks native support (status: \"u\")",
+        "android 156 lacks native support (status: \"u\")",
+        "chrome 124 lacks native support (status: \"n\")",
+        "edge 124 lacks native support (status: \"u\")",
+        "firefox 125 lacks native support (status: \"n\")",
+        "ios_saf 17.4 lacks native support (status: \"n\")",
+        "opera 110 lacks native support (status: \"u\")",
+        "safari 17.4 lacks native support (status: \"u\")",
+        "samsung 27 lacks native support (status: \"u\")"
+      ]
+    },
+    {
+      "featureId": "payment-request",
+      "title": "payment-request",
+      "reasons": [
+        "and_ff 159 lacks native support (status: \"n\")",
+        "android 156 lacks native support (status: \"n\")",
+        "firefox 125 lacks native support (status: \"a d #8\")"
+      ]
+    },
+    {
+      "featureId": "pdf-viewer",
+      "title": "pdf-viewer",
+      "reasons": [
+        "and_chr 156 lacks native support (status: \"n\")",
+        "and_ff 159 lacks native support (status: \"n\")",
+        "android 156 lacks native support (status: \"n\")",
+        "samsung 27 lacks native support (status: \"n\")"
+      ]
+    },
+    {
+      "featureId": "permissions-api",
+      "title": "permissions-api",
+      "reasons": [
+        "android 156 lacks native support (status: \"n\")"
+      ]
+    },
+    {
+      "featureId": "permissions-policy",
+      "title": "permissions-policy",
+      "reasons": [
+        "and_chr 156 lacks native support (status: \"a #1 #2\")",
+        "and_ff 159 lacks native support (status: \"n #2\")",
+        "android 156 lacks native support (status: \"n #2\")",
+        "chrome 124 lacks native support (status: \"a #1 #2\")",
+        "edge 124 lacks native support (status: \"a #1 #2\")",
+        "firefox 125 lacks native support (status: \"n #2\")",
+        "ios_saf 17.4 lacks native support (status: \"n #2\")",
+        "opera 110 lacks native support (status: \"a #1 #2\")",
+        "safari 17.4 lacks native support (status: \"n #2\")",
+        "samsung 27 lacks native support (status: \"n #2\")"
+      ]
+    },
+    {
+      "featureId": "picture-in-picture",
+      "title": "picture-in-picture",
+      "reasons": [
+        "and_chr 156 lacks native support (status: \"a #8\")",
+        "and_ff 159 lacks native support (status: \"a #8\")",
+        "android 156 lacks native support (status: \"n\")",
+        "firefox 125 lacks native support (status: \"a #1\")",
+        "samsung 27 lacks native support (status: \"n\")"
+      ]
+    },
+    {
+      "featureId": "ping",
+      "title": "ping",
+      "reasons": [
+        "and_ff 159 lacks native support (status: \"n d #1\")",
+        "firefox 125 lacks native support (status: \"n d #1\")"
+      ]
+    },
+    {
+      "featureId": "pointerlock",
+      "title": "pointerlock",
+      "reasons": [
+        "and_chr 156 lacks native support (status: \"n\")",
+        "android 156 lacks native support (status: \"n\")",
+        "ios_saf 17.4 lacks native support (status: \"n\")",
+        "samsung 27 lacks native support (status: \"n\")"
+      ]
+    },
+    {
+      "featureId": "portals",
+      "title": "portals",
+      "reasons": [
+        "and_chr 156 lacks native support (status: \"n d #1 #2\")",
+        "and_ff 159 lacks native support (status: \"n\")",
+        "android 156 lacks native support (status: \"n\")",
+        "chrome 124 lacks native support (status: \"n d #2\")",
+        "edge 124 lacks native support (status: \"n d #2\")",
+        "firefox 125 lacks native support (status: \"n\")",
+        "ios_saf 17.4 lacks native support (status: \"n\")",
+        "opera 110 lacks native support (status: \"n d #2\")",
+        "safari 17.4 lacks native support (status: \"n\")",
+        "samsung 27 lacks native support (status: \"n\")"
+      ]
+    },
+    {
+      "featureId": "proximity",
+      "title": "proximity",
+      "reasons": [
+        "and_chr 156 lacks native support (status: \"n\")",
+        "android 156 lacks native support (status: \"n\")",
+        "chrome 124 lacks native support (status: \"n\")",
+        "edge 124 lacks native support (status: \"n\")",
+        "ios_saf 17.4 lacks native support (status: \"n\")",
+        "opera 110 lacks native support (status: \"n\")",
+        "safari 17.4 lacks native support (status: \"n\")",
+        "samsung 27 lacks native support (status: \"n\")"
+      ]
+    },
+    {
+      "featureId": "publickeypinning",
+      "title": "publickeypinning",
+      "reasons": [
+        "and_chr 156 lacks native support (status: \"n\")",
+        "and_ff 159 lacks native support (status: \"n\")",
+        "android 156 lacks native support (status: \"n\")",
+        "chrome 124 lacks native support (status: \"n\")",
+        "edge 124 lacks native support (status: \"n\")",
+        "firefox 125 lacks native support (status: \"n\")",
+        "ios_saf 17.4 lacks native support (status: \"n\")",
+        "opera 110 lacks native support (status: \"n\")",
+        "safari 17.4 lacks native support (status: \"n\")",
+        "samsung 27 lacks native support (status: \"n\")"
+      ]
+    },
+    {
+      "featureId": "push-api",
+      "title": "push-api",
+      "reasons": [
+        "android 156 lacks native support (status: \"n\")",
+        "ios_saf 17.4 lacks native support (status: \"a #7\")",
+        "safari 17.4 lacks native support (status: \"a #3 #5 #6\")"
+      ]
+    },
+    {
+      "featureId": "registerprotocolhandler",
+      "title": "registerprotocolhandler",
+      "reasons": [
+        "and_chr 156 lacks native support (status: \"n\")",
+        "and_ff 159 lacks native support (status: \"n\")",
+        "android 156 lacks native support (status: \"n\")",
+        "ios_saf 17.4 lacks native support (status: \"n\")",
+        "safari 17.4 lacks native support (status: \"n\")",
+        "samsung 27 lacks native support (status: \"n\")"
+      ]
+    },
+    {
+      "featureId": "requestidlecallback",
+      "title": "requestidlecallback",
+      "reasons": [
+        "ios_saf 17.4 lacks native support (status: \"n d #2\")",
+        "safari 17.4 lacks native support (status: \"n d #2\")"
+      ]
+    },
+    {
+      "featureId": "ruby",
+      "title": "ruby",
+      "reasons": [
+        "and_chr 156 lacks native support (status: \"a\")",
+        "android 156 lacks native support (status: \"a\")",
+        "chrome 124 lacks native support (status: \"a\")",
+        "edge 124 lacks native support (status: \"a\")",
+        "ios_saf 17.4 lacks native support (status: \"a\")",
+        "opera 110 lacks native support (status: \"a\")",
+        "safari 17.4 lacks native support (status: \"a\")",
+        "samsung 27 lacks native support (status: \"a\")"
+      ]
+    },
+    {
+      "featureId": "run-in",
+      "title": "run-in",
+      "reasons": [
+        "and_chr 156 lacks native support (status: \"n\")",
+        "and_ff 159 lacks native support (status: \"n\")",
+        "android 156 lacks native support (status: \"n\")",
+        "chrome 124 lacks native support (status: \"n\")",
+        "edge 124 lacks native support (status: \"n\")",
+        "firefox 125 lacks native support (status: \"n\")",
+        "ios_saf 17.4 lacks native support (status: \"n\")",
+        "opera 110 lacks native support (status: \"n\")",
+        "safari 17.4 lacks native support (status: \"n\")",
+        "samsung 27 lacks native support (status: \"n\")"
+      ]
+    },
+    {
+      "featureId": "screen-orientation",
+      "title": "screen-orientation",
+      "reasons": [
+        "android 156 lacks native support (status: \"n\")"
+      ]
+    },
+    {
+      "featureId": "scrollintoviewifneeded",
+      "title": "scrollintoviewifneeded",
+      "reasons": [
+        "and_ff 159 lacks native support (status: \"n\")",
+        "firefox 125 lacks native support (status: \"n\")"
+      ]
+    },
+    {
+      "featureId": "sdch",
+      "title": "sdch",
+      "reasons": [
+        "and_chr 156 lacks native support (status: \"n\")",
+        "and_ff 159 lacks native support (status: \"n\")",
+        "chrome 124 lacks native support (status: \"n\")",
+        "edge 124 lacks native support (status: \"n\")",
+        "firefox 125 lacks native support (status: \"n\")",
+        "ios_saf 17.4 lacks native support (status: \"n\")",
+        "opera 110 lacks native support (status: \"n\")",
+        "safari 17.4 lacks native support (status: \"n\")"
+      ]
+    },
+    {
+      "featureId": "selection-api",
+      "title": "selection-api",
+      "reasons": [
+        "ios_saf 17.4 lacks native support (status: \"a #3\")"
+      ]
+    },
+    {
+      "featureId": "server-timing",
+      "title": "server-timing",
+      "reasons": [
+        "samsung 27 lacks native support (status: \"n\")"
+      ]
+    },
+    {
+      "featureId": "serviceworkers",
+      "title": "serviceworkers",
+      "reasons": [
+        "android 156 lacks native support (status: \"a\")"
+      ]
+    },
+    {
+      "featureId": "setimmediate",
+      "title": "setimmediate",
+      "reasons": [
+        "and_chr 156 lacks native support (status: \"n\")",
+        "and_ff 159 lacks native support (status: \"n\")",
+        "android 156 lacks native support (status: \"n\")",
+        "chrome 124 lacks native support (status: \"n\")",
+        "edge 124 lacks native support (status: \"n\")",
+        "firefox 125 lacks native support (status: \"n\")",
+        "ios_saf 17.4 lacks native support (status: \"n\")",
+        "opera 110 lacks native support (status: \"n\")",
+        "safari 17.4 lacks native support (status: \"n\")",
+        "samsung 27 lacks native support (status: \"n\")"
+      ]
+    },
+    {
+      "featureId": "shadowdom",
+      "title": "shadowdom",
+      "reasons": [
+        "and_chr 156 lacks native support (status: \"n\")",
+        "and_ff 159 lacks native support (status: \"n\")",
+        "android 156 lacks native support (status: \"n\")",
+        "chrome 124 lacks native support (status: \"n\")",
+        "edge 124 lacks native support (status: \"n\")",
+        "firefox 125 lacks native support (status: \"n\")",
+        "ios_saf 17.4 lacks native support (status: \"n\")",
+        "opera 110 lacks native support (status: \"n\")",
+        "safari 17.4 lacks native support (status: \"n\")",
+        "samsung 27 lacks native support (status: \"n\")"
+      ]
+    },
+    {
+      "featureId": "sharedarraybuffer",
+      "title": "sharedarraybuffer",
+      "reasons": [
+        "android 156 lacks native support (status: \"n\")"
+      ]
+    },
+    {
+      "featureId": "sharedworkers",
+      "title": "sharedworkers",
+      "reasons": [
+        "samsung 27 lacks native support (status: \"n\")"
+      ]
+    },
+    {
+      "featureId": "spdy",
+      "title": "spdy",
+      "reasons": [
+        "and_chr 156 lacks native support (status: \"n\")",
+        "and_ff 159 lacks native support (status: \"n\")",
+        "android 156 lacks native support (status: \"n\")",
+        "chrome 124 lacks native support (status: \"n\")",
+        "edge 124 lacks native support (status: \"n\")",
+        "firefox 125 lacks native support (status: \"n\")",
+        "opera 110 lacks native support (status: \"n\")",
+        "samsung 27 lacks native support (status: \"n\")"
+      ]
+    },
+    {
+      "featureId": "speech-recognition",
+      "title": "speech-recognition",
+      "reasons": [
+        "and_chr 156 lacks native support (status: \"a x #1\")",
+        "and_ff 159 lacks native support (status: \"n\")",
+        "android 156 lacks native support (status: \"n\")",
+        "chrome 124 lacks native support (status: \"a x #1\")",
+        "edge 124 lacks native support (status: \"n #3\")",
+        "firefox 125 lacks native support (status: \"n d #2\")",
+        "ios_saf 17.4 lacks native support (status: \"a x #4\")",
+        "opera 110 lacks native support (status: \"n #3\")",
+        "safari 17.4 lacks native support (status: \"a x #4\")",
+        "samsung 27 lacks native support (status: \"a x #1\")"
+      ]
+    },
+    {
+      "featureId": "speech-synthesis",
+      "title": "speech-synthesis",
+      "reasons": [
+        "android 156 lacks native support (status: \"n\")"
+      ]
+    },
+    {
+      "featureId": "spellcheck-attribute",
+      "title": "spellcheck-attribute",
+      "reasons": [
+        "and_chr 156 lacks native support (status: \"a\")",
+        "and_ff 159 lacks native support (status: \"a\")",
+        "android 156 lacks native support (status: \"a\")",
+        "ios_saf 17.4 lacks native support (status: \"a\")",
+        "samsung 27 lacks native support (status: \"a\")"
+      ]
+    },
+    {
+      "featureId": "sql-storage",
+      "title": "sql-storage",
+      "reasons": [
+        "and_chr 156 lacks native support (status: \"n\")",
+        "and_ff 159 lacks native support (status: \"n\")",
+        "android 156 lacks native support (status: \"n\")",
+        "chrome 124 lacks native support (status: \"n\")",
+        "edge 124 lacks native support (status: \"n\")",
+        "firefox 125 lacks native support (status: \"n\")",
+        "ios_saf 17.4 lacks native support (status: \"n\")",
+        "opera 110 lacks native support (status: \"n\")",
+        "safari 17.4 lacks native support (status: \"n\")"
+      ]
+    },
+    {
+      "featureId": "srcset",
+      "title": "srcset",
+      "reasons": [
+        "ios_saf 17.4 lacks native support (status: \"a #4\")",
+        "safari 17.4 lacks native support (status: \"a #4 #5\")"
+      ]
+    },
+    {
+      "featureId": "streams",
+      "title": "streams",
+      "reasons": [
+        "ios_saf 17.4 lacks native support (status: \"a #4\")",
+        "safari 17.4 lacks native support (status: \"a #4\")"
+      ]
+    },
+    {
+      "featureId": "style-scoped",
+      "title": "style-scoped",
+      "reasons": [
+        "and_chr 156 lacks native support (status: \"n\")",
+        "and_ff 159 lacks native support (status: \"n\")",
+        "android 156 lacks native support (status: \"n\")",
+        "chrome 124 lacks native support (status: \"n\")",
+        "edge 124 lacks native support (status: \"n\")",
+        "firefox 125 lacks native support (status: \"n\")",
+        "ios_saf 17.4 lacks native support (status: \"n\")",
+        "opera 110 lacks native support (status: \"n\")",
+        "safari 17.4 lacks native support (status: \"n\")",
+        "samsung 27 lacks native support (status: \"n\")"
+      ]
+    },
+    {
+      "featureId": "subresource-bundling",
+      "title": "subresource-bundling",
+      "reasons": [
+        "and_ff 159 lacks native support (status: \"n\")",
+        "firefox 125 lacks native support (status: \"n\")",
+        "ios_saf 17.4 lacks native support (status: \"n\")",
+        "safari 17.4 lacks native support (status: \"n\")",
+        "samsung 27 lacks native support (status: \"n\")"
+      ]
+    },
+    {
+      "featureId": "svg-fonts",
+      "title": "svg-fonts",
+      "reasons": [
+        "and_chr 156 lacks native support (status: \"n #1\")",
+        "and_ff 159 lacks native support (status: \"n\")",
+        "android 156 lacks native support (status: \"n\")",
+        "chrome 124 lacks native support (status: \"n\")",
+        "edge 124 lacks native support (status: \"n\")",
+        "firefox 125 lacks native support (status: \"n\")",
+        "opera 110 lacks native support (status: \"n\")",
+        "samsung 27 lacks native support (status: \"n #1\")"
+      ]
+    },
+    {
+      "featureId": "svg-html",
+      "title": "svg-html",
+      "reasons": [
+        "and_chr 156 lacks native support (status: \"a\")",
+        "android 156 lacks native support (status: \"a\")",
+        "chrome 124 lacks native support (status: \"a\")",
+        "edge 124 lacks native support (status: \"a\")",
+        "ios_saf 17.4 lacks native support (status: \"a\")",
+        "opera 110 lacks native support (status: \"a\")",
+        "safari 17.4 lacks native support (status: \"a\")",
+        "samsung 27 lacks native support (status: \"a\")"
+      ]
+    },
+    {
+      "featureId": "sxg",
+      "title": "sxg",
+      "reasons": [
+        "and_ff 159 lacks native support (status: \"n\")",
+        "firefox 125 lacks native support (status: \"n\")",
+        "ios_saf 17.4 lacks native support (status: \"n\")",
+        "safari 17.4 lacks native support (status: \"n\")"
+      ]
+    },
+    {
+      "featureId": "tabindex-attr",
+      "title": "tabindex-attr",
+      "reasons": [
+        "android 156 lacks native support (status: \"u\")",
+        "samsung 27 lacks native support (status: \"u\")"
+      ]
+    },
+    {
+      "featureId": "temporal",
+      "title": "temporal",
+      "reasons": [
+        "chrome 124 lacks native support (status: \"n\")",
+        "edge 124 lacks native support (status: \"n\")",
+        "firefox 125 lacks native support (status: \"n\")",
+        "ios_saf 17.4 lacks native support (status: \"n\")",
+        "opera 110 lacks native support (status: \"n\")",
+        "safari 17.4 lacks native support (status: \"n\")",
+        "samsung 27 lacks native support (status: \"n\")"
+      ]
+    },
+    {
+      "featureId": "testfeat",
+      "title": "testfeat",
+      "reasons": [
+        "and_chr 156 lacks native support (status: \"n\")",
+        "and_ff 159 lacks native support (status: \"n\")",
+        "android 156 lacks native support (status: \"n\")",
+        "chrome 124 lacks native support (status: \"n\")",
+        "edge 124 lacks native support (status: \"n\")",
+        "firefox 125 lacks native support (status: \"n\")",
+        "ios_saf 17.4 lacks native support (status: \"u\")",
+        "opera 110 lacks native support (status: \"n\")",
+        "safari 17.4 lacks native support (status: \"u\")",
+        "samsung 27 lacks native support (status: \"n\")"
+      ]
+    },
+    {
+      "featureId": "text-decoration",
+      "title": "text-decoration",
+      "reasons": [
+        "and_chr 156 lacks native support (status: \"a #5\")",
+        "and_ff 159 lacks native support (status: \"a #4\")",
+        "chrome 124 lacks native support (status: \"a #5\")",
+        "edge 124 lacks native support (status: \"a #5\")",
+        "firefox 125 lacks native support (status: \"a #4\")",
+        "ios_saf 17.4 lacks native support (status: \"a x #2\")",
+        "opera 110 lacks native support (status: \"a #5\")",
+        "safari 17.4 lacks native support (status: \"a #2 #3\")",
+        "samsung 27 lacks native support (status: \"a #5\")"
+      ]
+    },
+    {
+      "featureId": "text-size-adjust",
+      "title": "text-size-adjust",
+      "reasons": [
+        "firefox 125 lacks native support (status: \"n\")",
+        "safari 17.4 lacks native support (status: \"n\")"
+      ]
+    },
+    {
+      "featureId": "tls1-1",
+      "title": "tls1-1",
+      "reasons": [
+        "and_chr 156 lacks native support (status: \"n\")",
+        "and_ff 159 lacks native support (status: \"n\")",
+        "android 156 lacks native support (status: \"n\")",
+        "chrome 124 lacks native support (status: \"n\")",
+        "edge 124 lacks native support (status: \"n\")",
+        "firefox 125 lacks native support (status: \"n\")",
+        "ios_saf 17.4 lacks native support (status: \"a #4\")",
+        "opera 110 lacks native support (status: \"n\")",
+        "safari 17.4 lacks native support (status: \"a #4\")",
+        "samsung 27 lacks native support (status: \"n\")"
+      ]
+    },
+    {
+      "featureId": "touch",
+      "title": "touch",
+      "reasons": [
+        "safari 17.4 lacks native support (status: \"n\")"
+      ]
+    },
+    {
+      "featureId": "trusted-types",
+      "title": "trusted-types",
+      "reasons": [
+        "firefox 125 lacks native support (status: \"n\")",
+        "ios_saf 17.4 lacks native support (status: \"n\")",
+        "safari 17.4 lacks native support (status: \"n\")"
+      ]
+    },
+    {
+      "featureId": "u2f",
+      "title": "u2f",
+      "reasons": [
+        "and_chr 156 lacks native support (status: \"n\")",
+        "android 156 lacks native support (status: \"n\")",
+        "chrome 124 lacks native support (status: \"n\")",
+        "edge 124 lacks native support (status: \"n\")",
+        "firefox 125 lacks native support (status: \"n\")",
+        "samsung 27 lacks native support (status: \"n\")"
+      ]
+    },
+    {
+      "featureId": "url-scroll-to-text-fragment",
+      "title": "url-scroll-to-text-fragment",
+      "reasons": [
+        "firefox 125 lacks native support (status: \"n\")"
+      ]
+    },
+    {
+      "featureId": "vibration",
+      "title": "vibration",
+      "reasons": [
+        "and_ff 159 lacks native support (status: \"n\")",
+        "ios_saf 17.4 lacks native support (status: \"n\")",
+        "safari 17.4 lacks native support (status: \"n\")"
+      ]
+    },
+    {
+      "featureId": "videotracks",
+      "title": "videotracks",
+      "reasons": [
+        "and_chr 156 lacks native support (status: \"n d #2\")",
+        "and_ff 159 lacks native support (status: \"n\")",
+        "android 156 lacks native support (status: \"n\")",
+        "chrome 124 lacks native support (status: \"n d #2\")",
+        "edge 124 lacks native support (status: \"n d #2\")",
+        "firefox 125 lacks native support (status: \"n d #1\")",
+        "opera 110 lacks native support (status: \"n d #2\")",
+        "samsung 27 lacks native support (status: \"n\")"
+      ]
+    },
+    {
+      "featureId": "view-transitions",
+      "title": "view-transitions",
+      "reasons": [
+        "firefox 125 lacks native support (status: \"n\")",
+        "ios_saf 17.4 lacks native support (status: \"n\")",
+        "safari 17.4 lacks native support (status: \"n\")"
+      ]
+    },
+    {
+      "featureId": "wai-aria",
+      "title": "wai-aria",
+      "reasons": [
+        "and_chr 156 lacks native support (status: \"a\")",
+        "and_ff 159 lacks native support (status: \"a\")",
+        "android 156 lacks native support (status: \"a\")",
+        "chrome 124 lacks native support (status: \"a\")",
+        "edge 124 lacks native support (status: \"a\")",
+        "firefox 125 lacks native support (status: \"a\")",
+        "ios_saf 17.4 lacks native support (status: \"a\")",
+        "opera 110 lacks native support (status: \"a\")",
+        "safari 17.4 lacks native support (status: \"a\")",
+        "samsung 27 lacks native support (status: \"a\")"
+      ]
+    },
+    {
+      "featureId": "wake-lock",
+      "title": "wake-lock",
+      "reasons": [
+        "firefox 125 lacks native support (status: \"n d #2\")"
+      ]
+    },
+    {
+      "featureId": "wasm-gc",
+      "title": "wasm-gc",
+      "reasons": [
+        "ios_saf 17.4 lacks native support (status: \"n\")",
+        "safari 17.4 lacks native support (status: \"n\")",
+        "samsung 27 lacks native support (status: \"n\")"
+      ]
+    },
+    {
+      "featureId": "wasm-multi-memory",
+      "title": "wasm-multi-memory",
+      "reasons": [
+        "ios_saf 17.4 lacks native support (status: \"n\")",
+        "safari 17.4 lacks native support (status: \"n\")",
+        "samsung 27 lacks native support (status: \"n\")"
+      ]
+    },
+    {
+      "featureId": "wasm-relaxed-simd",
+      "title": "wasm-relaxed-simd",
+      "reasons": [
+        "firefox 125 lacks native support (status: \"n d #1\")",
+        "ios_saf 17.4 lacks native support (status: \"n\")",
+        "safari 17.4 lacks native support (status: \"n\")"
+      ]
+    },
+    {
+      "featureId": "wasm-tail-calls",
+      "title": "wasm-tail-calls",
+      "reasons": [
+        "ios_saf 17.4 lacks native support (status: \"n\")",
+        "safari 17.4 lacks native support (status: \"n\")"
+      ]
+    },
+    {
+      "featureId": "web-app-manifest",
+      "title": "web-app-manifest",
+      "reasons": [
+        "firefox 125 lacks native support (status: \"n\")",
+        "ios_saf 17.4 lacks native support (status: \"a\")",
+        "opera 110 lacks native support (status: \"n\")",
+        "safari 17.4 lacks native support (status: \"a\")"
+      ]
+    },
+    {
+      "featureId": "web-bluetooth",
+      "title": "web-bluetooth",
+      "reasons": [
+        "and_ff 159 lacks native support (status: \"n\")",
+        "firefox 125 lacks native support (status: \"n\")",
+        "ios_saf 17.4 lacks native support (status: \"n\")",
+        "safari 17.4 lacks native support (status: \"n\")"
+      ]
+    },
+    {
+      "featureId": "web-serial",
+      "title": "web-serial",
+      "reasons": [
+        "and_ff 159 lacks native support (status: \"n\")",
+        "android 156 lacks native support (status: \"n\")",
+        "firefox 125 lacks native support (status: \"n\")",
+        "ios_saf 17.4 lacks native support (status: \"n\")",
+        "safari 17.4 lacks native support (status: \"n\")",
+        "samsung 27 lacks native support (status: \"n\")"
+      ]
+    },
+    {
+      "featureId": "web-share",
+      "title": "web-share",
+      "reasons": [
+        "android 156 lacks native support (status: \"n #2\")",
+        "chrome 124 lacks native support (status: \"a #4\")",
+        "firefox 125 lacks native support (status: \"n\")",
+        "opera 110 lacks native support (status: \"n\")"
+      ]
+    },
+    {
+      "featureId": "webauthn",
+      "title": "webauthn",
+      "reasons": [
+        "and_ff 159 lacks native support (status: \"a #7\")",
+        "firefox 125 lacks native support (status: \"a #6\")"
+      ]
+    },
+    {
+      "featureId": "webcodecs",
+      "title": "webcodecs",
+      "reasons": [
+        "and_ff 159 lacks native support (status: \"n\")",
+        "firefox 125 lacks native support (status: \"n\")",
+        "ios_saf 17.4 lacks native support (status: \"a #1\")",
+        "safari 17.4 lacks native support (status: \"a #1\")"
+      ]
+    },
+    {
+      "featureId": "webgpu",
+      "title": "webgpu",
+      "reasons": [
+        "and_ff 159 lacks native support (status: \"n d #1\")",
+        "android 156 lacks native support (status: \"n\")",
+        "firefox 125 lacks native support (status: \"n d #1\")",
+        "ios_saf 17.4 lacks native support (status: \"n d #2\")",
+        "safari 17.4 lacks native support (status: \"n d #2\")"
+      ]
+    },
+    {
+      "featureId": "webhid",
+      "title": "webhid",
+      "reasons": [
+        "and_chr 156 lacks native support (status: \"n\")",
+        "and_ff 159 lacks native support (status: \"n\")",
+        "android 156 lacks native support (status: \"n\")",
+        "firefox 125 lacks native support (status: \"n\")",
+        "ios_saf 17.4 lacks native support (status: \"n\")",
+        "safari 17.4 lacks native support (status: \"n\")",
+        "samsung 27 lacks native support (status: \"n\")"
+      ]
+    },
+    {
+      "featureId": "webkit-user-drag",
+      "title": "webkit-user-drag",
+      "reasons": [
+        "and_chr 156 lacks native support (status: \"n\")",
+        "and_ff 159 lacks native support (status: \"n\")",
+        "android 156 lacks native support (status: \"n\")",
+        "chrome 124 lacks native support (status: \"a #1\")",
+        "edge 124 lacks native support (status: \"a #1\")",
+        "firefox 125 lacks native support (status: \"n\")",
+        "ios_saf 17.4 lacks native support (status: \"n\")",
+        "opera 110 lacks native support (status: \"a #1\")",
+        "samsung 27 lacks native support (status: \"n\")"
+      ]
+    },
+    {
+      "featureId": "webnfc",
+      "title": "webnfc",
+      "reasons": [
+        "and_ff 159 lacks native support (status: \"n\")",
+        "android 156 lacks native support (status: \"n\")",
+        "chrome 124 lacks native support (status: \"n\")",
+        "edge 124 lacks native support (status: \"n\")",
+        "firefox 125 lacks native support (status: \"n\")",
+        "ios_saf 17.4 lacks native support (status: \"n\")",
+        "opera 110 lacks native support (status: \"n\")",
+        "safari 17.4 lacks native support (status: \"n\")",
+        "samsung 27 lacks native support (status: \"n\")"
+      ]
+    },
+    {
+      "featureId": "webtransport",
+      "title": "webtransport",
+      "reasons": [
+        "ios_saf 17.4 lacks native support (status: \"n\")",
+        "safari 17.4 lacks native support (status: \"n\")"
+      ]
+    },
+    {
+      "featureId": "webusb",
+      "title": "webusb",
+      "reasons": [
+        "and_ff 159 lacks native support (status: \"n\")",
+        "android 156 lacks native support (status: \"n\")",
+        "firefox 125 lacks native support (status: \"n\")",
+        "ios_saf 17.4 lacks native support (status: \"n\")",
+        "safari 17.4 lacks native support (status: \"n\")"
+      ]
+    },
+    {
+      "featureId": "webvr",
+      "title": "webvr",
+      "reasons": [
+        "and_chr 156 lacks native support (status: \"n\")",
+        "and_ff 159 lacks native support (status: \"n\")",
+        "android 156 lacks native support (status: \"n\")",
+        "chrome 124 lacks native support (status: \"n\")",
+        "edge 124 lacks native support (status: \"n\")",
+        "ios_saf 17.4 lacks native support (status: \"n\")",
+        "opera 110 lacks native support (status: \"n\")",
+        "safari 17.4 lacks native support (status: \"n\")",
+        "samsung 27 lacks native support (status: \"a #3\")"
+      ]
+    },
+    {
+      "featureId": "webxr",
+      "title": "webxr",
+      "reasons": [
+        "and_chr 156 lacks native support (status: \"a #1\")",
+        "and_ff 159 lacks native support (status: \"n d #2\")",
+        "android 156 lacks native support (status: \"n\")",
+        "chrome 124 lacks native support (status: \"a #1\")",
+        "edge 124 lacks native support (status: \"a #1\")",
+        "firefox 125 lacks native support (status: \"n d #2\")",
+        "ios_saf 17.4 lacks native support (status: \"n\")",
+        "opera 110 lacks native support (status: \"a #1\")",
+        "safari 17.4 lacks native support (status: \"n d #3\")",
+        "samsung 27 lacks native support (status: \"a #1\")"
+      ]
+    },
+    {
+      "featureId": "x-frame-options",
+      "title": "x-frame-options",
+      "reasons": [
+        "and_chr 156 lacks native support (status: \"a\")",
+        "and_ff 159 lacks native support (status: \"a\")",
+        "android 156 lacks native support (status: \"a\")",
+        "chrome 124 lacks native support (status: \"a\")",
+        "edge 124 lacks native support (status: \"a\")",
+        "firefox 125 lacks native support (status: \"a\")",
+        "ios_saf 17.4 lacks native support (status: \"a\")",
+        "opera 110 lacks native support (status: \"a\")",
+        "safari 17.4 lacks native support (status: \"a\")",
+        "samsung 27 lacks native support (status: \"a\")"
+      ]
+    },
+    {
+      "featureId": "xhtmlsmil",
+      "title": "xhtmlsmil",
+      "reasons": [
+        "and_chr 156 lacks native support (status: \"p\")",
+        "and_ff 159 lacks native support (status: \"p\")",
+        "android 156 lacks native support (status: \"p\")",
+        "chrome 124 lacks native support (status: \"p\")",
+        "edge 124 lacks native support (status: \"p\")",
+        "firefox 125 lacks native support (status: \"p\")",
+        "ios_saf 17.4 lacks native support (status: \"p\")",
+        "opera 110 lacks native support (status: \"p\")",
+        "safari 17.4 lacks native support (status: \"p\")",
+        "samsung 27 lacks native support (status: \"p\")"
+      ]
+    },
+    {
+      "featureId": "zstd",
+      "title": "zstd",
+      "reasons": [
+        "firefox 125 lacks native support (status: \"n\")",
+        "ios_saf 17.4 lacks native support (status: \"n\")",
+        "safari 17.4 lacks native support (status: \"n\")",
+        "samsung 27 lacks native support (status: \"n\")"
+      ]
+    }
+  ]
+}

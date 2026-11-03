@@ -20,6 +20,8 @@
     "npm:@typescript-eslint/parser@8.72.1": "8.72.1_eslint@10.13.0_typescript@6.0.3",
     "npm:baseline-browser-mapping@2.11.34": "2.11.34",
     "npm:browserslist-lint@0.4.0": "0.4.0",
+    "npm:browserslist@4.29.4": "4.29.4",
+    "npm:caniuse-lite@1.0.30001820": "1.0.30001820",
     "npm:cssnano-preset-advanced@10.0.0": "10.0.0_postcss@8.5.32",
     "npm:cssnano@9.9.0": "9.9.0_postcss@8.5.32",
     "npm:eslint-config-prettier@10.1.8": "10.1.8_eslint@10.13.0_jiti@2.7.0",
@@ -1069,8 +1071,8 @@
         "caniuse-lite"
       ]
     },
-    "caniuse-lite@1.0.30001816": {
-      "integrity": "sha512-+8Yx7BXCoqk6IF8yTicjfUR6D/ldJzdlsodlEOiOSPmhK844WIgk67/zIQaGAOxNkZyyvBlrRFnLvqKIoqbAFw=="
+    "caniuse-lite@1.0.30001820": {
+      "integrity": "sha512-gfWD6MxqVCqAOwmODfZf7DchWvlrA+SRdNX7ceLfg3xRqe5ssjjpF7EgslC/0tiLiNTajdaNN/q8c/5u/7Gz8w=="
     },
     "chalk@4.1.2": {
       "integrity": "sha512-oKnbhFyRIXpUuez8iBMmyEa4nbj4IOQyuhc/wy9kY7/WVPcwIO9VA668Pu8RkO7+0G76SLROeyw9CpQ061i4mA==",
@@ -3234,6 +3236,8 @@
       "npm:@typescript-eslint/parser@8.72.1",
       "npm:baseline-browser-mapping@2.11.34",
       "npm:browserslist-lint@0.4.0",
+      "npm:browserslist@4.29.4",
+      "npm:caniuse-lite@1.0.30001820",
       "npm:cssnano-preset-advanced@10.0.0",
       "npm:cssnano@9.9.0",
       "npm:eslint-config-prettier@10.1.8",
