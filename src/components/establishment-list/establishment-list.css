@@ -1,3 +1,8 @@
+#globals {
+  --hygiene-green: transparent;
+  --card-border: transparent;
+}
+
 /* Make sure our element is visible and has appropriate styling */
 .establishment-list-component {
   display: block;
@@ -22,10 +27,10 @@
   cursor: pointer;
   font-weight: bold;
   transition: background-color 0.2s;
-}
 
-.toggle-button.active {
-  background-color: #005a30;
+  &.active {
+    background-color: #005a30;
+  }
 }
 
 .establishments-list {
@@ -34,12 +39,12 @@
   gap: 20px;
   margin-bottom: 20px;
   width: 100%;
-}
 
-.establishments-list hr {
-  border: none;
-  border-top: 1px solid var(--hygiene-green);
-  margin: 0;
+  hr {
+    border: none;
+    border-top: 1px solid var(--hygiene-green);
+    margin: 0;
+  }
 }
 
 /* Pagination */
@@ -49,25 +54,25 @@
   align-items: center;
   margin-top: 20px;
   gap: 5px;
-}
 
-.pagination button {
-  padding: 5px 10px;
-  background-color: light-dark(#f0f0f0, #333);
-  color: light-dark(#333, #ddd);
-  border: var(--card-border);
-  border-radius: 4px;
-  cursor: pointer;
-  min-width: 40px;
-  text-align: center;
-}
+  button {
+    padding: 5px 10px;
+    background-color: light-dark(#f0f0f0, #333);
+    color: light-dark(#333, #ddd);
+    border: var(--card-border);
+    border-radius: 4px;
+    cursor: pointer;
+    min-width: 40px;
+    text-align: center;
 
-.pagination button.active {
-  background-color: var(--hygiene-green);
-  color: white;
-  border-color: var(--hygiene-green);
-}
+    &.active {
+      background-color: var(--hygiene-green);
+      color: white;
+      border-color: var(--hygiene-green);
+    }
 
-.pagination button:hover:not(.active) {
-  background-color: light-dark(#e0e0e0, #444);
+    &:hover:not(.active) {
+      background-color: light-dark(#e0e0e0, #444);
+    }
+  }
 }

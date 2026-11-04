@@ -1,3 +1,9 @@
+#globals {
+  --primary-blue: transparent;
+  --grey: transparent;
+  --teal: transparent;
+}
+
 .authorities {
   padding: 1rem;
   border-radius: 8px;
@@ -17,12 +23,12 @@
   display: flex;
   flex-direction: column;
   align-items: center;
-}
 
-.region-group h3 {
-  color: var(--teal);
-  margin-top: 0;
-  margin-bottom: 1rem;
+  h3 {
+    color: var(--teal);
+    margin-top: 0;
+    margin-bottom: 1rem;
+  }
 }
 
 .authority-grid {
@@ -37,13 +43,13 @@
   padding: 1rem;
   border-radius: 4px;
   text-decoration: none;
-  transition: transform 0.2s ease;
+  transition: transform 0.2s;
   text-align: center;
-}
 
-.authority-link:hover {
-  transform: scale(1.01);
-  text-decoration: none;
+  &:hover {
+    scale: 1.01;
+    text-decoration: none;
+  }
 }
 
 .filter-group {

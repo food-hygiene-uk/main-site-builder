@@ -1,3 +1,8 @@
+#globals {
+  --primary-blue: transparent;
+  --light-blue: transparent;
+}
+
 .component-footer-__CLASS_SUFFIX__ {
   display: contents;
 

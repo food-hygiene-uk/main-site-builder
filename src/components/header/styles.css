@@ -1,3 +1,9 @@
+#globals {
+  --header-background-color: transparent;
+  --header-text-color: transparent;
+  --header-rule-color: transparent;
+}
+
 .component-header-__CLASS_SUFFIX__ {
   display: contents;
 
@@ -64,17 +70,17 @@
     height: 21px;
     cursor: pointer;
     z-index: 10;
-  }
 
-  .hamburger-__CLASS_SUFFIX__ span {
-    display: block;
-    height: 3px;
-    width: 100%;
-    background-color: var(--header-text-color);
-    border-radius: 3px;
-    transition:
-      transform 0.3s ease-in-out,
-      opacity 0.3s ease-in-out;
+    span {
+      display: block;
+      height: 3px;
+      width: 100%;
+      background-color: var(--header-text-color);
+      border-radius: 3px;
+      transition:
+        transform 0.3s ease-in-out,
+        opacity 0.3s ease-in-out;
+    }
   }
 
   /* Mobile Styles */
@@ -115,7 +121,8 @@
 
     /* Hamburger animation */
     .menu-toggle-__CLASS_SUFFIX__:checked ~ .hamburger-__CLASS_SUFFIX__ span:nth-child(1) {
-      transform: translateY(9px) rotate(45deg);
+      translate: 0 9px;
+      rotate: 45deg;
     }
 
     .menu-toggle-__CLASS_SUFFIX__:checked ~ .hamburger-__CLASS_SUFFIX__ span:nth-child(2) {
@@ -123,7 +130,8 @@
     }
 
     .menu-toggle-__CLASS_SUFFIX__:checked ~ .hamburger-__CLASS_SUFFIX__ span:nth-child(3) {
-      transform: translateY(-9px) rotate(-45deg);
+      translate: 0 -9px;
+      rotate: -45deg;
     }
   }
 }

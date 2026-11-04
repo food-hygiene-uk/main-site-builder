@@ -1,3 +1,14 @@
+#globals {
+  --card-background: transparent;
+  --card-link-color: transparent;
+  --hygiene-green: transparent;
+  --card-border: transparent;
+  --button-cta-bg: transparent;
+  --button-cta-color: transparent;
+  --button-cta-bg-hover: transparent;
+  --button-cta-color-hover: transparent;
+}
+
 .content-__CLASS_SUFFIX__ {
   display: contents;
 
@@ -24,7 +35,7 @@
     h1 {
       font-size: 2em;
       margin-block: 0;
-      flex: 1 1 auto;
+      flex: auto;
       overflow-wrap: anywhere;
       word-break: normal;
     }
@@ -60,7 +71,7 @@
   }
 
   img.rating-image {
-    box-shadow: light-dark(transparent, rgb(255 255 255 / 20%)) 0 0 0 1px;
+    box-shadow: 0 0 0 1px light-dark(transparent, rgb(255 255 255 / 20%));
     max-width: 400px;
     height: auto;
     display: block;
@@ -108,12 +119,12 @@
     border-top: var(--card-border);
     margin-top: 3rem;
     padding-top: 2rem;
-  }
 
-  .recently-viewed-section h2 {
-    font-size: 1.5em;
-    margin-bottom: 1.5rem;
-    color: var(--hygiene-green);
+    h2 {
+      font-size: 1.5em;
+      margin-bottom: 1.5rem;
+      color: var(--hygiene-green);
+    }
   }
 
   .recent-establishments-grid {
@@ -134,7 +145,7 @@
     transition: transform 0.2s;
 
     &:hover {
-      transform: scale(1.04);
+      scale: 1.04;
     }
 
     .establishment-name {
@@ -177,7 +188,7 @@
     position: absolute;
     top: 50%;
     left: 50%;
-    transform: translate(-50%, -50%);
+    translate: -50% -50%;
     background-color: light-dark(rgb(255 255 255 / 95%), rgb(40 40 40 / 95%));
     padding: 1.5rem;
     border-radius: 8px;
@@ -208,16 +219,16 @@
     font-weight: 500;
     width: 100%;
     margin-bottom: 1rem;
-  }
 
-  .load-map-button:disabled {
-    background-color: light-dark(#ccc, #666);
-    cursor: not-allowed;
-  }
+    &:disabled {
+      background-color: light-dark(#ccc, #666);
+      cursor: not-allowed;
+    }
 
-  .load-map-button:hover:not(:disabled) {
-    background-color: var(--button-cta-bg-hover);
-    color: var(--button-cta-color-hover);
+    &:hover:not(:disabled) {
+      background-color: var(--button-cta-bg-hover);
+      color: var(--button-cta-color-hover);
+    }
   }
 
   .view-all-link {
@@ -254,18 +265,18 @@
     gap: 0.5rem;
     font-size: 0.9rem;
     color: light-dark(#333, #ddd);
-  }
 
-  .map-consent-checkbox input[type="checkbox"] {
-    width: 1.1rem;
-    height: 1.1rem;
-    cursor: pointer;
-    accent-color: var(--hygiene-green);
-  }
+    input[type="checkbox"] {
+      width: 1.1rem;
+      height: 1.1rem;
+      cursor: pointer;
+      accent-color: var(--hygiene-green);
+    }
 
-  .map-consent-checkbox label {
-    cursor: pointer;
-    user-select: none;
+    label {
+      cursor: pointer;
+      user-select: none;
+    }
   }
 
   .map-container {
@@ -285,10 +296,8 @@
     &.loaded {
       background-image: none;
     }
-  }
 
-  @media screen and (width <= 768px) {
-    .map-container {
+    @media screen and (width <= 768px) {
       height: 300px;
     }
   }

@@ -1,3 +1,8 @@
+#globals {
+  --hygiene-green: transparent;
+  --text-color: transparent;
+}
+
 /* 6 second animation so 1 seconds is 16.666%  */
 @keyframes consent-attention-__CLASS_SUFFIX__ {
   0% {
@@ -34,7 +39,7 @@
   100% {
     border-color: #ddd;
     box-shadow: none;
-    background-color: rgb(var(--hygiene-green-rgb) / 0%);
+    background-color: rgb(from var(--hygiene-green) r g b / 0%);
   }
 }
 
@@ -69,18 +74,16 @@
     display: grid;
     grid-template-columns: 1fr;
     gap: 15px;
-  }
 
-  @media (width >= 768px) {
-    .search-fields {
+    @media (width >= 768px) {
       grid-template-columns: repeat(2, 1fr);
     }
-  }
 
-  @media (width >= 1024px) {
-    .search-fields.basic-search {
-      grid-template-columns: 1fr 1fr auto;
-      align-items: end;
+    @media (width >= 1024px) {
+      &.basic-search {
+        grid-template-columns: 1fr 1fr auto;
+        align-items: end;
+      }
     }
   }
 
@@ -88,21 +91,21 @@
     display: flex;
     flex-direction: column;
     gap: 5px;
-  }
 
-  .search-field label {
-    font-weight: 600;
-    font-size: 0.9em;
-  }
+    label {
+      font-weight: 600;
+      font-size: 0.9em;
+    }
 
-  .search-field input,
-  .search-field select {
-    padding: 10px;
-    border: 1px solid var(--input-border);
-    border-radius: 4px;
-    font-size: 1em;
-    background-color: var(--input-bg);
-    color: var(--text-color);
+    input,
+    select {
+      padding: 10px;
+      border: 1px solid var(--input-border);
+      border-radius: 4px;
+      font-size: 1em;
+      background-color: var(--input-bg);
+      color: var(--text-color);
+    }
   }
 
   .search-actions {
@@ -120,10 +123,10 @@
     cursor: pointer;
     transition: background-color 0.2s;
     font-weight: 600;
-  }
 
-  .styled-button:hover {
-    background-color: #005a30;
+    &:hover {
+      background-color: #005a30;
+    }
   }
 
   #advanced-toggle {
@@ -170,7 +173,7 @@
     box-sizing: border-box;
 
     &.attention-effect {
-      animation: 1s ease-out 1 consent-attention-__CLASS_SUFFIX__;
+      animation: 1s ease-out consent-attention-__CLASS_SUFFIX__;
     }
 
     &.consent-given {
@@ -180,20 +183,20 @@
 
   .consent-container {
     padding: 20px;
-  }
 
-  .consent-container h2 {
-    color: var(--hygiene-green);
-    margin-top: 0;
-    border-bottom: 1px solid #eee;
-    padding-bottom: 15px;
-    display: flex;
-    align-items: center;
-  }
+    h2 {
+      color: var(--hygiene-green);
+      margin-top: 0;
+      border-bottom: 1px solid #eee;
+      padding-bottom: 15px;
+      display: flex;
+      align-items: center;
+    }
 
-  .consent-container h2::before {
-    content: "⚠️ ";
-    margin-right: 10px;
+    & h2::before {
+      content: "⚠️ ";
+      margin-right: 10px;
+    }
   }
 
   .consent-details {
@@ -202,12 +205,12 @@
     padding: 15px;
     border-radius: 6px;
     border-left: 4px solid var(--hygiene-green);
-  }
 
-  .consent-details h3 {
-    margin-top: 0;
-    font-size: 1.1em;
-    color: #333;
+    h3 {
+      margin-top: 0;
+      font-size: 1.1em;
+      color: #333;
+    }
   }
 
   .consent-operator {
@@ -257,12 +260,12 @@
     position: relative;
     width: 60px;
     height: 34px;
-  }
 
-  .toggle-container input {
-    opacity: 0;
-    width: 0;
-    height: 0;
+    input {
+      opacity: 0;
+      width: 0;
+      height: 0;
+    }
   }
 
   .toggle-slider {
@@ -271,26 +274,26 @@
     background-color: #ccc;
     border-radius: 34px;
     transition: 0.4s;
-  }
 
-  .toggle-slider::before {
-    position: absolute;
-    content: "";
-    height: 26px;
-    width: 26px;
-    left: 4px;
-    bottom: 4px;
-    background-color: white;
-    border-radius: 50%;
-    transition: 0.4s;
+    &::before {
+      position: absolute;
+      content: "";
+      height: 26px;
+      width: 26px;
+      left: 4px;
+      bottom: 4px;
+      background-color: white;
+      border-radius: 50%;
+      transition: 0.4s;
+    }
   }
 
   input:checked + .toggle-slider {
     background-color: var(--hygiene-green);
-  }
 
-  input:checked + .toggle-slider::before {
-    transform: translateX(26px);
+    &::before {
+      translate: 26px;
+    }
   }
 
   /* Search form - active state for when consent is given */
@@ -314,19 +317,19 @@
     opacity: 0.8;
     cursor: not-allowed;
     background-color: #f0f0f0;
-  }
 
-  .search-form.disabled * {
-    pointer-events: none;
-  }
+    * {
+      pointer-events: none;
+    }
 
-  .search-form.disabled input,
-  .search-form.disabled select,
-  .search-form.disabled button {
-    opacity: 0.7;
-    background-color: #eaeaea;
-    border-color: #ccc;
-    color: #999;
+    input,
+    select,
+    button {
+      opacity: 0.7;
+      background-color: #eaeaea;
+      border-color: #ccc;
+      color: #999;
+    }
   }
 
   /* __ADDITIONAL_CSS__ */

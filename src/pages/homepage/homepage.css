@@ -1,3 +1,9 @@
+#globals {
+  --primary-blue: transparent;
+  --grey: transparent;
+  --cta-default: transparent;
+}
+
 .content-__CLASS_SUFFIX__ {
   display: contents;
 
@@ -7,12 +13,12 @@
     object-fit: cover;
     opacity: 0.7;
     max-width: 500px;
-  }
 
-  .hero-image > img {
-    max-width: 300px;
-    max-height: 300px;
-    transform: translateY(-25px);
+    > img {
+      max-width: 300px;
+      max-height: 300px;
+      translate: 0 -25px;
+    }
   }
 
   .main-content {
@@ -23,7 +29,7 @@
     padding-bottom: 5rem;
     flex-direction: row;
     text-align: center;
-    background: linear-gradient(180deg, #ffc2cb 0%, #fbe4e7 100%);
+    background: linear-gradient(#ffc2cb, #fbe4e7);
     max-width: 100%;
 
     @media screen and (width <= 768px) {
@@ -46,14 +52,14 @@
     @media screen and (width <= 768px) {
       padding: 1rem 0;
     }
-  }
 
-  .contribute h2 {
-    color: var(--primary-blue);
-  }
+    h2 {
+      color: var(--primary-blue);
+    }
 
-  .contribute p {
-    color: var(--grey);
+    p {
+      color: var(--grey);
+    }
   }
 
   .cta-button {
@@ -67,10 +73,10 @@
     font-weight: 500;
     transition: transform 0.2s;
     border-color: transparent;
-  }
 
-  .cta-button:hover {
-    transform: scale(1.01);
+    &:hover {
+      scale: 1.01;
+    }
   }
 }
 

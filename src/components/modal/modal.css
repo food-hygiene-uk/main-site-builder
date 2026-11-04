@@ -1,3 +1,7 @@
+#globals {
+  --hygiene-green: transparent;
+}
+
 .modal-dialog {
   color: light-dark(#000, #ddd);
   background-color: light-dark(#fff, #333);
@@ -32,7 +36,7 @@
         line-height: 1em;
 
         &:hover {
-          transform: scale(1.4);
+          scale: 1.4;
         }
       }
     }
@@ -56,7 +60,7 @@
 
       .primary-button {
         background-color: light-dark(var(--hygiene-green), #007a3d);
-        color: light-dark(white, white);
+        color: light-dark(white, #ffe);
         border-color: light-dark(transparent, #555);
         padding: 0.75rem 1.5rem;
         border-radius: 4px;

@@ -1,3 +1,9 @@
+#globals {
+  --hygiene-green: transparent;
+  --background-highlight-color: transparent;
+  --text-highlight-color: transparent;
+}
+
 .content-__CLASS_SUFFIX__ {
   display: contents;
 
@@ -27,12 +33,12 @@
     padding: 1rem 0;
     display: block;
 
+    /* Link the entire establishment to the details page */
+    position: relative;
+
     &.hidden {
       display: none;
     }
-
-    /* Link the entire establishment to the details page */
-    position: relative;
 
     .details-link {
       display: block;
