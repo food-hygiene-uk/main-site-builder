@@ -127,8 +127,8 @@ const processBatch = (startIndex, batchSize, searchTerms, resolve) => {
   } else {
     // Continue processing
     const nextBatch = () => processBatch(end, batchSize, searchTerms, resolve);
-    if (typeof globalThis.requestIdleCallback === "function") {
-      globalThis.requestIdleCallback(nextBatch);
+    if (typeof requestIdleCallback === "function") {
+      requestIdleCallback(nextBatch);
     } else {
       requestAnimationFrame(nextBatch);
     }

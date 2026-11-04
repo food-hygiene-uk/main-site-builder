@@ -1,4 +1,5 @@
 import { defineConfig } from "eslint/config";
+import compat from "eslint-plugin-compat";
 import css from "@eslint/css";
 import cssicorn from "eslint-cssicorn";
 import jsdocPlugin from "eslint-plugin-jsdoc";
@@ -57,6 +58,7 @@ export default defineConfig([
       "no-unused-vars": "off", // Use @typescript-eslint/no-unused-vars instead
     },
   },
+  compat.configs["flat/recommended"],
   {
     files: ["**/*.js", "**/*.mjs", "**/*.mts"],
     extends: ["jsdoc/flat/recommended-mixed", "unicorn/recommended"],

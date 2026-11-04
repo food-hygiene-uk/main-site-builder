@@ -21,6 +21,7 @@
     "cssnano": "npm:cssnano@9.9.0",
     "eslint-config-prettier": "npm:eslint-config-prettier@10.1.8",
     "eslint-cssicorn": "npm:eslint-cssicorn@0.3.0",
+    "eslint-plugin-compat": "npm:eslint-plugin-compat@7.0.2",
     "eslint-plugin-jsdoc": "npm:eslint-plugin-jsdoc@65.4.2",
     "eslint-plugin-promise": "npm:eslint-plugin-promise@7.3.0",
     "eslint-plugin-unicorn": "npm:eslint-plugin-unicorn@79.0.0",

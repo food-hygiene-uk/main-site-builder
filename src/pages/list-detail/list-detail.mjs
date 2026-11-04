@@ -75,12 +75,10 @@ Gets a saved list by ID
 @returns {SavedList|null} The saved list or null if not found
 */
 const getSavedList = (id) => {
-  if (globalThis.localStorage === undefined) return null;
+  if (localStorage === undefined) return null;
 
   try {
-    const savedListsJson = globalThis.localStorage.getItem(
-      SAVED_LISTS_STORAGE_KEY,
-    );
+    const savedListsJson = localStorage.getItem(SAVED_LISTS_STORAGE_KEY);
     if (!savedListsJson) return null;
 
     const savedLists = /** @type {Record<string, SavedList>} */ (

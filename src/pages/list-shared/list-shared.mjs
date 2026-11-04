@@ -72,7 +72,7 @@ Saves a list of establishments to localStorage
 */
 const saveList = (listName, establishments) => {
   // Don't run in server-side code
-  if (globalThis.localStorage === undefined) return null;
+  if (localStorage === undefined) return null;
 
   try {
     // Get existing saved lists
@@ -80,9 +80,7 @@ const saveList = (listName, establishments) => {
     @type {Record<string, SharedSavedList>}
     */
     let savedLists = {};
-    const savedListsJson = globalThis.localStorage.getItem(
-      SAVED_LISTS_STORAGE_KEY,
-    );
+    const savedListsJson = localStorage.getItem(SAVED_LISTS_STORAGE_KEY);
 
     if (savedListsJson) {
       savedLists = /** @type {Record<string, SharedSavedList>} */ (
@@ -112,10 +110,7 @@ const saveList = (listName, establishments) => {
     };
 
     // Store back to localStorage
-    globalThis.localStorage.setItem(
-      SAVED_LISTS_STORAGE_KEY,
-      JSON.stringify(savedLists),
-    );
+    localStorage.setItem(SAVED_LISTS_STORAGE_KEY, JSON.stringify(savedLists));
 
     console.log(
       `Saved list "${listName}" with ${establishments.length} establishments`,
