@@ -104,7 +104,7 @@ If one of the establishments does not have a rating date, it is considered "less
 */
 const compareRatingDate = (a, b) => {
   if (a.RatingDate !== b.RatingDate) {
-    if (!a.RatingDate || !b.RatingDate) return -1;
+    if (!a.RatingDate || !b.RatingDate) return a.RatingDate ? -1 : 1;
 
     const dateA = new Date(a.RatingDate).getTime();
     const dateB = new Date(b.RatingDate).getTime();
@@ -141,7 +141,7 @@ Sort establishments by the given option and direction
 
 @param {Array<Establishment>} establishments - Establishments to sort
 @param {"order"|"name"|"rating"|"date"} sortOption - Sort option to use
-@param {boolean} sortDirection - Sort direction (true for ascending, false for descending)
+@param {"natural"|"reverse"} sortDirection - Sort direction
 @returns {Array<Establishment>} Sorted establishments
 */
 export const sortEstablishments = (
@@ -156,7 +156,7 @@ export const sortEstablishments = (
       sortedEstablishments.sort((a, b) => {
         // Simply compare by business name
         const nameComparison = compareBusinessName(a, b);
-        return sortDirection ? nameComparison : -nameComparison;
+        return sortDirection === "natural" ? nameComparison : -nameComparison;
       });
       break;
     }
@@ -165,18 +165,20 @@ export const sortEstablishments = (
         // First compare the rating values
         const ratingValueComparison = compareRatingValue(a, b);
         if (ratingValueComparison !== 0) {
-          return sortDirection ? ratingValueComparison : -ratingValueComparison;
+          return sortDirection === "natural"
+            ? -ratingValueComparison
+            : ratingValueComparison;
         }
 
         // If ratings are equal, sort by most recent inspection date
         const dateComparison = compareRatingDate(a, b);
         if (dateComparison !== 0) {
-          return sortDirection ? -dateComparison : dateComparison;
+          return sortDirection === "natural" ? dateComparison : -dateComparison;
         }
 
         // If both rating and date are equal, sort by name
         const nameComparison = compareBusinessName(a, b);
-        return sortDirection ? nameComparison : -nameComparison;
+        return sortDirection === "natural" ? nameComparison : -nameComparison;
       });
       break;
     }
@@ -185,12 +187,12 @@ export const sortEstablishments = (
         // First compare the inspection dates
         const dateComparison = compareRatingDate(a, b);
         if (dateComparison !== 0) {
-          return sortDirection ? -dateComparison : dateComparison;
+          return sortDirection === "natural" ? dateComparison : -dateComparison;
         }
 
         // If dates are equal, sort by name
         const nameComparison = compareBusinessName(a, b);
-        return sortDirection ? nameComparison : -nameComparison;
+        return sortDirection === "natural" ? nameComparison : -nameComparison;
       });
       break;
     }

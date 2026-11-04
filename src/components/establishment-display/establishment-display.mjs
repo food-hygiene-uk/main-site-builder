@@ -2,8 +2,7 @@
 @typedef {import("../../generate-site/schema.mts").Establishment} Establishment
 @typedef {import("components/establishment-list/establishment-list.mjs").EstablishmentList} EstablishmentList
 @typedef { "order" | "name" | "rating" | "date" } SortKeys
-@typedef {boolean} SortDirections
-@typedef {Record<SortKeys, SortDirections>} DefaultSortDirections
+@typedef {"natural" | "reverse"} SortDirections
 */
 
 /**
@@ -15,9 +14,8 @@
 /**
 @typedef {object} SortConfig
 @property {SortKeys} defaultSortOption - The default sort option to use
-@property {SortDirections} defaultSortDirection - The default sort direction (true for ascending, false for descending)
+@property {SortDirections} defaultSortDirection - The default sort direction
 @property {Array<SortOption>} sortOptions - Available sort options
-@property {DefaultSortDirections} sortDirections - Default directions for each sort option
 */
 
 /**
@@ -39,30 +37,19 @@ const cssReady = new Promise((resolve, reject) => {
 const defaultSortKey = "order";
 
 /**
-@type {DefaultSortDirections}
-*/
-const defaultSortDirections = {
-  order: false, // Descending
-  name: true, // Ascending
-  rating: false, // Descending
-  date: false, // Descending
-};
-
-/**
 Default sort configuration for establishment lists
 
 @type {SortConfig}
 */
 export const DEFAULT_SORT_CONFIG = {
   defaultSortOption: defaultSortKey,
-  defaultSortDirection: defaultSortDirections[defaultSortKey],
+  defaultSortDirection: "natural",
   sortOptions: [
     { value: "order", label: "Order Added" },
     { value: "name", label: "Name" },
     { value: "rating", label: "Rating" },
     { value: "date", label: "Last Inspection" },
   ],
-  sortDirections: defaultSortDirections,
 };
 
 /**
@@ -77,7 +64,7 @@ export class EstablishmentDisplay {
   @param {EstablishmentList} options.establishmentList - The establishment list component to control
   @param {Array<SortOption>} [options.sortOptions] - Available sort options
   @param {SortKeys} [options.defaultSortOption] - Default sort option value
-  @param {boolean} [options.defaultSortDirection] - Default sort direction (true for ascending, false for descending)
+  @param {"natural"|"reverse"} [options.defaultSortDirection] - Default sort direction
   @param {boolean} [options.enableFiltering] - Whether to enable name filtering
   @param {(filterText: string) => void} options.onFilterChange - Callback when filter changes
   @param {(sortOption: SortKeys, sortDirection: SortDirections) => void} options.onSortChange - Callback when sort changes
@@ -173,9 +160,7 @@ export class EstablishmentDisplay {
     sortSelect.value = this.defaultSortOption;
     sortSelect.addEventListener("change", () => {
       this.currentSortOption = /** @type {SortKeys} */ (sortSelect.value);
-      this.currentSortDirection =
-        DEFAULT_SORT_CONFIG.sortDirections[this.currentSortOption] ??
-          this.defaultSortDirection;
+      this.currentSortDirection = this.defaultSortDirection;
       this.onSortChange(this.currentSortOption, this.currentSortDirection);
     });
 
@@ -185,7 +170,9 @@ export class EstablishmentDisplay {
     directionButton.className = "direction-button";
     this.#updateDirectionButton();
     directionButton.addEventListener("click", () => {
-      this.currentSortDirection = !this.currentSortDirection;
+      this.currentSortDirection = this.currentSortDirection === "natural"
+        ? "reverse"
+        : "natural";
       this.#updateDirectionButton();
       this.onSortChange(this.currentSortOption, this.currentSortDirection);
     });
@@ -206,10 +193,10 @@ export class EstablishmentDisplay {
   #updateDirectionButton() {
     if (!this.directionButton) return;
 
-    this.directionButton.title = this.currentSortDirection
+    this.directionButton.title = this.currentSortDirection === "natural"
       ? "Sort Descending"
       : "Sort Ascending";
-    this.directionButton.innerHTML = this.currentSortDirection
+    this.directionButton.innerHTML = this.currentSortDirection === "natural"
       ? "&#8595;" // Down arrow for ascending (A->Z means values go down)
       : "&#8593;"; // Up arrow for descending (Z->A means values go up)
   }
@@ -290,16 +277,13 @@ export class EstablishmentDisplay {
     let isSortChanged = false;
 
     // Reset sort option and direction
-    if (
-      this.currentSortOption !== this.defaultSortOption ||
-      this.currentSortDirection !== this.defaultSortDirection
-    ) {
+    if (this.currentSortOption !== this.defaultSortOption) {
       this.currentSortOption = this.defaultSortOption;
-      this.currentSortDirection = this.defaultSortDirection;
 
       if (this.sortSelect) {
         this.sortSelect.value = this.defaultSortOption;
       }
+      this.currentSortDirection = this.defaultSortDirection;
 
       this.#updateDirectionButton();
       isSortChanged = true;
@@ -331,7 +315,7 @@ Creates a new establishment display instance
 @param {EstablishmentList} options.establishmentList - The establishment list to control
 @param {Array<SortOption>} [options.sortOptions] - Custom sort options
 @param {SortKeys} [options.defaultSortOption] - Default sort option value
-@param {SortDirections} [options.defaultSortDirection] - Default sort direction (true for ascending, false for descending)
+@param {SortDirections} [options.defaultSortDirection] - Default sort direction
 @param {boolean} [options.enableFiltering] - Whether to enable name filtering
 @param {(filterText: string) => void} options.onFilterChange - Callback when filter changes
 @param {(sortOption: SortKeys, sortDirection: SortDirections) => void} options.onSortChange - Callback when sort changes

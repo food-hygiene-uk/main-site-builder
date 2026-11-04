@@ -15,6 +15,15 @@ Service to manage saved lists and their operations.
 */
 
 /**
+@typedef {
+    { status: "deleted" }
+  | { status: "not-found" }
+  | { status: "storage-unavailable" }
+  | { status: "error"; error: unknown }
+} DeleteListResult
+*/
+
+/**
 Retrieves all saved lists from localStorage.
 
 @returns {Record<string, SavedList>} An object containing all saved lists.
@@ -28,6 +37,44 @@ export const getSavedLists = () => {
   } catch (error) {
     console.error("Error retrieving saved lists:", error);
     return {};
+  }
+};
+
+/**
+Deletes a saved list by ID.
+
+@param {string} listId - The ID of the list to delete.
+@returns {DeleteListResult} The outcome of the deletion.
+*/
+export const deleteSavedList = (listId) => {
+  if (globalThis.localStorage === undefined) {
+    return { status: "storage-unavailable" };
+  }
+
+  try {
+    const savedListsJson = globalThis.localStorage.getItem(
+      "saved-establishment-lists",
+    );
+    if (!savedListsJson) return { status: "not-found" };
+
+    const savedLists = /** @type {Record<string, SavedList>} */ (
+      JSON.parse(savedListsJson)
+    );
+
+    if (!Object.hasOwn(savedLists, listId)) {
+      return { status: "not-found" };
+    }
+
+    delete savedLists[listId];
+    globalThis.localStorage.setItem(
+      "saved-establishment-lists",
+      JSON.stringify(savedLists),
+    );
+
+    return { status: "deleted" };
+  } catch (error) {
+    console.error("Error deleting list:", error);
+    return { status: "error", error };
   }
 };
 
@@ -49,13 +96,13 @@ Updates the saved lists by adding or removing an establishment.
 
 @param {ListEstablishment} establishment - Establishment record
 @param {string} listId - The ID of the list to update.
-@param {boolean} add - Whether to add (true) or remove (false) the establishment.
+@param {"add" | "delete"} task - Whether to add or delete the establishment.
 */
-export const updateList = (establishment, listId, add) => {
+export const updateList = (establishment, listId, task) => {
   const savedLists = getSavedLists();
   const list = savedLists[listId];
 
-  if (add) {
+  if (task === "add") {
     // If the list doesn't exist, create it and add the establishment
     if (!list) {
       createNewList(listId, establishment);

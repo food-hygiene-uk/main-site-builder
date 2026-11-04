@@ -1,4 +1,4 @@
-import { getListCreationDate } from "scripts/list-service.mjs";
+import { deleteSavedList, getListCreationDate } from "scripts/list-service.mjs";
 
 // Storage key for saved lists
 const SAVED_LISTS_STORAGE_KEY = "saved-establishment-lists";
@@ -28,39 +28,6 @@ const getSavedLists = () => {
   }
 };
 
-/**
-Deletes a saved list by ID
-
-@param {string} listId - The ID of the list to delete
-@returns {boolean} True if deletion was successful
-*/
-const deleteList = (listId) => {
-  if (globalThis.localStorage === undefined) return false;
-
-  try {
-    const savedLists = getSavedLists();
-
-    // Check if the list exists
-    if (Object.hasOwn(savedLists, listId) == false) {
-      return false;
-    }
-
-    // Delete the list
-    delete savedLists[listId];
-
-    // Save back to localStorage
-    globalThis.localStorage.setItem(
-      SAVED_LISTS_STORAGE_KEY,
-      JSON.stringify(savedLists),
-    );
-
-    return true;
-  } catch (error) {
-    console.error("Error deleting list:", error);
-    return false;
-  }
-};
-
 document.addEventListener("DOMContentLoaded", () => {
   const userListsContainer = /** @type {HTMLElement | null} */ (
     document.querySelector("#userLists")
@@ -80,16 +47,19 @@ document.addEventListener("DOMContentLoaded", () => {
     event.stopPropagation();
 
     if (
-      confirm(
+      !confirm(
         "Are you sure you want to delete this list? This action cannot be undone.",
       )
     ) {
-      if (deleteList(listId)) {
-        // Refresh the list display
-        renderSavedLists();
-      } else {
-        alert("There was a problem deleting the list. Please try again.");
-      }
+      return;
+    }
+
+    const result = deleteSavedList(listId);
+    if (result.status === "deleted") {
+      // Refresh the list display
+      renderSavedLists();
+    } else {
+      alert("There was a problem deleting the list. Please try again.");
     }
   };
 

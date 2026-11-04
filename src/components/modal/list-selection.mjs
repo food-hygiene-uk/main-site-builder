@@ -95,7 +95,7 @@ const initializeListSelectionModal = (establishment, modalElement) => {
     if (!listId) return;
 
     const isChecked = target.checked;
-    updateList(establishment, listId, isChecked);
+    updateList(establishment, listId, isChecked ? "add" : "delete");
     // After updating the list, refresh the checkbox states within this specific modal
     updateCheckboxStates(establishment.FHRSID, modalElement);
   });

@@ -17,7 +17,7 @@ import {
   filterEstablishments,
   sliceEstablishments,
 } from "scripts/list-utilities.mjs";
-import { getListCreationDate } from "scripts/list-service.mjs";
+import { deleteSavedList, getListCreationDate } from "scripts/list-service.mjs";
 
 // Storage key for saved lists
 const SAVED_LISTS_STORAGE_KEY = "saved-establishment-lists";
@@ -33,10 +33,9 @@ const DEFAULT_SORT_OPTION = "order";
 /**
 Default sort direction for list detail page
 
-@type {boolean}
+@type {SortDirections}
 */
-// eslint-disable-next-line unicorn/consistent-boolean-name
-const DEFAULT_SORT_DIRECTION = false; // Descending (most recent first)
+const DEFAULT_SORT_DIRECTION = "reverse";
 
 // module scope variables
 /**
@@ -91,46 +90,6 @@ const getSavedList = (id) => {
   } catch (error) {
     console.error("Error retrieving saved list:", error);
     return null;
-  }
-};
-
-/**
-Deletes a saved list by ID
-
-@param {string} id - The ID of the list to delete
-@returns {boolean} True if deletion was successful
-*/
-const deleteList = (id) => {
-  if (globalThis.localStorage === undefined) return false;
-
-  try {
-    const savedListsJson = globalThis.localStorage.getItem(
-      SAVED_LISTS_STORAGE_KEY,
-    );
-    if (!savedListsJson) return false;
-
-    const savedLists = /** @type {Record<string, SavedList>} */ (
-      JSON.parse(savedListsJson)
-    );
-
-    // Check if the list exists
-    if (!Object.hasOwn(savedLists, id)) {
-      return false;
-    }
-
-    // Delete the list
-    delete savedLists[id];
-
-    // Save back to localStorage
-    globalThis.localStorage.setItem(
-      SAVED_LISTS_STORAGE_KEY,
-      JSON.stringify(savedLists),
-    );
-
-    return true;
-  } catch (error) {
-    console.error("Error deleting list:", error);
-    return false;
   }
 };
 
@@ -262,16 +221,19 @@ document.addEventListener("DOMContentLoaded", () => {
   if (references.deleteButton) {
     references.deleteButton.addEventListener("click", () => {
       if (
-        confirm(
+        !confirm(
           "Are you sure you want to delete this list? This action cannot be undone.",
         )
       ) {
-        if (deleteList(listId)) {
-          // Redirect back to the lists page
-          location.assign("/lists/");
-        } else {
-          alert("There was a problem deleting the list. Please try again.");
-        }
+        return;
+      }
+
+      const result = deleteSavedList(listId);
+      if (result.status === "deleted") {
+        // Redirect back to the lists page
+        location.assign("/lists/");
+      } else {
+        alert("There was a problem deleting the list. Please try again.");
       }
     });
   }
