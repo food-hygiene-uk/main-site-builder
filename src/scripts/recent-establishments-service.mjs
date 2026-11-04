@@ -31,7 +31,7 @@ class RecentEstablishmentsService {
   */
   addEstablishment(establishment) {
     // Don't run in server-side code
-    if (globalThis.localStorage === undefined) return;
+    if (localStorage === undefined) return;
 
     const recentItems = this.getRecentEstablishments();
 
@@ -65,7 +65,7 @@ class RecentEstablishmentsService {
     // Save the updated list to localStorage
     try {
       const serializedData = JSON.stringify(recentItems);
-      globalThis.localStorage.setItem(this.STORAGE_KEY, serializedData);
+      localStorage.setItem(this.STORAGE_KEY, serializedData);
       console.log(`Saved ${recentItems.length} establishments to localStorage`);
     } catch (error) {
       console.error(
@@ -82,13 +82,13 @@ class RecentEstablishmentsService {
   */
   getRecentEstablishments() {
     // Don't run in server-side code
-    if (globalThis.localStorage === undefined) {
+    if (localStorage === undefined) {
       console.log("localStorage is not available, returning empty array");
       return [];
     }
 
     try {
-      const storedItems = globalThis.localStorage.getItem(this.STORAGE_KEY);
+      const storedItems = localStorage.getItem(this.STORAGE_KEY);
 
       if (!storedItems) {
         console.log("No stored items found in localStorage");
@@ -109,9 +109,9 @@ class RecentEstablishmentsService {
   */
   clearRecentEstablishments() {
     // Don't run in server-side code
-    if (globalThis.localStorage === undefined) return;
+    if (localStorage === undefined) return;
 
-    globalThis.localStorage.removeItem(this.STORAGE_KEY);
+    localStorage.removeItem(this.STORAGE_KEY);
     console.log("Cleared all recent establishments from localStorage");
   }
 

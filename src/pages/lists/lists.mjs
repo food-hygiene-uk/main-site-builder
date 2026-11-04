@@ -13,12 +13,10 @@ Gets all saved lists from localStorage
 @returns {Record<string, SavedList>} Object containing all saved lists
 */
 const getSavedLists = () => {
-  if (globalThis.localStorage === undefined) return {};
+  if (localStorage === undefined) return {};
 
   try {
-    const savedListsJson = globalThis.localStorage.getItem(
-      SAVED_LISTS_STORAGE_KEY,
-    );
+    const savedListsJson = localStorage.getItem(SAVED_LISTS_STORAGE_KEY);
     return savedListsJson
       ? /** @type {Record<string, SavedList>} */ (JSON.parse(savedListsJson))
       : {};

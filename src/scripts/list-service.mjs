@@ -31,7 +31,7 @@ Retrieves all saved lists from localStorage.
 export const getSavedLists = () => {
   try {
     const savedLists = JSON.parse(
-      globalThis.localStorage.getItem("saved-establishment-lists") ?? "{}",
+      localStorage.getItem("saved-establishment-lists") ?? "{}",
     );
     return savedLists;
   } catch (error) {
@@ -47,14 +47,12 @@ Deletes a saved list by ID.
 @returns {DeleteListResult} The outcome of the deletion.
 */
 export const deleteSavedList = (listId) => {
-  if (globalThis.localStorage === undefined) {
+  if (localStorage === undefined) {
     return { status: "storage-unavailable" };
   }
 
   try {
-    const savedListsJson = globalThis.localStorage.getItem(
-      "saved-establishment-lists",
-    );
+    const savedListsJson = localStorage.getItem("saved-establishment-lists");
     if (!savedListsJson) return { status: "not-found" };
 
     const savedLists = /** @type {Record<string, SavedList>} */ (
@@ -66,7 +64,7 @@ export const deleteSavedList = (listId) => {
     }
 
     delete savedLists[listId];
-    globalThis.localStorage.setItem(
+    localStorage.setItem(
       "saved-establishment-lists",
       JSON.stringify(savedLists),
     );
@@ -126,10 +124,7 @@ export const updateList = (establishment, listId, task) => {
     );
   }
 
-  globalThis.localStorage.setItem(
-    "saved-establishment-lists",
-    JSON.stringify(savedLists),
-  );
+  localStorage.setItem("saved-establishment-lists", JSON.stringify(savedLists));
 };
 
 /**
@@ -140,7 +135,7 @@ Saves a new list with the given name and establishments.
 @returns {string|null} The ID of the saved list, or null if an error occurred.
 */
 export const saveList = (listName, establishments) => {
-  if (globalThis.localStorage === undefined) return null;
+  if (localStorage === undefined) return null;
 
   try {
     const savedLists = getSavedLists();
@@ -160,7 +155,7 @@ export const saveList = (listName, establishments) => {
       establishments: minimalEstablishments,
     };
 
-    globalThis.localStorage.setItem(
+    localStorage.setItem(
       "saved-establishment-lists",
       JSON.stringify(savedLists),
     );
@@ -191,10 +186,7 @@ export const createNewList = (listName, establishment) => {
       },
     ],
   };
-  globalThis.localStorage.setItem(
-    "saved-establishment-lists",
-    JSON.stringify(savedLists),
-  );
+  localStorage.setItem("saved-establishment-lists", JSON.stringify(savedLists));
   return listId;
 };
 
