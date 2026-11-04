@@ -2,6 +2,7 @@
   "publish": false,
   "imports": {
     "@eslint/css": "npm:@eslint/css@2.0.1",
+    "@eslint/markdown": "npm:@eslint/markdown@8.0.1",
     "@playwright/test": "npm:@playwright/test@1.64.1",
     "@std/assert": "jsr:@std/assert@1.0.19",
     "@std/fs": "jsr:@std/fs@1.0.24",
@@ -19,6 +20,7 @@
     "cssnano-preset-advanced": "npm:cssnano-preset-advanced@10.0.0",
     "cssnano": "npm:cssnano@9.9.0",
     "eslint-config-prettier": "npm:eslint-config-prettier@10.1.8",
+    "eslint-cssicorn": "npm:eslint-cssicorn@0.3.0",
     "eslint-plugin-jsdoc": "npm:eslint-plugin-jsdoc@65.4.2",
     "eslint-plugin-promise": "npm:eslint-plugin-promise@7.3.0",
     "eslint-plugin-unicorn": "npm:eslint-plugin-unicorn@79.0.0",

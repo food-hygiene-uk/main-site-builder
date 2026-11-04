@@ -1,12 +1,12 @@
 html {
   color-scheme: only light;
-}
 
-@media (scripting: initial-only),
-  (scripting: enabled),
-  (prefers-color-scheme: dark) {
-  html:not([data-color-scheme="light"]) {
-    color-scheme: only dark;
+  @media (scripting: initial-only),
+    (scripting: enabled),
+    (prefers-color-scheme: dark) {
+    &:not([data-color-scheme="light"]) {
+      color-scheme: only dark;
+    }
   }
 }
 
@@ -17,8 +17,7 @@ html {
   --teal: #3c7b8e;
   --grey: #687789;
   --light-grey: #eef2f6;
-  --hygiene-green-rgb: 132, 190, 0;
-  --hygiene-green: rgb(var(--hygiene-green-rgb));
+  --hygiene-green: rgb(132 190 0);
   --hygiene-green-highlight: color-mix(
     in oklab,
     var(--hygiene-green) 50%,
@@ -73,12 +72,12 @@ html {
     var(--hygiene-green),
     var(--hygiene-green-lowlight)
   );
-  --button-cta-color: light-dark(#000, #000);
+  --button-cta-color: light-dark(#000, #001);
   --button-cta-bg-hover: light-dark(
     var(--hygiene-green-highlight),
     var(--hygiene-green)
   );
-  --button-cta-color-hover: light-dark(#000, #000);
+  --button-cta-color-hover: light-dark(#000, #001);
 }
 
 [inert],
@@ -104,10 +103,10 @@ body {
 a {
   color: #0052a3;
   text-decoration: none;
-}
 
-a:hover {
-  text-decoration: underline;
+  &:hover {
+    text-decoration-line: underline;
+  }
 }
 
 .container {

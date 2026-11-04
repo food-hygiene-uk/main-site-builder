@@ -1,3 +1,10 @@
+#globals {
+  --hygiene-green: transparent;
+  --primary-blue: transparent;
+  --light-grey: transparent;
+  --light-blue: transparent;
+}
+
 .content-__CLASS_SUFFIX__ {
   display: contents;
 
@@ -32,19 +39,19 @@
     padding: 1.5rem;
     border-radius: 6px;
     margin-top: 2rem;
-  }
 
-  .contribution-links h3 {
-    color: var(--primary-blue);
-    margin-top: 0;
-  }
+    h3 {
+      color: var(--primary-blue);
+      margin-top: 0;
+    }
 
-  .contribution-links ul {
-    padding-left: 1.5rem;
-  }
+    ul {
+      padding-left: 1.5rem;
+    }
 
-  .contribution-links li {
-    margin-bottom: 0.75rem;
+    li {
+      margin-bottom: 0.75rem;
+    }
   }
 
   .data-source {

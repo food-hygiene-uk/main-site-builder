@@ -20,5 +20,8 @@
     "https://raw.githubusercontent.com/denoland/deno/main/cli/schemas/lint-rules.v1.json": true,
     "https://raw.githubusercontent.com/denoland/deno/main/cli/schemas/lint-tags.v1.json": true
   },
-  "livePreview.serverRoot": "/dist/"
+  "livePreview.serverRoot": "/dist/",
+  "css.validate": false,
+  "less.validate": false,
+  "scss.validate": false
 }

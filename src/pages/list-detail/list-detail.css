@@ -1,3 +1,8 @@
+#globals {
+  --hygiene-green: transparent;
+  --card-color: transparent;
+}
+
 .content-__CLASS_SUFFIX__ {
   display: contents;
 
@@ -43,11 +48,10 @@
     background-color: var(--hygiene-green);
     color: white;
     border: none;
-  }
 
-  .back-button:hover,
-  .share-button:hover {
-    background-color: #005a30;
+    &:hover {
+      background-color: #005a30;
+    }
   }
 
   .clear-list-button {
@@ -64,10 +68,10 @@
     background-color: #e74c3c;
     color: white;
     border: none;
-  }
 
-  .delete-list-button:hover {
-    background-color: #c0392b;
+    &:hover {
+      background-color: #c0392b;
+    }
   }
 
   .back-button svg,
@@ -90,14 +94,14 @@
     font-size: 1rem;
     text-decoration: none;
     transition: background-color 0.2s;
-  }
 
-  .save-list-button:hover {
-    background-color: #005a30;
-  }
+    &:hover {
+      background-color: #005a30;
+    }
 
-  .save-list-button svg {
-    stroke: white;
+    svg {
+      stroke: white;
+    }
   }
 
   .loading-indicator {
@@ -125,11 +129,10 @@
     color: var(--hygiene-green);
     font-weight: bold;
     text-decoration: none;
-  }
 
-  .empty-list-message a:hover,
-  .error-message a:hover {
-    text-decoration: underline;
+    &:hover {
+      text-decoration-line: underline;
+    }
   }
 
   /* __ADDITIONAL_CSS__ */

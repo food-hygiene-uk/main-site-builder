@@ -1,3 +1,12 @@
+#globals {
+  --card-background-lowlight: transparent;
+  --card-background-highlight: transparent;
+  --card-color: transparent;
+  --hygiene-green: transparent;
+  --hygiene-green-lowlight: transparent;
+  --hygiene-green-highlight: transparent;
+}
+
 /* Styles for the "Add to List" button */
 .list-selection-button {
   display: flex;

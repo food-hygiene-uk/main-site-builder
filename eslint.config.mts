@@ -1,11 +1,13 @@
 import { defineConfig } from "eslint/config";
 import css from "@eslint/css";
+import cssicorn from "eslint-cssicorn";
+import jsdocPlugin from "eslint-plugin-jsdoc";
+import markdown from "@eslint/markdown";
+import prettierConfig from "eslint-config-prettier";
+import promisePlugin from "eslint-plugin-promise";
 import tsParser from "@typescript-eslint/parser";
 import tsPlugin from "@typescript-eslint/eslint-plugin";
-import prettierConfig from "eslint-config-prettier";
 import unicornPlugin from "eslint-plugin-unicorn";
-import jsdocPlugin from "eslint-plugin-jsdoc";
-import promisePlugin from "eslint-plugin-promise";
 
 /**
 Exports the ESLint configuration using the `defineConfig` helper.
@@ -127,10 +129,20 @@ export default defineConfig([
     },
   },
   {
+    files: ["**/*.md"],
+    plugins: {
+      markdown,
+    },
+    language: "markdown/commonmark",
+    processor: "markdown/markdown",
+    extends: ["markdown/recommended"],
+  },
+  cssicorn.configs.recommended,
+  {
     files: ["**/*.css"],
     plugins: {
       css,
-      unicorn: unicornPlugin,
+      cssicorn,
     },
     extends: ["css/recommended"],
     language: "css/css",
@@ -142,29 +154,13 @@ export default defineConfig([
           allowProperties: ["accent-color", "user-select"],
         },
       ], // handled by postcss
-      "css/no-invalid-properties": ["error", { allowUnknownVariables: true }],
-      "unicorn/expiring-todo-comments": "error",
-      "unicorn/no-deprecated-css-features": "error",
-      "unicorn/no-duplicate-css-selectors": "error",
-      "unicorn/no-duplicate-font-family-names": "error",
-      "unicorn/no-empty-file": "error",
-      "unicorn/no-invalid-media-features": "error",
-      "unicorn/no-missing-local-resource": "error",
-      "unicorn/no-nesting-with-mixed-specificity": "error",
-      "unicorn/no-redundant-nested-style-rules": "error",
-      "unicorn/no-shorthand-property-overrides": "error",
-      "unicorn/no-transition-all": "error",
-      "unicorn/no-unknown-css-annotations": "error",
-      "unicorn/no-unknown-pseudo-selectors": "error",
-      "unicorn/no-unscoped-css-nesting-selector": "error",
-      "unicorn/prefer-explicit-viewport-units": "error",
-      "unicorn/prefer-media-feature-range-syntax": "error",
-      "unicorn/text-encoding-identifier-case": "error",
     },
   },
   {
     // Ignore patterns
     ignores: [
+      ".agents/",
+      "agents/",
       "dist/",
       "build/",
       "deno.lock",
