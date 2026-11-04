@@ -3,8 +3,10 @@ import compat from "eslint-plugin-compat";
 import css from "@eslint/css";
 import cssicorn from "eslint-cssicorn";
 import jsdocPlugin from "eslint-plugin-jsdoc";
+import json from "@eslint/json";
 import markdown from "@eslint/markdown";
 import prettierConfig from "eslint-config-prettier";
+import packageJson from "eslint-package-json";
 import promisePlugin from "eslint-plugin-promise";
 import tsParser from "@typescript-eslint/parser";
 import tsPlugin from "@typescript-eslint/eslint-plugin";
@@ -131,6 +133,43 @@ export default defineConfig([
     },
   },
   {
+    files: ["**/*.json"],
+    language: "json/json",
+    plugins: {
+      json,
+    },
+    extends: ["json/recommended"],
+    ignores: ["package-lock.json"],
+  },
+  {
+    files: ["**/*.jsonc", ".vscode/*.json"],
+    language: "json/jsonc",
+    plugins: {
+      json,
+    },
+    extends: ["json/recommended"],
+  },
+  {
+    files: ["**/*.json5"],
+    language: "json/json5",
+    plugins: {
+      json,
+    },
+    extends: ["json/recommended"],
+  },
+  {
+    files: ["**/package.json"],
+    language: "json/json",
+    plugins: {
+      json,
+      "package-json": packageJson,
+    },
+    extends: ["package-json/recommended"],
+    rules: {
+      "package-json/require-private": "error",
+    },
+  },
+  {
     files: ["**/*.md"],
     plugins: {
       markdown,
@@ -166,7 +205,6 @@ export default defineConfig([
       "dist/",
       "build/",
       "deno.lock",
-      "package.json",
       "deno.json",
       "assets/google*.html",
       "node_modules/",

@@ -1,7 +1,12 @@
 {
   "name": "main-site-builder",
   "version": "1.0.0",
+  "private": true,
   "description": "Stub package.json",
+  "type": "module",
+  "engines": {
+    "node": "*"
+  },
   "cssnano": {
     "preset": "cssnano-preset-advanced"
   }
