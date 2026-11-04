@@ -74,7 +74,7 @@ describe("sortEstablishments", () => {
         }),
       ];
 
-      const result = sortEstablishments(establishments, "name", true);
+      const result = sortEstablishments(establishments, "name", "natural");
 
       assertEquals(result[0].BusinessName, "Apple Restaurant");
       assertEquals(result[1].BusinessName, "Burger Place");
@@ -100,7 +100,7 @@ describe("sortEstablishments", () => {
         }),
       ];
 
-      const result = sortEstablishments(establishments, "name", false);
+      const result = sortEstablishments(establishments, "name", "reverse");
 
       assertEquals(result[0].BusinessName, "Zebra Cafe");
       assertEquals(result[1].BusinessName, "Burger Place");
@@ -121,7 +121,7 @@ describe("sortEstablishments", () => {
         }),
       ];
 
-      const result = sortEstablishments(establishments, "name", true);
+      const result = sortEstablishments(establishments, "name", "natural");
 
       assertEquals(result[0].BusinessName, "Apple Restaurant");
       assertEquals(result[1].BusinessName, "zebra cafe");
@@ -129,33 +129,7 @@ describe("sortEstablishments", () => {
   });
 
   describe("when sortOption is 'rating'", () => {
-    it("should sort establishments by rating value in ascending order", () => {
-      const establishments = [
-        createEstablishment({
-          businessName: "Five Star",
-          ratingValue: "5",
-          ratingDate: "2025-01-01",
-        }),
-        createEstablishment({
-          businessName: "Three Star",
-          ratingValue: "3",
-          ratingDate: "2024-12-01",
-        }),
-        createEstablishment({
-          businessName: "Four Star",
-          ratingValue: "4",
-          ratingDate: "2024-11-01",
-        }),
-      ];
-
-      const result = sortEstablishments(establishments, "rating", true);
-
-      assertEquals(result[0].RatingValue, "3");
-      assertEquals(result[1].RatingValue, "4");
-      assertEquals(result[2].RatingValue, "5");
-    });
-
-    it("should sort establishments by rating value in descending order", () => {
+    it("should sort establishments by rating value in NATURAL order (descending)", () => {
       const establishments = [
         createEstablishment({
           businessName: "Three Star",
@@ -174,11 +148,37 @@ describe("sortEstablishments", () => {
         }),
       ];
 
-      const result = sortEstablishments(establishments, "rating", false);
+      const result = sortEstablishments(establishments, "rating", "natural");
 
       assertEquals(result[0].RatingValue, "5");
       assertEquals(result[1].RatingValue, "4");
       assertEquals(result[2].RatingValue, "3");
+    });
+
+    it("should sort establishments by rating value in REVERSE order (ascending)", () => {
+      const establishments = [
+        createEstablishment({
+          businessName: "Five Star",
+          ratingValue: "5",
+          ratingDate: "2025-01-01",
+        }),
+        createEstablishment({
+          businessName: "Three Star",
+          ratingValue: "3",
+          ratingDate: "2024-12-01",
+        }),
+        createEstablishment({
+          businessName: "Four Star",
+          ratingValue: "4",
+          ratingDate: "2024-11-01",
+        }),
+      ];
+
+      const result = sortEstablishments(establishments, "rating", "reverse");
+
+      assertEquals(result[0].RatingValue, "3");
+      assertEquals(result[1].RatingValue, "4");
+      assertEquals(result[2].RatingValue, "5");
     });
 
     it("should use date as secondary sort when ratings are equal", () => {
@@ -200,18 +200,26 @@ describe("sortEstablishments", () => {
         }),
       ];
 
-      const resultAsc = sortEstablishments(establishments, "rating", true);
-      const resultDesc = sortEstablishments(establishments, "rating", false);
+      const resultNatural = sortEstablishments(
+        establishments,
+        "rating",
+        "natural",
+      );
+      const resultReverse = sortEstablishments(
+        establishments,
+        "rating",
+        "reverse",
+      );
 
-      // When sorting ascending (true), dateComparison is used as-is, which is descending (most recent first)
-      assertEquals(resultAsc[0].RatingDate, "2024-01-01");
-      assertEquals(resultAsc[1].RatingDate, "2024-06-01");
-      assertEquals(resultAsc[2].RatingDate, "2025-01-01");
+      // With the natural direction, dateComparison is used as-is, which is descending (most recent first)
+      assertEquals(resultNatural[0].RatingDate, "2025-01-01");
+      assertEquals(resultNatural[1].RatingDate, "2024-06-01");
+      assertEquals(resultNatural[2].RatingDate, "2024-01-01");
 
-      // When sorting descending (false), dateComparison is negated, becoming ascending (oldest first)
-      assertEquals(resultDesc[0].RatingDate, "2025-01-01");
-      assertEquals(resultDesc[1].RatingDate, "2024-06-01");
-      assertEquals(resultDesc[2].RatingDate, "2024-01-01");
+      // With the reverse direction, dateComparison is negated, becoming ascending (oldest first)
+      assertEquals(resultReverse[0].RatingDate, "2024-01-01");
+      assertEquals(resultReverse[1].RatingDate, "2024-06-01");
+      assertEquals(resultReverse[2].RatingDate, "2025-01-01");
     });
 
     it("should use name as tertiary sort when ratings and dates are equal", () => {
@@ -233,23 +241,31 @@ describe("sortEstablishments", () => {
         }),
       ];
 
-      const resultAsc = sortEstablishments(establishments, "rating", true);
-      const resultDesc = sortEstablishments(establishments, "rating", false);
+      const resultNatural = sortEstablishments(
+        establishments,
+        "rating",
+        "natural",
+      );
+      const resultReverse = sortEstablishments(
+        establishments,
+        "rating",
+        "reverse",
+      );
 
       // When sorting ascending, names should be alphabetical
-      assertEquals(resultAsc[0].BusinessName, "Apple Restaurant");
-      assertEquals(resultAsc[1].BusinessName, "Burger Restaurant");
-      assertEquals(resultAsc[2].BusinessName, "Zebra Restaurant");
+      assertEquals(resultNatural[0].BusinessName, "Apple Restaurant");
+      assertEquals(resultNatural[1].BusinessName, "Burger Restaurant");
+      assertEquals(resultNatural[2].BusinessName, "Zebra Restaurant");
 
       // When sorting descending, names should be reverse alphabetical
-      assertEquals(resultDesc[0].BusinessName, "Zebra Restaurant");
-      assertEquals(resultDesc[1].BusinessName, "Burger Restaurant");
-      assertEquals(resultDesc[2].BusinessName, "Apple Restaurant");
+      assertEquals(resultReverse[0].BusinessName, "Zebra Restaurant");
+      assertEquals(resultReverse[1].BusinessName, "Burger Restaurant");
+      assertEquals(resultReverse[2].BusinessName, "Apple Restaurant");
     });
   });
 
   describe("when sortOption is 'date'", () => {
-    it("should sort establishments by date in ascending order (oldest first)", () => {
+    it("should sort establishments by date in NATURAL order (descending)", () => {
       const establishments = [
         createEstablishment({
           businessName: "Restaurant A",
@@ -268,37 +284,37 @@ describe("sortEstablishments", () => {
         }),
       ];
 
-      const result = sortEstablishments(establishments, "date", true);
-
-      assertEquals(result[0].RatingDate, "2024-01-01");
-      assertEquals(result[1].RatingDate, "2024-06-01");
-      assertEquals(result[2].RatingDate, "2025-01-01");
-    });
-
-    it("should sort establishments by date in descending order (newest first)", () => {
-      const establishments = [
-        createEstablishment({
-          businessName: "Restaurant A",
-          ratingValue: "5",
-          ratingDate: "2024-01-01",
-        }),
-        createEstablishment({
-          businessName: "Restaurant B",
-          ratingValue: "3",
-          ratingDate: "2025-01-01",
-        }),
-        createEstablishment({
-          businessName: "Restaurant C",
-          ratingValue: "4",
-          ratingDate: "2024-06-01",
-        }),
-      ];
-
-      const result = sortEstablishments(establishments, "date", false);
+      const result = sortEstablishments(establishments, "date", "natural");
 
       assertEquals(result[0].RatingDate, "2025-01-01");
       assertEquals(result[1].RatingDate, "2024-06-01");
       assertEquals(result[2].RatingDate, "2024-01-01");
+    });
+
+    it("should sort establishments by date in REVERSE order (ascending)", () => {
+      const establishments = [
+        createEstablishment({
+          businessName: "Restaurant A",
+          ratingValue: "5",
+          ratingDate: "2024-01-01",
+        }),
+        createEstablishment({
+          businessName: "Restaurant B",
+          ratingValue: "3",
+          ratingDate: "2025-01-01",
+        }),
+        createEstablishment({
+          businessName: "Restaurant C",
+          ratingValue: "4",
+          ratingDate: "2024-06-01",
+        }),
+      ];
+
+      const result = sortEstablishments(establishments, "date", "reverse");
+
+      assertEquals(result[0].RatingDate, "2024-01-01");
+      assertEquals(result[1].RatingDate, "2024-06-01");
+      assertEquals(result[2].RatingDate, "2025-01-01");
     });
 
     it("should use name as secondary sort when dates are equal", () => {
@@ -320,7 +336,7 @@ describe("sortEstablishments", () => {
         }),
       ];
 
-      const result = sortEstablishments(establishments, "date", true);
+      const result = sortEstablishments(establishments, "date", "natural");
 
       assertEquals(result[0].BusinessName, "Apple Restaurant");
       assertEquals(result[1].BusinessName, "Burger Restaurant");
@@ -341,7 +357,7 @@ describe("sortEstablishments", () => {
         }),
       ];
 
-      const result = sortEstablishments(establishments, "date", true);
+      const result = sortEstablishments(establishments, "date", "natural");
 
       assertEquals(result[0].BusinessName, "Has Date");
       assertEquals(result[1].BusinessName, "No Date");
@@ -364,7 +380,7 @@ describe("sortEstablishments", () => {
       ];
 
       const original = [...establishments];
-      sortEstablishments(establishments, "name", true);
+      sortEstablishments(establishments, "name", "natural");
 
       assertEquals(establishments, original);
     });
@@ -378,7 +394,7 @@ describe("sortEstablishments", () => {
         }),
       ];
 
-      const result = sortEstablishments(establishments, "name", true);
+      const result = sortEstablishments(establishments, "name", "natural");
 
       // Check that it's a different array reference
       assertEquals(result === establishments, false);
@@ -393,7 +409,7 @@ describe("sortEstablishments", () => {
         fc.property(
           fc.array(establishmentArbitrary, { minLength: 0, maxLength: 20 }),
           fc.constantFrom("name", "rating", "date"),
-          fc.boolean(),
+          fc.constantFrom("natural", "reverse"),
           (establishments, sortOption, sortDirection) => {
             const result = sortEstablishments(
               establishments,
@@ -412,7 +428,7 @@ describe("sortEstablishments", () => {
         fc.property(
           fc.array(establishmentArbitrary, { minLength: 1, maxLength: 20 }),
           fc.constantFrom("name", "rating", "date"),
-          fc.boolean(),
+          fc.constantFrom("natural", "reverse"),
           (establishments, sortOption, sortDirection) => {
             const result = sortEstablishments(
               establishments,
@@ -439,7 +455,7 @@ describe("sortEstablishments", () => {
         fc.property(
           fc.array(establishmentArbitrary, { minLength: 1, maxLength: 20 }),
           fc.constantFrom("name", "rating", "date"),
-          fc.boolean(),
+          fc.constantFrom("natural", "reverse"),
           (establishments, sortOption, sortDirection) => {
             const originalCopy = structuredClone(establishments);
             sortEstablishments(establishments, sortOption, sortDirection);
@@ -455,7 +471,11 @@ describe("sortEstablishments", () => {
         fc.property(
           fc.array(establishmentArbitrary, { minLength: 2, maxLength: 10 }),
           (establishments) => {
-            const result = sortEstablishments(establishments, "name", true);
+            const result = sortEstablishments(
+              establishments,
+              "name",
+              "natural",
+            );
 
             for (let index = 1; index < result.length; index++) {
               const current = result[index].BusinessName;
@@ -477,7 +497,11 @@ describe("sortEstablishments", () => {
         fc.property(
           fc.array(establishmentArbitrary, { minLength: 2, maxLength: 10 }),
           (establishments) => {
-            const result = sortEstablishments(establishments, "name", false);
+            const result = sortEstablishments(
+              establishments,
+              "name",
+              "reverse",
+            );
 
             for (let index = 1; index < result.length; index++) {
               const current = result[index].BusinessName;
@@ -498,7 +522,7 @@ describe("sortEstablishments", () => {
       fc.assert(
         fc.property(
           fc.constantFrom("name", "rating", "date"),
-          fc.boolean(),
+          fc.constantFrom("natural", "reverse"),
           (sortOption, sortDirection) => {
             const result = sortEstablishments([], sortOption, sortDirection);
             assertEquals(result.length, 0);
@@ -513,7 +537,7 @@ describe("sortEstablishments", () => {
         fc.property(
           establishmentArbitrary,
           fc.constantFrom("name", "rating", "date"),
-          fc.boolean(),
+          fc.constantFrom("natural", "reverse"),
           (establishment, sortOption, sortDirection) => {
             const result = sortEstablishments(
               [establishment],
@@ -533,7 +557,7 @@ describe("sortEstablishments", () => {
         fc.property(
           fc.array(establishmentArbitrary, { minLength: 2, maxLength: 10 }),
           fc.constantFrom("name", "rating", "date"),
-          fc.boolean(),
+          fc.constantFrom("natural", "reverse"),
           (establishments, sortOption, sortDirection) => {
             const result1 = sortEstablishments(
               establishments,
@@ -566,11 +590,15 @@ describe("sortEstablishments", () => {
               return new Set(names).size === names.length;
             }),
           (establishments) => {
-            const ascResult = sortEstablishments(establishments, "name", true);
+            const ascResult = sortEstablishments(
+              establishments,
+              "name",
+              "natural",
+            );
             const descResult = sortEstablishments(
               establishments,
               "name",
-              false,
+              "reverse",
             );
 
             assertEquals(ascResult.toReversed(), descResult);

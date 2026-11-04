@@ -344,7 +344,6 @@ Creates a URL-friendly slug from a text string
 */
 const slugify = (text) => {
   return text
-    .toString()
     .toLowerCase()
     .replaceAll(/\s+/g, "-")
     .replaceAll(/[^\w\-]+/g, "")

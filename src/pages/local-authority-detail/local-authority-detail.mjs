@@ -108,10 +108,10 @@ const processBatch = (startIndex, batchSize, searchTerms, resolve) => {
 
   for (let index = startIndex; index < end; index++) {
     const data = establishmentData[index];
-    const matchesAll = searchTerms.every(
+    const doesMatchAll = searchTerms.every(
       (term) => data.name.includes(term) || data.address.includes(term),
     );
-    if (matchesAll) {
+    if (doesMatchAll) {
       updates.add(data);
     }
   }

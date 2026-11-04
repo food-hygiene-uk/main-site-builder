@@ -6,7 +6,6 @@
 @typedef {{ establishments: Array<Establishment>; meta: { totalCount: number } }} EstablishmentsResponse
 */
 
-/* eslint-disable unicorn/no-top-level-side-effects */
 import { EstablishmentList } from "components/establishment-list/establishment-list.mjs";
 import { getReference } from "utils/dom.mjs";
 
@@ -150,21 +149,21 @@ function updateUIForConsent(hasConsent) {
 /**
 Enables or disables all form elements based on consent status
 
-@param {boolean} disabled - Whether the form elements should be disabled
+@param {boolean} isDisabled - Whether the form elements should be disabled
 */
-function disableFormElements(disabled) {
+function disableFormElements(isDisabled) {
   // Disable/enable all form inputs
   const formElements =
     /** @type {NodeListOf<HTMLInputElement | HTMLSelectElement | HTMLButtonElement>} */ (
       references.searchForm.querySelectorAll("input, select, button")
     );
   for (const element of formElements) {
-    element.disabled = disabled;
+    element.disabled = isDisabled;
   }
 
   // Also disable the advanced toggle
   if (references.advancedToggle) {
-    references.advancedToggle.disabled = disabled;
+    references.advancedToggle.disabled = isDisabled;
   }
 }
 
