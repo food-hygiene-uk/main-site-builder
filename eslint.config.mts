@@ -135,6 +135,7 @@ export default defineConfig([
     },
     language: "markdown/commonmark",
     processor: "markdown/markdown",
+    extends: ["markdown/recommended"],
   },
   cssicorn.configs.recommended,
   {

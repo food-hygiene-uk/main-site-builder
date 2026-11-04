@@ -20,6 +20,7 @@
         "git.autofetch": true
       },
       "extensions": [
+        "dbaeumer.vscode-eslint",
         "denoland.vscode-deno",
         "EditorConfig.EditorConfig",
         "esbenp.prettier-vscode",
