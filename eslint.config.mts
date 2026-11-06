@@ -170,6 +170,17 @@ export default defineConfig([
     },
   },
   {
+    files: ["**/tsconfig.json", ".vscode/*.json"],
+    language: "json/jsonc",
+    languageOptions: {
+      allowTrailingCommas: true,
+    },
+    plugins: {
+      json,
+    },
+    extends: ["json/recommended"],
+  },
+  {
     files: ["**/*.md"],
     plugins: {
       markdown,
