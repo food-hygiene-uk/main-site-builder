@@ -3,6 +3,8 @@ import { describe, it } from "node:test";
 import fc from "fast-check";
 import { encodeName, forTestingOnly } from "./file.mts";
 
+const validFilenameRegex = /^[a-z0-9-]*$/;
+
 describe("encodeName", () => {
   it("keeps valid characters unchanged", () => {
     const input = "valid-filename-123";
@@ -74,7 +76,7 @@ describe("encodeName", () => {
 
           // kebab-case
           assert(
-            /^[a-z0-9-]*$/.test(result),
+            validFilenameRegex.test(result),
             `Result "${result}" contains invalid characters.`,
           );
         }),

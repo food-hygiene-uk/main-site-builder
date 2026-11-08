@@ -2,6 +2,7 @@ import { defineConfig } from "eslint/config";
 import compat from "eslint-plugin-compat";
 import css from "@eslint/css";
 import cssicorn from "eslint-cssicorn";
+import e18e from "@e18e/eslint-plugin";
 import jsdocPlugin from "eslint-plugin-jsdoc";
 import json from "@eslint/json";
 import markdown from "@eslint/markdown";
@@ -29,7 +30,7 @@ export default defineConfig([
 
   // Plugin configurations
   promisePlugin.configs["flat/recommended"],
-
+  e18e.configs.recommended,
   {
     // Global settings for all files
     languageOptions: {

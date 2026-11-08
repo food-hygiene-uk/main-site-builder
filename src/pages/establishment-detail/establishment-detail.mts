@@ -36,6 +36,7 @@ const Root = forgeRoot();
 const HeaderPromise = forgeHeader();
 const FooterPromise = forgeFooter();
 const address = Address();
+const ratingDateFormatRegex = /(\d{2}) (\w{3}) (\d{4})/;
 
 type ScoreType = keyof typeof scoreDescriptors.scoreDescriptors;
 type ScoreKey = keyof (typeof scoreDescriptors.scoreDescriptors)[ScoreType];
@@ -125,7 +126,7 @@ const getRatingDate = (
   const options = { year: "numeric", month: "long", day: "numeric" } as const;
   const formattedDate = date
     .toLocaleDateString("en-GB", options)
-    .replace(/(\d{2}) (\w{3}) (\d{4})/, "$1 $2 $3");
+    .replace(ratingDateFormatRegex, "$1 $2 $3");
 
   return {
     iso: ratingDate,

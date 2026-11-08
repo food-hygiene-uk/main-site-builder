@@ -7,6 +7,9 @@ import recentEstablishmentsService from "scripts/recent-establishments-service.m
 import { renderListSelectionButton } from "components/list-selection-button/list-selection-button.mjs";
 import { lacToRegionSlug } from "scripts/region.mjs";
 
+const LEADING_HYPHENS_REGEX = /^-+/;
+const TRAILING_HYPHENS_REGEX = /-+$/;
+
 /**
 Formats a date as a relative time (e.g., "2 days ago")
 
@@ -64,8 +67,8 @@ export function slugify(text) {
     .replaceAll(/\s+/g, "-")
     .replaceAll(/[^\w\-]+/g, "")
     .replaceAll(/\-\-+/g, "-")
-    .replace(/^-+/, "")
-    .replace(/-+$/, "");
+    .replace(LEADING_HYPHENS_REGEX, "")
+    .replace(TRAILING_HYPHENS_REGEX, "");
 }
 
 /**

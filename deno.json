@@ -1,6 +1,7 @@
 {
   "publish": false,
   "imports": {
+    "@e18e/eslint-plugin": "npm:@e18e/eslint-plugin@0.8.1",
     "@eslint/css": "npm:@eslint/css@2.0.1",
     "@eslint/json": "npm:@eslint/json@2.1.1",
     "@eslint/markdown": "npm:@eslint/markdown@8.0.3",
