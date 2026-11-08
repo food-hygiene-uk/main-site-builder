@@ -5,6 +5,7 @@ import { EnrichedLocalAuthorities } from "./schema-app.mts";
 import { getBuildFileName } from "../lib/local-authority/local-authority.mts";
 
 const SHOULD_USE_CACHED_DATA = Deno.env.get("CI") ? false : true;
+const XML_EXTENSION_RE = /\.xml$/;
 
 /**
 Fetches and processes data for a list of local authorities.
@@ -40,7 +41,10 @@ export const fetchLocalAuthorityData = async (
 ): Promise<EnrichedLocalAuthorities> => {
   return await Promise.all(
     localAuthorities.map(async (localAuthority) => {
-      const jsonDataURL = localAuthority.FileName.replace(/\.xml$/, ".json");
+      const jsonDataURL = localAuthority.FileName.replace(
+        XML_EXTENSION_RE,
+        ".json",
+      );
       const filename = getBuildFileName(localAuthority);
 
       if (

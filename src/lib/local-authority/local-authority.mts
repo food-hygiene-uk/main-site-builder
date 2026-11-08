@@ -3,10 +3,13 @@ import { type EnrichedLocalAuthority } from "../../generate-site/schema-app.mts"
 import { dataSchema, type Establishment } from "../../generate-site/schema.mts";
 import { type Authority } from "../../ratings-data/types.mts";
 
-export const getBuildFileName = (localAuthority: Authority) => {
-  const dataURL = localAuthority.FileName.replace(/\.xml$/, ".json");
+const XML_FILE_NAME_REGEX = /\.xml$/;
+const BUILD_FILE_NAME_REGEX = /\/([^/]*\.json)$/;
 
-  const match = dataURL.match(/\/([^/]*\.json)$/);
+export const getBuildFileName = (localAuthority: Authority) => {
+  const dataURL = localAuthority.FileName.replace(XML_FILE_NAME_REGEX, ".json");
+
+  const match = dataURL.match(BUILD_FILE_NAME_REGEX);
   if (!match) {
     throw new Error(`Invalid dataURL: ${dataURL}`);
   }

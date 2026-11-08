@@ -336,6 +336,12 @@ const formatRelativeTime = (date) => {
     : "just now";
 };
 
+const SLUG_WHITESPACE_RE = /\s+/g;
+const SLUG_INVALID_CHAR_RE = /[^\w\-]+/g;
+const SLUG_MULTIPLE_HYPHENS_RE = /\-\-+/g;
+const SLUG_LEADING_HYPHENS_RE = /^-+/;
+const SLUG_TRAILING_HYPHENS_RE = /-+$/;
+
 /**
 Creates a URL-friendly slug from a text string
 
@@ -345,9 +351,9 @@ Creates a URL-friendly slug from a text string
 const slugify = (text) => {
   return text
     .toLowerCase()
-    .replaceAll(/\s+/g, "-")
-    .replaceAll(/[^\w\-]+/g, "")
-    .replaceAll(/\-\-+/g, "-")
-    .replace(/^-+/, "")
-    .replace(/-+$/, "");
+    .replaceAll(SLUG_WHITESPACE_RE, "-")
+    .replaceAll(SLUG_INVALID_CHAR_RE, "")
+    .replaceAll(SLUG_MULTIPLE_HYPHENS_RE, "-")
+    .replace(SLUG_LEADING_HYPHENS_RE, "")
+    .replace(SLUG_TRAILING_HYPHENS_RE, "");
 };

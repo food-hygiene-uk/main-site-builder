@@ -12,6 +12,10 @@ import {
   getLinkURL,
 } from "./authority.mts";
 
+const INVALID_FRIENDLY_NAME_CHARACTERS_PATTERN = /[^a-z0-9]+/g;
+const LEADING_OR_TRAILING_DASHES_PATTERN = /^-+|-+$/g;
+const VALID_FRIENDLY_NAME_PATTERN = /^[a-z][a-z0-9-]*$/;
+
 // Arbitrary for generating FriendlyName strings that actualEncodeName will not throw for.
 // This ensures property-based tests focus on valid transformation paths.
 // Generates valid kebab-case strings (e.g., 'my-example-123').
@@ -19,8 +23,12 @@ const validFriendlyNameArbitrary = fc
   .string({ minLength: 1, maxLength: 10, unit: "grapheme-ascii" })
   .map((s) => s.toLowerCase())
   .map((s) => "a" + s) // Ensure it starts with a letter after potential hex to string conversion
-  .map((s) => s.replaceAll(/[^a-z0-9]+/g, "-").replaceAll(/^-+|-+$/g, ""))
-  .filter((s) => s.length > 0 && /^[a-z][a-z0-9-]*$/.test(s))
+  .map((s) =>
+    s
+      .replaceAll(INVALID_FRIENDLY_NAME_CHARACTERS_PATTERN, "-")
+      .replaceAll(LEADING_OR_TRAILING_DASHES_PATTERN, "")
+  )
+  .filter((s) => s.length > 0 && VALID_FRIENDLY_NAME_PATTERN.test(s))
   .filter((s) => {
     try {
       actualEncodeName(s); // Check if encodeName would throw for this string

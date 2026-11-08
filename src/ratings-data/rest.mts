@@ -4,6 +4,9 @@ import {
   authoritiesResponseSchema,
 } from "./types.mts";
 
+const ratingsOpenDataFilesURLPattern =
+  /^https:\/\/ratings\.food\.gov\.uk\/OpenDataFiles\//;
+
 export const authorities = async (): Promise<AuthoritiesResponse> => {
   const response = await fetch(
     "https://food-hygiene-uk.github.io/data/files/api/authorities-en-GB.json",
@@ -29,7 +32,7 @@ export const fetchLocalAuthorityData = async (
   url: string,
 ): Promise<LocalAuthorityData> => {
   const redirectedURL = url.replace(
-    /^https:\/\/ratings\.food\.gov\.uk\/OpenDataFiles\//,
+    ratingsOpenDataFilesURLPattern,
     "https://food-hygiene-uk.github.io/data/files/open-data-files/",
   );
 

@@ -1,4 +1,5 @@
 const suffixPoolIndexes = new Map();
+const callerFilenameRegex = /^.*(\/src\/(.*?)\.mts)/;
 
 /**
 Gets a hash of the caller's filename for consistent class suffix generation
@@ -11,7 +12,7 @@ const getCallerFilenameHash = (): string => {
   const callerLine = stack[3]; // 0: Error, 1: getCallerFilenameHash, 2: getClassSuffix, 3: caller
 
   // Extract filename from the caller line (format may vary)
-  const filenameMatch = callerLine.match(/^.*(\/src\/(.*?)\.mts)/);
+  const filenameMatch = callerLine.match(callerFilenameRegex);
   if (filenameMatch && filenameMatch[1]) {
     const filename = filenameMatch[1];
 

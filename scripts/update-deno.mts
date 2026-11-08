@@ -2,6 +2,8 @@
 Fetches the latest Deno version from the GitHub API and updates the .deno-version
 file and the devcontainer.json file with the new version.
 */
+const DENO_VERSION_PREFIX_REGEX = /^v/;
+
 const updateDenoVersion = async () => {
   const latestReleaseUrl =
     "https://api.github.com/repos/denoland/deno/releases/latest";
@@ -15,7 +17,10 @@ const updateDenoVersion = async () => {
   }
 
   const releaseData = await response.json();
-  const latestVersion = releaseData.tag_name.replace(/^v/, "");
+  const latestVersion = releaseData.tag_name.replace(
+    DENO_VERSION_PREFIX_REGEX,
+    "",
+  );
 
   // Update .deno-version
   const denoVersionPath = "./.deno-version";
