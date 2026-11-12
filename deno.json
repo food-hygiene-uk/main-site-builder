@@ -16,7 +16,7 @@
     "baseline-browser-mapping": "npm:baseline-browser-mapping@2.11.35",
     "browserslist-lint": "npm:browserslist-lint@0.4.0",
     "browserslist": "npm:browserslist@4.29.5",
-    "caniuse-lite": "npm:caniuse-lite@1.0.30001820",
+    "caniuse-lite": "npm:caniuse-lite@1.0.30001822",
     "components/establishment-card/": "./src/browser/components/establishment-card/",
     "components/": "./src/components/",
     "cssnano-preset-advanced": "npm:cssnano-preset-advanced@10.0.0",
