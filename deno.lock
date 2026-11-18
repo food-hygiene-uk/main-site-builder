@@ -24,7 +24,7 @@
     "npm:baseline-browser-mapping@2.11.35": "2.11.35",
     "npm:browserslist-lint@0.4.0": "0.4.0",
     "npm:browserslist@4.29.5": "4.29.5",
-    "npm:caniuse-lite@1.0.30001823": "1.0.30001823",
+    "npm:caniuse-lite@1.0.30001826": "1.0.30001826",
     "npm:cssnano-preset-advanced@10.0.0": "10.0.0_postcss@8.5.32",
     "npm:cssnano@9.9.0": "9.9.0_postcss@8.5.32",
     "npm:eslint-config-prettier@10.1.8": "10.1.8_eslint@10.14.0_jiti@2.7.0",
@@ -1090,8 +1090,8 @@
         "caniuse-lite"
       ]
     },
-    "caniuse-lite@1.0.30001823": {
-      "integrity": "sha512-TQ5s/djDjNk1axreUW+4rULH+BmdCMLiJkhaXnO5wqivG7tITkSUj4ItIdzqdZHKaXcHAV8dhH3JxOM7/7bwqw=="
+    "caniuse-lite@1.0.30001826": {
+      "integrity": "sha512-wTB+9tIbLro/BCXwLuNV1meHE4L9dS6dArMDwgYfNBPMYScqClHyGunhkCSDtHhe/69Xl0sHlKgBVZ+fNsYtWA=="
     },
     "ccount@2.0.1": {
       "integrity": "sha512-eyrF0jiFpY+3drT6383f1qhkbGsLSifNAjA61IUjZjmLCWjItY6LB9ft9YhoDgwfmclB2zhu51Lc7+95b8NRAg=="
@@ -3358,7 +3358,7 @@
       "npm:baseline-browser-mapping@2.11.35",
       "npm:browserslist-lint@0.4.0",
       "npm:browserslist@4.29.5",
-      "npm:caniuse-lite@1.0.30001823",
+      "npm:caniuse-lite@1.0.30001826",
       "npm:cssnano-preset-advanced@10.0.0",
       "npm:cssnano@9.9.0",
       "npm:eslint-config-prettier@10.1.8",
