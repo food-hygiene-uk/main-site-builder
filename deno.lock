@@ -38,7 +38,7 @@
     "npm:estree-walker@3.0.3": "3.0.3",
     "npm:fast-check@4.10.2": "4.10.2",
     "npm:fast-check@4.3.0": "4.3.0",
-    "npm:htmlnano@3.6.1": "3.6.1_cssnano@9.9.0_postcss@8.5.32_terser@5.51.2",
+    "npm:htmlnano@3.7.0": "3.7.0_cssnano@9.9.0_postcss@8.5.32_terser@5.51.2",
     "npm:http-server@*": "14.1.1",
     "npm:http-server@14.1.1": "14.1.1",
     "npm:jiti@2.7.0": "2.7.0",
@@ -1124,8 +1124,8 @@
     "colord@2.10.0": {
       "integrity": "sha512-AidJptpBJmjTclAp9BkLwJi0T93fo5epJnbaZslpg6QVzpHjAiveF55mE9AcUJiGMqRHgMDY8soMsQtuNYMHfw=="
     },
-    "commander@15.0.0": {
-      "integrity": "sha512-z67u4ZhzCL/Tydu1lJARtEZYWbWaN7oYLHbsuzocr6y4N6WZAagG3RQ4FW61V1/0+jImpj293XfrcYnd1qxtPg=="
+    "commander@15.1.0": {
+      "integrity": "sha512-cgnQ88TRrWcC7pVq46RzJVRMktu3W2RcbnoidnfBsl1bmDCBwJS/udcIZpKoCrbAYYaCqsz1yZCVIgbIaU3ddQ=="
     },
     "commander@2.20.3": {
       "integrity": "sha512-GpVkmM8vF2vQUkj2LvZmD35JxeJOLCwJ9cUkugyk2nuhbv3+mJvpLYYt+0+USMxE+oj+ey/lJEnhZw75x/OMcQ=="
@@ -1720,14 +1720,14 @@
     "html-tags@5.1.0": {
       "integrity": "sha512-n6l5uca7/y5joxZ3LUePhzmBFUJ+U2YWzhMa8XUTecSeSlQiZdF5XAd/Q3/WUl0VsXgUwWi8I7CNIwdI5WN1SQ=="
     },
-    "htmlnano@3.6.1_cssnano@9.9.0_postcss@8.5.32_terser@5.51.2": {
-      "integrity": "sha512-BYPyIO1bcfSOIGqPH0fOSR+Vs8tBJUcOjnsfrPUkVthSueF1kIrtSE7CvksqKAjqAgPc+fMZ80jaexnfxnGpbw==",
+    "htmlnano@3.7.0_cssnano@9.9.0_postcss@8.5.32_terser@5.51.2": {
+      "integrity": "sha512-iSLckXd9QwXk5j4501v+lilFx+XjbcAP5hzrWmD9mWKF58Zk6PCCbQ3ioE7u9FyBrsIEpgy5k8M27LPaWhef+w==",
       "dependencies": [
         "@types/relateurl",
-        "commander@15.0.0",
+        "commander@15.1.0",
         "cosmiconfig",
         "cssnano",
-        "entities@8.1.0",
+        "entities@9.0.0",
         "postcss",
         "posthtml",
         "terser",
@@ -3370,7 +3370,7 @@
       "npm:eslint-plugin-unicorn@79.0.0",
       "npm:eslint@10.14.0",
       "npm:fast-check@4.10.2",
-      "npm:htmlnano@3.6.1",
+      "npm:htmlnano@3.7.0",
       "npm:http-server@14.1.1",
       "npm:jiti@2.7.0",
       "npm:playwright@1.65.0",
