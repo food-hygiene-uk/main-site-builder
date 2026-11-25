@@ -15,7 +15,7 @@
     "npm:@e18e/eslint-plugin@0.8.1": "0.8.1_eslint@10.15.0_jiti@2.7.0",
     "npm:@eslint/css@2.0.1": "2.0.1",
     "npm:@eslint/json@2.1.1": "2.1.1",
-    "npm:@eslint/markdown@8.0.3": "8.0.3",
+    "npm:@eslint/markdown@9.0.0": "9.0.0",
     "npm:@playwright/test@1.65.1": "1.65.1",
     "npm:@types/estree@1.0.6": "1.0.6",
     "npm:@types/node@*": "26.5.1",
@@ -711,8 +711,8 @@
         "natural-compare"
       ]
     },
-    "@eslint/markdown@8.0.3": {
-      "integrity": "sha512-rBTSSShrq7e4O+PWfeE4azH4/CWPNrC+VGxBXiW00o3vYVJnznsZiDayj3KC9JztIMVRZxZHn2nrDIUau/4j7A==",
+    "@eslint/markdown@9.0.0": {
+      "integrity": "sha512-287jt3NwhChN7TLsWq44IB5vUAKwwNXafzLlR1CMcQK5/4mAwbwwAzqr/S7gCYRRJOSHCgGXzIV9uPCh1P810A==",
       "dependencies": [
         "@eslint/core",
         "@eslint/plugin-kit",
@@ -1893,14 +1893,14 @@
     "lru-cache@11.5.3": {
       "integrity": "sha512-U4N8FgzmWxc8k1VH8Kr6lQg18U7Fjvby6wXHVRX/ZZ7IwWbRMgrRbP0Wrb5q5NVinryp4SQampHKdvtecItxUg=="
     },
-    "markdown-table@3.0.4": {
-      "integrity": "sha512-wiYz4+JrLyb/DqW2hkFJxP7Vd7JuTDm77fvbM8VfEQdmSMqcImWeeRbHwZjBjIFki/VaMK2BhFi7oUUZeM5bqw=="
+    "markdown-table@3.1.0": {
+      "integrity": "sha512-xpeSCdM+B+6P3ncfgaB7FoDbtJ30xAe6Z18TGT7AgXJsHqCElCICZovQqdRMm7kHgpTyYv36EupqewoFFSB8vw=="
     },
     "math-intrinsics@1.1.0": {
       "integrity": "sha512-/IXtbwEk5HTPyEwyKX6hGkYXxM9nbj64B+ilVJnC/R6B0pH5G4V3b0pVbL7DBj4tkhBAppbQUlf6F6Xl9LHu1g=="
     },
-    "mdast-util-find-and-replace@3.0.4": {
-      "integrity": "sha512-z4B5c6jrnJ1ltOQemhWYPBSAo6y42Z8Gt2yEgfgNTMcLSU59B8bfj8Z8AnAlJrBGLnqkdAUZ7jdDEqQw3KuipQ==",
+    "mdast-util-find-and-replace@3.0.5": {
+      "integrity": "sha512-of3wZLEBWpK8mSYy8wmKnwyxfUKjhCkXxGLz45DVBqfcahTP37LscCK+0oAZh+ReZ5OunPDkB2zdGMIxrojLhw==",
       "dependencies": [
         "@types/mdast",
         "escape-string-regexp@5.0.0",
@@ -1936,8 +1936,8 @@
         "micromark-extension-frontmatter"
       ]
     },
-    "mdast-util-gfm-autolink-literal@2.0.1": {
-      "integrity": "sha512-5HVP2MKaP6L+G6YaxPNjuL0BPrq9orG3TsrZ9YXbA3vDw/ACI4MEsnoDpn6ZNm7GnZgtAcONJyPhOP8tNJQavQ==",
+    "mdast-util-gfm-autolink-literal@2.1.2": {
+      "integrity": "sha512-rAlbZBGZfv2YRr6lSFGHTN305KkNawOYRRlbldFyPHnTlHJZwlGdzVwyIDvr3fxbhRbmJOSZc06c8H5Fgfu8Ng==",
       "dependencies": [
         "@types/mdast",
         "ccount",
@@ -1964,18 +1964,20 @@
         "mdast-util-to-markdown"
       ]
     },
-    "mdast-util-gfm-table@2.0.0": {
-      "integrity": "sha512-78UEvebzz/rJIxLvE7ZtDd/vIQ0RHv+3Mh5DR96p7cS7HsBhYIICDBCu8csTNWNO6tBWfqXPWekRuj2FNOGOZg==",
+    "mdast-util-gfm-table@2.0.1": {
+      "integrity": "sha512-fiIjPrAy4kz68/eFbPHhsiWDGHhqUSVoU1XsfLM5DsEPXw7MxgiVVyulUggFRckVWeT1KXQXkg5vm3kv4oMSOA==",
       "dependencies": [
         "@types/mdast",
         "devlop",
         "markdown-table",
         "mdast-util-from-markdown",
-        "mdast-util-to-markdown"
+        "mdast-util-to-markdown",
+        "mdast-util-to-string",
+        "unist-util-visit"
       ]
     },
-    "mdast-util-gfm-task-list-item@2.0.0": {
-      "integrity": "sha512-IrtvNvjxC1o06taBAVJznEnkiHxLFTzgonUdy8hzFVeDun0uTjxxrRGVaNFqkU1wJR3RBPEfsxmU6jDWPofrTQ==",
+    "mdast-util-gfm-task-list-item@2.0.1": {
+      "integrity": "sha512-jXVO1hvB2hs82g1esi7I9nIJDqiijbQLIyH2jDUb5s7jIAZMr/79h0VHSq7XHKTqpLARRm+DDNjduB7S9+6XZA==",
       "dependencies": [
         "@types/mdast",
         "devlop",
@@ -2014,8 +2016,8 @@
         "unist-util-is"
       ]
     },
-    "mdast-util-to-markdown@2.2.1": {
-      "integrity": "sha512-ThatlCBxG2GE+mljhNSfZPv56d3QrGiRh97jjYgIk80IzS4uU6d7cHAaexCYSAmUCCcOs3grJ07kX3oTGsFUOw==",
+    "mdast-util-to-markdown@2.2.4": {
+      "integrity": "sha512-aCsogoZ2Oz1EItAlC12A+/uGuzp+CWlDU0xZ3o5jbJaepLsOu2tlxpvHslnX5dRhspD1gxNVkBtYG0yMiIpXoQ==",
       "dependencies": [
         "@types/mdast",
         "@types/unist",
@@ -3359,7 +3361,7 @@
       "npm:@e18e/eslint-plugin@0.8.1",
       "npm:@eslint/css@2.0.1",
       "npm:@eslint/json@2.1.1",
-      "npm:@eslint/markdown@8.0.3",
+      "npm:@eslint/markdown@9.0.0",
       "npm:@playwright/test@1.65.1",
       "npm:@typescript-eslint/eslint-plugin@8.73.0",
       "npm:@typescript-eslint/parser@8.73.0",
