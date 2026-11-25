@@ -31,7 +31,7 @@
     "npm:eslint-cssicorn@0.3.0": "0.3.0_@eslint+css@2.0.1_eslint@10.15.0_jiti@2.7.0",
     "npm:eslint-package-json@3.0.0": "3.0.0_eslint@10.15.0_jiti@2.7.0",
     "npm:eslint-plugin-compat@7.0.2": "7.0.2_eslint@10.15.0_jiti@2.7.0",
-    "npm:eslint-plugin-jsdoc@65.4.11": "65.4.11_eslint@10.15.0_typescript@6.0.3_jiti@2.7.0",
+    "npm:eslint-plugin-jsdoc@65.4.12": "65.4.12_eslint@10.15.0_typescript@6.0.3_jiti@2.7.0",
     "npm:eslint-plugin-promise@7.3.0": "7.3.0_eslint@10.15.0_jiti@2.7.0",
     "npm:eslint-plugin-unicorn@79.0.0": "79.0.0_eslint@10.15.0_typescript@6.0.3_jiti@2.7.0",
     "npm:eslint@10.15.0": "10.15.0_jiti@2.7.0",
@@ -995,8 +995,8 @@
         "color-convert"
       ]
     },
-    "are-docs-informative@0.1.1": {
-      "integrity": "sha512-sqRsNQBwbKLRX0jV5Cu5uzmtflf892n4Vukz7T659ebL4pz3mpOqCMU7lxMoBTFwnp10E3YB5ZcyHM41W5bcDA=="
+    "are-docs-informative@0.1.2": {
+      "integrity": "sha512-ivIO3M7NYwWxOmC0uU9wBGF/c6b8VdKmYuIbH6cwpvfw8W5MttFaecUmMqOl77D/rZU9ipN/eB1E17ry+SEI4Q=="
     },
     "argparse@3.0.3": {
       "integrity": "sha512-Sn98ftV3KfsO8xfLPHG6oT8y+b0yvbrLgZjgPDXsharNY15tTAjqIsIju4S32nl6/iEUNNE4v+yL2Zhm8ooP3w=="
@@ -1407,8 +1407,8 @@
         "semver"
       ]
     },
-    "eslint-plugin-jsdoc@65.4.11_eslint@10.15.0_typescript@6.0.3_jiti@2.7.0": {
-      "integrity": "sha512-AJKIO+PFh+xriGEeRWJcOubfZgu7R1lOTipQ8358cwYri5B/tvJFQdr8y6V7xAr4T+lPnz7LsQgv7QyA58UY0w==",
+    "eslint-plugin-jsdoc@65.4.12_eslint@10.15.0_typescript@6.0.3_jiti@2.7.0": {
+      "integrity": "sha512-UY70YInoTCTr3Dt8xtocRSswey+AWMQJ2NS0xtkiAKjbxH5tSwYHRdbp+kVNbdYaxoulAuBRoPENKTfTO+bQrA==",
       "dependencies": [
         "@es-joy/escodegen",
         "@es-joy/jsdoccomment",
@@ -3375,7 +3375,7 @@
       "npm:eslint-cssicorn@0.3.0",
       "npm:eslint-package-json@3.0.0",
       "npm:eslint-plugin-compat@7.0.2",
-      "npm:eslint-plugin-jsdoc@65.4.11",
+      "npm:eslint-plugin-jsdoc@65.4.12",
       "npm:eslint-plugin-promise@7.3.0",
       "npm:eslint-plugin-unicorn@79.0.0",
       "npm:eslint@10.15.0",
