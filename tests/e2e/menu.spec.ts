@@ -12,7 +12,7 @@ test.describe("Site navigation", () => {
       const menuButton = page.locator("button[class*='menu-button']");
       await expect(menuButton).toBeHidden();
 
-      const navLinks = page.locator("ul[class*='desktop-links']");
+      const navLinks = page.locator("ul[class*='nav-links']");
       await expect(navLinks).toBeVisible();
 
       await expect(navLinks.locator('a[href="/about/"]')).toBeVisible();
@@ -118,7 +118,7 @@ test.describe("Site navigation", () => {
 
       const menuButton = page.locator("button[class*='menu-button']");
       await expect(menuButton).toBeHidden();
-      const navLinks = page.locator("ul[class*='desktop-links']");
+      const navLinks = page.locator("ul[class*='nav-links']");
       await expect(navLinks).toBeVisible();
       await expect(navLinks.locator('a[href="/about/"]')).toBeVisible();
       await expect(navLinks.locator('a[href="/l/"]')).toBeVisible();
