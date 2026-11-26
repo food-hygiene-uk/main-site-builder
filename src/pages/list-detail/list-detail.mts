@@ -67,6 +67,7 @@ export const outputListDetailPage = async (): Promise<void> => {
       canonical: `${config.BASE_URL}/lists/detail/`,
       title: "List Details",
       pageCSS: detailPageCss,
+      pageMjs: "",
       headerCSS: Header.css,
       footerCSS: Footer.css,
     }),

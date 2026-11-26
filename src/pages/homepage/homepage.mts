@@ -7,6 +7,7 @@ import { forgeFooter } from "../../components/footer/forge.mts";
 import { config } from "../../lib/config/config.mts";
 import { getClassSuffix } from "../../lib/template/template.mts";
 import { cssAddSuffix, processCssFile } from "../../lib/css/css.mts";
+import { processJsFile } from "../../lib/js/js.mts";
 
 const environment = vento();
 environment.use(autoTrim());
@@ -24,12 +25,18 @@ const processedCssPromise = processCssFile({
   additionalCss: "",
 });
 
-const [template, Header, Footer, processedCss] = await Promise.all([
-  templatePromise,
-  HeaderPromise,
-  FooterPromise,
-  processedCssPromise,
-]);
+const processedMjsPromise = processJsFile({
+  path: import.meta.resolve("./homepage.mjs"),
+});
+
+const [template, Header, Footer, processedCss, processedMjs] = await Promise
+  .all([
+    templatePromise,
+    HeaderPromise,
+    FooterPromise,
+    processedCssPromise,
+    processedMjsPromise,
+  ]);
 
 /**
 Generates the homepage HTML and writes it to the `dist` directory.
@@ -40,6 +47,7 @@ export const outputHomepagePage = async (): Promise<void> => {
   const classSuffix = getClassSuffix(true);
 
   const pageCSS = cssAddSuffix(processedCss, classSuffix);
+  const pageMjs = processedMjs;
 
   const html = await template({
     headHtml: await Root.renderHead({
@@ -48,6 +56,7 @@ export const outputHomepagePage = async (): Promise<void> => {
       pageCSS,
       headerCSS: Header.css,
       footerCSS: Footer.css,
+      pageMjs,
     }),
     headerHtml: Header.html,
     classSuffix,

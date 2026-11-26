@@ -1,8 +1,8 @@
 #globals {
+  --heading-color: transparent;
   --hygiene-green: transparent;
-  --primary-blue: transparent;
-  --light-grey: transparent;
   --light-blue: transparent;
+  --light-grey: transparent;
 }
 
 .content-__CLASS_SUFFIX__ {
@@ -16,7 +16,7 @@
   }
 
   h1 {
-    color: var(--primary-blue);
+    color: var(--heading-color);
     font-size: 2.5em;
     border-bottom: 2px solid var(--hygiene-green);
     padding-bottom: 0.5rem;
@@ -24,7 +24,7 @@
   }
 
   h2 {
-    color: var(--primary-blue);
+    color: var(--heading-color);
     margin-top: 2rem;
     font-size: 1.6em;
   }
@@ -41,7 +41,7 @@
     margin-top: 2rem;
 
     h3 {
-      color: var(--primary-blue);
+      color: var(--heading-color);
       margin-top: 0;
     }
 

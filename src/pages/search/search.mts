@@ -61,6 +61,7 @@ export const outputSearchPage = async (): Promise<void> => {
       canonical: `${config.BASE_URL}/search/`,
       title: "Search Food Hygiene Ratings",
       pageCSS,
+      pageMjs: "",
       headerCSS: Header.css,
       footerCSS: Footer.css,
     }),

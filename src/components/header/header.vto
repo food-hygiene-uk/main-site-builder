@@ -1,23 +1,27 @@
 <div class="component-header-{{ classSuffix }}" data-suffix="{{ classSuffix }}">
-  <header class="container">
-    <nav class="navbar-{{ classSuffix }}">
-      <div class="logo-{{ classSuffix }}">
-        <a href="/">
-          {{ include "../../../assets/images/logo.svg" }}
-        </a>
+  <div class="site-header-wrapper">
+    <header class="site-header container">
+      <div class="navbar">
+        <div class="logo">
+          <a href="/">
+            {{ include "../../../assets/images/logo.svg" }}
+          </a>
+        </div>
+        <nav id="site-nav-{{ classSuffix }}" popover="auto" class="site-nav" aria-label="Primary">
+          <button type="button" popovertarget="site-nav-{{ classSuffix }}" class="hamburger" aria-controls="site-nav-{{ classSuffix }}" aria-label="Toggle navigation menu">
+            <span></span>
+            <span></span>
+            <span></span>
+          </button>
+          <ul class="nav-links">
+            <li><a href="/about/">About</a></li>
+            <li><a href="/l/">Regions</a></li>
+            <li><a href="/search/">Search</a></li>
+            <li><a href="/lists/">My Lists</a></li>
+          </ul>
+        </nav>
+        <div class="btn-placeholder" aria-hidden="true"></div>
       </div>
-      <input type="checkbox" id="menu-toggle-{{ classSuffix }}" class="menu-toggle-{{ classSuffix }}">
-      <label for="menu-toggle-{{ classSuffix }}" class="hamburger-{{ classSuffix }}">
-        <span></span>
-        <span></span>
-        <span></span>
-      </label>
-      <ul class="nav-links-{{ classSuffix }}">
-        <li><a href="/about/">About</a></li>
-        <li><a href="/l/">Regions</a></li>
-        <li><a href="/search/">Search</a></li>
-        <li><a href="/lists/">My Lists</a></li>
-      </ul>
-    </nav>
-  </header>
+    </header>
+  </div>
 </div>

@@ -1,6 +1,6 @@
 #globals {
   --primary-blue: transparent;
-  --light-blue: transparent;
+  --text-color: transparent;
 }
 
 .component-footer-__CLASS_SUFFIX__ {
@@ -8,7 +8,7 @@
 
   footer {
     background-color: var(--primary-blue);
-    color: var(--light-blue);
+    color: var(--text-color);
     padding-top: 2rem;
     padding-bottom: 2rem;
     margin-top: 2rem;

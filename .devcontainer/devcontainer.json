@@ -39,6 +39,11 @@
           "playwright": {
             "command": "npx",
             "args": ["@playwright/mcp@latest"]
+          },
+          "scorecard": {
+            "type": "stdio",
+            "command": "scorecard",
+            "args": ["mcp"]
           }
         }
       }

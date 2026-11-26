@@ -2,9 +2,13 @@
   --primary-blue: transparent;
   --grey: transparent;
   --cta-default: transparent;
+  --text-color: transparent;
+  --header-text-color: transparent;
 }
 
 .content-__CLASS_SUFFIX__ {
+  --text-color: #424242;
+
   display: contents;
 
   .hero-image {
@@ -14,7 +18,8 @@
     opacity: 0.7;
     max-width: 500px;
 
-    > img {
+    > img,
+     > svg {
       max-width: 300px;
       max-height: 300px;
       translate: 0 -25px;
@@ -29,6 +34,7 @@
     padding-bottom: 5rem;
     flex-direction: row;
     text-align: center;
+    color: var(--text-color);
     background: linear-gradient(#ffc2cb, #fbe4e7);
     max-width: 100%;
 
@@ -81,7 +87,8 @@
 }
 
 /* Modify the header styles */
-[class*="component-header-"] .container {
-  background-color: transparent;
-  border-bottom-color: pink;
+[class*="component-header-"] .site-header {
+  --header-background-color: transparent;
+  --header-rule-color: transparent;
+  --header-text-color: #424242;
 }

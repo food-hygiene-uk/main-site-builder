@@ -41,6 +41,7 @@ export const forgeRoot = (): {
     pageCSS: string;
     headerCSS: string;
     footerCSS: string;
+    pageMjs: string;
   }) => Promise<string>;
 } => {
   const classSuffix = getClassSuffix(true);
@@ -58,6 +59,7 @@ export const forgeRoot = (): {
   @param options.pageCSS - The CSS for the page.
   @param options.headerCSS - The CSS for the header.
   @param options.footerCSS - The CSS for the footer.
+  @param options.pageMjs - The mjs to load inline.
   @returns The rendered head section as a string.
   */
   const renderHead = async ({
@@ -66,12 +68,14 @@ export const forgeRoot = (): {
     pageCSS,
     headerCSS,
     footerCSS,
+    pageMjs,
   }: {
     canonical: string;
     title?: string;
     pageCSS: string;
     headerCSS: string;
     footerCSS: string;
+    pageMjs: string;
   }): Promise<string> => {
     const fullTitle = [title, "Food Hygiene Ratings UK"]
       .filter(Boolean)
@@ -84,7 +88,8 @@ export const forgeRoot = (): {
       fullTitle,
       headerCSS,
       pageCSS,
-      processedJs: js,
+      pageMjs,
+      js,
     });
 
     return result.content;

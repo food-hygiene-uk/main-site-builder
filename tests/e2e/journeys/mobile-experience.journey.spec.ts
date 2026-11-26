@@ -46,14 +46,18 @@ test.describe("Journey: Mobile Experience", () => {
           slug: "mobile-menu-drawer",
           title: "Mobile Navigation Drawer Open",
           description:
-            "User taps the hamburger icon; full mobile navigation drawer transitions into view.",
+            "User opens the modal mobile navigation drawer; the page behind it is inert.",
         },
         async () => {
-          const hamburger = page.locator("label[class*='hamburger']");
+          const hamburger = page.locator("button[class*='menu-button']");
           await expect(hamburger).toBeVisible();
           await hamburger.click();
-          const navLinks = page.locator("ul[class*='nav-links']");
-          await expect(navLinks).toBeVisible();
+          const menuDialog = page.locator("dialog[class*='menu-dialog']");
+          await expect(menuDialog).toBeVisible();
+          await expect(
+            menuDialog.locator("ul[class*='drawer-links']"),
+          ).toBeVisible();
+          await expect(hamburger).toHaveAttribute("aria-expanded", "true");
         },
       );
 

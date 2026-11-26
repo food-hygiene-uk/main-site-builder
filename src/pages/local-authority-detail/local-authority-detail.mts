@@ -67,6 +67,7 @@ export const outputLocalAuthorityDetailPage = async (
       canonical: getCanonicalLinkURL(localAuthority),
       title: `${localAuthority.Name} - Local Authority`,
       pageCSS,
+      pageMjs: "",
       headerCSS: Header.css,
       footerCSS: Footer.css,
     }),

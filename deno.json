@@ -40,6 +40,7 @@
     "scripts/": "./src/scripts/",
     "stylelint-config-standard": "npm:stylelint-config-standard@41.0.0",
     "stylelint": "npm:stylelint@18.0.0",
+    "svgo": "npm:svgo@4.1.0",
     "terser": "npm:terser@5.51.2",
     "uglify-js": "npm:uglify-js@3.19.3",
     "utils/": "./src/browser/utils/",
@@ -114,7 +115,7 @@
     },
     "serve:dist": {
       "description": "Serves the generated site",
-      "command": "deno run --allow-env --allow-read=./dist --allow-sys=networkInterfaces --allow-net=0.0.0.0:8080 http-server dist --port 8080 --silent"
+      "command": "deno run --allow-env --allow-read=./dist --allow-sys=networkInterfaces --allow-net=0.0.0.0:8080 http-server dist --port 8080"
     },
     "stylelint:check": {
       "description": "Runs stylelint on the codebase",

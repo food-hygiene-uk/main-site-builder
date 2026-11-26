@@ -72,6 +72,7 @@ export const outputListSharedPage = async (): Promise<void> => {
       canonical: `${config.BASE_URL}/lists/shared/`,
       title: "Shared List",
       pageCSS: listSharedPageCss,
+      pageMjs: "",
       headerCSS: Header.css,
       footerCSS: Footer.css,
     }),

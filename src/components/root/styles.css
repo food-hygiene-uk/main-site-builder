@@ -1,3 +1,7 @@
+/* stylelint-disable no-duplicate-selectors */
+
+/* eslint-disable cssicorn/no-duplicate-selectors */
+
 html {
   color-scheme: only light;
 
@@ -10,14 +14,36 @@ html {
   }
 }
 
+html {
+  --motion: reduce;
+
+  @media (prefers-reduced-motion: no-preference) {
+    &:not([data-motion-preference="reduce"]) {
+      --motion: no-preference;
+    }
+  }
+
+  &[data-motion-preference="no-preference"] {
+    --motion: no-preference;
+  }
+}
+
+/* stylelint-enable no-duplicate-selectors */
+
+/* eslint-enable cssicorn/no-duplicate-selectors */
+
 :root {
   /* Information and background colors */
   --primary-blue: #2c4c6b;
+  --primary-blue-highlight: oklch(from var(--primary-blue) 70% c h);
+  --primary-blue-lowlight: oklch(from var(--primary-blue) 20% c h);
   --light-blue: #f5f7fa;
   --teal: #3c7b8e;
   --grey: #687789;
   --light-grey: #eef2f6;
   --hygiene-green: rgb(132 190 0);
+  --hygiene-green-lighter: oklch(from var(--hygiene-green) 95% 15% h);
+  --hygiene-green-darker: oklch(from var(--hygiene-green) 80% c h);
   --hygiene-green-highlight: color-mix(
     in oklab,
     var(--hygiene-green) 50%,
@@ -28,21 +54,35 @@ html {
     var(--hygiene-green) 75%,
     black 25%
   );
+  --near-white: #e6e8f0;
+  --near-white-lighter: oklch(from var(--near-white) 10% c h);
+  --near-white-darker: oklch(from var(--near-white) 80% c h);
+  --near-black: #22242a;
+  --near-black-lighter: oklch(from var(--near-black) 29% c h);
+  --near-black-darker: oklch(from var(--near-black) 10% c h);
 
   /* Call to action colors */
-  --cta-default: #9e66ff;
+  --cta-default: #8e4dff;
 
   /* compoent colors */
-  --body-background: light-dark(var(--light-blue), #000);
-  --text-color: light-dark(#000, #ddd);
-  --header-background-color: light-dark(#f8f9fa, #0d0d0d);
-  --header-text-color: light-dark(#000, #9c9c9c);
+  --body-background: light-dark(var(--near-white), var(--near-black));
+  --text-color: light-dark(var(--near-black), var(--near-white));
+  --header-background-color: light-dark(#f8f9fa, var(--near-black-lighter));
+  --header-nav-text-color: light-dark(#0d0d0d, #f8f9fa);
+  --header-nav-background-color: light-dark(#f8f9fa, #0d0d0d);
+  --header-text-color: light-dark(#000, var(--near-white-darker));
   --header-rule-color: light-dark(#e0e0e0, #383838);
   --background-highlight-color: light-dark(#e5e8f1, var(--light-blue));
   --text-highlight-color: var(--text-color);
   --input-color: var(--text-color);
   --input-bg: light-dark(#fff, #444);
   --input-border: light-dark(#ccc, #555);
+
+  /* headings */
+  --heading-color: light-dark(
+    var(--primary-blue),
+    var(--hygiene-green-lighter)
+  );
 
   /* Cards */
   --card-color: light-dark(#000, #fff);
@@ -101,7 +141,10 @@ body {
 }
 
 a {
-  color: #0052a3;
+  color: light-dark(
+    var(--primary-blue-lowlight),
+    var(--primary-blue-highlight)
+  );
   text-decoration: none;
 
   &:hover {
