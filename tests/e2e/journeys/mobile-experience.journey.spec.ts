@@ -46,18 +46,15 @@ test.describe("Journey: Mobile Experience", () => {
           slug: "mobile-menu-drawer",
           title: "Mobile Navigation Drawer Open",
           description:
-            "User opens the modal mobile navigation drawer; the page behind it is inert.",
+            "User opens the popover navigation drawer; the page behind it cannot scroll.",
         },
         async () => {
-          const hamburger = page.locator("button[class*='menu-button']");
+          const hamburger = page.locator("button[class*='hamburger']");
           await expect(hamburger).toBeVisible();
           await hamburger.click();
-          const menuDialog = page.locator("dialog[class*='menu-dialog']");
-          await expect(menuDialog).toBeVisible();
-          await expect(
-            menuDialog.locator("ul[class*='drawer-links']"),
-          ).toBeVisible();
-          await expect(hamburger).toHaveAttribute("aria-expanded", "true");
+          const siteMenu = page.locator("ul[class*='nav-links']");
+          await expect(siteMenu).toBeVisible();
+          await expect(siteMenu.locator("li")).toHaveCount(4);
         },
       );
 

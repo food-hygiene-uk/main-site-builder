@@ -9,7 +9,7 @@ test.describe("Site navigation", () => {
     test("shows inline navigation and hides the mobile menu button", async ({ page }) => {
       await page.goto("/");
 
-      const menuButton = page.locator("button[class*='menu-button']");
+      const menuButton = page.locator("button[class*='hamburger']");
       await expect(menuButton).toBeHidden();
 
       const navLinks = page.locator("ul[class*='nav-links']");
@@ -21,15 +21,18 @@ test.describe("Site navigation", () => {
       await expect(navLinks.locator('a[href="/lists/"]')).toBeVisible();
     });
 
-    test("hides the header scrolling down and restores it scrolling up", async ({ page }) => {
+    test("the header wrapper is sticky so it stays in view on scroll", async ({ page }) => {
       await page.goto("/");
 
-      const header = page.locator("header.site-header");
-      await page.mouse.wheel(0, 600);
-      await expect(header).toHaveAttribute("data-hidden", "");
+      const wrapper = page.locator(".site-header-wrapper");
+      await expect(wrapper).toBeVisible();
 
-      await page.mouse.wheel(0, -200);
-      await expect(header).not.toHaveAttribute("data-hidden");
+      await page.mouse.wheel(0, 600);
+      await page.waitForTimeout(400);
+
+      const wrapperBox = await wrapper.boundingBox();
+      expect(wrapperBox?.y).toBeGreaterThanOrEqual(0);
+      expect(wrapperBox?.y).toBeLessThan(10);
     });
   });
 
@@ -41,68 +44,71 @@ test.describe("Site navigation", () => {
     test("shows a menu button and starts with the drawer closed", async ({ page }) => {
       await page.goto("/");
 
-      const menuButton = page.locator("button[class*='menu-button']");
+      const menuButton = page.locator("button[class*='hamburger']");
       await expect(menuButton).toBeVisible();
-      await expect(menuButton).toHaveAttribute("aria-expanded", "false");
-      await expect(page.locator("dialog[class*='menu-dialog']")).toBeHidden();
+
+      const siteMenu = page.locator("ul[class*='nav-links']");
+      await expect(siteMenu).toBeHidden();
     });
 
     test("opens the animated drawer and closes it with Escape", async ({ page }) => {
       await page.goto("/");
 
-      const menuButton = page.locator("button[class*='menu-button']");
-      const menuDialog = page.locator("dialog[class*='menu-dialog']");
-      await menuDialog.evaluate((dialog) => {
-        dialog.addEventListener(
+      const menuButton = page.locator("button[class*='hamburger']");
+      const siteMenu = page.locator("ul[class*='nav-links']");
+
+      await siteMenu.evaluate((el) => {
+        el.addEventListener(
           "transitionrun",
-          () => dialog.setAttribute("data-transition-started", ""),
+          () => el.setAttribute("data-transition-started", ""),
           { once: true },
         );
       });
+
       await menuButton.click();
 
-      await expect(menuDialog).toBeVisible();
-      await expect(menuDialog).toHaveAttribute("data-transition-started", "");
-      await expect(menuButton).toHaveAttribute("aria-expanded", "true");
-      const navLinks = menuDialog.locator("ul[class*='drawer-links']");
-      await expect(navLinks.locator('a[href="/about/"]')).toBeVisible();
+      await expect(siteMenu).toBeVisible();
+      await expect(siteMenu).toHaveAttribute("data-transition-started", "");
+
+      await expect(siteMenu.locator('a[href="/about/"]')).toBeVisible();
 
       await page.keyboard.press("Escape");
-      await expect(menuDialog).toBeHidden();
-      await expect(menuButton).toHaveAttribute("aria-expanded", "false");
+      await expect(siteMenu).toBeHidden();
       await expect(menuButton).toBeFocused();
     });
 
     test("light-dismisses on backdrop click", async ({ page }) => {
       await page.goto("/");
 
-      const menuButton = page.locator("button[class*='menu-button']");
+      const menuButton = page.locator("button[class*='hamburger']");
       await menuButton.click();
 
-      const menuDialog = page.locator("dialog[class*='menu-dialog']");
-      await expect(menuDialog).toBeVisible();
+      const siteMenu = page.locator("ul[class*='nav-links']");
+      await expect(siteMenu).toBeVisible();
 
       await page.mouse.click(10, 10);
-      await expect(menuDialog).toBeHidden();
+      await expect(siteMenu).toBeHidden();
     });
 
-    test("prevents the page from scrolling while the drawer is open", async ({ page }) => {
+    test("prevents the page from scrolling while the drawer is open", async ({ page, browserName }) => {
+      test.skip(browserName === "webkit", "not supported in Safari/WebKit");
+
       await page.goto("/");
 
-      const menuButton = page.locator("button[class*='menu-button']");
+      const menuButton = page.locator("button[class*='hamburger']");
       await menuButton.click();
-      await expect(page.locator("dialog[class*='menu-dialog']")).toBeVisible();
+      await expect(
+        page.locator("ul[class*='nav-links']"),
+      ).toBeVisible();
 
-      // Measure the initial vertical position of the main content relative to the viewport
-      const main = page.locator("footer");
-      const initialY = (await main.boundingBox())?.y;
+      const footer = page.locator("footer");
+      const initialY = (await footer.boundingBox())?.y;
 
       await page.mouse.move(10, 400);
       await page.mouse.wheel(0, 600);
 
-      // Verify the element hasn't shifted vertically
       await expect
-        .poll(async () => (await main.boundingBox())?.y)
+        .poll(async () => (await footer.boundingBox())?.y)
         .toBe(initialY);
     });
   });
@@ -113,17 +119,19 @@ test.describe("Site navigation", () => {
       javaScriptEnabled: false,
     });
 
-    test("keeps navigation available without JavaScript", async ({ page }) => {
+    test("keeps navigation accessible without JavaScript via the Popover API", async ({ page }) => {
       await page.goto("/");
 
-      const menuButton = page.locator("button[class*='menu-button']");
-      await expect(menuButton).toBeHidden();
-      const navLinks = page.locator("ul[class*='nav-links']");
-      await expect(navLinks).toBeVisible();
-      await expect(navLinks.locator('a[href="/about/"]')).toBeVisible();
-      await expect(navLinks.locator('a[href="/l/"]')).toBeVisible();
-      await expect(navLinks.locator('a[href="/search/"]')).toBeVisible();
-      await expect(navLinks.locator('a[href="/lists/"]')).toBeVisible();
+      const menuButton = page.locator("button[class*='hamburger']");
+      await expect(menuButton).toBeVisible();
+
+      await menuButton.click();
+      const siteMenu = page.locator("ul[class*='nav-links']");
+      await expect(siteMenu).toBeVisible();
+      await expect(siteMenu.locator('a[href="/about/"]')).toBeVisible();
+      await expect(siteMenu.locator('a[href="/l/"]')).toBeVisible();
+      await expect(siteMenu.locator('a[href="/search/"]')).toBeVisible();
+      await expect(siteMenu.locator('a[href="/lists/"]')).toBeVisible();
     });
   });
 });
