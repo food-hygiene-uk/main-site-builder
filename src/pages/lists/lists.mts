@@ -68,6 +68,7 @@ export const outputListsPage = async (): Promise<void> => {
       canonical: `${config.BASE_URL}/lists/`,
       title: "My Lists",
       pageCSS: processedListsPageCssWithSuffix,
+      pageMjs: "",
       headerCSS: Header.css,
       footerCSS: Footer.css,
     }),

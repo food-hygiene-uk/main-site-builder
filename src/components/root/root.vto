@@ -22,4 +22,9 @@
     {{ headerCSS }}
     {{ footerCSS }}
   </style>
+  {{ if pageMjs }}
+  <script type="module">
+    {{ pageMjs }}
+  </script>
+  {{ /if }}
 </head>

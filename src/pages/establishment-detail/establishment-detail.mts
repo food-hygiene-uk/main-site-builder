@@ -282,6 +282,7 @@ export const outputEstablishmentDetailPage = async (
           canonical: getCanonicalLinkURL(establishment),
           title: establishment.BusinessName,
           pageCSS,
+          pageMjs: "",
           headerCSS: Header.css,
           footerCSS: Footer.css,
         }),

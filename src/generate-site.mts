@@ -43,6 +43,25 @@ for (const regionSlug of itlRegionSlugs) {
 await copy("assets", "dist", { overwrite: true });
 await copy("src/scripts", "dist/scripts", { overwrite: true });
 
+/**
+Move CSS into mascot vector image
+*/
+{
+  const SOURCE_SVG = "./dist/images/mascot.svg";
+  const ANIMATION_CSS = "./dist/images/mascot.css";
+  const OUTPUT_SVG = "./dist/images/mascot.svg";
+
+  const rawSvg = await Deno.readTextFile(SOURCE_SVG);
+  const rawCss = await Deno.readTextFile(ANIMATION_CSS);
+
+  // 2. Inject your CSS wrapped in CDATA right before the closing </svg> tag
+  const styleBlock =
+    `<style type="text/css"><![CDATA[\n${rawCss}\n]]></style>\n</svg>`;
+  const finalSvg = rawSvg.replace(/<\/svg>\s*$/i, () => styleBlock);
+
+  await Deno.writeTextFile(OUTPUT_SVG, finalSvg);
+}
+
 const components = [
   "establishment-display",
   "establishment-list",

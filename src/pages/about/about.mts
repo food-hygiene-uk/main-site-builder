@@ -46,6 +46,7 @@ export const outputAboutPage = async (): Promise<void> => {
       canonical: `${config.BASE_URL}/about/`,
       title: "About",
       pageCSS,
+      pageMjs: "",
       headerCSS: Header.css,
       footerCSS: Footer.css,
     }),

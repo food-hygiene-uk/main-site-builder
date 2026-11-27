@@ -190,24 +190,34 @@ export default defineConfig([
     processor: "markdown/markdown",
     extends: ["markdown/recommended"],
   },
-  cssicorn.configs.recommended,
   {
     files: ["**/*.css"],
     plugins: {
       css,
       cssicorn,
     },
-    extends: ["css/recommended"],
+    extends: ["css/recommended", "cssicorn/recommended"],
     language: "css/css",
     rules: {
       "css/use-baseline": [
         "error",
         {
           allowFunctions: ["light-dark"],
-          allowProperties: ["accent-color", "user-select"],
+          allowProperties: [
+            "accent-color",
+            "overscroll-behavior",
+            "user-select",
+          ],
+          allowPropertyValues: {
+            "container-type": ["scroll-state"],
+          },
         },
       ], // handled by postcss
     },
+    ignores: [
+      // @eslint/css doesn't understand scroll-state
+      "src/components/header/styles.css",
+    ],
   },
   {
     // Ignore patterns

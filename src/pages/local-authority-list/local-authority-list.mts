@@ -107,6 +107,7 @@ export const outputLocalAuthorityListPage = async (
       canonical: `${config.BASE_URL}/l/`,
       title: "Regions",
       pageCSS,
+      pageMjs: "",
       headerCSS: Header.css,
       footerCSS: Footer.css,
     }),

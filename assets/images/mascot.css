@@ -1,0 +1,374 @@
+svg[data-interactive-mascot] {
+  /* Choreography timings */
+  --idle-entry-duration: 0.8s;
+  --idle-scrunch-duration: 1.2s;
+  --idle-loop-duration: 17s;
+  --blink-loop-duration: 73s;
+  --active-reaction-duration: 5.2s;
+}
+
+/**
+ * Eyes blinking
+ * - `transform: scaleY()` drives the ongoing 73s organic loop (`eye-blink-organic`).
+ * - Standalone `scale` drives the one-shot synchronized blink on idle entry (`eye-idle-blink`),
+ *   composing cleanly without interrupting the 73s loop.
+ */
+#eye-left,
+#eye-right {
+  @container style(--motion: no-preference) {
+    transform-box: fill-box;
+    transform-origin: bottom;
+    animation: eye-blink-organic var(--blink-loop-duration) infinite;
+  }
+
+  /* Active entry: 1.5s surprise -> 3s concentration -> relaxed cursor watching */
+  svg.active & {
+    @container style(--motion: no-preference) {
+      animation:
+        eye-blink-organic var(--blink-loop-duration) 1.5s infinite,
+        eye-active-react var(--active-reaction-duration)
+        cubic-bezier(0.22, 1, 0.36, 1) forwards;
+    }
+  }
+
+  /* Idle entry: one-shot synchronized blink with brow scrunch */
+  svg:not(.active) & {
+    @container style(--motion: no-preference) {
+      animation:
+        eye-blink-organic var(--blink-loop-duration) 1.5s infinite,
+        eye-idle-blink var(--idle-scrunch-duration) forwards;
+    }
+  }
+}
+
+/*
+ * Organic 73-Second Asymmetric Blink Cycle (14–19 BPM Rolling Window)
+ *
+ * Rolling 60s Window Math (17 total blinks across 73s):
+ * - Base rate: 17 blinks / 73s = 13.97 (~14) blinks per 60s on average.
+ * - Non-uniform clustering:
+ *   - Sparse 60s stretch (e.g., 12s -> 72s): 14 blinks
+ *   - Dense 60s stretch wrapping across loop boundary (e.g., 52s -> 73s + 0s -> 39s): 19 blinks
+ *   - Because 73s is prime, the 60s window shifts by 13s every minute, never repeating
+ *     the same sequence on a 1-minute boundary.
+ *
+ * Eyelid Speed Math (Duration = 73s):
+ * - 1% of loop  = 0.730s (730ms)
+ * - 0.11% close = 0.080s (~80ms rapid snap shut)
+ * - 0.21% open  = 0.153s (~153ms cushioned reopen)
+ * - Total blink = 0.32% = 0.233s (~233ms per blink)
+ *
+ * Peak Blink Timestamps (17 total):
+ *  1.  1.80% ( 1.31s) - single (early cluster)
+ *  2.  5.20% ( 3.80s) - double-blink A
+ *  3.  6.15% ( 4.49s) - double-blink B (+0.69s gap)
+ *  4. 12.40% ( 9.05s) - single
+ *  5. 19.60% (14.31s) - double-blink A
+ *  6. 20.55% (15.00s) - double-blink B (+0.69s gap)
+ *  7. 28.90% (21.10s) - single
+ *  8. 37.50% (27.38s) - single (longer 6.28s focus pause)
+ *  9. 45.80% (33.43s) - double-blink A
+ * 10. 46.75% (34.13s) - double-blink B (+0.70s gap)
+ * 11. 55.40% (40.44s) - single (6.31s focus pause)
+ * 12. 64.20% (46.87s) - single (6.43s focus pause)
+ * 13. 72.80% (53.14s) - double-blink A (dense wrap-around cluster starts)
+ * 14. 73.75% (53.84s) - double-blink B (+0.69s gap)
+ * 15. 81.90% (59.79s) - single
+ * 16. 89.40% (65.26s) - double-blink A
+ * 17. 90.35% (65.96s) - double-blink B (+0.69s gap, followed by 6.89s pause to 73s)
+ */
+@keyframes eye-blink-organic {
+  /* Open states: accelerate sharply into closure */
+  0%,
+  1.69%,
+  2.01%,
+  5.09%,
+  5.41%,
+  6.04%,
+  6.36%,
+  12.29%,
+  12.61%,
+  19.49%,
+  19.81%,
+  20.44%,
+  20.76%,
+  28.79%,
+  29.11%,
+  37.39%,
+  37.71%,
+  45.69%,
+  46.01%,
+  46.64%,
+  46.96%,
+  55.29%,
+  55.61%,
+  64.09%,
+  64.41%,
+  72.69%,
+  73.01%,
+  73.64%,
+  73.96%,
+  81.79%,
+  82.11%,
+  89.29%,
+  89.61%,
+  90.24%,
+  90.56%,
+  100% {
+    transform: scaleY(1);
+    animation-timing-function: cubic-bezier(0.55, 0.05, 0.9, 0.3);
+  }
+
+  /* Closed states (17 peaks): snap open fast and decelerate smoothly at the top */
+  1.80%,
+  5.20%,
+  6.15%,
+  12.40%,
+  19.60%,
+  20.55%,
+  28.90%,
+  37.50%,
+  45.80%,
+  46.75%,
+  55.40%,
+  64.20%,
+  72.80%,
+  73.75%,
+  81.90%,
+  89.40%,
+  90.35% {
+    transform: scaleY(0.06);
+    animation-timing-function: cubic-bezier(0.22, 1, 0.36, 1);
+  }
+}
+
+/**
+ * Mascot eye movement.
+ */
+#eye-left-pupil,
+#eye-left-shine-1,
+#eye-left-shine-2,
+#eye-right-pupil,
+#eye-right-shine-1,
+#eye-right-shine-2 {
+  @container style(--motion: no-preference) {
+    transform: translate(var(--look-x, 0), var(--look-y, 0));
+    transition: transform 0.08s ease-out;
+    will-change: transform;
+  }
+
+  svg:not(.active) & {
+    @container style(--motion: no-preference) {
+      transform: translate(
+        calc(-22.52px * var(--parallax, 1)),
+        calc(-13px * var(--parallax, 1))
+      );
+      transition: transform var(--idle-entry-duration)
+        cubic-bezier(0.22, 1, 0.36, 1);
+      animation: idle-look var(--idle-loop-duration)
+        cubic-bezier(0.45, 0.05, 0.55, 0.95) var(--idle-entry-duration)
+        infinite;
+    }
+  }
+}
+
+/* Consolidated Eyebrow Rules */
+#eyebrow-left,
+#eyebrow-right {
+  transform-box: fill-box;
+  transform-origin: center;
+
+  @container style(--motion: no-preference) {
+    transform: translate(var(--look-x, 0), var(--look-y, 0));
+    transition: transform 0.08s ease-out;
+    will-change: transform;
+  }
+
+  svg.active & {
+    @container style(--motion: no-preference) {
+      animation: eyebrow-active-react var(--active-reaction-duration)
+        ease-in-out forwards;
+    }
+  }
+
+  /* Idle entry: existing look loop + one-shot scrunch */
+  svg:not(.active) & {
+    @container style(--motion: no-preference) {
+      transform: translate(
+        calc(-22.52px * var(--parallax, 1)),
+        calc(-13px * var(--parallax, 1))
+      );
+      transition: transform var(--idle-entry-duration)
+        cubic-bezier(0.22, 1, 0.36, 1);
+      animation:
+        idle-look var(--idle-loop-duration) cubic-bezier(0.45, 0.05, 0.55, 0.95)
+        var(--idle-entry-duration) infinite,
+        eyebrow-scrunch var(--idle-scrunch-duration)
+        cubic-bezier(0.34, 1.56, 0.64, 1) forwards;
+    }
+  }
+}
+
+/* Directional furrow sign: +1 tilts left brow inward (clockwise), -1 tilts right brow inward */
+#eyebrow-left {
+  --brow-dir: 1;
+}
+
+#eyebrow-right {
+  --brow-dir: -1;
+}
+
+/*
+ * Continuous Idle Gaze Loop: (Last Active Position) -> 10:00 -> 6:00 -> Center -> 2:30 -> 10:00
+ *
+ * Prime-Cycle Phase Math:
+ * - Loop duration = 17s (prime) paired with 73s blink cycle (prime) -> LCM = 1,241s (20m 41s)
+ *   before eye glances and blinks ever repeat the exact same alignment.
+ *
+ * Coordinate Math (SVG Space: +X = right, +Y = down, Base Radius R = 26px):
+ * - Formula: angle = (hour - 3) * 30°; x = R * cos(angle); y = R * sin(angle)
+ * - 10:00 (h = 10.0 -> 210°): cos(210°) = -0.8660, sin(210°) = -0.5000 -> (-22.52px, -13.00px)
+ * -  6:00 (h =  6.0 ->  90°): cos(90°)  =  0.0000, sin(90°)  =  1.0000 -> (  0.00px,  26.00px)
+ * - Center:                                                           -> (  0.00px,   0.00px)
+ * -  2:30 (h =  2.5 -> -15°): cos(-15°) =  0.9659, sin(-15°) = -0.2588 -> ( 25.11px,  -6.73px)
+ *
+ * Timing Math (Duration = 17s total loop; 1% = 0.17s):
+ * - Each of the 4 stops gets 25% of the loop (4.25s total per stop):
+ *   - 6% (1.02s) travel/transition + 19% (3.23s) hold
+ * - 0% -> 19%  (3.23s): Hold at 10:00 (on first entry, browser interpolates from last --look-x/y)
+ * - 19% -> 25% (1.02s): Move 10:00 -> 6:00  | 25% -> 44% (3.23s): Hold at 6:00
+ * - 44% -> 50% (1.02s): Move 6:00 -> Center | 50% -> 69% (3.23s): Hold at Center
+ * - 69% -> 75% (1.02s): Move Center -> 2:30 | 75% -> 94% (3.23s): Hold at 2:30
+ * - 94% -> 100%(1.02s): Move 2:30 -> 10:00  | Loops seamlessly back to 0% (10:00)
+ */
+@keyframes idle-look {
+  /* 10 o'clock (-22.52px, -13.00px at R=26) - Loop anchor */
+  0%,
+  19%,
+  100% {
+    transform: translate(
+      calc(-22.52px * var(--parallax, 1)),
+      calc(-13px * var(--parallax, 1))
+    );
+  }
+
+  /* 6 o'clock (0.00px, 26.00px at R=26) */
+  25%,
+  44% {
+    transform: translate(0, calc(26px * var(--parallax, 1)));
+  }
+
+  /* Center (0, 0) */
+  50%,
+  69% {
+    transform: translate(0);
+  }
+
+  /* 2:30 position (25.11px, -6.73px at R=26) */
+  75%,
+  94% {
+    transform: translate(
+      calc(25.11px * var(--parallax, 1)),
+      calc(-6.73px * var(--parallax, 1))
+    );
+  }
+}
+
+/*
+ * Synchronized Idle-Entry Blink (1.2s total, synced with `eyebrow-scrunch`):
+ * - 0%  -> 30% (0.00s -> 0.36s): Eyes stay open as brows begin furrowing
+ * - 30% -> 40% (0.36s -> 0.48s): Rapid 120ms close, hitting peak closure right at the 40% brow scrunch peak
+ * - 40% -> 58% (0.48s -> 0.70s): Cushioned 220ms reopen as brows begin releasing
+ * - 58% -> 100%(0.70s -> 1.20s): Eyes remain open while brows finish relaxing
+ */
+@keyframes eye-idle-blink {
+  0%,
+  30%,
+  58%,
+  100% {
+    scale: 1 1;
+    animation-timing-function: cubic-bezier(0.55, 0.05, 0.9, 0.3);
+  }
+
+  40% {
+    scale: 1 0.06;
+    animation-timing-function: cubic-bezier(0.22, 1, 0.36, 1);
+  }
+}
+
+@keyframes eyebrow-scrunch {
+  0% {
+    translate: 0 0;
+    rotate: 0deg;
+  }
+
+  40% {
+    translate: calc(4px * var(--brow-dir, 1)) 16px;
+    rotate: calc(7deg * var(--brow-dir, 1));
+  }
+
+  100% {
+    translate: 0 0;
+    rotate: 0deg;
+  }
+}
+
+/*
+ * Active Eye Reaction (5.2s total):
+ * - 0.00s -> 0.25s ( 0.00% ->  4.81%): Quick snap wide open in surprise
+ * - 0.25s -> 1.50s ( 4.81% -> 28.85%): Hold widened eyes for full 1.5s surprise window
+ * - 1.50s -> 1.90s (28.85% -> 36.54%): Narrow into focused squint
+ * - 1.90s -> 4.50s (36.54% -> 86.54%): Hold concentrated narrow eyes for 3.0s window
+ * - 4.50s -> 5.20s (86.54% -> 100.0%): Relax smoothly back to neutral (scale 1 1)
+ */
+@keyframes eye-active-react {
+  0% {
+    scale: 1 1;
+  }
+
+  4.81%,
+  28.85% {
+    scale: 1 1.16;
+  }
+
+  36.54%,
+  86.54% {
+    scale: 1 0.84;
+  }
+
+  100% {
+    scale: 1 1;
+  }
+}
+
+/*
+ * Active Eyebrow Reaction (5.2s total):
+ * - 0.00s -> 0.25s ( 0.00% ->  4.81%): Pop up high in surprise (-16px)
+ * - 0.25s -> 1.50s ( 4.81% -> 28.85%): Hold surprise raise
+ * - 1.50s -> 1.90s (28.85% -> 36.54%): Drop hard right onto the top of the squinting eyes (+22px)
+ * - 1.90s -> 4.50s (36.54% -> 86.54%): Hold deep concentration furrow for 3.0s
+ * - 4.50s -> 5.20s (86.54% -> 100.0%): Relax smoothly back to neutral (0, 0)
+ */
+@keyframes eyebrow-active-react {
+  0% {
+    translate: 0 0;
+    rotate: 0deg;
+  }
+
+  4.81%,
+  28.85% {
+    translate: calc(-3px * var(--brow-dir, 1)) -16px;
+    rotate: calc(-5deg * var(--brow-dir, 1));
+  }
+
+  36.54%,
+  86.54% {
+    translate: calc(6px * var(--brow-dir, 1)) 64px;
+    rotate: calc(-16deg * var(--brow-dir, 1));
+  }
+
+  100% {
+    translate: 0 0;
+    rotate: 0deg;
+  }
+}
