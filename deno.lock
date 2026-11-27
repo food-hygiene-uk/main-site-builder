@@ -33,7 +33,7 @@
     "npm:eslint-plugin-compat@7.0.2": "7.0.2_eslint@10.15.0_jiti@2.7.0",
     "npm:eslint-plugin-jsdoc@65.5.0": "65.5.0_eslint@10.15.0_typescript@6.0.3_jiti@2.7.0",
     "npm:eslint-plugin-promise@7.3.0": "7.3.0_eslint@10.15.0_jiti@2.7.0",
-    "npm:eslint-plugin-unicorn@79.0.0": "79.0.0_eslint@10.15.0_typescript@6.0.3_jiti@2.7.0",
+    "npm:eslint-plugin-unicorn@80.0.0": "80.0.0_eslint@10.15.0_jiti@2.7.0",
     "npm:eslint@10.15.0": "10.15.0_jiti@2.7.0",
     "npm:estree-walker@3.0.3": "3.0.3",
     "npm:fast-check@4.10.3": "4.10.3",
@@ -47,7 +47,7 @@
     "npm:postcss-preset-env@11.6.3": "11.6.3_postcss@8.5.33",
     "npm:postcss@8.5.33": "8.5.33",
     "npm:prettier@3.10.1": "3.10.1",
-    "npm:stylelint-config-standard@41.0.0": "41.0.0_stylelint@18.1.0",
+    "npm:stylelint-config-standard@41.1.0": "41.1.0_stylelint@18.1.0",
     "npm:stylelint@18.1.0": "18.1.0",
     "npm:svgo@4.1.0": "4.1.0",
     "npm:terser@5.51.3": "5.51.3",
@@ -1148,8 +1148,8 @@
     "character-entities@2.0.2": {
       "integrity": "sha512-shx7oQ0Awen/BRIdkjkvz54PnEEI/EjwXDSIZp86/KKdbafHh1Df/RYGBhn4hbe2+uKC9FnT5UCEdyPz3ai9hQ=="
     },
-    "ci-info@4.4.0": {
-      "integrity": "sha512-77PSwercCZU2Fc4sX94eF8k8Pxte6JAwL4/ICZLFjJLqegs7kCuAsqqj/70NQF6TvDpgFjkubQB2FW2ZZddvQg=="
+    "ci-info@4.5.0": {
+      "integrity": "sha512-d1uM8k5UZEyPza1n/MG3ko8nKupKN0KJpFsipgPcgaCCvV+IqIfJ+NzTjetlLM+UcXZx3+cLrNr76+eAO7G1Mw=="
     },
     "color-convert@2.0.1": {
       "integrity": "sha512-RRECPsj7iu/xb5oKYcsFHSppFNnsj/52OVTRKb4zP5onXwVF3zVmmToNcOfGC+CRDpfK/U584fMg38ZHCaElKQ==",
@@ -1526,8 +1526,8 @@
         "eslint"
       ]
     },
-    "eslint-plugin-unicorn@79.0.0_eslint@10.15.0_typescript@6.0.3_jiti@2.7.0": {
-      "integrity": "sha512-k7MWrjoVTVCnjKpgaxBuScPNSPomLvDpsd9uADpWrIFzrnwiec27eWhGrmmyuTj1bC3xVNYP4QfG3MEzEw6ifg==",
+    "eslint-plugin-unicorn@80.0.0_eslint@10.15.0_jiti@2.7.0": {
+      "integrity": "sha512-aHqSTSY0VglZtQfPrAJQiYNGJgOnI2O5+yuavD3oVXnToUL15kqIN/Dl10pAxpud2v/rrXSiepRaDlYuNxjlWg==",
       "dependencies": [
         "@eslint-community/eslint-utils",
         "@eslint/css-tree",
@@ -1543,7 +1543,6 @@
         "identifier-regex",
         "indent-string",
         "is-builtin-module",
-        "micromark",
         "parse5",
         "pluralize",
         "quote-js-string",
@@ -1551,11 +1550,7 @@
         "reserved-identifiers",
         "semver",
         "strip-indent",
-        "typescript",
         "yaml"
-      ],
-      "optionalPeers": [
-        "typescript"
       ]
     },
     "eslint-scope@9.1.2": {
@@ -2495,8 +2490,8 @@
     "parse-statements@1.0.11": {
       "integrity": "sha512-HlsyYdMBnbPQ9Jr/VgJ1YF4scnldvJpJxCVx6KgqPL4dxppsWrJHCIIxQXMJrqGnsRkNPATbeMJ8Yxu7JMsYcA=="
     },
-    "parse5@8.1.0": {
-      "integrity": "sha512-sq3qBFpee5jeocbFbO48VHlGr8sT7mbXS0vxlKN6sottBtJzrOG3998sr0llSZcQAGgfpdmEYAIZE0P9z0dE8w==",
+    "parse5@8.1.1": {
+      "integrity": "sha512-EcR/6WDcU7b2N3vQSxKALCk9lXGtUMQxXio008OEMBE0kavu/7JLfBEeFPzi43nMqVDSbEn3QCK+BMCc9zO//w==",
       "dependencies": [
         "entities@9.0.0"
       ]
@@ -3249,14 +3244,14 @@
         "postcss"
       ]
     },
-    "stylelint-config-recommended@19.0.0_stylelint@18.1.0": {
-      "integrity": "sha512-Y15XB19RManqBOpbRC42tF8R/Hfe314xYLzedRlnnYxYzZ0777RakDQIGcqYfrz9jWGoVyjaGTdpSl9F+roOOw==",
+    "stylelint-config-recommended@19.1.0_stylelint@18.1.0": {
+      "integrity": "sha512-DurXBzvz2cmVX2rM1JMDCbPIq+MRKhIPY743lFk1DjUoyx7giLfN+HR8Hilw+kE2nE5blaXhVf66edvQGnLdwA==",
       "dependencies": [
         "stylelint"
       ]
     },
-    "stylelint-config-standard@41.0.0_stylelint@18.1.0": {
-      "integrity": "sha512-EJIvMOMARieBOLhw2yzN7BaVFiIY2Ex8CkbXahxP6tQZK41+N8OVUo57Uvx9iTr862h+thqDoDH7vQbeth1ryg==",
+    "stylelint-config-standard@41.1.0_stylelint@18.1.0": {
+      "integrity": "sha512-Z7PiQpBffnqu7U5h/FeBWCYZsRsZXa1J8MjkpgcciphLJULysDcu2jKXuSrPgnQGow9x0T+pOfblqRA5cSE6aw==",
       "dependencies": [
         "stylelint",
         "stylelint-config-recommended"
@@ -3498,7 +3493,7 @@
       "npm:eslint-plugin-compat@7.0.2",
       "npm:eslint-plugin-jsdoc@65.5.0",
       "npm:eslint-plugin-promise@7.3.0",
-      "npm:eslint-plugin-unicorn@79.0.0",
+      "npm:eslint-plugin-unicorn@80.0.0",
       "npm:eslint@10.15.0",
       "npm:fast-check@4.10.3",
       "npm:htmlnano@3.7.0",
@@ -3508,7 +3503,7 @@
       "npm:postcss-preset-env@11.6.3",
       "npm:postcss@8.5.33",
       "npm:prettier@3.10.1",
-      "npm:stylelint-config-standard@41.0.0",
+      "npm:stylelint-config-standard@41.1.0",
       "npm:stylelint@18.1.0",
       "npm:svgo@4.1.0",
       "npm:terser@5.51.3",
