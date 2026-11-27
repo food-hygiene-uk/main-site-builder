@@ -41,7 +41,7 @@
     "stylelint-config-standard": "npm:stylelint-config-standard@41.0.0",
     "stylelint": "npm:stylelint@18.0.0",
     "svgo": "npm:svgo@4.1.0",
-    "terser": "npm:terser@5.51.2",
+    "terser": "npm:terser@5.51.3",
     "uglify-js": "npm:uglify-js@3.19.3",
     "utils/": "./src/browser/utils/",
     "zod": "npm:zod@4.6.7"
