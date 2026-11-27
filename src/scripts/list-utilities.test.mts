@@ -478,9 +478,10 @@ describe("sliceEstablishments", () => {
             const startIndex = (page - 1) * pageSize;
             const endIndex = Math.min(startIndex + pageSize, ids.length);
 
-            return startIndex >= ids.length
-              ? result.length === 0
-              : result.length === endIndex - startIndex;
+            return (
+              result.length ===
+                (startIndex >= ids.length ? 0 : endIndex - startIndex)
+            );
           },
         ),
         { numRuns: 100 },
