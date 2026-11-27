@@ -39,7 +39,7 @@
     "prettier": "npm:prettier@3.10.1",
     "scripts/": "./src/scripts/",
     "stylelint-config-standard": "npm:stylelint-config-standard@41.0.0",
-    "stylelint": "npm:stylelint@18.0.0",
+    "stylelint": "npm:stylelint@18.1.0",
     "svgo": "npm:svgo@4.1.0",
     "terser": "npm:terser@5.51.2",
     "uglify-js": "npm:uglify-js@3.19.3",
