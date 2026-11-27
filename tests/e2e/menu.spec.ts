@@ -97,9 +97,7 @@ test.describe("Site navigation", () => {
 
       const menuButton = page.locator("button[class*='hamburger']");
       await menuButton.click();
-      await expect(
-        page.locator("ul[class*='nav-links']"),
-      ).toBeVisible();
+      await expect(page.locator("ul[class*='nav-links']")).toBeVisible();
 
       const footer = page.locator("footer");
       const initialY = (await footer.boundingBox())?.y;
